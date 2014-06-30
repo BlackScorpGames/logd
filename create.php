@@ -107,6 +107,7 @@ if (getsetting("allowcreation",1)==0){
 	output("`\$Creation of new accounts is disabled on this server.");
 	output("You may try it again another day or contact an administrator.");
 }else{
+
 	if ($op=="create"){
 		$emailverification="";
 		$shortname = sanitize_name(getsetting("spaceinname", 0), httppost('name'));
