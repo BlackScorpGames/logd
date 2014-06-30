@@ -15,5 +15,16 @@ if (!Env::isTest()) {
         return $pdo;
     };
     $app['prefix'] = $DB_PREFIX;
-
 }
+$app['template'] = 'bootstrap';
+$app['mustache'] = function($app){
+    $path = realpath(sprintf('%s/templates/%s',__DIR__,$app['template']));
+    $loader = new Mustache_Loader_FilesystemLoader($path);
+    $options  = array(
+        'loader'          =>$loader,
+        'partials_loader' =>$loader,
+    );
+    $mustache = new Mustache_Engine($options);
+    return $mustache;
+};
+

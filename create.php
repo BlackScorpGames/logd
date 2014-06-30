@@ -3,8 +3,12 @@
 // addnews ready
 // mail ready
 use Symfony\Component\HttpFoundation\Request;
-define("ALLOW_ANONYMOUS",true);
+
 require_once __DIR__.'/bootstrap.php';
+$response = array();
+echo $app['mustache']->render('create',$response);
+die();
+define("ALLOW_ANONYMOUS",true);
 require_once("common.php");
 require_once("lib/is_email.php");
 require_once("lib/checkban.php");
@@ -55,9 +59,7 @@ function validate($trash,$old,$new){
         output("Try to log in, and if that doesn't help, use the petition link at the bottom of the page.");
     }
 }
-function createAccount(){
 
-}
 $httpRequest = Request::createFromGlobals();
 $op = $httpRequest->get('op');
 if ($op=="val"){

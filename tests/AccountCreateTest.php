@@ -97,6 +97,19 @@ class AccountCreateTest extends PHPUnit_Framework_TestCase{
         $response = $this->execute($request);
         $this->assertTrue($response->failed);
     }
+    public function testUsernameExists(){
+        $request = new CreateAccountRequest(
+            'Dummy',
+            '123456',
+            '123456',
+            'male'
+        );
+        $response = $this->execute($request);
+        $this->assertTrue($response->failed);
+    }
+    public function testEmailExistsRequired(){
+
+    }
     public function testEmptyNotRequiredEmail(){
         $request = new CreateAccountRequest(
             'TestUser',
