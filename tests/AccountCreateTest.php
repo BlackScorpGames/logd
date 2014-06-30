@@ -14,9 +14,10 @@ class AccountCreateTest extends PHPUnit_Framework_TestCase{
     private $userRepository = null;
     private $validator = null;
     public function setUp(){
-        $users = array(
-            new UserEntity(1,'Dummy','123456','dummy@test.com')
-        );
+        $users = array();
+        $user =  new UserEntity(1,'Dummy','123456');
+        $user->setEmail('dummy@test.com');
+        $users[]=$user;
         $this->userRepository = new UserRepository($users);
         $this->validator = new Validator();
     }
@@ -108,7 +109,16 @@ class AccountCreateTest extends PHPUnit_Framework_TestCase{
         $this->assertTrue($response->failed);
     }
     public function testEmailExistsRequired(){
-
+        $request = new CreateAccountRequest(
+            'TestUser',
+            '123456',
+            '123456',
+            'male'
+        );
+        $request->setEmailRequired(true);
+        $request->setEmail('dummy@test.com');
+        $response = $this->execute($request);
+        $this->assertTrue($response->failed);
     }
     public function testEmptyNotRequiredEmail(){
         $request = new CreateAccountRequest(
