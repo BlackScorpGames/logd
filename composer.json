@@ -8,6 +8,10 @@
             "email": "cccpmik+composer@gmail.com"
         }
     ],
+    "require":{
+        "pimple/pimple":"~2",
+        "mustache/mustache":"~2"
+    },
     "require-dev":{
         "phpunit/phpunit":"~4"
     },
