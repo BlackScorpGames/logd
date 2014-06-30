@@ -17,4 +17,5 @@ abstract class CreateAccount extends Validator{
     public $gender = '';
     public $uniqueUsername = false;
     public $uniqueEmail = false;
+    public $emailRequired = false;
 } 

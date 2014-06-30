@@ -8,7 +8,9 @@ class CreateAccount extends CreateAccountValidator{
     {
         $this->checkUsername();
         $this->checkPassword();
-
+        if($this->emailRequired){
+            $this->checkEmail();
+        }
     }
     private function isEmpty($value){
         return in_array($value,array(null,'',false));
@@ -36,6 +38,17 @@ class CreateAccount extends CreateAccountValidator{
         }
         if($this->password !== $this->passwordConfirm){
             $this->attachError('password confirm does not match');
+        }
+    }
+    private function checkEmail(){
+        if($this->isEmpty($this->email)){
+            $this->attachError('email is empty');
+        }
+        if(!$this->uniqueEmail){
+            $this->attachError('email is used');
+        }
+        if(!((bool)filter_var($this->email, FILTER_VALIDATE_EMAIL))){
+           $this->attachError('email is invalid');
         }
     }
 } 

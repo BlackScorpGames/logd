@@ -21,6 +21,7 @@ class CreateAccount {
         $this->validator->uniqueEmail = !$this->userRepository->emailExists($request->getEmail());
         $this->validator->uniqueUsername = !$this->userRepository->usernameExists($request->getUsername());
         $this->validator->email = $request->getEmail();
+        $this->validator->emailRequired = $request->getEmailRequired();
     }
     private function setResponseValues(Request $request,Response $response){
         $response->proceed = true;

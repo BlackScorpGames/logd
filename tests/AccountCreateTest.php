@@ -40,7 +40,19 @@ class AccountCreateTest extends PHPUnit_Framework_TestCase{
         $response = $this->execute($request);
         $this->assertFalse($response->failed);
     }
+    public function testSuccessfullWithRequiredEmail(){
+        $request = new CreateAccountRequest(
+            'TestUsername',
+            'TestPassword',
+            'TestPassword',
+            'male'
+        );
+        $request->setEmail('test@test.com');
+        $request->setEmailRequired(true);
 
+        $response = $this->execute($request);
+        $this->assertFalse($response->failed);
+    }
     public function testPasswordTooShort(){
         $request = new CreateAccountRequest(
             'TestUsername',
@@ -80,6 +92,52 @@ class AccountCreateTest extends PHPUnit_Framework_TestCase{
             '123456',
             'male'
         );
+        $response = $this->execute($request);
+        $this->assertTrue($response->failed);
+    }
+    public function testEmptyNotRequiredEmail(){
+        $request = new CreateAccountRequest(
+            'TestUser',
+            '123456',
+            '123456',
+            'male'
+        );
+        $request->setEmail('');
+        $response = $this->execute($request);
+        $this->assertFalse($response->failed);
+    }
+    public function testInvalidNotRequiredEmail(){
+        $request = new CreateAccountRequest(
+            'TestUser',
+            '123456',
+            '123456',
+            'male'
+        );
+        $request->setEmail('foo');
+        $response = $this->execute($request);
+        $this->assertFalse($response->failed);
+    }
+    public function testEmptyRequiredEmail(){
+        $request = new CreateAccountRequest(
+            'TestUser',
+            '123456',
+            '123456',
+            'male'
+        );
+        $request->setEmail('');
+        $request->setEmailRequired(true);
+        $response = $this->execute($request);
+        $this->assertTrue($response->failed);
+    }
+    public function testInvalidRequiredEmail(){
+        $request = new CreateAccountRequest(
+            'TestUser',
+            '123456',
+            '123456',
+            'male'
+        );
+        $request->setEmail('foo');
+        $request->setEmailRequired(true);
         $response = $this->execute($request);
         $this->assertTrue($response->failed);
     }

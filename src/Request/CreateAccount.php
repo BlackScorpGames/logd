@@ -29,7 +29,7 @@ class CreateAccount {
      * @var string
      */
     private $gender;
-
+    private $emailRequired = false;
     /**
      * @param $username
      * @param $password
@@ -89,6 +89,22 @@ class CreateAccount {
     public function getUsername()
     {
         return $this->username;
+    }
+
+    /**
+     * @param boolean $emailRequired
+     */
+    public function setEmailRequired($emailRequired)
+    {
+        $this->emailRequired = $emailRequired;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getEmailRequired()
+    {
+        return $this->emailRequired;
     }
 
 }
