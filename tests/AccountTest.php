@@ -6,7 +6,7 @@ use PHPUnit_Framework_TestCase;
 use Logd\Core\Interactor\CreateAccount as CreateAccountInteractor;
 use Logd\Core\Request\CreateAccount as CreateAccountRequest;
 use Logd\Core\Response\CreateAccount as CreateAccountResponse;
-use LoGD\Core\App\Repository\PDOUser as UserRepository;
+use Logd\Core\App\Repository\PDOUser as UserRepository;
 
 
 

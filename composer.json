@@ -21,9 +21,9 @@
     },
     "autoload":{
         "psr-4":{
-            "LoGD\\Core\\App\\":"app/",
-            "LoGD\\Core\\":"src/",
-            "LoGD\\Core\\Test\\":"tests/"
+            "Logd\\Core\\App\\":"app/",
+            "Logd\\Core\\":"src/",
+            "Logd\\Core\\Test\\":"tests/"
         }
     }
 }

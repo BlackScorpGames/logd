@@ -17,46 +17,49 @@ $new = getsetting("expirenewacct",10);
 $old = getsetting("expireoldacct",45);
 
 checkban();
+function validate($trash,$old,$new){
+    $id = httpget('id');
+    $sql = "SELECT acctid,login,password,name FROM ". db_prefix("accounts") . " WHERE emailvalidation='$id' AND emailvalidation!=''";
+    $result = db_query($sql);
+    if (db_num_rows($result)>0) {
+        $row = db_fetch_assoc($result);
+        $sql = "UPDATE " . db_prefix("accounts") . " SET emailvalidation='' WHERE emailvalidation='$id';";
+        db_query($sql);
+        output("`#`cYour email has been validated.  You may now log in.`c`0");
+        rawoutput("<form action='login.php' method='POST'>");
+        rawoutput("<input name='name' value=\"{$row['login']}\" type='hidden'>");
+        rawoutput("<input name='password' value=\"!md52!{$row['password']}\" type='hidden'>");
+        rawoutput("<input name='force' value='1' type='hidden'>");
+        output("Your email has been validated, your login name is `^%s`0.`n`n",
+            $row['login']);
+        $click = translate_inline("Click here to log in");
+        rawoutput("<input type='submit' class='button' value='$click'></form>");
+        output_notl("`n");
+        if ($trash > 0) {
+            output("`^Characters that have never been logged into will be deleted after %s day(s) of no activity.`n`0", $trash);
+        }
+        if ($new > 0) {
+            output("`^Characters that have never reached level 2 will be deleted after %s days of no activity.`n`0", $new);
+        }
+        if ($old > 0) {
+            output("`^Characters that have reached level 2 at least once will be deleted after %s days of no activity.`n`0", $old);
+        }
+        //only set this if they are not doing a forgotten password.
+        if (substr($id,0,1)!="x") {
+            savesetting("newestplayer", $row['acctid']);
+            invalidatedatacache('newest');
+        }
+    }else{
+        output("`#Your email could not be verified.");
+        output("This may be because you already validated your email.");
+        output("Try to log in, and if that doesn't help, use the petition link at the bottom of the page.");
+    }
+}
 
 $httpRequest = Request::createFromGlobals();
 $op = $httpRequest->get('op');
 if ($op=="val"){
-	$id = httpget('id');
-	$sql = "SELECT acctid,login,password,name FROM ". db_prefix("accounts") . " WHERE emailvalidation='$id' AND emailvalidation!=''";
-	$result = db_query($sql);
-	if (db_num_rows($result)>0) {
-		$row = db_fetch_assoc($result);
-		$sql = "UPDATE " . db_prefix("accounts") . " SET emailvalidation='' WHERE emailvalidation='$id';";
-		db_query($sql);
-		output("`#`cYour email has been validated.  You may now log in.`c`0");
-		rawoutput("<form action='login.php' method='POST'>");
-		rawoutput("<input name='name' value=\"{$row['login']}\" type='hidden'>");
-		rawoutput("<input name='password' value=\"!md52!{$row['password']}\" type='hidden'>");
-		rawoutput("<input name='force' value='1' type='hidden'>");
-		output("Your email has been validated, your login name is `^%s`0.`n`n",
-				$row['login']);
-		$click = translate_inline("Click here to log in");
-		rawoutput("<input type='submit' class='button' value='$click'></form>");
-		output_notl("`n");
-		if ($trash > 0) {
-			output("`^Characters that have never been logged into will be deleted after %s day(s) of no activity.`n`0", $trash);
-		}
-		if ($new > 0) {
-			output("`^Characters that have never reached level 2 will be deleted after %s days of no activity.`n`0", $new);
-		}
-		if ($old > 0) {
-			output("`^Characters that have reached level 2 at least once will be deleted after %s days of no activity.`n`0", $old);
-		}
-		//only set this if they are not doing a forgotten password.
-		if (substr($id,0,1)!="x") {
-			savesetting("newestplayer", $row['acctid']);
-			invalidatedatacache('newest');
-		}
-	}else{
-		output("`#Your email could not be verified.");
-		output("This may be because you already validated your email.");
-		output("Try to log in, and if that doesn't help, use the petition link at the bottom of the page.");
-	}
+    validate($trash,$old,$new);
 }
 if ($op=="forgot"){
 	$charname = httppost('charname');
