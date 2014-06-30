@@ -3,6 +3,9 @@
 // addnews ready
 // mail ready
 
+/**
+ * @param string $colorcode
+ */
 function increment_specialty($colorcode, $spec=false){
 	global $session;
 	if ($spec !== false) {

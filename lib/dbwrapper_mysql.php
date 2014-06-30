@@ -40,6 +40,9 @@ function db_query($sql, $die=true){
 //since it's possible this array is large, we'll save ourselves
 //the overhead of duplicating the array, then destroying the old
 //one by returning a reference instead.
+/**
+ * @param string $sql
+ */
 function &db_query_cached($sql,$name,$duration=900){
 	//this function takes advantage of the data caching library to make
 	//all of the other db_functions act just like MySQL queries but rely
@@ -171,6 +174,9 @@ function db_table_exists($tablename){
 	return false;
 }
 
+/**
+ * @param string $tablename
+ */
 function db_prefix($tablename, $force=false) {
 	global $DB_PREFIX;
 

@@ -2,6 +2,9 @@
 // translator ready
 // addnews ready
 // mail ready
+/**
+ * @param string $input
+ */
 function soap($input,$debug=false,$skiphook=false){
 	global $session;
 	require_once("lib/sanitize.php");

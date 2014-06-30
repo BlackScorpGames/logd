@@ -1,4 +1,7 @@
 <?php
+/**
+ * @param string $name
+ */
 function previewfield($name, $startdiv=false, $talkline="says", $showcharsleft=true, $info=false, $default=false) {
 	global $schema,$session;
 	$talkline = translate_inline($talkline, $schema);

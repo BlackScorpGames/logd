@@ -155,6 +155,10 @@ function writelog($response){
 	}
 }
 
+/**
+ * @param string $errfile
+ * @param integer $errline
+ */
 function payment_error($errno, $errstr, $errfile, $errline){
 	global $payment_errors;
 	if (!is_int($errno) || (is_int($errno) && ($errno & error_reporting()))) {

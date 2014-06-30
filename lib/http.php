@@ -2,6 +2,9 @@
 // translator ready
 // addnews ready
 // mail ready
+/**
+ * @param string $var
+ */
 function httpget($var){
 	global $HTTP_GET_VARS;
 
@@ -16,12 +19,18 @@ function httpallget() {
 	return $_GET;
 }
 
+/**
+ * @param string $var
+ */
 function httpset($var, $val,$force=false){
 	global $HTTP_GET_VARS;
 	if (isset($_GET[$var]) || $force) $_GET[$var] = $val;
 	if (isset($HTTP_GET_VARS[$var])) $HTTP_GET_VARS[$var] = $val;
 }
 
+/**
+ * @param string $var
+ */
 function httppost($var){
 	global $HTTP_POST_VARS;
 

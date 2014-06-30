@@ -15,10 +15,6 @@ $runheaders = array();
 /**
  * Starts page output.  Inits the template and translator modules.
  *
- * @param array|string $title
- * Hooks provided:
- *		everyheader
- *		header-{scriptname}
  */
 function page_header(){
 	global $header,$SCRIPT_NAME,$session,$template, $runheaders, $nopopups;
@@ -515,7 +511,7 @@ function setcharstat($cat, $label, $val) {
 /**
  * Returns output formatted character stats
  *
- * @param array $buffs
+ * @param string $buffs
  * @return string
  */
 function getcharstats($buffs){

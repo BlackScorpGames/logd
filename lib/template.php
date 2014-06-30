@@ -3,6 +3,9 @@
 // addnews ready
 // mail ready
 
+/**
+ * @param string $itemname
+ */
 function templatereplace($itemname,$vals=false){
 	global $template;
 	if (!isset($template[$itemname]))

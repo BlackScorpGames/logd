@@ -13,6 +13,9 @@ function newline_sanitize($in){
 	return $out;
 }
 
+/**
+ * @param string $in
+ */
 function color_sanitize($in){
 	$out = preg_replace("/[`][1234567890!@#\$%^&)~QqRVvGgTtjJeElLxXyYkKpPmM?*Aabi]/", "", $in);
 	return $out;
@@ -53,6 +56,9 @@ function comscroll_sanitize($in) {
 	return $out;
 }
 
+/**
+ * @param string $in
+ */
 function prevent_colors($in) {
 	$out = str_replace("`", "&#0096;", $in);
 	return $out;

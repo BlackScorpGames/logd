@@ -2,6 +2,9 @@
 // translator ready
 // addnews ready
 // mail ready
+/**
+ * @param string $location
+ */
 function redirect($location,$reason=false){
 	global $session,$REQUEST_URI;
 	// This function is deliberately not localized.  It is meant as error

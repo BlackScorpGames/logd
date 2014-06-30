@@ -6,6 +6,9 @@
 
 $temp_user_stats = array('is_suspended' => false);
 
+/**
+ * @param string $name
+ */
 function apply_temp_stat($name,$value,$type="add"){
 	global $session, $temp_user_stats;
 	if ($type=='add'){
@@ -27,6 +30,9 @@ function apply_temp_stat($name,$value,$type="add"){
 	}
 }
 
+/**
+ * @param string $name
+ */
 function check_temp_stat($name,$color=false){
 	global $temp_user_stats, $session;
 	if (isset($temp_user_stats['add'][$name])){

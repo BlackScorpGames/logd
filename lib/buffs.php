@@ -133,6 +133,9 @@ function restore_buff_fields(){
 	}//end while
 }//end function
 
+/**
+ * @param string $name
+ */
 function apply_buff($name,$buff){
 	global $session,$buffreplacements, $translation_namespace;
 
@@ -151,6 +154,9 @@ function apply_buff($name,$buff){
 	calculate_buff_fields();
 }
 
+/**
+ * @param string $name
+ */
 function apply_companion($name,$companion,$ignorelimit=false){
 	global $session, $companions;
 	if (!is_array($companions)) {

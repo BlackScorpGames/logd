@@ -17,6 +17,9 @@ function motd_admin($id, $poll=false) {
 	}
 }
 
+/**
+ * @param string $id
+ */
 function motditem($subject,$body,$author,$date,$id){
 	if ($date)
 		rawoutput("<a name='motd".date("YmdHis",strtotime($date))."'>");

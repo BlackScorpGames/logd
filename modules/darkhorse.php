@@ -213,6 +213,10 @@ function darkhorse_bartender($from){
 	addnav("Return to the Main Room",$from."op=tavern");
 }
 
+/**
+ * @param string $type
+ * @param string $link
+ */
 function darkhorse_runevent($type, $link){
 	global $session;
 	$from = $link;

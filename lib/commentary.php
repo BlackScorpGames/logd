@@ -102,6 +102,9 @@ function injectrawcomment($section, $author, $comment)
 	invalidatedatacache("comments-or11");
 }
 
+/**
+ * @param string $comment
+ */
 function injectcommentary($section, $talkline, $comment, $schema=false) {
 	global $session,$doublepost, $translation_namespace;
 	if ($schema===false) $schema=$translation_namespace;
@@ -164,6 +167,10 @@ function injectcommentary($section, $talkline, $comment, $schema=false) {
 	}
 }
 
+/**
+ * @param string $intro
+ * @param string $section
+ */
 function commentdisplay($intro, $section, $message="Interject your own commentary?",$limit=10,$talkline="says",$schema=false) {
 	// Let's add a hook for modules to block commentary sections
 	$args = modulehook("blockcommentarea", array("section"=>$section));
@@ -562,6 +569,9 @@ function viewcommentary($section,$message="Interject your own commentary?",$limi
 	if ($needclose) modulehook("}collapse");
 }
 
+/**
+ * @param string $talkline
+ */
 function talkform($section,$talkline,$limit=10,$schema=false){
 	require_once("lib/forms.php");
 	global $REQUEST_URI,$session,$translation_namespace;

@@ -379,11 +379,17 @@ function unblocknavcat($cat){
 	$blockednavs["blockcat"][$cat] = false;
 }
 
+/**
+ * @param string $link
+ */
 function appendcount($link) {
 	global $session;
 	return appendlink($link, "c=" . $session['counter'] . "-" . date("His"));
 }
 
+/**
+ * @param string $new
+ */
 function appendlink($link, $new)
 {
 	if (strpos($link, "?") !== false) {
@@ -684,8 +690,8 @@ $quickkeys=array();
  * @param string $link
  * @param bool $priv
  * @param bool $pop
- * @param bool $popsize
- * @return mixed
+ * @param string|boolean $popsize
+ * @return false|string
  */
 function private_addnav($text,$link=false,$priv=false,$pop=false,$popsize="500x300"){
 	//don't call this directly please.  I'll break your thumbs if you do.

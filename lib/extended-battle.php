@@ -544,7 +544,7 @@ function execute_ai_script($script) {
 /**
  * Returns an A.I. Script form the database
  *
- * @param int $spriptid The id for the script
+ * @param int $scriptid The id for the script
   * @return string The script itself. An empty string is returned, if script is found.
  */
 function load_ai_script($scriptid) {

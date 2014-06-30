@@ -2,6 +2,9 @@
 // addnews ready
 // translator ready
 // mail ready
+/**
+ * @param integer $date
+ */
 function reltime($date,$short=true){
 	$now = strtotime("now");
 	$x = abs($now - $date);
@@ -114,6 +117,9 @@ function gametime(){
 	return $time;
 }
 
+/**
+ * @param integer $intime
+ */
 function convertgametime($intime,$debug=false){
 
 	//adjust the requested time by the game offset

@@ -54,6 +54,9 @@ function logd_error_handler($errno, $errstr, $errfile, $errline){
 	$in_error_handler--;
 }
 
+/**
+ * @param string $backtrace
+ */
 function logd_error_notify($errno, $errstr, $errfile, $errline, $backtrace){
 	global $session;
 	$sendto = explode(";",getsetting("notify_address",""));

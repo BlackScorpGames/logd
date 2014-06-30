@@ -653,6 +653,9 @@ function load_module_settings($module){
 }//end function
 
 
+/**
+ * @param string $objtype
+ */
 function module_delete_objprefs($objtype, $objid)
 {
 	$sql = "DELETE FROM " . db_prefix("module_objprefs") . " WHERE objtype='$objtype' AND objid='$objid'";
@@ -660,6 +663,10 @@ function module_delete_objprefs($objtype, $objid)
 	massinvalidate("objpref-$objtype-$objid");
 }
 
+/**
+ * @param string $type
+ * @param string $name
+ */
 function get_module_objpref($type, $objid, $name, $module=false){
 	global $mostrecentmodule;
 	if ($module === false) $module = $mostrecentmodule;
@@ -725,6 +732,9 @@ function get_all_module_prefs($module=false,$user=false){
 	return $module_prefs[$user][$module];
 }
 
+/**
+ * @param string $name
+ */
 function get_module_pref($name,$module=false,$user=false){
 	global $module_prefs,$mostrecentmodule,$session;
 	if ($module === false) $module = $mostrecentmodule;
@@ -928,6 +938,10 @@ function module_wipehooks() {
 
 }
 
+/**
+ * @param string $type
+ * @param string $chance
+ */
 function module_addeventhook($type, $chance){
 	global $mostrecentmodule;
 	debug("Adding an event hook on $type events for $mostrecentmodule");
@@ -938,6 +952,9 @@ function module_addeventhook($type, $chance){
 	invalidatedatacache("event-".$type);
 }
 
+/**
+ * @param string $hookname
+ */
 function module_drophook($hookname,$functioncall=false){
 	global $mostrecentmodule;
 	if ($functioncall===false)
@@ -1137,6 +1154,9 @@ function event_sort($a, $b)
 	return strcmp($a['modulename'], $b['modulename']);
 }
 
+/**
+ * @param string $eventtype
+ */
 function module_display_events($eventtype, $forcescript=false) {
 	global $PHP_SELF, $session;
 	if (!($session['user']['superuser'] & SU_DEVELOPER)) return;
@@ -1185,6 +1205,9 @@ function module_display_events($eventtype, $forcescript=false) {
 	rawoutput("</table>");
 }
 
+/**
+ * @param string $like
+ */
 function module_editor_navs($like, $linkprefix)
 {
 	$sql = "SELECT formalname,modulename,active,category FROM " . db_prefix("modules") . " WHERE infokeys LIKE '%|$like|%' ORDER BY category,formalname";
@@ -1203,6 +1226,9 @@ function module_editor_navs($like, $linkprefix)
 	}
 }
 
+/**
+ * @param string $type
+ */
 function module_objpref_edit($type, $module, $id)
 {
 	$info = get_module_info($module);
@@ -1233,6 +1259,9 @@ function module_objpref_edit($type, $module, $id)
 	}
 }
 
+/**
+ * @param boolean $b
+ */
 function module_compare_versions($a,$b){
 	//this function returns -1 when $a < $b, 1 when $a > $b, and 0 when $a == $b
 	//insert alternate version detection and comparison algorithms here.

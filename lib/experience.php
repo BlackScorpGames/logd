@@ -8,7 +8,6 @@
  * Returns the experience needed to advance to the next level.
  *
  * @param int $curlevel The current level of the player.
- * @param int $label The current number of dragonkills.
  * @return int The amount of experience needed to advance to the next level.
  */
 function exp_for_next_level($curlevel, $curdk)
