@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "5ede5174d885cb39c9c5f9a1fb1246a9",
+    "hash": "b6f849eea4e009a42d271b211f81a105",
     "packages": [
         {
             "name": "mustache/mustache",
