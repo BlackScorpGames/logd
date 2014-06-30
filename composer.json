@@ -9,6 +9,7 @@
         }
     ],
     "require":{
+        "symfony/http-kernel":"~2",
         "pimple/pimple":"~2",
         "mustache/mustache":"~2"
     },
