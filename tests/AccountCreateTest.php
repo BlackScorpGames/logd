@@ -24,13 +24,12 @@ class AccountCreateTest extends PHPUnit_Framework_TestCase{
      * @return CreateAccountResponse
      */
     private function execute(CreateAccountRequest $request){
-
         $createAccount = new CreateAccountInteractor($this->userRepository,$this->validator);
-
         $response = new CreateAccountResponse();
         $createAccount->process($request,$response);
         return $response;
     }
+
     public function testSuccessfull(){
         $request = new CreateAccountRequest(
             'TestUsername',
@@ -42,14 +41,45 @@ class AccountCreateTest extends PHPUnit_Framework_TestCase{
         $this->assertFalse($response->failed);
     }
 
-    public function testPasswordShort(){
+    public function testPasswordTooShort(){
         $request = new CreateAccountRequest(
             'TestUsername',
-            '123',
-            '123',
+            '12',
+            '12',
             'male'
         );
-       
+        $response = $this->execute($request);
+        $this->assertTrue($response->failed);
+    }
+    public function testPasswordTooLong(){
+        $longUsername = implode('',array_fill(0,26,'a'));
+    
+        $request = new CreateAccountRequest(
+            $longUsername,
+            '123456',
+            '123456',
+            'male'
+        );
+        $response = $this->execute($request);
+        $this->assertTrue($response->failed);
+    }
+    public function testWrongPasswordConfirm(){
+        $request = new CreateAccountRequest(
+            'TestUsername',
+            '123456',
+            '12345',
+            'male'
+        );
+        $response = $this->execute($request);
+        $this->assertTrue($response->failed);
+    }
+    public function testEmptyUsername(){
+        $request = new CreateAccountRequest(
+            '',
+            '123456',
+            '123456',
+            'male'
+        );
         $response = $this->execute($request);
         $this->assertTrue($response->failed);
     }

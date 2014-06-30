@@ -8,7 +8,7 @@ class CreateAccount extends CreateAccountValidator{
     {
         $this->checkUsername();
         $this->checkPassword();
-        var_dump($this);
+
     }
     private function isEmpty($value){
         return in_array($value,array(null,'',false));

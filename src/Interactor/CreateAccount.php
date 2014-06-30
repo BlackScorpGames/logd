@@ -35,7 +35,7 @@ class CreateAccount {
         $this->setValidatorValues($request);
 
         if(!$this->validator->isValid()){
-            $response->failed =true;
+            $response->failed = true;
             $response->errors = $this->validator->getErrors();
             return;
         }
