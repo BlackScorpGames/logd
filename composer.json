@@ -17,5 +17,10 @@
     },
     "config":{
         "bin-dir":"bin/"
+    },
+    "autoload":{
+        "psr-4":{
+            "LoGD/Core/Test//":"tests/"
+        }
     }
 }
