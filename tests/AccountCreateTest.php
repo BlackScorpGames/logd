@@ -53,7 +53,7 @@ class AccountCreateTest extends PHPUnit_Framework_TestCase{
     }
     public function testPasswordTooLong(){
         $longUsername = implode('',array_fill(0,26,'a'));
-    
+
         $request = new CreateAccountRequest(
             $longUsername,
             '123456',
