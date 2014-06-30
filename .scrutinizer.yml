@@ -2,10 +2,7 @@ before_commands:
     - 'composer install --no-progress'
 
 filter:
-    excluded_paths:
-        - vendor/
-        - bin/
-        - tests/
+    paths: [test/*,vendor/*,mock/*,bin/*]
 tools:
     php_code_coverage: true
     php_mess_detector: true
