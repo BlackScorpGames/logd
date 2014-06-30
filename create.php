@@ -113,16 +113,24 @@ if (getsetting("allowcreation",1)==0){
 
 	if ($op=="create"){
 		$emailverification="";
-		$shortname = sanitize_name(getsetting("spaceinname", 0), httppost('name'));
-
+        $name = $httpRequest->get('name');
+		//$shortname = sanitize_name(getsetting("spaceinname", 0), httppost('name'));
+        $shortname = sanitize_name(getsetting("spaceinname", 0),$name);
 		if (soap($shortname)!=$shortname){
 			output("`\$Error`^: Bad language was found in your name, please consider revising it.`n");
 			$op="";
 		}else{
 			$blockaccount=false;
+            $email = $httpRequest->get('email');
+            $password = $httpRequest->get('pass1');
+            $passwordConfirm = $httpRequest->get('pass2');
+            /*
 			$email = httppost('email');
 			$pass1= httppost('pass1');
 			$pass2= httppost('pass2');
+            */
+            $pass1 = $password;
+            $pass2 = $passwordConfirm;
 			if (getsetting("blockdupeemail",0)==1 && getsetting("requireemail",0)==1){
 				$sql = "SELECT login FROM " . db_prefix("accounts") . " WHERE emailaddress='$email'";
 				$result = db_query($sql);

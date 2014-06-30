@@ -23,7 +23,8 @@
         "psr-4":{
             "Logd\\Core\\App\\":"app/",
             "Logd\\Core\\":"src/",
-            "Logd\\Core\\Test\\":"tests/"
+            "Logd\\Core\\Test\\":"tests/",
+            "Logd\\Core\\Mock\\":"mock/"
         }
     }
 }

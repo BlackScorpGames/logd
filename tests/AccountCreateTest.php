@@ -6,16 +6,18 @@ use PHPUnit_Framework_TestCase;
 use Logd\Core\Interactor\CreateAccount as CreateAccountInteractor;
 use Logd\Core\Request\CreateAccount as CreateAccountRequest;
 use Logd\Core\Response\CreateAccount as CreateAccountResponse;
-use Logd\Core\App\Repository\PDOUser as UserRepository;
+use Logd\Core\Mock\Repository\User as UserRepository;
 use Logd\Core\App\Validator\CreateAccount as Validator;
-
+use Logd\Core\Entity\User as UserEntity;
 
 class AccountCreateTest extends PHPUnit_Framework_TestCase{
     private $userRepository = null;
     private $validator = null;
     public function setUp(){
-        require __DIR__.'/../bootstrap.php';
-        $this->userRepository = new UserRepository($pdo);
+        $users = array(
+            new UserEntity(1,'Dummy','123456','dummy@test.com')
+        );
+        $this->userRepository = new UserRepository($users);
         $this->validator = new Validator();
     }
     /**
@@ -104,6 +106,7 @@ class AccountCreateTest extends PHPUnit_Framework_TestCase{
         );
         $request->setEmail('');
         $response = $this->execute($request);
+
         $this->assertFalse($response->failed);
     }
     public function testInvalidNotRequiredEmail(){

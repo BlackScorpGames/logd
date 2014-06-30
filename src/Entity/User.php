@@ -38,12 +38,19 @@ class User {
      * @param string $password
      * @param string $email
      */
-    public function __construct( $userId,$username,$password, $email )
+    public function __construct( $userId,$username,$password )
     {
-        $this->email    = $email;
         $this->userId       = $userId;
         $this->password = $password;
         $this->username = $username;
+    }
+
+    /**
+     * @param string $email
+     */
+    public function setEmail($email)
+    {
+        $this->email = $email;
     }
 
     /**

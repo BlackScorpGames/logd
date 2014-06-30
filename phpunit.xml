@@ -19,4 +19,8 @@
             <directory>./vendor</directory>
         </blacklist>
     </filter>
+    <php>
+        <server name="REMOTE_ADDR" value="127.0.0.1" />
+        <env name="env" value="test" />
+    </php>
 </phpunit>
