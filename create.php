@@ -2,7 +2,9 @@
 // translator ready
 // addnews ready
 // mail ready
+use Symfony\Component\HttpFoundation\Request;
 define("ALLOW_ANONYMOUS",true);
+require_once __DIR__.'/vendor/autoload.php';
 require_once("common.php");
 require_once("lib/is_email.php");
 require_once("lib/checkban.php");
@@ -15,8 +17,9 @@ $new = getsetting("expirenewacct",10);
 $old = getsetting("expireoldacct",45);
 
 checkban();
-$op = httpget('op');
-
+//$op = httpget('op');
+$httpRequest = Request::createFromGlobals();
+$op = $httpRequest->get('op');
 if ($op=="val"){
 	$id = httpget('id');
 	$sql = "SELECT acctid,login,password,name FROM ". db_prefix("accounts") . " WHERE emailvalidation='$id' AND emailvalidation!=''";
