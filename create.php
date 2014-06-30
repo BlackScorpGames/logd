@@ -6,7 +6,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 require_once __DIR__.'/bootstrap.php';
 $response = array();
-echo $app['mustache']->render('create',$response);
+echo $app['mustache']->render('pages/create',$response);
 die();
 define("ALLOW_ANONYMOUS",true);
 require_once("common.php");
