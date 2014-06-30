@@ -55,7 +55,9 @@ function validate($trash,$old,$new){
         output("Try to log in, and if that doesn't help, use the petition link at the bottom of the page.");
     }
 }
+function createAccount(){
 
+}
 $httpRequest = Request::createFromGlobals();
 $op = $httpRequest->get('op');
 if ($op=="val"){
@@ -112,10 +114,14 @@ if (getsetting("allowcreation",1)==0){
 }else{
 
 	if ($op=="create"){
+
+
+
 		$emailverification="";
         $name = $httpRequest->get('name');
 		//$shortname = sanitize_name(getsetting("spaceinname", 0), httppost('name'));
         $shortname = sanitize_name(getsetting("spaceinname", 0),$name);
+        $username = $shortname;
 		if (soap($shortname)!=$shortname){
 			output("`\$Error`^: Bad language was found in your name, please consider revising it.`n");
 			$op="";
@@ -124,6 +130,7 @@ if (getsetting("allowcreation",1)==0){
             $email = $httpRequest->get('email');
             $password = $httpRequest->get('pass1');
             $passwordConfirm = $httpRequest->get('pass2');
+            $gender = $httpRequest->get('sex');
             /*
 			$email = httppost('email');
 			$pass1= httppost('pass1');
@@ -131,6 +138,28 @@ if (getsetting("allowcreation",1)==0){
             */
             $pass1 = $password;
             $pass2 = $passwordConfirm;
+            $emailRequired = getsetting("requireemail",0)==1;
+
+            $userRepository = new \Logd\Core\App\Repository\PDOUser($app['db']);
+            $createAccountValidator = new \Logd\Core\App\Validator\CreateAccount();
+            $createAccountInteractor = new \Logd\Core\Interactor\CreateAccount($userRepository,$createAccountValidator);
+            $createAccountRequest = new \Logd\Core\Request\CreateAccount(
+                $username,
+                $password,
+                $passwordConfirm,
+                $gender
+            );
+            $createAccountRequest->setEmailRequired($emailRequired);
+            $createAccountRequest->setEmail($email);
+            $createAccountResponse = new \Logd\Core\Response\CreateAccount();
+
+            $createAccountInteractor->process($createAccountRequest,$createAccountResponse);
+            $blockaccount = $createAccountResponse->failed;
+            foreach($createAccountResponse->errors as $error){
+                $msg.= translate_inline($error);
+            }
+
+            /*
 			if (getsetting("blockdupeemail",0)==1 && getsetting("requireemail",0)==1){
 				$sql = "SELECT login FROM " . db_prefix("accounts") . " WHERE emailaddress='$email'";
 				$result = db_query($sql);
@@ -171,7 +200,7 @@ if (getsetting("allowcreation",1)==0){
 				$msg .= $args['msg'];
 				$blockaccount = true;
 			}
-
+            */
 			if (!$blockaccount){
 				$shortname = preg_replace("/\s+/", " ", $shortname);
 				$sql = "SELECT name FROM " . db_prefix("accounts") . " WHERE login='$shortname'";

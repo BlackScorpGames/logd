@@ -1,14 +1,14 @@
 before_commands:
-    - 'composer install --no-progress'
+  - 'composer install --no-progress'
 
 filter:
-    excluded_paths: [tests/*, vendor/*, mock/*, bin/*]
+  excluded_paths: [tests/*, vendor/*, mock/*, bin/*]
 
 tools:
-    php_code_coverage: true
-    php_mess_detector: true
-    php_analyzer: true
-    php_code_sniffer: true
-    php_cpd: true
-    php_loc: true
-    php_pdepend: true
+  php_code_coverage: true
+  php_mess_detector: true
+  php_analyzer: true
+  php_code_sniffer: true
+  php_cpd: true
+  php_loc: true
+  php_pdepend: true
