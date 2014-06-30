@@ -1,3 +1,5 @@
 /.idea/*
 /nbproject
+/vendor
+/bin
 dbconnect.php

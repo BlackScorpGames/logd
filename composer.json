@@ -1,0 +1,17 @@
+{
+    "name": "logd/core",
+    "description": "a fork of the Browsergame Legends of the Green Dragon",
+    "license": "CCPL",
+    "authors": [
+        {
+            "name": "Vitalij Mik",
+            "email": "cccpmik+composer@gmail.com"
+        }
+    ],
+    "require-dev":{
+        "phpunit/phpunit":"~4"
+    },
+    "config":{
+        "bin-dir":"bin/"
+    }
+}
