@@ -1,12 +1,20 @@
 <?php
-// translator ready
-// addnews ready
-// mail ready
+require_once __DIR__.'/bootstrap.php';
 use Symfony\Component\HttpFoundation\Request;
 
-require_once __DIR__.'/bootstrap.php';
-$response = array();
-echo $app['mustache']->render('pages/create',$response);
+$request = Request::createFromGlobals();
+/**
+ * @var Logd\Core\App\NavigationCollection $navigation
+ */
+$navigation = $app['navigation'];
+$navigationElement = $navigation->findElementByText('Create a character');
+$navigationElement->active = true;
+
+$response = array(
+    'navigation'=>$navigation->getElements()
+);
+
+echo $app['mustache']->render('pages/home',$response);
 die();
 define("ALLOW_ANONYMOUS",true);
 require_once("common.php");

@@ -2,8 +2,17 @@
 require_once __DIR__.'/bootstrap.php';
 
 use Symfony\Component\HttpFoundation\Request;
+
 $request = Request::createFromGlobals();
-$response = array();
+/**
+ * @var Logd\Core\App\NavigationCollection $navigation
+ */
+$navigation = $app['navigation'];
+
+$response = array(
+    'navigation'=>$navigation->getElements()
+);
+
 echo $app['mustache']->render('pages/home',$response);
 die();
 if (isset($_POST['template'])){

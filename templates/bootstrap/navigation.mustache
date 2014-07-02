@@ -1,9 +1,12 @@
 <div class="list-group">
-    <div class="list-group-item">Test</div>
-      <a class="list-group-item active" href="">Test</a>
-       <a class="list-group-item" href="">Test</a>
-       <a class="list-group-item"  href="">Test</a>
-       <a class="list-group-item" href="">Test</a>
+    {{#navigation}}
+        {{^link}}
+        <div class="list-group-item">{{text}}</div>
+        {{/link}}
+        {{#link}}
+        <a href="{{link}}" class="list-group-item{{#active}} active{{/active}}">{{text}}</a>
+        {{/link}}
+    {{/navigation}}
 </div>
 
 
