@@ -1,8 +1,11 @@
 <?php
-// translator ready
-// addnews ready
-// mail ready
+require_once __DIR__.'/bootstrap.php';
 
+use Symfony\Component\HttpFoundation\Request;
+$request = Request::createFromGlobals();
+$response = array();
+echo $app['mustache']->render('pages/home',$response);
+die();
 if (isset($_POST['template'])){
 	$skin = $_POST['template'];
 	if ($skin > "") {
