@@ -14,7 +14,7 @@ $response = array(
     'navigation'=>$navigation->getElements()
 );
 
-echo $app['mustache']->render('pages/home',$response);
+echo $app['mustache']->render('pages/create',$response);
 die();
 define("ALLOW_ANONYMOUS",true);
 require_once("common.php");
