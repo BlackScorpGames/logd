@@ -1,38 +1,45 @@
 <?php
 require_once __DIR__.'/bootstrap.php';
+
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+
 use Logd\Core\Interactor\CreateAccount as CreateAccountInteractor;
 use Logd\Core\Request\CreateAccount as CreateAccountRequest;
 use Logd\Core\Response\CreateAccount as CreateAccountResponse;
 use Logd\Core\App\Repository\PDOUser as UserRepository;
 use Logd\Core\App\Validator\CreateAccount as CreateAccountValidator;
+
+
 $httpRequest = Request::createFromGlobals();
 $httpResponse = new Response();
 /**
  * @var Logd\Core\App\NavigationCollection $navigation
  */
 $navigation = $app['navigation'];
-$navigationElement = $navigation->findElementByText('Create a character');
-$navigationElement->active = true;
+$navigation->activate('Create a character');
+
 
 $baseResponse = array(
     'navigation'=>$navigation->getElements()
 );
 
+//Get values from Form
 $username = $httpRequest->get('username');
 $password = $httpRequest->get('password');
 $passwordConfirm = $httpRequest->get('passwordConfirm');
 $gender = $httpRequest->get('gender');
 $email = $httpRequest->get('email');
 
+//prepare interaction
 $userRepository = new UserRepository($app['db']);
 $createAccountValidator = new CreateAccountValidator();
 $interactor = new CreateAccountInteractor($userRepository,$createAccountValidator);
 $request = new CreateAccountRequest($username,$password,$passwordConfirm,$gender);
-$request->setEmail($email);
 $response = new CreateAccountResponse();
+$request->setEmail($email);
 
+//Process interacton
 if($httpRequest->getMethod() === 'POST'){
     $interactor->process($request,$response);
 }
@@ -40,8 +47,10 @@ if($httpRequest->getMethod() === 'POST'){
 
 $completeResponse = array_merge($baseResponse ,(array)$response);
 
+//Render template
 $htmlContent = $app['mustache']->render('pages/create',$completeResponse);
 
+//send http response to browser
 $httpResponse->setCharset('utf-8');
 $httpResponse->headers->set('Content-Type', 'text/html');
 $httpResponse->setStatusCode(Response::HTTP_OK);

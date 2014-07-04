@@ -48,4 +48,12 @@ class NavigationCollection {
         return $result;
     }
 
+    /**
+     * mark a navigation element as activated by given link text
+     * @param $linkText
+     */
+    public function activate($linkText){
+        $navigationElement = $this->findElementByText($linkText);
+        $navigationElement->active = true;
+    }
 } 
