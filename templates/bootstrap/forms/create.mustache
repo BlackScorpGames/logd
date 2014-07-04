@@ -1,26 +1,33 @@
+{{#failed}}
+        <div class="alert alert-danger">
+                {{#errors}}
+                <p>{{.}}</p>
+                {{/errors}}
+        </div>
+{{/failed}}
 <form method="POST" role="form">
     <div class="form-group">
         <label for="username">Character Name</label>
-        <input type="text" class="form-control" id="username" placeholder="Character name">
+        <input type="text" class="form-control" name="username" id="username" value="{{username}}" placeholder="Character name">
     </div>
     <div class="form-group">
         <label for="password">Password</label>
-        <input type="password" class="form-control" id="password" placeholder="Password">
+        <input type="password" class="form-control" name="password" id="password" value="{{password}}" placeholder="Password">
     </div>
     <div class="form-group">
         <label for="passwordConfirm">Password Confirm</label>
-        <input type="password" class="form-control" id="passwordConfirm" placeholder="Password Confirm">
+        <input type="password" class="form-control" name="passwordConfirm" id="passwordConfirm" value="{{passwordConfirm}}" placeholder="Password Confirm">
     </div>
     <div class="form-group">
         <label for="email">E-Mail</label>
-        <input type="email" class="form-control" id="email" placeholder="E-Mail">
+        <input type="email" class="form-control" name="email" id="email" value="{{email}}" placeholder="E-Mail">
     </div>
     <div class="form-group">
     <label class="radio-inline">
-        <input type="radio" name="gender" value="option1"> Male
+        <input type="radio" name="gender" value="male"> Male
     </label>
     <label class="radio-inline">
-        <input type="radio"  name="gender" value="option2"> Female
+        <input type="radio"  name="gender" value="female"> Female
     </label>
     </div>
 

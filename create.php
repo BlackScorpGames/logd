@@ -1,8 +1,14 @@
 <?php
 require_once __DIR__.'/bootstrap.php';
 use Symfony\Component\HttpFoundation\Request;
-
-$request = Request::createFromGlobals();
+use Symfony\Component\HttpFoundation\Response;
+use Logd\Core\Interactor\CreateAccount as CreateAccountInteractor;
+use Logd\Core\Request\CreateAccount as CreateAccountRequest;
+use Logd\Core\Response\CreateAccount as CreateAccountResponse;
+use Logd\Core\App\Repository\PDOUser as UserRepository;
+use Logd\Core\App\Validator\CreateAccount as CreateAccountValidator;
+$httpRequest = Request::createFromGlobals();
+$httpResponse = new Response();
 /**
  * @var Logd\Core\App\NavigationCollection $navigation
  */
@@ -10,11 +16,37 @@ $navigation = $app['navigation'];
 $navigationElement = $navigation->findElementByText('Create a character');
 $navigationElement->active = true;
 
-$response = array(
+$baseResponse = array(
     'navigation'=>$navigation->getElements()
 );
 
-echo $app['mustache']->render('pages/create',$response);
+$username = $httpRequest->get('username');
+$password = $httpRequest->get('password');
+$passwordConfirm = $httpRequest->get('passwordConfirm');
+$gender = $httpRequest->get('gender');
+$email = $httpRequest->get('email');
+
+$userRepository = new UserRepository($app['db']);
+$createAccountValidator = new CreateAccountValidator();
+$interactor = new CreateAccountInteractor($userRepository,$createAccountValidator);
+$request = new CreateAccountRequest($username,$password,$passwordConfirm,$gender);
+$request->setEmail($email);
+$response = new CreateAccountResponse();
+
+if($httpRequest->getMethod() === 'POST'){
+    $interactor->process($request,$response);
+}
+
+
+$completeResponse = array_merge($baseResponse ,(array)$response);
+
+$htmlContent = $app['mustache']->render('pages/create',$completeResponse);
+
+$httpResponse->setCharset('utf-8');
+$httpResponse->headers->set('Content-Type', 'text/html');
+$httpResponse->setStatusCode(Response::HTTP_OK);
+$httpResponse->setContent($htmlContent);
+$httpResponse->send();
 die();
 define("ALLOW_ANONYMOUS",true);
 require_once("common.php");
