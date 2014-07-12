@@ -11,6 +11,9 @@ use Logd\Core\Entity\User as UserEntity;
 use Logd\Core\Repository\User as UserRepository;
 
 class User implements UserRepository{
+    /**
+     * @var UserEntity[]
+     */
     private $users = array();
     public function __construct(array $users){
         $this->users = $users;
@@ -73,6 +76,20 @@ class User implements UserRepository{
     public function add(UserEntity $user)
     {
         $this->users[$user->getUserId()] = $user;
+    }
+
+    /**
+     * @param string $username
+     * @return UserEntity|null
+     */
+    public function findByUsername($username)
+    {
+        foreach($this->users as $user){
+            if($user->getUsername() === $username){
+                return $user;
+            }
+        }
+        return null;
     }
 
 

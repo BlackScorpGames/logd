@@ -40,4 +40,10 @@ interface User {
      * @return bool
      */
     public function usernameExists($username);
+
+    /**
+     * @param string $username
+     * @return UserEntity|null
+     */
+    public function findByUsername($username);
 } 

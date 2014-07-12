@@ -12,6 +12,9 @@ use Logd\Core\App\Service\BcrypPasswordHasher as PasswordHasher;
 use Logd\Core\Entity\User as UserEntity;
 
 class AccountCreateTest extends PHPUnit_Framework_TestCase{
+    /**
+     * @var UserRepository
+     */
     private $userRepository = null;
     private $validator = null;
     private $passwordHasher = null;
@@ -45,6 +48,7 @@ class AccountCreateTest extends PHPUnit_Framework_TestCase{
         );
         $response = $this->execute($request);
         $this->assertFalse($response->failed);
+        $this->assertNotNull($this->userRepository->findByUsername('TestUsername'));
     }
     public function testSuccessfullWithRequiredEmail(){
         $request = new CreateAccountRequest(

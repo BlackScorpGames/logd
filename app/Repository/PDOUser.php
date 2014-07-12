@@ -77,4 +77,21 @@ class PDOUser implements UserRepository{
       $this->users[$user->getUserId()] = $user;
     }
 
+    /**
+     * @return int
+     */
+    public function getUniqueId()
+    {
+        // TODO: Implement getUniqueId() method.
+    }
+
+    /**
+     * @param string $username
+     * @return UserEntity|null
+     */
+    public function findByUsername($username)
+    {
+        // TODO: Implement findByUsername() method.
+    }
+
 } 
