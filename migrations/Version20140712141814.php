@@ -15,10 +15,13 @@ class Version20140712141814 extends AbstractMigration
 
     public function up(Schema $schema)
     {
+        $params = $this->connection->getParams();
+        $tablePrefix = $params['tablePrefix'];
+        var_dump($tablePrefix);
         /**
          * @var Table $able
          */
-        $table = $schema->createTable('users');
+        $table = $schema->createTable($tablePrefix.'users');
         $table->addColumn('userId', Type::INTEGER, array('length' => 11, 'autoincrement' => true));
         $table->addColumn('username', Type::STRING, array('length' => 254));
         $table->addColumn('password', Type::STRING, array('length' => 254));
@@ -32,6 +35,8 @@ class Version20140712141814 extends AbstractMigration
 
     public function down(Schema $schema)
     {
-        $schema->dropTable('users');
+        $params = $this->connection->getParams();
+        $tablePrefix = $params['tablePrefix'];
+        $schema->dropTable($tablePrefix.'users');
     }
 }

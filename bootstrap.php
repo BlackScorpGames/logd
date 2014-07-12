@@ -16,7 +16,7 @@ if (!Env::isTest()) {
 
         return $pdo;
     };
-    $app['dbal'] = function() use ($DB_HOST, $DB_NAME,$DB_USER, $DB_PASS){
+    $app['dbal'] = function() use ($DB_HOST, $DB_NAME,$DB_USER, $DB_PASS,$DB_PREFIX){
         $config = new \Doctrine\DBAL\Configuration();
         $connectionParams = array(
             'dbname' => $DB_NAME,
@@ -24,6 +24,7 @@ if (!Env::isTest()) {
             'password' => $DB_PASS,
             'host' => $DB_HOST,
             'driver' => 'pdo_mysql',
+            'tablePrefix'=>$DB_PREFIX
         );
         return \Doctrine\DBAL\DriverManager::getConnection($connectionParams, $config);
     };
