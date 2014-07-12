@@ -11,7 +11,9 @@
     "require":{
         "symfony/http-kernel":"~2",
         "pimple/pimple":"~2",
-        "mustache/mustache":"~2"
+        "mustache/mustache":"~2",
+        "doctrine/migrations": "~1.0@dev",
+        "symfony/console": "~2"
     },
     "require-dev":{
         "phpunit/php-code-coverage":"~2",
@@ -25,7 +27,8 @@
             "Logd\\Core\\App\\":"app/",
             "Logd\\Core\\":"src/",
             "Logd\\Core\\Test\\":"tests/",
-            "Logd\\Core\\Mock\\":"mock/"
+            "Logd\\Core\\Mock\\":"mock/",
+            "Logd\\Core\\Migrations\\": "migrations/"
         }
     }
 }

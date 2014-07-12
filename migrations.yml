@@ -1,0 +1,4 @@
+name: Logd Migrations
+migrations_namespace: Logd\Core\Migrations
+table_name: doctrine_migration_versions
+migrations_directory: /migrations

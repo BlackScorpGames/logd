@@ -16,7 +16,19 @@ if (!Env::isTest()) {
 
         return $pdo;
     };
+    $app['dbal'] = function() use ($DB_HOST, $DB_NAME,$DB_USER, $DB_PASS){
+        $config = new \Doctrine\DBAL\Configuration();
+        $connectionParams = array(
+            'dbname' => $DB_NAME,
+            'user' => $DB_USER,
+            'password' => $DB_PASS,
+            'host' => $DB_HOST,
+            'driver' => 'pdo_mysql',
+        );
+        return \Doctrine\DBAL\DriverManager::getConnection($connectionParams, $config);
+    };
     $app['prefix'] = $DB_PREFIX;
+
 }
 
 
