@@ -4,6 +4,7 @@ use Logd\Core\Env;
 use  Logd\Core\App\NavigationCollection;
 use Logd\Core\App\Navigation;
 if (!Env::isTest()) {
+    if(file_exists('dbconnect.php'))
     require 'dbconnect.php';
 
     $app = new Pimple\Container();

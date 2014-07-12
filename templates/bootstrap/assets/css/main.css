@@ -1,10 +1,99 @@
 .banner{
     border-radius: 0;
-
-
+    background:url(../img/banner.jpg) top center;
+}
+.banner .flying-dragon{
+    background: url(../img/flying_dragon.png) top left;
+    width: 100%;
+    height:243px;
+    -webkit-animation: fly 0.5s infinite; /* Safari and Chrome */
+    animation: fly 0.5s infinite;
+}
+@-webkit-keyframes fly {
+    0% {
+        background-position: -60px 0;
+        -webkit-animation-timing-function:steps(1,end);
+    }
+    20%{
+        background-position: -60px -243px;
+        -webkit-animation-timing-function:steps(1,end);
+    }
+    40%{
+        background-position: -60px -486px;
+        -webkit-animation-timing-function:steps(1,end);
+    }
+    60%{
+        background-position: -60px -729px;
+        -webkit-animation-timing-function:steps(1,end);
+    }
+    80%{
+        background-position: -60px -972px;
+        -webkit-animation-timing-function:steps(1,end);
+    }
+    100%{
+        background-position: -60px -1215px;
+        -webkit-animation-timing-function:steps(1,end);
+    }
+}
+@keyframes fly {
+    0% {
+        background-position: -60px 0;
+        animation-timing-function:steps(1,end);
+    }
+    20%{
+        background-position:  -60px -243px;
+        animation-timing-function:steps(1,end);
+    }
+    40%{
+        background-position: -60px -486px;
+        animation-timing-function:steps(1,end);
+    }
+    60%{
+        background-position:  -60px -729px;
+        animation-timing-function:steps(1,end);
+    }
+    80%{
+        background-position: -60px -972px;
+        animation-timing-function:steps(1,end);
+    }
+    100%{
+        background-position:  -60px -1215px;
+        animation-timing-function:steps(1,end);
+    }
 }
 .banner h1{
     font-family: 'cloister_blacklight';
+    color:#00BA4D;
+    font-size: 4em;
+    text-shadow: red 0px 0px 10px;
+    -webkit-animation: banner-text-animation 2s infinite; /* Safari and Chrome */
+    animation: banner-text-animation 2s infinite;
+}
+@-webkit-keyframes banner-text-animation {
+    from {
+        text-shadow: red 0px 0px 10px;
+    }
+    50%{
+        text-shadow: yellow 0px 0px 10px;
+    }
+    to {
+        text-shadow: red 0px 0px 10px;
+    }
+}
+
+@keyframes banner-text-animation {
+    from {
+        text-shadow: red 0px 0px 10px;
+    }
+    50%{
+        text-shadow: yellow 0px 0px 10px;
+    }
+    to {
+        text-shadow: red 0px 0px 10px;
+    }
+}
+.banner a:hover{
+    text-decoration: none;
 }
 .footer{
 
