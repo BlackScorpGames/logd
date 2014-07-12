@@ -2,7 +2,7 @@
 
 
 namespace Logd\Core\Repository;
-
+use Logd\Core\Entity\User as UserEntity;
 
 /**
  * Interface User
@@ -10,7 +10,23 @@ namespace Logd\Core\Repository;
  * @package Logd\Core\Repository
  */
 interface User {
+    /**
+     * @param int $userId
+     * @param string $username
+     * @param string $passwordHash
+     * @return UserEntity
+     */
+    public function create($userId,$username,$passwordHash);
 
+    /**
+     * @return int
+     */
+    public function getUniqueId();
+    /**
+     * @param UserEntity $user
+     * @return void
+     */
+    public function add(UserEntity $user);
     /**
      * @param string $email
      *

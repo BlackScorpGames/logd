@@ -8,11 +8,13 @@ use Logd\Core\Request\CreateAccount as CreateAccountRequest;
 use Logd\Core\Response\CreateAccount as CreateAccountResponse;
 use Logd\Core\Mock\Repository\User as UserRepository;
 use Logd\Core\App\Validator\CreateAccount as Validator;
+use Logd\Core\App\Service\BcrypPasswordHasher as PasswordHasher;
 use Logd\Core\Entity\User as UserEntity;
 
 class AccountCreateTest extends PHPUnit_Framework_TestCase{
     private $userRepository = null;
     private $validator = null;
+    private $passwordHasher = null;
     public function setUp(){
         $users = array();
         $user =  new UserEntity(1,'Dummy','123456');
@@ -20,6 +22,7 @@ class AccountCreateTest extends PHPUnit_Framework_TestCase{
         $users[]=$user;
         $this->userRepository = new UserRepository($users);
         $this->validator = new Validator();
+        $this->passwordHasher = new PasswordHasher;
     }
     /**
      * @param CreateAccountRequest $request
@@ -27,7 +30,7 @@ class AccountCreateTest extends PHPUnit_Framework_TestCase{
      * @return CreateAccountResponse
      */
     private function execute(CreateAccountRequest $request){
-        $createAccount = new CreateAccountInteractor($this->userRepository,$this->validator);
+        $createAccount = new CreateAccountInteractor($this->userRepository,$this->validator,$this->passwordHasher);
         $response = new CreateAccountResponse();
         $createAccount->process($request,$response);
         return $response;

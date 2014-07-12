@@ -60,4 +60,21 @@ class PDOUser implements UserRepository{
         return false;
     }
 
+    /**
+     * @param int $userId
+     * @param string $username
+     * @param string $passwordHash
+     * @return UserEntity
+     */
+    public function create($userId, $username, $passwordHash)
+    {
+        $user =  new UserEntity($userId,$username, $passwordHash);
+        return $user;
+    }
+
+    public function add(UserEntity $user)
+    {
+      $this->users[$user->getUserId()] = $user;
+    }
+
 } 

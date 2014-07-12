@@ -7,6 +7,7 @@
  */
 
 namespace Logd\Core\Mock\Repository;
+use Logd\Core\Entity\User as UserEntity;
 use Logd\Core\Repository\User as UserRepository;
 
 class User implements UserRepository{
@@ -42,6 +43,36 @@ class User implements UserRepository{
             }
         }
         return false;
+    }
+
+    /**
+     * @param int $userId
+     * @param string $username
+     * @param string $passwordHash
+     * @return UserEntity
+     */
+    public function create($userId, $username, $passwordHash)
+    {
+        $user = new UserEntity($userId, $username, $passwordHash);
+        return $user;
+    }
+
+    /**
+     * @return int
+     */
+    public function getUniqueId()
+    {
+       $countUsers = count($this->users);
+        return ++$countUsers;
+    }
+
+    /**
+     * @param UserEntity $user
+     * @return void
+     */
+    public function add(UserEntity $user)
+    {
+        $this->users[$user->getUserId()] = $user;
     }
 
 

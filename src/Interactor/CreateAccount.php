@@ -6,12 +6,15 @@ use Logd\Core\Repository\User as UserRepository;
 use Logd\Core\Request\CreateAccount as Request;
 use Logd\Core\Response\CreateAccount as Response;
 use Logd\Core\Validator\CreateAccount as Validator;
+use Logd\Core\Service\PasswordHasher;
 class CreateAccount {
     private $userRepository = null;
     private $validator = null;
-    public function __construct(UserRepository $userRepository,Validator $validator){
+    private $passwordHasher = null;
+    public function __construct(UserRepository $userRepository,Validator $validator,PasswordHasher $passwordHasher){
         $this->userRepository = $userRepository;
         $this->validator = $validator;
+        $this->passwordHasher = $passwordHasher;
     }
     private function setValidatorValues(Request $request){
         $this->validator->username = $request->getUsername();
@@ -40,6 +43,12 @@ class CreateAccount {
             $response->errors = $this->validator->getErrors();
             return;
         }
-
+        $userId = $this->userRepository->getUniqueId();
+        $hashedPassword = $this->passwordHasher->hash($request->getPassword());
+        $user = $this->userRepository->create($userId,$request->getUsername(),$hashedPassword);
+        if($request->getEmail()){
+            $user->setEmail($request->getEmail());
+        }
+        $this->userRepository->add($user);
     }
 } 
