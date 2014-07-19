@@ -5,6 +5,7 @@ namespace Logd\Core\App\Repository;
 
 use Logd\Core\Entity\User as UserEntity;
 use Logd\Core\Repository\User as UserRepository;
+use MyProject\Proxies\__CG__\stdClass;
 use PDO;
 
 /**
@@ -82,7 +83,11 @@ class PDOUser implements UserRepository{
      */
     public function getUniqueId()
     {
-        // TODO: Implement getUniqueId() method.
+      $sql = "SELECT MAX(userId) FROM users";
+      $statement = $this->connection->prepare($sql);
+      $statement->execute();
+      $row = (int)$statement->fetchColumn();
+      return ++$row;
     }
 
     /**
@@ -91,7 +96,47 @@ class PDOUser implements UserRepository{
      */
     public function findByUsername($username)
     {
-        // TODO: Implement findByUsername() method.
+        foreach($this->users as $user){
+            if($user->getUsername() === $username){
+                return $user;
+            }
+        }
+        $sql = $this->getUsersSQL();
+        $sql.= ' WHERE username = :username';
+        $params = array(
+            ':username'=>$username
+        );
+
+        $statment = $this->connection->prepare($sql);
+        $statment->execute($params);
+        $rows = $statment->fetchAll(PDO::FETCH_OBJ);
+        foreach($rows as $row){
+            $user = $this->rowToEntity($row);
+            $this->users[$user->getUserId()] = $user;
+        }
+        return $user;
     }
 
-} 
+    /**
+     * Syncronize data with database
+     * @return void
+     */
+    public function sync()
+    {
+
+    }
+
+    /**
+     * @param stdClass $row
+     * @return UserEntity
+     */
+    private function rowToEntity(stdClass $row){
+        $user = $this->create($row->userId,$row->username,$row->password);
+        $user->setEmail($row->email);
+        return $user;
+    }
+    private function getUsersSQL(){
+
+       return "SELECT userId,username,password,email,lastLogin,registered,lastAction FROM users";
+    }
+}

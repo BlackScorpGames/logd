@@ -46,4 +46,10 @@ interface User {
      * @return UserEntity|null
      */
     public function findByUsername($username);
+
+    /**
+     * Syncronize data with database
+     * @return void
+     */
+    public function sync();
 } 

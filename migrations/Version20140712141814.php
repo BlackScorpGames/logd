@@ -12,16 +12,32 @@ use Doctrine\DBAL\Types\Type;
  */
 class Version20140712141814 extends AbstractMigration
 {
+    /**
+     * @var Schema $schema
+     */
+    private $schema;
+    /**
+     * @param $name
+     * @return Table
+     */
+    private function createTable($name){
 
-    public function up(Schema $schema)
-    {
+        return $this->schema->createTable($this->getTableName($name));
+    }
+    private function getTableName($name){
         $params = $this->connection->getParams();
         $tablePrefix = $params['tablePrefix'];
-        var_dump($tablePrefix);
-        /**
-         * @var Table $able
-         */
-        $table = $schema->createTable($tablePrefix.'users');
+        return $tablePrefix.$name;
+    }
+    private function dropTable($name){
+        $this->schema->dropTable($this->getTableName($name));
+    }
+    public function up(Schema $schema)
+    {
+        $this->schema = $schema;
+
+
+        $table = $this->createTable('users');
         $table->addColumn('userId', Type::INTEGER, array('length' => 11, 'autoincrement' => true));
         $table->addColumn('username', Type::STRING, array('length' => 254));
         $table->addColumn('password', Type::STRING, array('length' => 254));
@@ -35,8 +51,6 @@ class Version20140712141814 extends AbstractMigration
 
     public function down(Schema $schema)
     {
-        $params = $this->connection->getParams();
-        $tablePrefix = $params['tablePrefix'];
-        $schema->dropTable($tablePrefix.'users');
+        $this->dropTable('users');
     }
 }

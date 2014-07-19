@@ -3,7 +3,8 @@ require_once __DIR__ . '/vendor/autoload.php';
 use Logd\Core\Env;
 use  Logd\Core\App\NavigationCollection;
 use Logd\Core\App\Navigation;
-if (!Env::isTest()) {
+
+
     if(file_exists('dbconnect.php'))
     require 'dbconnect.php';
 
@@ -30,7 +31,7 @@ if (!Env::isTest()) {
     };
     $app['prefix'] = $DB_PREFIX;
 
-}
+
 
 
 

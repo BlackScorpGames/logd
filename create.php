@@ -9,6 +9,7 @@ use Logd\Core\Request\CreateAccount as CreateAccountRequest;
 use Logd\Core\Response\CreateAccount as CreateAccountResponse;
 use Logd\Core\App\Repository\PDOUser as UserRepository;
 use Logd\Core\App\Validator\CreateAccount as CreateAccountValidator;
+use Logd\Core\App\Service\BcrypPasswordHasher as PasswordHasher;
 
 
 $httpRequest = Request::createFromGlobals();
@@ -34,7 +35,8 @@ $email = $httpRequest->get('email');
 //prepare interaction
 $userRepository = new UserRepository($app['db']);
 $createAccountValidator = new CreateAccountValidator();
-$interactor = new CreateAccountInteractor($userRepository,$createAccountValidator);
+$passwordHasher = new PasswordHasher();
+$interactor = new CreateAccountInteractor($userRepository,$createAccountValidator,$passwordHasher);
 $request = new CreateAccountRequest($username,$password,$passwordConfirm,$gender);
 $response = new CreateAccountResponse();
 $request->setEmail($email);
@@ -43,7 +45,7 @@ $request->setEmail($email);
 if($httpRequest->getMethod() === 'POST'){
     $interactor->process($request,$response);
 }
-
+$userRepository->sync();
 
 $completeResponse = array_merge($baseResponse ,(array)$response);
 

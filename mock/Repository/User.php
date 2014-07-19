@@ -92,5 +92,14 @@ class User implements UserRepository{
         return null;
     }
 
+    /**
+     * Syncronize data with database
+     * @return void
+     */
+    public function sync()
+    {
+       
+    }
+
 
 } 

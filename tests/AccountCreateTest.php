@@ -6,7 +6,7 @@ use PHPUnit_Framework_TestCase;
 use Logd\Core\Interactor\CreateAccount as CreateAccountInteractor;
 use Logd\Core\Request\CreateAccount as CreateAccountRequest;
 use Logd\Core\Response\CreateAccount as CreateAccountResponse;
-use Logd\Core\Mock\Repository\User as UserRepository;
+use Logd\Core\App\Repository\PDOUser as UserRepository;
 use Logd\Core\App\Validator\CreateAccount as Validator;
 use Logd\Core\App\Service\BcrypPasswordHasher as PasswordHasher;
 use Logd\Core\Entity\User as UserEntity;
@@ -19,13 +19,19 @@ class AccountCreateTest extends PHPUnit_Framework_TestCase{
     private $validator = null;
     private $passwordHasher = null;
     public function setUp(){
-        $users = array();
-        $user =  new UserEntity(1,'Dummy','123456');
-        $user->setEmail('dummy@test.com');
-        $users[]=$user;
-        $this->userRepository = new UserRepository($users);
+
+        include __DIR__.'/../bootstrap.php';
+
+        $this->userRepository = new UserRepository($app['db']);
         $this->validator = new Validator();
         $this->passwordHasher = new PasswordHasher;
+        $this->createDummyUser();
+    }
+    private function createDummyUser(){
+        $userId = $this->userRepository->getUniqueId();
+        $user = $this->userRepository->create($userId,'Dummy','123456');
+        $user->setEmail('dummy@test.com');
+        $this->userRepository->add($user);
     }
     /**
      * @param CreateAccountRequest $request
@@ -126,6 +132,7 @@ class AccountCreateTest extends PHPUnit_Framework_TestCase{
         $request->setEmail('dummy@test.com');
         $response = $this->execute($request);
         $this->assertTrue($response->failed);
+
     }
     public function testEmptyNotRequiredEmail(){
         $request = new CreateAccountRequest(
