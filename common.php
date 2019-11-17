@@ -149,7 +149,7 @@ if ($link===false){
 	define("DB_CONNECTED",true);
 }
 
-if (!DB_CONNECTED || !db_select_db ($DB_NAME)){
+if (!DB_CONNECTED || !db_select_db($DB_NAME,$link)){
 	if (!defined("IS_INSTALLER") && DB_CONNECTED){
 		// Ignore this bit.  It's only really for Eric's server
 		if (file_exists("lib/smsnotify.php")) {

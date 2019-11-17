@@ -146,13 +146,8 @@ function db_connect($host,$user,$pass){
 
 	// Constants cannot be an object
 	$mysqli_resource = New MySQLi($host, $user, $pass);
-
-	if($mysqli_resource) {
-	  return true;
-	}
-	else {
-	  return false;
-	}
+       
+	return $mysqli_resource;
 }
 
 function db_get_server_version() {
@@ -160,8 +155,8 @@ function db_get_server_version() {
 	return $mysqli_resource->server_info;
 }
 
-function db_select_db($dbname){
-	global $mysqli_resource;
+function db_select_db($dbname,$mysqli_resource=null){
+	
 	$r = $mysqli_resource->select_db($dbname);
 	return $r;
 }
