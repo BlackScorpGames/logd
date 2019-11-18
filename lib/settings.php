@@ -37,7 +37,7 @@ function loadsettings(){
 		$settings=datacache("game-settings");
 		if (!is_array($settings)){
 			$settings=array();
-			$sql = "SELECT * FROM " . db_prefix("settings");
+			$sql = "SELECT * FROM " . db_prefix("settings");             
 			$result = db_query($sql);//db_query_cached($sql,"game-settings");
 			while ($row = db_fetch_assoc($result)) {
 				$settings[$row['setting']] = $row['value'];
