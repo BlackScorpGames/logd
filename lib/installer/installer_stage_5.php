@@ -12,9 +12,8 @@ $game=0;
 $missing=0;
 $conflict = array();
 
-$mysqli = db_connect($session['dbinfo']['DB_HOST'], $session['dbinfo']['DB_USER'], $session['dbinfo']['DB_PASS']);
-
-db_select_db($session['dbinfo']['DB_NAME'],$mysqli);
+db_connect($session['dbinfo']['DB_HOST'], $session['dbinfo']['DB_USER'], $session['dbinfo']['DB_PASS']);
+db_select_db($session['dbinfo']['DB_NAME']);
 $sql = "SHOW TABLES";
 $result = db_query($sql);
 while ($row = db_fetch_assoc($result)){
