@@ -162,6 +162,9 @@ function db_get_server_version() {
 
 function db_select_db($dbname){
 	global $mysqli_resource;
+        if((bool)$mysqli_resource->connect_error){
+            return false;
+        }
 	$r = $mysqli_resource->select_db($dbname);
 	return $r;
 }
