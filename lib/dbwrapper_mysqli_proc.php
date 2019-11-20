@@ -10,7 +10,7 @@ function db_query($sql, $die=true){
 	// $fname = DBTYPE."_query";
 	$starttime = getmicrotime();
 	//$r = $fname($sql);
-	$r = mysqli_Query($mysqli_resource, $sql);
+	$r = mysqli_query($mysqli_resource, $sql);
 
 	if (!$r && $die === true) {
 	 	if (defined("IS_INSTALLER")){
