@@ -134,7 +134,7 @@ while (list($key,$val)=each($post)){
 }
 	$sql=substr($sql,0,strlen($sql)-1);
 $sql = "UPDATE " . db_prefix("accounts") . " SET " . $sql . " WHERE acctid=\"$userid\"";
-	$petition = httpget("returnpetition");
+	$petition = http::httpget("returnpetition");
 if ($petition!="")
 	addnav("","viewpetition.php?op=view&id=$petition");
 addnav("","user.php");

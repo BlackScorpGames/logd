@@ -22,7 +22,7 @@ $defeat = false;
 
 output("`b`cBluspring's Warrior Training`c`b");
 
-$mid = httpget("master");
+$mid = http::httpget("master");
 if ($mid) {
 	$sql = "SELECT * FROM " . db_prefix("masters") . " WHERE creatureid=$mid";
 } else {
@@ -51,7 +51,7 @@ if (db_num_rows($result) > 0 && $session['user']['level'] <= 14){
 	$dks = $session['user']['dragonkills'];
 	$exprequired=exp_for_next_level($level, $dks);
 
-	$op = httpget('op');
+	$op = http::httpget('op');
 	if ($op==""){
 		checkday();
 		output("The sound of conflict surrounds you.  The clang of weapons in grisly battle inspires your warrior heart. ");
@@ -64,7 +64,7 @@ if (db_num_rows($result) > 0 && $session['user']['level'] <= 14){
 		}
 		villagenav();
 	}else if($op=="challenge"){
-		if (httpget('victory')) {
+		if (http::httpget('victory')) {
 			$victory=true;
 			$defeat=false;
 			if ($session['user']['experience'] < $exprequired)

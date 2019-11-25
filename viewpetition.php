@@ -28,8 +28,8 @@ $statuses=array(
 //$statuses = modulehook("petition-status", $status);
 $statuses=translate_inline($statuses);
 
-$op = httpget("op");
-$id = httpget("id");
+$op = http::httpget("op");
+$id = http::httpget("id");
 
 if (trim(httppost('insertcommentary'))!="") {
 	/* Update the bug if someone adds comments as well */
@@ -56,7 +56,7 @@ if ($op==""){
 	if(db_affected_rows()) {
 		invalidatedatacache("petition_counts");
 	}
-	$setstat = httpget("setstat");
+	$setstat = http::httpget("setstat");
 	if ($setstat!=""){
 		$sql = "SELECT status FROM " . db_prefix("petitions") . " WHERE petitionid='$id'";
 		$result = db_query($sql);
@@ -81,7 +81,7 @@ if ($op==""){
 	$row = db_fetch_assoc($result);
 	$totalpages = ceil($row['c']/$petitionsperpage);
 
-	$page = httpget("page");
+	$page = http::httpget("page");
 	if ($page == "") {
 		if (isset($session['petitionPage'])){
 			$page = (int)$session['petitionPage'];
@@ -236,7 +236,7 @@ if ($op==""){
 	modulehook("petitions-descriptions", array());
 	rawoutput("</li></ul>");
 }elseif($op=="view"){
-	$viewpageinfo = (int)httpget("viewpageinfo");
+	$viewpageinfo = (int)http::httpget("viewpageinfo");
 	if ($viewpageinfo==1){
 		addnav("Hide Details","viewpetition.php?op=view&id=$id}");
 	}else{

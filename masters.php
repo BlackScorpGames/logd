@@ -9,9 +9,9 @@ check_su_access(SU_EDIT_CREATURES);
 
 tlschema("masters");
 
-$op = httpget('op');
-$id = (int)httpget('id');
-$act = httpget('act');
+$op = http::httpget('op');
+$id = (int)http::httpget('id');
+$act = http::httpget('act');
 
 page_header("Masters Editor");
 require_once("lib/superusernav.php");

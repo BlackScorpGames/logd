@@ -9,14 +9,14 @@ tlschema("bio");
 
 checkday();
 
-$ret = httpget('ret');
+$ret = http::httpget('ret');
 if ($ret==""){
 	$return = "/list.php";
 }else{
 	$return = cmd_sanitize($ret);
 }
 
-$char = httpget('char');
+$char = http::httpget('char');
 //Legacy support
 if (is_numeric($char)){
 	$where = "acctid = $char";

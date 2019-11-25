@@ -22,9 +22,9 @@ addnav("Other");
 villagenav();
 $playersperpage = 50;
 
-$op = httpget('op');
+$op = http::httpget('op');
 if ($op == "") $op = "kills";
-$subop = httpget('subop');
+$subop = http::httpget('subop');
 if ($subop == "") $subop = "most";
 
 $sql = "SELECT count(acctid) AS c FROM " . db_prefix("accounts") . " WHERE $standardwhere";
@@ -38,7 +38,7 @@ $result = db_query($sql.$extra);
 $row = db_fetch_assoc($result);
 $totalplayers = $row['c'];
 
-$page = (int)httpget('page');
+$page = (int)http::httpget('page');
 if ($page == 0) $page = 1;
 $pageoffset = $page;
 if ($pageoffset > 0) $pageoffset--;

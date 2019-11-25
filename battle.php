@@ -41,7 +41,7 @@ $roundcounter=0;
 $adjustment = 1;
 
 $count = 1;
-$auto = httpget('auto');
+$auto = http::httpget('auto');
 if ($auto == 'full') {
 	$count = -1;
 } else if ($auto == 'five') {
@@ -53,10 +53,10 @@ if ($auto == 'full') {
 $enemycounter = count($enemies);
 $enemies = autosettarget($enemies);
 
-$op=httpget("op");
-$skill=httpget("skill");
-$l=httpget("l");
-$newtarget = httpget('newtarget');
+$op=http::httpget("op");
+$skill=http::httpget("skill");
+$l=http::httpget("l");
+$newtarget = http::httpget('newtarget');
 if ($newtarget != "") $op = "newtarget";
 //if (!$targetted) $op = "newtarget";
 
@@ -107,7 +107,7 @@ suspend_buffs((($options['type'] == 'pvp')?"allowinpvp":false));
 suspend_companions((($options['type'] == 'pvp')?"allowinpvp":false));
 
 // Now that the bufflist is sane, see if we should add in the bodyguard.
-$inn = (int)httpget('inn');
+$inn = (int)http::httpget('inn');
 if ($options['type']=='pvp' && $inn==1) {
 	apply_bodyguard($badguy['bodyguardlevel']);
 }
@@ -124,7 +124,7 @@ if ($op != "run" && $op != "fight" && $op != "newtarget") {
 			// By default, surprise is 50/50
 			$surprised = e_rand(0, 1) ? true : false;
 			// Now, adjust for slum/thrill
-			$type = httpget('type');
+			$type = http::httpget('type');
 			if ($type == 'slum' || $type == 'thrill') {
 				$num = e_rand(0, 2);
 				$surprised = true;

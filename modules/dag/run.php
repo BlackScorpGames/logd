@@ -10,7 +10,7 @@ function dag_run_private(){
 		dag_manage();
 	}
 
-	$op = httpget('op');
+	$op = http::httpget('op');
 
 	addnav("Navigation");
 	addnav("I?Return to the Inn","inn.php");
@@ -64,7 +64,7 @@ function dag_run_private(){
 				$totlist = $totlist + 1;
 			}
 		}
-		$sort = httpget("sort");
+		$sort = http::httpget("sort");
 		if ($sort=="level")
 			usort($listing, 'dag_sortbountieslevel');
 		elseif ($sort != "")

@@ -13,7 +13,7 @@ tlschema("lodge");
 
 addcommentary();
 
-$op = httpget('op');
+$op = http::httpget('op');
 if ($op == "") checkday();
 
 $pointsavailable =

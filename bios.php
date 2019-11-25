@@ -9,8 +9,8 @@ require_once("lib/http.php");
 tlschema("bio");
 check_su_access(SU_EDIT_COMMENTS);
 
-$op = httpget('op');
-$userid = httpget('userid');
+$op = http::httpget('op');
+$userid = http::httpget('userid');
 if ($op=="block"){
 	$sql = "UPDATE " . db_prefix("accounts") . " SET bio='`iBlocked for inappropriate usage`i',biotime='9999-12-31 23:59:59' WHERE acctid='$userid'";
 	$subj = array("Your bio has been blocked");

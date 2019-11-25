@@ -34,7 +34,7 @@ function glowingstream_runevent($type,$link)
 	$from = $link;
 	$session['user']['specialinc']="module:glowingstream";
 
-	$op = httpget('op');
+	$op = http::httpget('op');
 	if ($op=="" || $op=="search"){
 		output("`#You discover a small stream of faintly glowing water that babbles over round pure white stones.");
 		output("You can sense a magical power in the water.");

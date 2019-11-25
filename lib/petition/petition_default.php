@@ -85,7 +85,7 @@ if (count($post)>0){
 		rawoutput("<input name='unverified' type='hidden' value='$nolog'>");
 	}
 	output("`nDescription of the problem:`n");
-	$abuse = httpget("abuse");
+	$abuse = http::httpget("abuse");
 	if ($abuse == "yes") {
 		rawoutput("<textarea name='description' cols='55' rows='7' class='input'></textarea>");
 		rawoutput("<input type='hidden' name='abuse' value=\"".stripslashes_deep(htmlentities(httpget("problem"), ENT_COMPAT, getsetting("charset", "ISO-8859-1")))."\"><br><hr><pre>".stripslashes(htmlentities(httpget("problem")))."</pre><hr><br>");

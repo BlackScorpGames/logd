@@ -45,7 +45,7 @@ function foilwench_runevent($type)
 	}
 	$skills = modulehook("specialtynames");
 
-	$op = httpget('op');
+	$op = http::httpget('op');
 	if ($op=="give"){
 		if ($session['user']['gems']>0){
 			output("%sYou give `@Foil`&wench%s a gem, and she hands you a slip of parchment with instructions on how to advance in your specialty.`n`n", $c, $c);

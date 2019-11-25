@@ -49,7 +49,7 @@ page_header($texts['title']);
 output("`c`b`&".$texts['title']."`0`b`c");
 tlschema();
 
-$op = httpget("op");
+$op = http::httpget("op");
 
 if ($op==""){
   	tlschema($schemas['desc']);
@@ -134,7 +134,7 @@ if ($op==""){
 	rawoutput("</table>");
 	villagenav();
 }else if ($op=="buy"){
-	$id = httpget("id");
+	$id = http::httpget("id");
 	$sql = "SELECT * FROM " . db_prefix("weapons") . " WHERE weaponid='$id'";
 	$result = db_query($sql);
 	if (db_num_rows($result)==0){

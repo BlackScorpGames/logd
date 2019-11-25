@@ -2,7 +2,7 @@
 $subject=httppost('subject');
 $body="";
 $row="";
-$replyto = (int)httpget('replyto');
+$replyto = (int)http::httpget('replyto');
 if ($session['user']['superuser'] & SU_IS_GAMEMASTER) {
 	$from = httppost('from');
 }
@@ -20,7 +20,7 @@ if ($replyto!=""){
 		output("Eek, no such message was found!`n");
 	}
 }
-$to = httpget('to');
+$to = http::httpget('to');
 if ($to){
 	$sql = "SELECT login,name, superuser FROM " . db_prefix("accounts") . " WHERE login=\"$to\"";
 	$result = db_query($sql);

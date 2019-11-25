@@ -12,8 +12,8 @@ check_su_access(SU_EDIT_CREATURES);
 page_header("Taunt Editor");
 require_once("lib/superusernav.php");
 superusernav();
-$op = httpget('op');
-$tauntid = httpget('tauntid');
+$op = http::httpget('op');
+$tauntid = http::httpget('tauntid');
 if ($op=="edit"){
 	addnav("Taunts");
 	addnav("Return to the taunt editor","taunt.php");
@@ -87,7 +87,7 @@ if ($op == "") {
 		output_notl("%s", $row['editor']);
 		rawoutput("</td></tr>");
 	}
-	addnav("","taunt.php?c=".httpget('c'));
+	addnav("","taunt.php?c=".http::httpget('c'));
 	rawoutput("</table>");
 	addnav("Taunts");
 	addnav("Add a new taunt","taunt.php?op=edit");

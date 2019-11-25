@@ -1089,7 +1089,7 @@ function module_events($eventtype, $basechance, $baseLink = false) {
 				tlschema("events");
 				output("`^`c`bSomething Special!`c`b`0");
 				tlschema();
-				$op = httpget('op');
+				$op = http::httpget('op');
 				httpset('op', "");
 				module_do_event($eventtype, $event['modulename'], false, $baseLink);
 				httpset('op', $op);

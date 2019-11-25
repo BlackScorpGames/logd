@@ -40,7 +40,7 @@ function game_stones_run(){
 	page_header("A Game of Stones");
 	$stones = unserialize($session['user']['specialmisc']);
 	if (!is_array($stones)) $stones = array();
-	$side = httpget('side');
+	$side = http::httpget('side');
 	if ($side=="likepair") $stones['side']="likepair";
 	if ($side=="unlikepair") $stones['side']="unlikepair";
 	$bet = httppost('bet');

@@ -12,8 +12,8 @@ require_once("lib/motd.php");
 
 tlschema("motd");
 
-$op = httpget('op');
-$id = httpget('id');
+$op = http::httpget('op');
+$id = http::httpget('id');
 
 addcommentary();
 popup_header("LoGD Message of the Day (MoTD)");
@@ -53,12 +53,12 @@ if ($op == "add" || $op == "addpoll" || $op == "del")  {
 }
 if ($op=="") {
 	$count = getsetting("motditems", 5);
-	$newcount = httpget("newcount");
+	$newcount = http::httpget("newcount");
 	if (!$newcount || !httppost('proceed')) $newcount=0;
 	/*
 	motditem("Beta!","Please see the beta message below.","","", "");
 	*/
-	$m = httpget("month");
+	$m = http::httpget("month");
 	if ($m > ""){
 		$sql = "SELECT " . db_prefix("motd") . ".*,name AS motdauthorname FROM " . db_prefix("motd") . " LEFT JOIN " . db_prefix("accounts") . " ON " . db_prefix("accounts") . ".acctid = " . db_prefix("motd") . ".motdauthor WHERE motddate >= '{$m}-01' AND motddate <= '{$m}-31' ORDER BY motddate DESC";
 		$result = db_query_cached($sql,"motd-$m");
@@ -97,7 +97,7 @@ if ($op=="") {
 	while ($row = db_fetch_assoc($result)){
 		$time = strtotime("{$row['d']}-01");
 		$m = translate_inline(date("M",$time));
-		rawoutput ("<option value='{$row['d']}'".(httpget("month")==$row['d']?" selected":"").">$m".date(", Y",$time)." ({$row['c']})</option>");
+		rawoutput ("<option value='{$row['d']}'".(http::httpget("month")==$row['d']?" selected":"").">$m".date(", Y",$time)." ({$row['c']})</option>");
 	}
 	rawoutput("</select>".tlbutton_clear());
 	rawoutput("<input type='hidden' name='newcount' value='".($count+$newcount)."'>");

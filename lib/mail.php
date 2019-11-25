@@ -19,8 +19,8 @@ db_query($sql);
 //
 
 
-$op = httpget('op');
-$id = httpget('id');
+$op = http::httpget('op');
+$id = http::httpget('id');
 if($op=="del"){
 	$sql = "DELETE FROM " . db_prefix("mail") . " WHERE msgto='".$session['user']['acctid']."' AND messageid='$id'";
 	db_query($sql);
@@ -255,7 +255,7 @@ if ($op==""){
 	$body="";
 	$row = "";
 	output_notl("<form action='mail.php?op=send' method='POST'>",true);
-	$replyto = httpget('replyto');
+	$replyto = http::httpget('replyto');
 	if ($replyto!=""){
 		$sql = "SELECT ". db_prefix("mail") . ".body," . db_prefix("mail") . ".msgfrom, " . db_prefix("mail") . ".subject,". db_prefix("accounts") . ".login, superuser, " . db_prefix("accounts"). ".name FROM " . db_prefix("mail") . " LEFT JOIN " . db_prefix("accounts") . " ON " . db_prefix("accounts") . ".acctid=" . db_prefix("mail") . ".msgfrom WHERE msgto=\"".$session['user']['acctid']."\" AND messageid=\"".$replyto."\"";
 		$result = db_query($sql);
@@ -269,7 +269,7 @@ if ($op==""){
 			output("Eek, no such message was found!`n");
 		}
 	}
-	$to = httpget('to');
+	$to = http::httpget('to');
 	if ($to!=""){
 		$sql = "SELECT login,name, superuser FROM " . db_prefix("accounts") . " WHERE login=\"$to\"";
 		$result = db_query($sql);

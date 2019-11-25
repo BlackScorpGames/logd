@@ -1,5 +1,5 @@
 <?php
-$setrace = httpget("setrace");
+$setrace = http::httpget("setrace");
 if ($setrace!=""){
 	$vname = getsetting("villagename", LOCATION_FIELDS);
 	//in case the module wants to reference it this way.

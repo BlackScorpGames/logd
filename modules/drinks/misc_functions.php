@@ -35,8 +35,8 @@ function drinks_editor(){
 	superusernav();
 	addnav("Drink Editor");
 	addnav("Add a drink","runmodule.php?module=drinks&act=editor&op=add&admin=true");
-	$op = httpget('op');
-	$drinkid = httpget('drinkid');
+	$op = http::httpget('op');
+	$drinkid = http::httpget('drinkid');
 	$header = "";
 	if ($op != "") {
 		addnav("Drink Editor Main","runmodule.php?module=drinks&act=editor&admin=true");
@@ -86,7 +86,7 @@ function drinks_editor(){
 		httpset('op', "");
 	}
 	if($op=="save"){
-		$subop = httpget("subop");
+		$subop = http::httpget("subop");
 		if ($subop=="") {
 			$drinkid = httppost("drinkid");
 			list($sql, $keys, $vals) = postparse($drinksarray);
@@ -107,9 +107,9 @@ function drinks_editor(){
 				}
 			}
 		} elseif ($subop == "module") {
-			$drinkid = httpget("drinkid");
+			$drinkid = http::httpget("drinkid");
 			// Save module settings
-			$module = httpget("editmodule");
+			$module = http::httpget("editmodule");
 			// This should obey the same rules as the configuration editor
 			// So disabling
 			//$sql = "DELETE FROM " . db_prefix("module_objprefs") . " WHERE objtype='drinks' AND objid='$drinkid' AND modulename='$module'";
@@ -184,12 +184,12 @@ function drinks_editor(){
 		}
 		rawoutput("</table>");
 	}
-	$subop= httpget("subop");
+	$subop= http::httpget("subop");
 	if($op=="edit"){
 		addnav("Drink properties", "runmodule.php?module=drinks&act=editor&op=edit&drinkid=$drinkid&admin=true");
 		module_editor_navs("prefs-drinks", "runmodule.php?module=drinks&act=editor&drinkid=$drinkid&op=edit&subop=module&editmodule=");
 		if ($subop=="module") {
-			$module = httpget("editmodule");
+			$module = http::httpget("editmodule");
 			$oldmodule = $mostrecentmodule;
 			rawoutput("<form action='runmodule.php?module=drinks&act=editor&op=save&subop=module&editmodule=$module&drinkid=$drinkid&admin=true' method='POST'>");
 			module_objpref_edit('drinks', $module, $drinkid);
@@ -197,7 +197,7 @@ function drinks_editor(){
 			rawoutput("</form>");
 			addnav("", "runmodule.php?module=drinks&act=editor&op=save&subop=module&editmodule=$module&drinkid=$drinkid&admin=true");
 		} elseif ($subop=="") {
-				$sql = "SELECT * FROM " . db_prefix("drinks") . " WHERE drinkid='".httpget('drinkid')."'";
+				$sql = "SELECT * FROM " . db_prefix("drinks") . " WHERE drinkid='".http::httpget('drinkid')."'";
 				$result = db_query($sql);
 				$row = db_fetch_assoc($result);
 		}

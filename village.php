@@ -135,10 +135,10 @@ if (getsetting("automaster",1) && $session['user']['seenmaster']!=1){
 	}
 }
 
-$op = httpget('op');
-$com = httpget('comscroll');
-$refresh = httpget("refresh");
-$commenting = httpget("commenting");
+$op = http::httpget('op');
+$com = http::httpget('comscroll');
+$refresh = http::httpget("refresh");
+$commenting = http::httpget("commenting");
 $comment = httppost('insertcommentary');
 // Don't give people a chance at a special event if they are just browsing
 // the commentary (or talking) or dealing with any of the hooks in the village.

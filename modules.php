@@ -16,8 +16,8 @@ superusernav();
 addnav("Module Categories");
 
 addnav("",$REQUEST_URI);
-$op = httpget('op');
-$module = httpget('module');
+$op = http::httpget('op');
+$module = http::httpget('module');
 
 if ($op == 'mass'){
 	if (httppost("activate")) $op = "activate";
@@ -86,13 +86,13 @@ foreach ($seencats as $cat=>$count) {
 	addnav(array(" ?%s - (%s modules)", $cat, $count), "modules.php?cat=$cat");
 }
 
-$cat = httpget('cat');
+$cat = http::httpget('cat');
 
 if ($op==""){
 	if ($cat) {
-		$sortby=httpget('sortby');
+		$sortby=http::httpget('sortby');
 		if (!$sortby) $sortby="installdate";
-		$order=httpget('order');
+		$order=http::httpget('order');
 		$tcat = translate_inline($cat);
 		output("`n`b%s Modules`b`n", $tcat);
 		$deactivate = translate_inline("Deactivate");
@@ -192,9 +192,9 @@ if ($op==""){
 		rawoutput("<input type='submit' name='uninstall' class='button' value='$uninstall'>");
 		rawoutput("</form>");
 	} else {
-		$sorting=httpget('sorting');
+		$sorting=http::httpget('sorting');
 		if (!$sorting) $sorting="shortname";
-		$order=httpget('order');
+		$order=http::httpget('order');
 		output("`bUninstalled Modules`b`n");
 		$install = translate_inline("Install");
 		$mname = translate_inline("Module Name");

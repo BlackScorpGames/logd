@@ -12,7 +12,7 @@ tlschema("bank");
 
 page_header("Ye Olde Bank");
 output("`^`c`bYe Olde Bank`b`c");
-$op = httpget('op');
+$op = http::httpget('op');
 if ($op==""){
   checkday();
   output("`6As you approach the pair of impressive carved rock crystal doors, they part to allow you entrance into the bank.");

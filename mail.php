@@ -10,8 +10,8 @@ tlschema("mail");
 
 $superusermessage = getsetting("superuseryommessage","Asking an admin for gems, gold, weapons, armor, or anything else which you have not earned will not be honored.  If you are experiencing problems with the game, please use the 'Petition for Help' link instead of contacting an admin directly.");
 
-$op = httpget('op');
-$id = (int)httpget('id');
+$op = http::httpget('op');
+$id = (int)http::httpget('id');
 if($op=="del"){
 	$sql = "DELETE FROM " . db_prefix("mail") . " WHERE msgto='".$session['user']['acctid']."' AND messageid='$id'";
 	db_query($sql);

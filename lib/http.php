@@ -2,7 +2,8 @@
 // translator ready
 // addnews ready
 // mail ready
-function httpget($var){
+class http{
+static function httpget($var){
 	global $HTTP_GET_VARS;
 
 	$res = isset($_GET[$var]) ? $_GET[$var] : false;
@@ -11,7 +12,7 @@ function httpget($var){
 	}
 	return $res;
 }
-
+}
 function httpallget() {
 	return $_GET;
 }
@@ -80,4 +81,4 @@ function postparse($verify=false, $subval=false){
 	}
 	return array($sql, $keys, $vals);
 }
-?>
+

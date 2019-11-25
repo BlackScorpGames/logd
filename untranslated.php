@@ -16,12 +16,12 @@ check_su_access(SU_IS_TRANSLATOR);
 
 tlschema("untranslated");
 
-$op = httpget('op');
+$op = http::httpget('op');
 page_header("Untranslated Texts");
 
 if ($op == "list") {
-	$mode = httpget('mode');
-	$namespace = httpget('ns');
+	$mode = http::httpget('mode');
+	$namespace = http::httpget('ns');
 
 	if ($mode == "save") {
 		$intext = httppost('intext');
@@ -58,7 +58,7 @@ if ($op == "list") {
 
 	if ($mode == "edit") {
 		rawoutput(translate_inline("Text:"). "<br>");
-		rawoutput("<textarea name='intext' cols='60' rows='5' readonly>".htmlentities(stripslashes(httpget('intext')), ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."</textarea><br/>");
+		rawoutput("<textarea name='intext' cols='60' rows='5' readonly>".htmlentities(stripslashes(http::httpget('intext')), ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."</textarea><br/>");
 		rawoutput(translate_inline("Translation:"). "<br>");
 		rawoutput("<textarea name='outtext' cols='60' rows='5'></textarea><br/>");
 		rawoutput("<input type='submit' value='". translate_inline("Save") ."' class='button'>");

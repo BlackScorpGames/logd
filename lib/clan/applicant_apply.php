@@ -1,5 +1,5 @@
 <?php
-		$to = (int)httpget('to');
+		$to = (int)http::httpget('to');
 		if ($to>0){
 			output("`%%s`7 accepts your application, files it in her out box, and folds her hands on the desk, staring at you.",$registrar);
 			output("You stand there staring blankly back at her for a few minutes before she suggests that perhaps you'd like to take a seat in the waiting area.");

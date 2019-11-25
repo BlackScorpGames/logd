@@ -11,7 +11,7 @@ tlschema("healer");
 
 $config = unserialize($session['user']['donationconfig']);
 
-$return = httpget("return");
+$return = http::httpget("return");
 $returnline = $return>""?"&return=$return":"";
 
 page_header("Healer's Hut");
@@ -22,7 +22,7 @@ $result=modulehook("healmultiply",array("alterpct"=>1.0));
 $cost*=$result['alterpct'];
 $cost = round($cost,0);
 
-$op = httpget('op');
+$op = http::httpget('op');
 if ($op==""){
   	checkday();
 	output("`3You duck into the small smoke-filled grass hut.");
@@ -49,7 +49,7 @@ if ($op==""){
 		$session['user']['hitpoints'] = $session['user']['maxhitpoints'];
 	}
 }elseif ($op=="buy"){
-	$pct = httpget('pct');
+	$pct = http::httpget('pct');
 	$newcost=round($pct*$cost/100,0);
 	if ($session['user']['gold']>=$newcost){
 		$session['user']['gold']-=$newcost;
@@ -76,7 +76,7 @@ if ($op==""){
 		output("You recall that the creature had asked for `b`\$%s`3`b gold.", $newcost);
 	}
 }elseif ($op=="companion"){
-	$compcost = httpget('compcost');
+	$compcost = http::httpget('compcost');
 	
 	if($session['user']['gold'] < $compcost){
 		output("`3The old creature pierces you with a gaze hard and cruel.`n");
@@ -84,7 +84,7 @@ if ($op==""){
 		output("Perhaps you should get some more money before you attempt to engage in local commerce.`n`n");
 		output("You recall that the creature had asked for `b`\$%s`3`b gold.", $compcost);
 	}else{
-		$name = stripslashes(rawurldecode(httpget('name')));
+		$name = stripslashes(rawurldecode(http::httpget('name')));
 		$session['user']['gold'] -= $compcost;
 		$companions[$name]['hitpoints'] = $companions[$name]['maxhitpoints'];
 		output("`3With a grimace, %s`3 up-ends the potion from the creature.`n", $companions[$name]['name']);

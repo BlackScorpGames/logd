@@ -43,10 +43,10 @@ function addcommentary() {
 	$schema = httppost('schema');
 	$comment = trim(httppost('insertcommentary'));
 	$counter = httppost('counter');
-	$remove = URLDecode(httpget('removecomment'));
+	$remove = URLDecode(http::httpget('removecomment'));
 	if ($remove>0) {
-		$return = '/' . httpget('returnpath');
-		$section = httpget('section');
+		$return = '/' . http::httpget('returnpath');
+		$section = http::httpget('section');
         $sql = "SELECT " .
                 db_prefix("commentary").".*,".db_prefix("accounts").".name,".
                 db_prefix("accounts").".acctid, ".db_prefix("accounts").".clanrank,".
@@ -204,10 +204,10 @@ function viewcommentary($section,$message="Interject your own commentary?",$limi
 
 	// Needs to be here because scrolling through the commentary pages, entering a bio, then scrolling again forward
 	// then re-entering another bio will lead to $com being smaller than 0 and this will lead to an SQL error later on.
-	$com=(int)httpget("comscroll");
+	$com=(int)http::httpget("comscroll");
 	if ($com < 0) $com = 0;
 	$cc = false;
-	if (httpget("comscroll") !==false && (int)$session['lastcom']==$com+1)
+	if (http::httpget("comscroll") !==false && (int)$session['lastcom']==$com+1)
 		$cid = (int)$session['lastcommentid'];
 	else
 		$cid = 0;

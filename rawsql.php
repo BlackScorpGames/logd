@@ -16,7 +16,7 @@ addnav("Execution");
 addnav("SQL","rawsql.php");
 addnav("PHP","rawsql.php?op=php");
 
-$op = httpget("op");
+$op = http::httpget("op");
 if ($op=="" || $op=="sql"){
 	$sql = httppost('sql');
 	if ($sql != "") {

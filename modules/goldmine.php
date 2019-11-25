@@ -117,7 +117,7 @@ function goldmine_runevent($type)
 		list($mountname, $lcmountname) = getmountname();
 	}
 	$session['user']['specialinc']="module:goldmine";
-	$op = httpget('op');
+	$op = http::httpget('op');
 	if ($op == "" || $op == "search") {
 		output("`2You found an old abandoned mine in the depths of the forest.");
 		output("There is some old mining equipment nearby.`n`n");

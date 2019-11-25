@@ -22,7 +22,7 @@ function handle_event($location, $baseLink=false, $needHeader=false)
 
 	tlschema("events");
 	$allowinactive = false;
-	$eventhandler = httpget('eventhandler');
+	$eventhandler = http::httpget('eventhandler');
 	if (($session['user']['superuser'] & SU_DEVELOPER) && $eventhandler!=""){
 		$allowinactive = true;
 		$array = preg_split("/[:-]/", $eventhandler);

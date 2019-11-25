@@ -5,7 +5,7 @@ function drinks_run_private(){
 
 	global $session;
 	$partner = get_partner();
-	$act = httpget('act');
+	$act = http::httpget('act');
 	if ($act=="editor"){
 		drinks_editor();
 	}elseif ($act=="buy"){
