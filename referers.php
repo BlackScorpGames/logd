@@ -13,7 +13,7 @@ check_su_access(SU_EDIT_CONFIG);
 $expire = getsetting("expirecontent",180);
 if($expire > 0) $sql = "DELETE FROM " . db_prefix("referers") . " WHERE last<'".date("Y-m-d H:i:s",strtotime("-".$expire." days"))."'";
 db_query($sql);
-$op = httpget('op');
+$op = http::httpget('op');
 
 if ($op=="rebuild"){
 	$sql = "SELECT * FROM " . db_prefix("referers");
@@ -31,7 +31,7 @@ require_once("lib/superusernav.php");
 superusernav();
 addnav("Referer Options");
 addnav("",$_SERVER['REQUEST_URI']);
-$sort = httpget('sort');
+$sort = http::httpget('sort');
 addnav("Refresh","referers.php?sort=".URLEncode($sort)."");
 addnav("C?Sort by Count","referers.php?sort=count".($sort=="count DESC"?"":"+DESC"));
 addnav("U?Sort by URL","referers.php?sort=uri".($sort=="uri"?"+DESC":""));

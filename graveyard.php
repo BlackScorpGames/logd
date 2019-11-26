@@ -22,7 +22,7 @@ if (!$skipgraveyardtext) {
 $battle = false;
 strip_all_buffs();
 
-$op = httpget('op');
+$op = http::httpget('op');
 switch ($op) {
 	case "search":
 		require_once("lib/graveyard/case_battle_search.php");

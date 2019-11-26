@@ -6,8 +6,8 @@ require_once("common.php");
 require_once("lib/http.php");
 require_once("lib/showform.php");
 
-$op = httpget('op');
-$id = httpget('id');
+$op = http::httpget('op');
+$id = http::httpget('id');
 
 if ($op=="xml") {
 	header("Content-Type: text/xml");
@@ -77,7 +77,7 @@ if ($op=="deactivate"){
 	$op="";
 	httpset("op", "");
 }elseif ($op=="save"){
-	$subop = httpget("subop");
+	$subop = http::httpget("subop");
 	if ($subop == "") {
 		$buff = array();
 		$mount = httppost('mount');
@@ -109,7 +109,7 @@ if ($op=="deactivate"){
 		}
 	} elseif ($subop=="module") {
 		// Save modules settings
-		$module = httpget("module");
+		$module = http::httpget("module");
 		$post = httpallpost();
 		reset($post);
 		while(list($key, $val) = each($post)) {
@@ -249,9 +249,9 @@ if ($op==""){
 	}else{
 		addnav("Mount properties", "mounts.php?op=edit&id=$id");
 		module_editor_navs("prefs-mounts", "mounts.php?op=edit&subop=module&id=$id&module=");
-		$subop=httpget("subop");
+		$subop=http::httpget("subop");
 		if ($subop=="module") {
-			$module = httpget("module");
+			$module = http::httpget("module");
 			rawoutput("<form action='mounts.php?op=save&subop=module&id=$id&module=$module' method='POST'>");
 			module_objpref_edit("mounts", $module, $id);
 			rawoutput("</form>");

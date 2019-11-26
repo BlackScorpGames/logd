@@ -15,10 +15,10 @@ $new = getsetting("expirenewacct",10);
 $old = getsetting("expireoldacct",45);
 
 checkban();
-$op = httpget('op');
+$op = http::httpget('op');
 
 if ($op=="val"){
-	$id = httpget('id');
+	$id = http::httpget('id');
 	$sql = "SELECT acctid,login,password,name FROM ". db_prefix("accounts") . " WHERE emailvalidation='$id' AND emailvalidation!=''";
 	$result = db_query($sql);
 	if (db_num_rows($result)>0) {
@@ -174,7 +174,7 @@ if (getsetting("allowcreation",1)==0){
 					if (getsetting("requirevalidemail",0)){
 						$emailverification=md5(date("Y-m-d H:i:s").$email);
 					}
-					$refer = httpget('r');
+					$refer = http::httpget('r');
 					if ($refer>""){
 						$sql = "SELECT acctid FROM " . db_prefix("accounts") . " WHERE login='$refer'";
 						$result = db_query($sql);
@@ -245,7 +245,7 @@ if (getsetting("allowcreation",1)==0){
 	}
 	if ($op==""){
 		output("`&`c`bCreate a Character`b`c`0");
-		$refer=httpget('r');
+		$refer=http::httpget('r');
 		if ($refer) $refer = "&r=".htmlentities($refer, ENT_COMPAT, getsetting("charset", "ISO-8859-1"));
 
 		rawoutput("<script language='JavaScript' src='lib/md5.js'></script>");

@@ -9,7 +9,7 @@ require_once("lib/villagenav.php");
 tlschema("mercenarycamp");
 
 checkday();
-$name = stripslashes(rawurldecode(httpget('name')));
+$name = stripslashes(rawurldecode(http::httpget('name')));
 if (isset($companions[$name])) {
 	$displayname = $companions[$name]['name'];
 } else {
@@ -95,7 +95,7 @@ page_header($texts['title']);
 output("`c`b`&".$texts['title']."`0`b`c");
 tlschema();
 
-$op = httpget("op");
+$op = http::httpget("op");
 
 if ($op==""){
   	if (httpget('skip') != 1) {
@@ -174,7 +174,7 @@ if ($op==""){
 	}
 	healnav($companions, $texts, $schemas);
 } else if ($op == "heal") {
-	$cost = httpget('cost');
+	$cost = http::httpget('cost');
 	if ($cost == 'notenough') {
 		tlschema($schemas['healpaid']);
 	  	if (is_array($texts['healnotenough'])) {
@@ -203,7 +203,7 @@ if ($op==""){
 	addnav("Navigation");
 	addnav("Return to the camp", "mercenarycamp.php?skip=1");
 } else if ($op == "buy") {
-	$id = httpget('id');
+	$id = http::httpget('id');
 	$sql = "SELECT * FROM ".db_prefix("companions")." WHERE companionid = $id";
 	$result = db_query($sql);
 	if ($row = db_fetch_assoc($result)) {

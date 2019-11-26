@@ -2,8 +2,8 @@
 		addnav("Clan Hall","clan.php");
 		addnav("Clan Options");
 		output("This is your current clan membership:`n");
-		$setrank = httpget('setrank');
-		$whoacctid = (int)httpget('whoacctid');
+		$setrank = http::httpget('setrank');
+		$whoacctid = (int)http::httpget('whoacctid');
 		if ($setrank>"") {
 			$sql="SELECT name,login,clanrank FROM ".db_prefix("accounts")." WHERE acctid=$whoacctid LIMIT 1";
 			$result=db_query($sql);
@@ -19,7 +19,7 @@
 				}
 			}
 		}
-		$remove = httpget('remove');
+		$remove = http::httpget('remove');
 		if ($remove>""){
 			$sql = "SELECT name,login,clanrank FROM " . db_prefix("accounts") . " WHERE acctid='$remove'";
 			$row = db_fetch_assoc(db_query($sql));

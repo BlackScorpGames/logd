@@ -1,7 +1,7 @@
 <?php
 $config = unserialize($session['user']['donationconfig']);
 $expense = round(($session['user']['level']*(10+log($session['user']['level']))),0);
-$pay = httpget('pay');
+$pay = http::httpget('pay');
 if ($pay){
 	if ($pay == 2 || $session['user']['gold']>=$expense ||
 			$session['user']['boughtroomtoday']){

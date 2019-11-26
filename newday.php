@@ -19,11 +19,11 @@ $maxinterest = ((float)getsetting("maxinterest",10)/100) + 1; //1.1;
 $mininterest = ((float)getsetting("mininterest",1)/100) + 1; //1.1;
 $dailypvpfights = getsetting("pvpday",3);
 
-$resline = (httpget('resurrection')=="true") ? "&resurrection=true" : "" ;
+$resline = (http::httpget('resurrection')=="true") ? "&resurrection=true" : "" ;
 /******************
  ** End Settings **
  ******************/
-$dk = httpget('dk');
+$dk = http::httpget('dk');
 if ((count($session['user']['dragonpoints']) <
 			$session['user']['dragonkills']) && $dk!="") {
 	array_push($session['user']['dragonpoints'],$dk);
@@ -63,7 +63,7 @@ foreach($labels as $type=>$label) {
 	$pdks[$type] = (int)httppost($type);
 }
 
-$pdk=httpget("pdk");
+$pdk=http::httpget("pdk");
 
 $dp = count($session['user']['dragonpoints']);
 $dkills = $session['user']['dragonkills'];
@@ -107,7 +107,7 @@ if ($dp < $dkills) {
 	rawoutput("<font size='+1'>");
 	output("`c`b`#It is a New Day!`0`b`c");
 	rawoutput("</font>");
-	$resurrection = httpget('resurrection');
+	$resurrection = http::httpget('resurrection');
 
 	if ($session['user']['alive']!=true){
 		$session['user']['resurrections']++;

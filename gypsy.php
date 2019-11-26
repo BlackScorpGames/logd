@@ -12,7 +12,7 @@ tlschema("gypsy");
 addcommentary();
 
 $cost = $session['user']['level']*20;
-$op = httpget('op');
+$op = http::httpget('op');
 
 if ($op=="pay"){
 	if ($session['user']['gold']>=$cost){ // Gunnar Kreitz

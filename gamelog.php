@@ -17,7 +17,7 @@ addnav("Navigation");
 require_once("lib/superusernav.php");
 superusernav();
 
-$category = httpget('cat');
+$category = http::httpget('cat');
 if ($category > "") {
 	$cat = "&cat=$category";
 	$sqlcat = "WHERE ".db_prefix("gamelog").".category = '$category'";
@@ -31,7 +31,7 @@ $result = db_query($sql);
 $row = db_fetch_assoc($result);
 $max = $row['c'];
 
-$start = (int)httpget('start');
+$start = (int)http::httpget('start');
 $sql = "SELECT ".db_prefix("gamelog").".*, ".db_prefix("accounts").".name AS name FROM ".db_prefix("gamelog")." LEFT JOIN ".db_prefix("accounts")." ON ".db_prefix("gamelog").".who = ".db_prefix("accounts").".acctid $sqlcat LIMIT $start,500";
 $next = $start+500;
 $prev = $start-500;

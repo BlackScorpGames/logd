@@ -18,7 +18,7 @@ addnav("Totals & Averages","stats.php?op=stats");
 addnav("Top Referers","stats.php?op=referers");
 addnav("Logon Graph","stats.php?op=graph");
 
-$op = httpget("op");
+$op = http::httpget("op");
 
 if ($op=="stats" || $op==""){
 	$sql = "SELECT sum(gentimecount) AS c, sum(gentime) AS t, sum(gensize) AS s, count(acctid) AS a FROM " . db_prefix("accounts");

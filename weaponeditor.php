@@ -11,7 +11,7 @@ check_su_access(SU_EDIT_EQUIPMENT);
 tlschema("weapon");
 
 page_header("Weapon Editor");
-$weaponlevel = (int)httpget("level");
+$weaponlevel = (int)http::httpget("level");
 require_once("lib/superusernav.php");
 superusernav();
 
@@ -33,8 +33,8 @@ $weaponarray=array(
 	"weaponid"=>"Weapon ID,hidden",
 	"weaponname"=>"Weapon Name",
 	"damage"=>"Damage,range,1,15,1");
-$op = httpget('op');
-$id = httpget('id');
+$op = http::httpget('op');
+$id = http::httpget('id');
 if($op=="edit" || $op=="add"){
 	if ($op=="edit"){
 		$sql = "SELECT * FROM " . db_prefix("weapons") . " WHERE weaponid='$id'";

@@ -32,8 +32,8 @@ if ($missing*10 < $game){
 }else{
 	$upgrade=false;
 }
-if (httpget("type")=="install") $upgrade=false;
-if (httpget("type")=="upgrade") $upgrade=true;
+if (http::httpget("type")=="install") $upgrade=false;
+if (http::httpget("type")=="upgrade") $upgrade=true;
 $session['dbinfo']['upgrade']=$upgrade;
 	if ($upgrade){
 	output("`@This looks like a game upgrade.");
@@ -48,7 +48,7 @@ $session['dbinfo']['upgrade']=$upgrade;
 		output("`n`n`\$There are table conflicts.`2");
 		output("If you continue with an install, the following tables will be overwritten with the game's tables.  If the listed tables belong to LoGD, they will be upgraded, otherwise all existing data in those tables will be destroyed.  Once this is done, this cannot be undone unless you have a backup!`n");
 		output("`nThese tables conflict: `^".join(", ",$conflict)."`2`n");
-		if (httpget("op")=="confirm_overwrite") $session['sure i want to overwrite the tables']=true;
+		if (http::httpget("op")=="confirm_overwrite") $session['sure i want to overwrite the tables']=true;
 		if (!$session['sure i want to overwrite the tables']){
 			$session['stagecompleted']=4;
 			output("`nIf you are sure that you wish to overwrite these tables, <a href='installer.php?stage=5&op=confirm_overwrite'>click here</a>.`n",true);

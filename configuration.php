@@ -10,8 +10,8 @@ check_su_access(SU_EDIT_CONFIG);
 
 tlschema("configuration");
 
-$op = httpget('op');
-$module=httpget('module');
+$op = http::httpget('op');
+$module=http::httpget('module');
 if ($op=="save"){
 	include_once("lib/gamelog.php");
 	//loadsettings();
@@ -85,7 +85,7 @@ if ($op=="save"){
 }elseif($op=="modulesettings"){
 	include_once("lib/gamelog.php");
 	if (injectmodule($module,true)){
-		$save = httpget('save');
+		$save = http::httpget('save');
 		if ($save!=""){
 			load_module_settings($module);
 			$old = $module_settings[$module];
@@ -214,7 +214,7 @@ if ($op == "") {
 		"emailpetitions"=>"Should submitted petitions be emailed to Admin Email address?,bool",
 		"Enter languages here like this: `i(shortname 2 chars) comma (readable name of the language)`i and continue as long as you wish,note",
 		"serverlanguages"=>"Languages available on this server",
-		"defaultlanguage"=>"Default Language,enum,".getsetting("serverlanguages","en,English,fr,Français,dk,Danish,de,Deutsch,es,Español,it,Italian"),
+		"defaultlanguage"=>"Default Language,enum,".getsetting("serverlanguages","en,English,fr,Franï¿½ais,dk,Danish,de,Deutsch,es,Espaï¿½ol,it,Italian"),
 		"edittitles"=>"Should DK titles be editable in user editor,bool",
 		"motditems"=>"How many items should be shown on the motdlist,int",
 

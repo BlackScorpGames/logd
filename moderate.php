@@ -29,7 +29,7 @@ addnav("Sections");
 addnav("Modules");
 addnav("Clan Halls");
 
-$op = httpget("op");
+$op = http::httpget("op");
 if ($op=="commentdelete"){
 	$comment = httppost('comment');
 	if (httppost('delnban')>''){
@@ -80,7 +80,7 @@ if ($op=="commentdelete"){
 	}
 	$sql = "DELETE FROM " . db_prefix("commentary") . " WHERE commentid IN ('" . join("','",array_keys($comment)) . "')";
 	db_query($sql);
-	$return = httpget('return');
+	$return = http::httpget('return');
 	$return = cmd_sanitize($return);
 	$return = substr($return,strrpos($return,"/")+1);
 	if (strpos($return,"?")===false && strpos($return,"&")!==false){
@@ -95,7 +95,7 @@ if ($op=="commentdelete"){
 	redirect($return);
 }
 
-$seen = httpget("seen");
+$seen = http::httpget("seen");
 if ($seen>""){
 	$session['user']['recentcomments']=$seen;
 }
@@ -104,7 +104,7 @@ page_header("Comment Moderation");
 
 
 if ($op==""){
-	$area = httpget('area');
+	$area = http::httpget('area');
 	$link = "moderate.php" . ($area ? "?area=$area" : "");
 	$refresh = translate_inline("Refresh");
 	rawoutput("<form action='$link' method='POST'>");
@@ -119,7 +119,7 @@ if ($op==""){
 		talkform($area,"says");
 	}
 }elseif ($op=="audit"){
-	$subop = httpget("subop");
+	$subop = http::httpget("subop");
 	if ($subop=="undelete") {
 		$unkeys = httppost("mod");
 		if ($unkeys && is_array($unkeys)) {
@@ -169,7 +169,7 @@ if ($op==""){
 	rawoutput("<tr class='trhead'><td>$ops</td><td>$mod</td><td>$when</td><td>$com</td></tr>");
 	$limit = "75";
 	$where = "1=1 ";
-	$moderator = httpget("moderator");
+	$moderator = http::httpget("moderator");
 	if ($moderator>"") $where.="AND moderator=$moderator ";
 	$sql = "SELECT name, ".db_prefix("moderatedcomments").
 		".* FROM ".db_prefix("moderatedcomments")." LEFT JOIN ".

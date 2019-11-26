@@ -19,7 +19,7 @@ $iname = getsetting("innname", LOCATION_INN);
 $vname = getsetting("villagename", LOCATION_FIELDS);
 $barkeep = getsetting('barkeep','`tCedrik');
 
-$op = httpget('op');
+$op = http::httpget('op');
 // Correctly reset the location if they fleeing the dragon
 // This needs to be done up here because a special could alter your op.
 if ($op == "fleedragon") {
@@ -37,9 +37,9 @@ if (!$skipinndesc) {
 	output_notl("`b`c");
 }
 
-$subop = httpget('subop');
+$subop = http::httpget('subop');
 
-$com = httpget('comscroll');
+$com = http::httpget('comscroll');
 $comment = httppost('insertcommentary');
 
 require_once("lib/partner.php");

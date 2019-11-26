@@ -121,7 +121,7 @@ function crazyaudrey_baskets($type)
 	$lcplural = get_module_setting("lanimals");
 	$sound  = get_module_setting("sound");
 
-	$op = httpget('op');
+	$op = http::httpget('op');
 	if ($op == "" || $op == "search" || $op == "baskets") {
 		if ($op == "baskets") {
 			output("`5You reach for the lid of one of Crazy Audrey's baskets when you think she is distracted, when out of nowhere, Crazy Audrey appears, ranting feverishly about colored %s, and pulls the baskets to her.`n`n", $lcplural);
@@ -229,7 +229,7 @@ function crazyaudrey_baskets($type)
 
 function crazyaudrey_run(){
 	global $session;
-	$op = httpget('op');
+	$op = http::httpget('op');
 	if ($op=="pet"){
 		page_header("Crazy Audrey's Zoo");
 		$cost = get_module_setting("cost");

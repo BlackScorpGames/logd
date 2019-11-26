@@ -9,7 +9,7 @@ check_su_access(SU_EDIT_COMMENTS);
 
 tlschema("badword");
 
-$op = httpget('op');
+$op = http::httpget('op');
 //yuck, this page is a mess, but it gets the job done.
 page_header("Bad word editor");
 

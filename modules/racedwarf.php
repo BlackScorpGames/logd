@@ -323,7 +323,7 @@ function racedwarf_checkcity(){
 }
 
 function racedwarf_run(){
-	$op = httpget("op");
+	$op = http::httpget("op");
 	switch($op){
 	case "ale":
 		require_once("lib/villagenav.php");

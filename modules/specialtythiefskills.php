@@ -162,8 +162,8 @@ function specialtythiefskills_dohook($hookname,$args){
 		}
 		break;
 	case "apply-specialties":
-		$skill = httpget('skill');
-		$l = httpget('l');
+		$skill = http::httpget('skill');
+		$l = http::httpget('l');
 		if ($skill==$spec){
 			if (get_module_pref("uses") >= $l){
 				switch($l){

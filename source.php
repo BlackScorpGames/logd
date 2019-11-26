@@ -10,7 +10,7 @@ require_once("lib/http.php");
 
 tlschema("source");
 
-$url=httpget('url');
+$url=http::httpget('url');
 if ($url) {
 	popup_header("Source code for %s", $url);
 } else {
@@ -59,7 +59,7 @@ if (!($session['user']['loggedin'] && $session['user']['superuser'] & SU_VIEW_SO
 			$url = substr($url,1);
 		}
 	}
-	$select_dir = httpget("dir");
+	$select_dir = http::httpget("dir");
 	if (!$select_dir) {
 		$select_dir = "";
 	}

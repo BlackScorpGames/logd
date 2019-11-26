@@ -14,7 +14,7 @@ tlschema("superuser");
 require_once("lib/superusernav.php");
 superusernav();
 
-$op = httpget('op');
+$op = http::httpget('op');
 if ($op=="keepalive"){
 	$sql = "UPDATE " . db_prefix("accounts") . " SET laston='".date("Y-m-d H:i:s")."' WHERE acctid='{$session['user']['acctid']}'";
 	db_query($sql);
@@ -22,9 +22,9 @@ if ($op=="keepalive"){
 	echo '<html><meta http-equiv="Refresh" content="30;url='.$REQUEST_URI.'"></html><body>'.date("Y-m-d H:i:s")."</body></html>";
 	exit();
 }elseif ($op=="newsdelete"){
-	$sql = "DELETE FROM " . db_prefix("news") . " WHERE newsid='".httpget('newsid')."'";
+	$sql = "DELETE FROM " . db_prefix("news") . " WHERE newsid='".http::httpget('newsid')."'";
 	db_query($sql);
-	$return = httpget('return');
+	$return = http::httpget('return');
 	$return = cmd_sanitize($return);
 	$return = substr($return,strrpos($return,"/")+1);
 	redirect($return);

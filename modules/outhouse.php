@@ -110,7 +110,7 @@ function outhouse_run(){
 	if ($session['user']['gold'] >= $cost)
 		$canpay = true;
 
-	$op = httpget('op');
+	$op = http::httpget('op');
 	if ($op == "pay"){
 		if (!$canpay) {
 			page_header("Private Toilet");

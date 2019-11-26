@@ -1,5 +1,5 @@
 <?php
-$act = httpget('act');
+$act = http::httpget('act');
 if ($act==""){
 	output("%s`0 looks at you sort-of sideways like.",$barkeep);
 	output("He never was the sort who would trust a man any farther than he could throw them, which gave dwarves a decided advantage, except in provinces where dwarf tossing was made illegal.");
@@ -14,7 +14,7 @@ if ($act==""){
 	$g1 = $session['user']['level']*10;
 	$g2 = $session['user']['level']*50;
 	$g3 = $session['user']['level']*100;
-	$type = httpget('type');
+	$type = http::httpget('type');
 	if ($type==""){
 		output("While you know that you won't always get what you want, sometimes the way to a man's information is through your purse.");
 		output("It's also always been said that more is better.`n`n");
@@ -26,7 +26,7 @@ if ($act==""){
 		addnav(array("%s gold", $g2),"inn.php?op=bartender&act=bribe&type=gold&amt=$g2");
 		addnav(array("%s gold", $g3),"inn.php?op=bartender&act=bribe&type=gold&amt=$g3");
 	}else{
-		$amt = httpget('amt');
+		$amt = http::httpget('amt');
 		if ($type=="gem"){
 			if ($session['user']['gems']<$amt){
 				$try=false;
@@ -104,7 +104,7 @@ if ($act==""){
 		output("`0`n`nThese colors can be used in your name, and in any conversations you have.");
 	addnav("",$REQUEST_URI);
 }else if($act=="specialty"){
-	$specialty = httpget('specialty');
+	$specialty = http::httpget('specialty');
 	if ($specialty==""){
 		output("\"`2I want to change my specialty,`0\" you announce to %s`0.`n`n",$barkeep);
 		output("With out a word, %s`0 grabs you by the shirt, pulls you over the counter, and behind the barrels behind him.",$barkeep);

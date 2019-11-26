@@ -99,7 +99,7 @@ function darkhorse_checkday(){
 
 function darkhorse_bartender($from){
 	global $session;
-	$what = httpget('what');
+	$what = http::httpget('what');
 	if ($what==""){
 		output("The grizzled old man behind the bar reminds you very much of a strip of beef jerky.`n`n");
 		$dname = translate_inline($session['user']['sex']?"lasshie":"shon");
@@ -124,10 +124,10 @@ function darkhorse_bartender($from){
 		}
 		output("`0`n`nThese colors can be used in your name, and in any conversations you have.");
 	}else if($what=="enemies"){
-		$who = httpget('who');
+		$who = http::httpget('who');
 		if ($who==""){
 			output("\"`7Sho, you want to learn about your enemiesh, do you?  Who do you want to know about?  Well?  Shpeak up!  It only costs `^100`7 gold per person for information.`0\"");
-			$subop = httpget('subop');
+			$subop = http::httpget('subop');
 			if ($subop!="search"){
 				$search = translate_inline("Search");
 				rawoutput("<form action='".$from."op=bartender&what=enemies&subop=search' method='POST'><input name='name' id='name'><input type='submit' class='button' value='$search'></form>");
@@ -224,7 +224,7 @@ function darkhorse_runevent($type, $link){
 
 	rawoutput("<span style='color: #787878'>");
 	output_notl("`c`b%s`b`c",$iname);
-	$op = httpget('op');
+	$op = http::httpget('op');
 	switch($op){
 	case "":
 	case "search":
@@ -307,7 +307,7 @@ function darkhorse_runevent($type, $link){
 }
 
 function darkhorse_run(){
-	$op = httpget('op');
+	$op = http::httpget('op');
 	if ($op == "enter") {
 		httpset("op", "tavern");
 		page_header(get_module_setting("tavernname"));

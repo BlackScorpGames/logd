@@ -36,8 +36,8 @@ $result = db_query($sql);
 $row = db_fetch_assoc($result);
 $totalplayers = $row['c'];
 
-$op = httpget('op');
-$page = httpget('page');
+$op = http::httpget('op');
+$page = http::httpget('page');
 $search = "";
 $limit = "";
 

@@ -78,7 +78,7 @@ function sethsong_uninstall(){
 function sethsong_dohook($hookname,$args){
 	switch($hookname){
 	case "inn":
-		$op = httpget("op");
+		$op = http::httpget("op");
 		if ($op == "" || $op == "strolldown" || $op == "fleedragon") {
 			addnav("Things to do");
 			addnav(array("L?Listen to %s`0 the Bard", getsetting("bard", "`^Seth")),"runmodule.php?module=sethsong");

@@ -20,13 +20,13 @@ if ((int)getsetting("expirecontent",180)>0){
 if ($session['user']['loggedin']) checkday();
 $newsperpage=50;
 
-$offset = (int)httpget('offset');
+$offset = (int)http::httpget('offset');
 $timestamp=strtotime((0-$offset)." days");
 $sql = "SELECT count(newsid) AS c FROM " . db_prefix("news") . " WHERE newsdate='".date("Y-m-d",$timestamp)."'";
 $result = db_query($sql);
 $row = db_fetch_assoc($result);
 $totaltoday=$row['c'];
-$page = (int)httpget('page');
+$page = (int)http::httpget('page');
 if (!$page) $page=1;
 $pageoffset = $page;
 if ($pageoffset>0) $pageoffset--;

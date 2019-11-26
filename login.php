@@ -10,7 +10,7 @@ require_once("lib/http.php");
 
 tlschema("login");
 translator_setup();
-$op = httpget('op');
+$op = http::httpget('op');
 $name = httppost('name');
 $iname = getsetting("innname", LOCATION_INN);
 $vname = getsetting("villagename", LOCATION_FIELDS);

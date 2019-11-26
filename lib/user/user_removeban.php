@@ -1,11 +1,11 @@
 <?php
-$subop = httpget("subop");
+$subop = http::httpget("subop");
 $none = translate_inline('NONE');
 if ($subop=="xml"){
 	header("Content-Type: text/xml");
 	$sql = "SELECT DISTINCT " . db_prefix("accounts") . ".name FROM " . db_prefix("bans") . ", " . db_prefix("accounts") . " WHERE (ipfilter='".addslashes(httpget("ip"))."' AND " .
 		db_prefix("bans") . ".uniqueid='" .
-		addslashes(httpget("id"))."') AND ((substring(" .
+		addslashes(http::httpget("id"))."') AND ((substring(" .
 		db_prefix("accounts") . ".lastip,1,length(ipfilter))=ipfilter " .
 		"AND ipfilter<>'') OR (" .  db_prefix("bans") . ".uniqueid=" .
 		db_prefix("accounts") . ".uniqueid AND " .
@@ -25,7 +25,7 @@ if ($subop=="xml"){
 	exit();
 }
 	db_query("DELETE FROM " . db_prefix("bans") . " WHERE banexpire < \"".date("Y-m-d")."\" AND banexpire>'0000-00-00'");
-$duration =  httpget("duration");
+$duration =  http::httpget("duration");
 if ($duration=="") {
 	$since = " WHERE banexpire <= '".date("Y-m-d H:i:s",strtotime("+2 weeks"))."' AND banexpire > '0000-00-00'";
 		output("`bShowing bans that will expire within 2 weeks.`b`n`n");

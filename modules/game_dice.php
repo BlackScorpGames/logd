@@ -40,7 +40,7 @@ function game_dice_run(){
 	page_header("A Game of Dice");
 
 	if ($session['user']['gold']>0){
-		$bet = abs((int)httpget('bet') + (int)httppost('bet'));
+		$bet = abs((int)http::httpget('bet') + (int)httppost('bet'));
 		if ($bet<=0){
 			addnav("Never mind", appendlink(urldecode($ret), "op=oldman"));
 			output("`3\"`!You get to roll a die, and choose to keep or pass on the roll.  If you pass, you get up to two more chances to roll, for a total of three rolls.  Once you keep your roll (or on the third roll), I will do the same.  In the end, if my die is higher than yours, I win, if yours is higher, you win, and if they are a tie, neither of us wins, and we each keep our bet.`3\"`n`n");
@@ -59,10 +59,10 @@ function game_dice_run(){
 			output("Embarrassed, you think you'll head back to the tavern.");
 			addnav("Return to the Main Room",appendlink(urldecode($ret), "op=tavern"));
 		} else {
-			$what = httpget('what');
+			$what = http::httpget('what');
 			if ($what!="keep"){
 				$session['user']['specialmisc']=e_rand(1,6);
-				$try=(int)httpget('try');
+				$try=(int)http::httpget('try');
 				$try++;
 				switch ($try) {
 				case 1: $die = "first";  break;

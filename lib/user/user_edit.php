@@ -62,7 +62,7 @@ if (httpget("subop")==""){
 	//Show a user's prefs for a given module.
 	addnav("Operations");
 	addnav("Edit user","user.php?op=edit&userid=$userid$returnpetition");
-	$module = httpget('module');
+	$module = http::httpget('module');
 	$info = get_module_info($module);
 	if (count($info['prefs']) > 0) {
 		$data = array();

@@ -1,6 +1,6 @@
 <?php
 output("`)`c`bThe Mausoleum`b`c");
-$name = httpget('name');
+$name = http::httpget('name');
 $sql = "SELECT name,level,hauntedby,acctid FROM " . db_prefix("accounts") . " WHERE login='$name'";
 $result = db_query($sql);
 if (db_num_rows($result)>0){

@@ -11,7 +11,7 @@ check_su_access(SU_EDIT_EQUIPMENT);
 tlschema("armor");
 
 page_header("Armor Editor");
-$armorlevel = (int)httpget('level');
+$armorlevel = (int)http::httpget('level');
 require_once("lib/superusernav.php");
 superusernav();
 addnav("Armor Editor");
@@ -26,8 +26,8 @@ $armorarray=array(
 	"armorid"=>"Armor ID,hidden",
 	"armorname"=>"Armor Name",
 	"defense"=>"Defense,range,1,15,1");
-$op = httpget('op');
-$id = httpget('id');
+$op = http::httpget('op');
+$id = http::httpget('id');
 if($op=="edit" || $op=="add"){
 	if ($op=="edit"){
 		$sql = "SELECT * FROM " . db_prefix("armor") . " WHERE armorid='$id'";

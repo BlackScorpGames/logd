@@ -71,7 +71,7 @@ function game_fivesix_run(){
 	$prize=get_module_setting("jackpot");
 	$cost=get_module_setting("cost");
 
-	$what = httpget('what');
+	$what = http::httpget('what');
 	if ($what=="play"){
 		output("`n`@So you'd like to try your hand to rolling five sixes, would you?`n");
 		output("The game is quite simple, really - you roll five dice.");

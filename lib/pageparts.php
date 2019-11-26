@@ -91,7 +91,7 @@ function page_footer($saveuser=true){
 	$script = substr($SCRIPT_NAME,0,strpos($SCRIPT_NAME,"."));
 	$replacementbits = array();
 	$replacementbits = modulehook("footer-$script",$replacementbits);
-	if ($script == "runmodule" && (($module = httpget('module'))) > "") {
+	if ($script == "runmodule" && (($module = http::httpget('module'))) > "") {
 		// This modulehook allows you to hook directly into any module without
 		// the need to hook into footer-runmodule and then checking for the
 		// required module.

@@ -99,8 +99,8 @@ $recommended_modules = array(
 $DB_USEDATACACHE=0; //Necessary
 
 
-if ((int)httpget("stage")>0)
-	$stage = (int)httpget("stage");
+if ((int)http::httpget("stage")>0)
+	$stage = (int)http::httpget("stage");
 else
 	$stage = 0;
 if (!isset($session['stagecompleted'])) $session['stagecompleted']=-1;

@@ -28,7 +28,7 @@ page_header("Payment Log");
 require_once("lib/superusernav.php");
 superusernav();
 
-$op = httpget('op');
+$op = http::httpget('op');
 if ($op==""){
 	$sql = "SELECT info,txnid FROM ".db_prefix("paylog")." WHERE processdate='0000-00-00'";
 	$result = db_query($sql);
@@ -43,7 +43,7 @@ if ($op==""){
 	while ($row = db_fetch_assoc($result)){
 		addnav(array("%s %s %s", date("M Y",strtotime($row['month']."-01")), getsetting("paypalcurrency", "USD"), $row['profit']),"paylog.php?month={$row['month']}");
 	}
-	$month = httpget('month');
+	$month = http::httpget('month');
 	if ($month=="") $month = date("Y-m");
 	$startdate = $month."-01 00:00:00";
 	$enddate = date("Y-m-d H:i:s",strtotime("+1 month",strtotime($startdate)));

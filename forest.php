@@ -16,7 +16,7 @@ $fight = false;
 page_header("The Forest");
 $dontdisplayforestmessage=handle_event("forest");
 
-$op = httpget("op");
+$op = http::httpget("op");
 
 $battle = false;
 
@@ -87,7 +87,7 @@ if ($op=="search"){
 				$plev=0;
 				$nlev=0;
 			}
-			$type = httpget('type');
+			$type = http::httpget('type');
 			if ($type=="slum"){
 				$nlev++;
 				output("`\$You head for the section of forest you know to contain foes that you're a bit more comfortable with.`0`n");
@@ -271,7 +271,7 @@ if ($op=="search"){
 			// If someone for any reason wanted to add a nav where the user cannot choose the number of rounds anymore
 			// because they are already set in the nav itself, we need this here.
 			// It will not break anything else. I hope.
-			if(httpget('auto') != "") {
+			if(http::httpget('auto') != "") {
 				httpset('op', 'fight');
 				$op = 'fight';
 			}

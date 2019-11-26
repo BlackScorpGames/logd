@@ -13,7 +13,7 @@ page_header("About Legend of the Green Dragon");
 $details = gametimedetails();
 
 checkday();
-$op = httpget('op');
+$op = http::httpget('op');
 
 switch ($op) {
 	case "setup": case "listmodules": case "license":

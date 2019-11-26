@@ -1,5 +1,5 @@
 <?php
-		$apply = httpget('apply');
+		$apply = http::httpget('apply');
 		if ($apply==1){
 			$ocn = httppost('clanname');
 			$ocs = httppost('clanshort');
