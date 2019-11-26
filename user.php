@@ -12,7 +12,7 @@ tlschema("user");
 check_su_access(SU_EDIT_USERS);
 
 $op = http::httpget('op');
-$userid=httpget("userid");
+$userid=http::httpget("userid");
 
 if ($op == "lasthit") {
 	// Try and keep user editor and captcha from breaking each other.
@@ -63,7 +63,7 @@ addnav("Add a ban","user.php?op=setupban");
 addnav("List/Remove bans","user.php?op=removeban");
 
 // This doesn't seem to be used, so I'm going to comment it out now
-//$msg = httpget('msg');
+//$msg =http::httpget('msg');
 //if ($msg>"") {
 //	output("Message: %s`n", $msg);
 //}

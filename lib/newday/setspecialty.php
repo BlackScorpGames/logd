@@ -1,5 +1,5 @@
 <?php
-$setspecialty=httpget('setspecialty');
+$setspecialty=http::httpget('setspecialty');
 if ($setspecialty != "") {
 	$session['user']['specialty']=$setspecialty;
 	modulehook("set-specialty");

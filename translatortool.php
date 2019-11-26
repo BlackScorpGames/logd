@@ -7,11 +7,11 @@ require_once("common.php");
 tlschema("translatortool");
 
 check_su_access(SU_IS_TRANSLATOR);
-$op=httpget("op");
+$op=http::httpget("op");
 if ($op==""){
 	popup_header("Translator Tool");
-	$uri = rawurldecode(httpget('u'));
-	$text = stripslashes(rawurldecode(httpget('t')));
+	$uri = rawurldecode(http::httpget('u'));
+	$text = stripslashes(rawurldecode(http::httpget('t')));
 	
 	$translation = translate_loadnamespace($uri);
 	if (isset($translation[$text]))

@@ -107,7 +107,7 @@ function lovers_run(){
 	output_notl("`c`b");
 	output($iname);
 	output_notl("`b`c");
-	switch(httpget('op')){
+	switch(http::httpget('op')){
 	case "flirt":
 		if ($session['user']['sex']==SEX_MALE) {
 			require_once("modules/lovers/lovers_violet.php");

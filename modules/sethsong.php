@@ -92,7 +92,7 @@ function sethsong_dohook($hookname,$args){
 }
 
 function sethsong_run(){
-	$op=httpget('op');
+	$op=http::httpget('op');
 	$visits=get_module_setting("visits");
 	$been=get_module_pref("been");
 	$iname = getsetting("innname", LOCATION_INN);

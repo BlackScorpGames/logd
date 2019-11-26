@@ -2,7 +2,7 @@
 function dag_run_private(){
 	require_once("modules/dag/misc_functions.php");
 	global $session;
-	if (httpget('manage')!="true"){
+	if (http::httpget('manage')!="true"){
 		page_header("Dag Durnick's Table");
 		output("<span style='color: #9900FF'>",true);
 		output("`c`bDag Durnick's Table`b`c");
@@ -118,7 +118,7 @@ function dag_run_private(){
 			addnav("","runmodule.php?module=dag&op=finalize");
 		}
 	}elseif ($op=="finalize") {
-		if (httpget('subfinal')==1){
+		if (http::httpget('subfinal')==1){
 			$sql = "SELECT acctid,name,login,level,locked,age,dragonkills,pk,experience FROM " . db_prefix("accounts") . " WHERE name='".addslashes(rawurldecode(stripslashes(httppost('contractname'))))."' AND locked=0";
 		}else{
 			$contractname = stripslashes(rawurldecode(httppost('contractname')));
