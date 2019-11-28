@@ -1,12 +1,12 @@
 <?php
 function lovers_chat_seth(){
 	global $session;
-	if (httpget("act")==""){
+	if (http::httpget("act")==""){
 		output("You make your way over to where %s`0 is sitting, ale in hand.", getsetting("bard", "`^Seth"));
 		output("Sitting down, and waiting for %s`0 to finish a song, you light your pipe.", getsetting("bard", "`^Seth"));
 		addnav("Ask about your manliness","runmodule.php?module=lovers&op=chat&act=armor");
 		addnav("Discuss Sports","runmodule.php?module=lovers&op=chat&act=sports");
-	}elseif(httpget("act")=="sports"){
+	}elseif(http::httpget("act")=="sports"){
 		output("You and %s`0 spend some time talking about the recent dwarf tossing competition.", getsetting("bard", "`^Seth"));
 		output("Not wanting to linger around another man for too long, so no one \"wonders\", you decide you should find something else to do.");
 	}else{

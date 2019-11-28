@@ -98,7 +98,7 @@ tlschema();
 $op = http::httpget("op");
 
 if ($op==""){
-  	if (httpget('skip') != 1) {
+  	if (http::httpget('skip') != 1) {
 		tlschema($schemas['desc']);
 	  	if (is_array($texts['desc'])) {
 	  		foreach ($texts['desc'] as $description) {

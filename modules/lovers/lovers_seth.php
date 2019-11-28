@@ -35,7 +35,7 @@ function lovers_seth(){
 			}
 		}else{
 			//not married.
-			if (httpget("flirt")==""){
+			if (http::httpget("flirt")==""){
 				//haven't flirted yet
 				addnav("Flirt");
 				addnav("Wink","runmodule.php?module=lovers&op=flirt&flirt=1");
@@ -49,7 +49,7 @@ function lovers_seth(){
 				//flirting now
 				$c = $session['user']['charm'];
 				$seenlover=1;
-				switch(httpget('flirt')){
+				switch(http::httpget('flirt')){
 				case 1:
 					if (e_rand($c,2)>=2){
 						output("%s`0 grins a big toothy grin.",$partner);

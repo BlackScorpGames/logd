@@ -31,7 +31,7 @@ function lovers_violet(){
 				output("`n`n`^You gain a charm point!");
 			}
 			$seenlover = 1;
-		}elseif (httpget('flirt')==""){
+		}elseif (http::httpget('flirt')==""){
 			output("You stare dreamily across the room at %s`0, who leans across a table to serve a patron a drink.",$partner);
 			output("In doing so, she shows perhaps a bit more skin than is necessary, but you don't feel the need to object.");
 			addnav("Flirt");
@@ -45,7 +45,7 @@ function lovers_violet(){
 		}else{
 			$c = $session['user']['charm'];
 			$seenlover = 1;
-			switch(httpget('flirt')){
+			switch(http::httpget('flirt')){
 				case 1:
 					if (e_rand($c,2)>=2){
 						output("You wink at %s`0, and she gives you a warm smile in return.",$partner);

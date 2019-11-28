@@ -1,7 +1,7 @@
 <?php
 $result = db_query("SELECT * FROM " . db_prefix("accounts") . " WHERE acctid='$userid'");
 $row = db_fetch_assoc($result);
-$petition=httpget("returnpetition");
+$petition=http::httpget("returnpetition");
 if ($petition != "")
 	$returnpetition = "&returnpetition=$petition";
 	if ($petition !=""){
@@ -18,7 +18,7 @@ if ($session['user']['superuser'] & SU_EDIT_DONATIONS) {
 	addnav("","user.php?op=edit&userid=$userid$returnpetition");
 addnav("Bans");
 addnav("Set up ban","user.php?op=setupban&userid={$row['acctid']}");
-if (httpget("subop")==""){
+if (http::httpget("subop")==""){
 	rawoutput("<form action='user.php?op=special&userid=$userid$returnpetition' method='POST'>");
 	addnav("","user.php?op=special&userid=$userid$returnpetition");
 	$grant = translate_inline("Grant New Day");
@@ -58,7 +58,7 @@ if (httpget("subop")==""){
 	output("You need iframes to view the user's last hit here.");
 	output("Use the link in the nav instead.");
 	rawoutput("</iframe>");
-}elseif(httpget("subop")=="module"){
+}elseif(http::httpget("subop")=="module"){
 	//Show a user's prefs for a given module.
 	addnav("Operations");
 	addnav("Edit user","user.php?op=edit&userid=$userid$returnpetition");

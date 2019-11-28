@@ -56,7 +56,7 @@ rawoutput("<form action='mail.php?op=send' method='post'>");
 if ($session['user']['superuser'] & SU_IS_GAMEMASTER) {
 	rawoutput("<input type='hidden' name='from' value='".htmlentities(stripslashes($from), ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."'>");
 }
-rawoutput("<input type='hidden' name='returnto' value=\"".htmlentities(stripslashes(httpget("replyto")), ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."\">");
+rawoutput("<input type='hidden' name='returnto' value=\"".htmlentities(stripslashes(http::httpget("replyto")), ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."\">");
 $superusers = array();
 if (($session['user']['superuser'] & SU_IS_GAMEMASTER) && $from > "") {
 	output("`2From: `^%s`n", $from);
@@ -117,14 +117,14 @@ foreach($superusers as $val) {
 }
 rawoutput("</script>");
 output("`2Subject:");
-rawoutput("<input name='subject' value=\"".htmlentities($subject).htmlentities(stripslashes(httpget('subject')), ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."\"><br>");
+rawoutput("<input name='subject' value=\"".htmlentities($subject).htmlentities(stripslashes(http::httpget('subject')), ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."\"><br>");
 rawoutput("<div id='warning' style='visibility: hidden; display: none;'>");
 output("`2Notice: `^$superusermessage`n");
 rawoutput("</div>");
 output("`2Body:`n");
 require_once("lib/forms.php");
-previewfield("body", "`^", false, false, array("type"=>"textarea", "class"=>"input", "cols"=>"60", "rows"=>"9", "onKeyDown"=>"sizeCount(this);"), htmlentities($body, ENT_COMPAT, getsetting("charset", "ISO-8859-1")).htmlentities(stripslashes(httpget('body')), ENT_COMPAT, getsetting("charset", "ISO-8859-1")));
-//rawoutput("<textarea name='body' id='textarea' class='input' cols='60' rows='9' onKeyUp='sizeCount(this);'>".htmlentities($body, ENT_COMPAT, getsetting("charset", "ISO-8859-1")).htmlentities(stripslashes(httpget('body')), ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."</textarea><br>");
+previewfield("body", "`^", false, false, array("type"=>"textarea", "class"=>"input", "cols"=>"60", "rows"=>"9", "onKeyDown"=>"sizeCount(this);"), htmlentities($body, ENT_COMPAT, getsetting("charset", "ISO-8859-1")).htmlentities(stripslashes(http::httpget('body')), ENT_COMPAT, getsetting("charset", "ISO-8859-1")));
+//rawoutput("<textarea name='body' id='textarea' class='input' cols='60' rows='9' onKeyUp='sizeCount(this);'>".htmlentities($body, ENT_COMPAT, getsetting("charset", "ISO-8859-1")).htmlentities(stripslashes(http::httpget('body')), ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."</textarea><br>");
 $send = translate_inline("Send");
 rawoutput("<table border='0' cellpadding='0' cellspacing='0' width='100%'><tr><td><input type='submit' class='button' value='$send'></td><td align='right'><div id='sizemsg'></div></td></tr></table>");
 rawoutput("</form>");

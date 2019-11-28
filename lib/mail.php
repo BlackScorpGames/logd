@@ -249,7 +249,7 @@ if ($op==""){
 	output("`b`2Address:`b`n");
 	$to = translate_inline("To: ");
 	$search = htmlentities(translate_inline("Search"));
-	output_notl("`2$to <input name='to' value=\"".htmlentities(stripslashes(httpget('prepop')))."\"> <input type='submit' class='button' value=\"$search\"></form>",true);
+	output_notl("`2$to <input name='to' value=\"".htmlentities(stripslashes(http::httpget('prepop')))."\"> <input type='submit' class='button' value=\"$search\"></form>",true);
 }elseif($op=="write"){
 	$subject=httppost('subject');
 	$body="";
@@ -305,7 +305,7 @@ if ($op==""){
 			$body="\n\n---".translate_inline("Original Message")."---\n".$row['body'];
 		}
 	}
-	rawoutput("<input type='hidden' name='returnto' value=\"".htmlentities(stripslashes(httpget("replyto")))."\">");
+	rawoutput("<input type='hidden' name='returnto' value=\"".htmlentities(stripslashes(http::httpget("replyto")))."\">");
 	$superusers = array();
 	if (isset($row['login']) && $row['login']!=""){
 		output_notl("<input type='hidden' name='to' id='to' value=\"".htmlentities($row['login'])."\">",true);
@@ -359,12 +359,12 @@ if ($op==""){
 	}
 	rawoutput("</script>");
 	output("`2Subject:");
-	rawoutput("<input name='subject' value=\"".HTMLEntities($subject).HTMLEntities(stripslashes(httpget('subject')))."\"><br>");
+	rawoutput("<input name='subject' value=\"".HTMLEntities($subject).HTMLEntities(stripslashes(http::httpget('subject')))."\"><br>");
 	rawoutput("<div id='warning' style='visibility: hidden; display: none;'>");
 	output("`2Notice: `^$superusermessage`n");
 	rawoutput("</div>");
 	output("`2Body:`n");
-	rawoutput("<textarea name='body' id='textarea' class='input' cols='60' rows='9' onKeyUp='sizeCount(this);'>".HTMLEntities($body).HTMLEntities(stripslashes(httpget('body')))."</textarea><br>");
+	rawoutput("<textarea name='body' id='textarea' class='input' cols='60' rows='9' onKeyUp='sizeCount(this);'>".HTMLEntities($body).HTMLEntities(stripslashes(http::httpget('body')))."</textarea><br>");
 	$send = translate_inline("Send");
 	rawoutput("<table border='0' cellpadding='0' cellspacing='0' width='100%'><tr><td><input type='submit' class='button' value='$send'></td><td align='right'><div id='sizemsg'></div></td></tr></table>");
 	output_notl("</form>",true);

@@ -149,7 +149,7 @@ function dag_manage(){
 		rawoutput("</form>");
 		addnav("","runmodule.php?module=dag&manage=true&op=addbounty&admin=true");
 	}else if ($op == "addbounty") {
-		if (httpget('subfinal')==1){
+		if (http::httpget('subfinal')==1){
 			$sql = "SELECT acctid,name,login,level,locked,age,dragonkills,pk,experience FROM " . db_prefix("accounts") . " WHERE name='".addslashes(rawurldecode(stripslashes(httppost('contractname'))))."' AND locked=0";
 		}else{
 			$contractname = stripslashes(rawurldecode(httppost('contractname')));

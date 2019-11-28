@@ -3,7 +3,7 @@ $subop = http::httpget("subop");
 $none = translate_inline('NONE');
 if ($subop=="xml"){
 	header("Content-Type: text/xml");
-	$sql = "SELECT DISTINCT " . db_prefix("accounts") . ".name FROM " . db_prefix("bans") . ", " . db_prefix("accounts") . " WHERE (ipfilter='".addslashes(httpget("ip"))."' AND " .
+	$sql = "SELECT DISTINCT " . db_prefix("accounts") . ".name FROM " . db_prefix("bans") . ", " . db_prefix("accounts") . " WHERE (ipfilter='".addslashes(http::httpget("ip"))."' AND " .
 		db_prefix("bans") . ".uniqueid='" .
 		addslashes(http::httpget("id"))."') AND ((substring(" .
 		db_prefix("accounts") . ".lastip,1,length(ipfilter))=ipfilter " .
