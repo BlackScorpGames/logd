@@ -13,7 +13,7 @@ if (isset($_POST['template'])){
 
 define("ALLOW_ANONYMOUS",true);
 require_once("common.php");
-require_once("lib/http.php");
+
 
 
 if (!isset($session['loggedin'])) $session['loggedin']=false;

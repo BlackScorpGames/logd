@@ -1,0 +1,15 @@
+{
+    "name": "blackscorp/logd",
+    "authors": [
+        {
+            "name": "BlackScorp"
+           
+        }
+    ],
+    "require": {},
+    "autoload":{
+    "psr-4":{
+        "":"lib/"
+        }
+    }
+}

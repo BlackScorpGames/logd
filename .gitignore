@@ -3,3 +3,4 @@
 /vendor
 /bin
 dbconnect.php
+.phpunit.result.cache
