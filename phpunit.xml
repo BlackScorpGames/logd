@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<phpunit bootstrap="vendor/autoload.php"  colors="true"
+         stopOnFailure="false"
+>
+    <testsuites>
+        <testsuite name="full">
+            <directory>tests</directory>
+        </testsuite>
+    </testsuites>
+    <filter>
+        <whitelist>
+            <directory suffix=".php">lib</directory>
+            <exclude>
+                <directory>vendor</directory>
+            </exclude>
+        </whitelist>
+    </filter>
+</phpunit>
