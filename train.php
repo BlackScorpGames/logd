@@ -12,7 +12,7 @@ require_once("lib/substitute.php");
 require_once("lib/villagenav.php");
 require_once("lib/experience.php");
 
-tlschema("train");
+translator::tlschema("train");
 
 page_header("Bluspring's Warrior Training");
 

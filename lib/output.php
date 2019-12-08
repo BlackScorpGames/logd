@@ -613,12 +613,12 @@ function buildnavs(){
 		$navbanner="";
 		if (count_viable_navs($key)>0){
 			if ($key>"") {
-				if ($session['loggedin']) tlschema($navschema[$key]);
+				if ($session['loggedin']) translator::tlschema($navschema[$key]);
 				if (substr($key,0,7)=="!array!"){
 					$key = unserialize(substr($key,7));
 				}
 				$navbanner = private_addnav($key);
-				if ($session['loggedin']) tlschema();
+				if ($session['loggedin']) translator::tlschema();
 			}
 
 			$style = "default";
@@ -704,7 +704,7 @@ function private_addnav($text,$link=false,$priv=false,$pop=false,$popsize="500x3
 			if ($link === false) $schema = "!array!" . serialize($text);
 			else $schema = $text[0];
 			if ($translate) {
-				tlschema($navschema[$schema]);
+				translator::tlschema($navschema[$schema]);
 				$unschema = 1;
 			}
 		}
@@ -716,7 +716,7 @@ function private_addnav($text,$link=false,$priv=false,$pop=false,$popsize="500x3
 		}
 	}else{
 		if ($text && $session['loggedin'] && $translate) {
-			tlschema($navschema[$text]);
+			translator::tlschema($navschema[$text]);
 			$unschema = 1;
 		}
 		if ($link != "!!!addraw!!!" && $text>"" && $translate) $text = translate($text); //leave the hack in here for now, use addnav_notl please
@@ -854,7 +854,7 @@ function private_addnav($text,$link=false,$priv=false,$pop=false,$popsize="500x3
 		}
 
 	}
-	if ($unschema) tlschema();
+	if ($unschema) translator::tlschema();
 	$nav .= $thisnav;
 	return $thisnav;
 }

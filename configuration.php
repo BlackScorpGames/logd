@@ -8,7 +8,7 @@ require_once("lib/http.php");
 
 check_su_access(SU_EDIT_CONFIG);
 
-tlschema("configuration");
+translator::tlschema("configuration");
 
 $op = http::httpget('op');
 $module=http::httpget('module');
@@ -163,9 +163,9 @@ if ($op=="save"){
 				}
 				rawoutput("<form action='configuration.php?op=modulesettings&module=$module&save=1' method='POST'>",true);
 				addnav("","configuration.php?op=modulesettings&module=$module&save=1");
-				tlschema("module-$module");
+				translator::tlschema("module-$module");
 				showform($msettings,$module_settings[$mostrecentmodule]);
-				tlschema();
+				translator::tlschema();
 				rawoutput("</form>",true);
 			}else{
 				output("The %s module does not appear to define any module settings.", $module);

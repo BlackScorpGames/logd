@@ -197,9 +197,9 @@ function goldmine_runevent($type)
 				$dead = 0;
 				$racesave = 1;
 				if (isset($vals['racesave']) && $vals['racesave']) {
-					if ($vals['schema']) tlschema($vals['schema']);
+					if ($vals['schema']) translator::tlschema($vals['schema']);
 					$racemsg = translate_inline($vals['racesave']);
-					if ($vals['schema']) tlschema();
+					if ($vals['schema']) translator::tlschema();
 				}
 
 				if (isset($vals['chance']) && (e_rand(1, 100) < $vals['chance'])) {

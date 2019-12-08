@@ -26,9 +26,9 @@ function logd_error_handler($errno, $errstr, $errfile, $errline){
 	case E_WARNING:
 	case E_USER_WARNING:
 		require_once("lib/show_backtrace.php");
-		tlschema("errorhandler");
+		translator::tlschema("errorhandler");
 		output("PHP Warning: \"%s\"`nin `b%s`b at `b%s`b.`n",$errstr,$errfile,$errline,true);
-		tlschema();
+		translator::tlschema();
 		$backtrace = show_backtrace();
 		rawoutput($backtrace);
 		if (getsetting("notify_on_warn",0) > ""){

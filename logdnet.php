@@ -12,7 +12,7 @@ require_once("common.php");
 require_once("lib/http.php");
 require_once("lib/sanitize.php");
 
-tlschema("logdnet");
+translator::tlschema("logdnet");
 
 function lotgdsort($a, $b)
 {

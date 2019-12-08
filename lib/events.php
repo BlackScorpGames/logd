@@ -20,7 +20,7 @@ function handle_event($location, $baseLink=false, $needHeader=false)
 	global $session, $playermount, $badguy;
 	$skipdesc = false;
 
-	tlschema("events");
+	translator::tlschema("events");
 	$allowinactive = false;
 	$eventhandler = http::httpget('eventhandler');
 	if (($session['user']['superuser'] & SU_DEVELOPER) && $eventhandler!=""){
@@ -63,7 +63,7 @@ function handle_event($location, $baseLink=false, $needHeader=false)
 			httpset("op", "");
 		}
 	}
-	tlschema();
+	translator::tlschema();
 	return $skipdesc;
 }
 ?>

@@ -29,17 +29,17 @@ if (injectmodule(http::httpget('module'), (http::httpget('admin')?true:false))){
 
 	$starttime = getmicrotime();
 	$fname = $mostrecentmodule."_run";
-	tlschema("module-$mostrecentmodule");
+	translator::tlschema("module-$mostrecentmodule");
 	$fname();
 	$endtime = getmicrotime();
 	if (($endtime - $starttime >= 1.00 && ($session['user']['superuser'] & SU_DEBUG_OUTPUT))){
 		debug("Slow Module (".round($endtime-$starttime,2)."s): $mostrecentmodule`n");
 	}
-	tlschema();
+	translator::tlschema();
 }else{
 	do_forced_nav(false,false);
 
-	tlschema("badnav");
+	translator::tlschema("badnav");
 
 	page_header("Error");
 	if ($session['user']['loggedin']){

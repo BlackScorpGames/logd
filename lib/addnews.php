@@ -78,7 +78,7 @@ function addnews_for_user()
 	}
 	if ($hidefrombio === true) $user = 0;
 	$sql = "INSERT INTO " . db_prefix("news") .
-		" (newstext,newsdate,accountid,arguments,tlschema) VALUES ('" .
+		" (newstext,newsdate,accountid,arguments,translator::tlschema) VALUES ('" .
 		addslashes($news) . "','" . date("Y-m-d H:i:s") . "'," .
 		$user .",'".addslashes($arguments)."','".$translation_namespace."')";
 	return db_query($sql);

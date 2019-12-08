@@ -6,7 +6,7 @@ require_once("common.php");
 require_once("lib/villagenav.php");
 require_once("lib/commentary.php");
 
-tlschema("rock");
+translator::tlschema("rock");
 
 // This idea is Imusade's from lotgd.net
 if ($session['user']['dragonkills']>0 ||

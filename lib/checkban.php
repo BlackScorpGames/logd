@@ -25,7 +25,7 @@ function checkban($login=false){
 	$result = db_query($sql);
 	if (db_num_rows($result)>0){
 		$session=array();
-		tlschema("ban");
+		translator::tlschema("ban");
 		$session['message'].=translate_inline("`n`4You fall under a ban currently in place on this website:`n");
 		while ($row = db_fetch_assoc($result)) {
 			$session['message'].=$row['banreason']."`n";
@@ -38,7 +38,7 @@ function checkban($login=false){
 			$session['message'].="`n";
 		}
 		$session['message'].=translate_inline("`4If you wish, you may appeal your ban with the petition link.");
-		tlschema();
+		translator::tlschema();
 		header("Location: index.php");
 		exit();
 	}

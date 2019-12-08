@@ -120,7 +120,7 @@ function page_footer($saveuser=true){
 	restore_buff_fields();
 	calculate_buff_fields();
 
-	tlschema("common");
+	translator::tlschema("common");
 
 	$charstats = charstats();
 
@@ -364,7 +364,7 @@ function page_footer($saveuser=true){
 	$session['user']['gentimecount']++;
 	$footer=str_replace("{pagegen}","Page gen: ".round($gentime,3)."s / ".$dbinfo['queriesthishit']." queries (".round($dbinfo['querytime'],3)."s), Ave: ".round($session['user']['gentime']/$session['user']['gentimecount'],3)."s - ".round($session['user']['gentime'],3)."/".round($session['user']['gentimecount'],3)."",$footer);
 
-	tlschema();
+	translator::tlschema();
 
 	//clean up spare {fields}s from header and footer (in case they're not used)
 	$footer = preg_replace("/{[^} \t\n\r]*}/i","",$footer);
@@ -602,7 +602,7 @@ function charstats(){
 			}
 			// Short circuit if the name is blank
 			if ($val['name'] > "" || $session['user']['superuser'] & SU_DEBUG_OUTPUT){
-				tlschema($val['schema']);
+				translator::tlschema($val['schema']);
 				if ($val['name']=="")
 					$val['name'] = "DEBUG: {$key}";
 				if (is_array($val['name'])) {
@@ -621,7 +621,7 @@ function charstats(){
 				}else{
 					$buffs.= appoencode("`#{$val['name']}`n",true);
 				}
-				tlschema();
+				translator::tlschema();
 				$buffcount++;
 			}
 		}

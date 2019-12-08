@@ -8,7 +8,7 @@ require_once("lib/sanitize.php");
 require_once("lib/http.php");
 require_once("lib/villagenav.php");
 
-tlschema("bank");
+translator::tlschema("bank");
 
 page_header("Ye Olde Bank");
 output("`^`c`bYe Olde Bank`b`c");

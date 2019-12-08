@@ -12,32 +12,32 @@ function drinks_run_private(){
 		$texts = drinks_gettexts();
 		$drinktext = modulehook("drinks-text",$texts);
 
-		tlschema($drinktext['schemas']['title']);
+		translator::tlschema($drinktext['schemas']['title']);
 		page_header($drinktext['title']);
 		rawoutput("<span style='color: #9900FF'>");
 		output_notl("`c`b");
 		output($drinktext['title']);
 		output_notl("`b`c");
-		tlschema();
+		translator::tlschema();
 		$drunk = get_module_pref("drunkeness");
 		$end = ".";
 		if ($drunk > get_module_setting("maxdrunk"))
 			$end = ",";
-		tlschema($drinktext['schemas']['demand']);
+		translator::tlschema($drinktext['schemas']['demand']);
 		$remark = translate_inline($drinktext['demand']);
 		$remark = str_replace("{lover}",$partner."`0", $remark);
 		$remark = str_replace("{barkeep}", $drinktext['barkeep']."`0", $remark);
-		tlschema();
+		translator::tlschema();
 		output_notl("%s$end", $remark);
 		$drunk = get_module_pref("drunkeness");
 		if ($drunk > get_module_setting("maxdrunk")) {
-			tlschema($drinktext['schemas']['toodrunk']);
+			translator::tlschema($drinktext['schemas']['toodrunk']);
 			$remark = translate_inline($drinktext['toodrunk']);
- 			tlschema();
+ 			translator::tlschema();
 			$remark = str_replace("{lover}",$partner."`0", $remark);
 			$remark = str_replace("{barkeep}", $drinktext['barkeep']."`0", $remark);
 			output($remark);
-			tlschema();
+			translator::tlschema();
 		} else {
 			$sql = "SELECT * FROM " . db_prefix("drinks") . " WHERE drinkid='".httpget('id')."'";
 			$result = db_query($sql);
@@ -138,14 +138,14 @@ function drinks_run_private(){
 		}
 		rawoutput("</span>");
 		if ($drinktext['return']>""){
-			tlschema($drinktext['schemas']['return']);
+			translator::tlschema($drinktext['schemas']['return']);
 			addnav($drinktext['return'],$drinktext['returnlink']);
-			tlschema();
+			translator::tlschema();
 		}else{
-			tlschema($drinktext['schemas']['return']);
+			translator::tlschema($drinktext['schemas']['return']);
 			addnav("I?Return to the Inn","inn.php");
 			addnav(array("Go back to talking to %s`0", getsetting("barkeep", "`tCedrik")),"inn.php?op=bartender");
-			tlschema();
+			translator::tlschema();
 		}
 		require_once("lib/villagenav.php");
 		villagenav();

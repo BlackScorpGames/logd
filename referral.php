@@ -6,7 +6,7 @@ define("ALLOW_ANONYMOUS",true);
 require_once("common.php");
 require_once("lib/http.php");
 
-tlschema("referral");
+translator::tlschema("referral");
 
 if ($session['user']['loggedin']){
 	page_header("Referral Page");

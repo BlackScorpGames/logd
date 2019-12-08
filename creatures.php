@@ -7,7 +7,7 @@ require_once("lib/http.php");
 
 check_su_access(SU_EDIT_CREATURES);
 
-tlschema("creatures");
+translator::tlschema("creatures");
 
 $creaturestats = array();
 

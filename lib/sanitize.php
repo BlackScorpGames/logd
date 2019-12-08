@@ -69,7 +69,7 @@ function translator_page($in){
 	$page = $in;
 	if (strpos($page,"?")!==false) $page=substr($page,0,strpos($page,"?"));
 	//if ($page=="runmodule.php" && 0){
-	//	//we should handle this in runmodule.php now that we have tlschema.
+	//	//we should handle this in runmodule.php now that we have translator::tlschema.
 	//	$matches = array();
 	//	preg_match("/[&?](module=[^&]*)/i",$in,$matches);
 	//	if (isset($matches[1])) $page.="?".$matches[1];

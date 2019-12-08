@@ -107,9 +107,9 @@ function suspend_companions($susp, $nomsg=false) {
 			$nomsg = "`&Your companions stand back during this fight!`n";
 		}
 		if ($nomsg !== true){
-			if ($schema) tlschema($schema);
+			if ($schema) translator::tlschema($schema);
 			output($nomsg);
-			if ($schema) tlschema();
+			if ($schema) translator::tlschema();
 		}
 	}
 	$companions = $newcompanions;
@@ -142,9 +142,9 @@ function unsuspend_companions($susp, $nomsg=false) {
 			$nomsg = "`&Your companions return to stand by your side!`n";
 		}
 		if ($nomsg !== true){
-			if ($schema) tlschema($schema);
+			if ($schema) translator::tlschema($schema);
 			output($nomsg);
-			if ($schema) tlschema();
+			if ($schema) translator::tlschema();
 		}
 	}
 	$companions = $newcompanions;
@@ -233,9 +233,9 @@ function report_companion_move($companion, $activate="fight") {
 			$msg = $companion['healmsg'];
 			if ($msg == "") $msg = "{companion} heals your wounds. You regenerate {damage} hitpoints.";
 			$msg = substitute_array("`)".$msg."`0`n", array("{companion}","{damage}"),array($companion['name'],$hptoheal));
-			tlschema(isset($companion['schema'])?$companion['schema']:"battle");
+			translator::tlschema(isset($companion['schema'])?$companion['schema']:"battle");
 			output($msg);
-			tlschema();
+			translator::tlschema();
 		} else {
 			// Okay. We really have to do this :(
 			global $newcompanions;
@@ -252,9 +252,9 @@ function report_companion_move($companion, $activate="fight") {
 					$msg = $companion['healcompanionmsg'];
 					if ($msg == "") $msg = "{companion} heals {target}'s wounds. {target} regenerates {damage} hitpoints.";
 					$msg = substitute_array("`)".$msg."`0`n", array("{companion}","{damage}","{target}"),array($companion['name'],$hptoheal,$mycompanion['name']));
-					tlschema(isset($companion['schema'])?$companion['schema']:"battle");
+					translator::tlschema(isset($companion['schema'])?$companion['schema']:"battle");
 					output($msg);
-					tlschema();
+					translator::tlschema();
 					$healed = true;
 					$newcompanions[$myname] = $mycompanion;
 				}
@@ -281,9 +281,9 @@ function report_companion_move($companion, $activate="fight") {
 								$msg = $companion['healcompanionmsg'];
 								if ($msg == "") $msg = "{companion} heals {target}'s wounds. {target} regenerates {damage} hitpoints.";
 								$msg = substitute_array("`)".$msg."`0`n", array("{companion}","{damage}","{target}"),array($companion['name'],$hptoheal,$mycompanion['name']));
-								tlschema(isset($companion['schema'])?$companion['schema']:"battle");
+								translator::tlschema(isset($companion['schema'])?$companion['schema']:"battle");
 								output($msg);
-								tlschema();
+								translator::tlschema();
 								$healed = true;
 								$companions[$myname] = $mycompanion;
 							} // else	// These
@@ -343,9 +343,9 @@ function report_companion_move($companion, $activate="fight") {
 			$msg = $companion['magicfailmsg'];
 			if ($msg == "") $msg = "{companion} shoots a magical arrow at {badguy} but misses.";
 			$msg = substitute_array("`)".$msg."`0`n", array("{companion}"), array($companion['name']));
-			tlschema(isset($companion['schema'])?$companion['schema']:"battle");
+			translator::tlschema(isset($companion['schema'])?$companion['schema']:"battle");
 			output($msg);
-			tlschema();
+			translator::tlschema();
 		}else{
 			if (isset($companion['magicmsg'])) {
 				$msg = $companion['magicmsg'];
@@ -353,9 +353,9 @@ function report_companion_move($companion, $activate="fight") {
 				$msg = "{companion} shoots a magical arrow at {badguy} and deals {damage} damage.";
 			}
 			$msg = substitute_array("`)".$msg."`0`n", array("{companion}","{damage}"), array($companion['name'],$damage_done));
-			tlschema(isset($companion['schema'])?$companion['schema']:"battle");
+			translator::tlschema(isset($companion['schema'])?$companion['schema']:"battle");
 			output($msg);
-			tlschema();
+			translator::tlschema();
 			$badguy['creaturehealth']-=$damage_done;
 		}
 		$companion['hitpoints'] -= $companion['abilities']['magic'];
@@ -373,9 +373,9 @@ function report_companion_move($companion, $activate="fight") {
 		} else {
 			$msg = "`5Your companion catches his last breath before it dies.";
 		}
-		tlschema(isset($companion['schema'])?$companion['schema']:"battle");
+		translator::tlschema(isset($companion['schema'])?$companion['schema']:"battle");
 		output("`5".$msg."`0`n");
-		tlschema();
+		translator::tlschema();
 		if (isset($companion['cannotdie']) && $companion['cannotdie'] == true) {
 			$companion['hitpoints'] = 0;
 		}else{

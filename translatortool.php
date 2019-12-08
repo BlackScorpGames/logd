@@ -4,7 +4,7 @@
 // mail ready
 define("OVERRIDE_FORCED_NAV",true);
 require_once("common.php");
-tlschema("translatortool");
+translator::tlschema("translatortool");
 
 check_su_access(SU_IS_TRANSLATOR);
 $op=http::httpget("op");

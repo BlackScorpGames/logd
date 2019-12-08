@@ -15,7 +15,7 @@ global $badguy,$enemies,$newenemies,$session,$creatureattack,$creatureatkmod, $b
 global $creaturedefmod,$adjustment,$defmod,$atkmod,$compdefmod,$compatkmod,$buffset,$atk,$def,$options;
 global $companions,$companion,$newcompanions,$count,$defended,$needtostopfighting,$roll;
 
-tlschema("battle");
+translator::tlschema("battle");
 
 $newcompanions = array();
 $attackstack = @unserialize($session['user']['badguy']);
@@ -511,7 +511,7 @@ if ($victory || $defeat){
 $attackstack = array('enemies'=>$newenemies, 'options'=>$options);
 $session['user']['badguy']=createstring($attackstack);
 $session['user']['companions']=createstring($companions);
-tlschema();
+translator::tlschema();
 
 function battle_player_attacks() {
 	global $badguy,$enemies,$newenemies,$session,$creatureattack,$creatureatkmod, $beta;

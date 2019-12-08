@@ -7,7 +7,7 @@ require_once("lib/commentary.php");
 require_once("lib/http.php");
 require_once("lib/villagenav.php");
 
-tlschema("gypsy");
+translator::tlschema("gypsy");
 
 addcommentary();
 

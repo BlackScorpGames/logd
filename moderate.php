@@ -7,7 +7,7 @@ require_once("lib/commentary.php");
 require_once("lib/sanitize.php");
 require_once("lib/http.php");
 
-tlschema("moderate");
+translator::tlschema("moderate");
 
 addcommentary();
 
@@ -151,11 +151,11 @@ if ($op==""){
 	addnav("Modules");
 	addnav("Clan Halls");
 	addnav("Review by Moderator");
-	tlschema("notranslate");
+	translator::tlschema("notranslate");
 	while ($row = db_fetch_assoc($result)){
 		addnav(" ?".$row['name'],"moderate.php?op=audit&moderator={$row['acctid']}");
 	}
-	tlschema();
+	translator::tlschema();
 	addnav("Commentary");
 	output("`c`bComment Auditing`b`c");
 	$ops = translate_inline("Ops");
@@ -209,7 +209,7 @@ if ($op==""){
 
 
 addnav("Sections");
-tlschema("commentary");
+translator::tlschema("commentary");
 $vname = getsetting("villagename", LOCATION_FIELDS);
 addnav(array("%s Square", $vname), "moderate.php?area=village");
 
@@ -222,9 +222,9 @@ addnav("Grassy Field","moderate.php?area=grassyfield");
 
 $iname = getsetting("innname", LOCATION_INN);
 // the inn name is a proper name and shouldn't be translated.
-tlschema("notranslate");
+translator::tlschema("notranslate");
 addnav($iname,"moderate.php?area=inn");
-tlschema();
+translator::tlschema();
 
 addnav("MotD","moderate.php?area=motd");
 addnav("Veterans Club","moderate.php?area=veterans");
@@ -235,19 +235,19 @@ addnav("Clan Hall Waiting Area","moderate.php?area=waiting");
 if (getsetting("betaperplayer", 1) == 1 && @file_exists("pavilion.php")) {
 	addnav("Beta Pavilion","moderate.php?area=beta");
 }
-tlschema();
+translator::tlschema();
 
 if ($session['user']['superuser'] & SU_MODERATE_CLANS){
 	addnav("Clan Halls");
 	$sql = "SELECT clanid,clanname,clanshort FROM " . db_prefix("clans") . " ORDER BY clanid";
 	$result = db_query($sql);
 	// these are proper names and shouldn't be translated.
-	tlschema("notranslate");
+	translator::tlschema("notranslate");
 	while ($row=db_fetch_assoc($result)){
 		addnav(array("<%s> %s", $row['clanshort'], $row['clanname']),
 				"moderate.php?area=clan-{$row['clanid']}");
 	}
-	tlschema();
+	translator::tlschema();
 } elseif ($session['user']['superuser'] & SU_EDIT_COMMENTS &&
 		getsetting("officermoderate", 0)) {
 	// the CLAN_OFFICER requirement was chosen so that moderators couldn't
@@ -265,14 +265,14 @@ if ($session['user']['superuser'] & SU_MODERATE_CLANS){
 		$sql = "SELECT clanid,clanname,clanshort FROM " . db_prefix("clans") . " WHERE clanid='" . $session['user']['clanid'] . "'";
 		$result = db_query($sql);
 		// these are proper names and shouldn't be translated.
-		tlschema("notranslate");
+		translator::tlschema("notranslate");
 		if ($row=db_fetch_assoc($result)){
 			addnav(array("<%s> %s", $row['clanshort'], $row['clanname']),
 					"moderate.php?area=clan-{$row['clanid']}");
 		} else {
 			debug ("There was an error while trying to access your clan.");
 		}
-		tlschema();
+		translator::tlschema();
 	}
 }
 addnav("Modules");
@@ -281,11 +281,11 @@ $mods = modulehook("moderate", $mods);
 reset($mods);
 
 // These are already translated in the module.
-tlschema("notranslate");
+translator::tlschema("notranslate");
 foreach ($mods as $area=>$name) {
 	addnav($name, "moderate.php?area=$area");
 }
-tlschema();
+translator::tlschema();
 
 page_footer();
 ?>

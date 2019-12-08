@@ -6,7 +6,7 @@ require_once("lib/villagenav.php");
 
 function forest($noshowmessage=false) {
 	global $session,$playermount;
-	tlschema("forest");
+	translator::tlschema("forest");
 //	mass_module_prepare(array("forest", "validforestloc"));
 	addnav("Heal");
 	addnav("H?Healer's Hut","healer.php");
@@ -50,7 +50,7 @@ function forest($noshowmessage=false) {
 	}
 	modulehook("forest", array());
 	module_display_events("forest", "forest.php");
-	tlschema();
+	translator::tlschema();
 }
 
 ?>

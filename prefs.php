@@ -14,7 +14,7 @@ if ($skin > "") {
 require_once("lib/villagenav.php");
 require_once("common.php");
 
-tlschema("prefs");
+translator::tlschema("prefs");
 
 require_once("lib/is_email.php");
 require_once("lib/showform.php");

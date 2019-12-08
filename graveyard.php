@@ -7,7 +7,7 @@ require_once("lib/http.php");
 require_once("lib/buffs.php");
 require_once("lib/events.php");
 
-tlschema("graveyard");
+translator::tlschema("graveyard");
 
 page_header("The Graveyard");
 $skipgraveyardtext = handle_event("graveyard");
@@ -37,9 +37,9 @@ case "run":
 			output("`)You have `\$LOST `^%s`) favor with `\$%s`).",$favor,$deathoverlord);
 			$session['user']['deathpower']-=$favor;
 		}
-		tlschema("nav");
+		translator::tlschema("nav");
 		addnav("G?Return to the Graveyard","graveyard.php");
-		tlschema();
+		translator::tlschema();
 	} else {
 		output("`)As you try to flee, you are summoned back to the fight!`n`n");
 		$battle=true;
@@ -71,9 +71,9 @@ if ($battle){
 	$session['user']['hitpoints'] = $originalhitpoints;
 	if ($victory || $defeat) $badguy = $newenemies[0]; // Only one badguy
 	if ($victory) {
-		tlschema("battle");
+		translator::tlschema("battle");
 		$msg = translate_inline($badguy['creaturelose']);
-		tlschema();
+		translator::tlschema();
 		output_notl("`b`&%s`0`b`n", $msg);
 		output("`b`\$You have tormented %s!`0`b`n", $badguy['creaturename']);
 		output("`#You receive `^%s`# favor with `\$%s`#!`n`0", $badguy['creatureexp'],$deathoverlord);
@@ -89,9 +89,9 @@ if ($battle){
 			output("`b`&You have been defeated by `%%s`&!!!`n", $badguy['creaturename']);
 			output("You may not torment any more souls today.");
 			$session['user']['gravefights']=0;
-			tlschema("nav");
+			translator::tlschema("nav");
 			addnav("G?Return to the Graveyard","graveyard.php");
-			tlschema();
+			translator::tlschema();
 		}else{
 			require_once("lib/fightnav.php");
 			fightnav(false, true, "graveyard.php");

@@ -16,7 +16,7 @@ require_once("lib/substitute.php");
 
 function activate_buffs($tag) {
 	global $session, $badguy, $count;
-	tlschema("buffs");
+	translator::tlschema("buffs");
 	$result = array();
 	$result['invulnerable'] = 0;
 	$result['dmgmod'] = 1;
@@ -33,7 +33,7 @@ function activate_buffs($tag) {
 
 	foreach($session['bufflist'] as $key=>$buff) {
 		if (array_key_exists('suspended',$buff) && $buff['suspended']) continue;
-		if ($buff['schema']) tlschema($buff['schema']);
+		if ($buff['schema']) translator::tlschema($buff['schema']);
 		if (isset($buff['startmsg'])) {
 			if (is_array($buff['startmsg'])) {
 				$buff['startmsg'] = str_replace("`%", "`%%", $buff['startmsg']);
@@ -162,9 +162,9 @@ function activate_buffs($tag) {
 							output($msg);
 							if ($hptoregen < 0 && $companion['hitpoints'] <= 0) {
 								if (isset($companion['dyingtext'])) {
-									tlschema("battle");
+									translator::tlschema("battle");
 									output($companion['dyingtext']);
-									tlschema();
+									translator::tlschema();
 								}
 								if (isset($companion['cannotdie']) && $companion['cannotdie'] == true) {
 									$companion['hitpoints'] = 0;
@@ -223,18 +223,18 @@ function activate_buffs($tag) {
 				$minioncounter++;
 			}
 		}
-		if ($buff['schema']) tlschema();
+		if ($buff['schema']) translator::tlschema();
 	}
-	tlschema();
+	translator::tlschema();
 	return $result;
 }
 
 function process_lifetaps($ltaps, $damage) {
 	global $session, $badguy;
-	tlschema("buffs");
+	translator::tlschema("buffs");
 	foreach($ltaps as $buff) {
 		if (isset($buff['suspended']) && $buff['suspended']) continue;
-		if ($buff['schema']) tlschema($buff['schema']);
+		if ($buff['schema']) translator::tlschema($buff['schema']);
 		$healhp = $session['user']['maxhitpoints'] - $session['user']['hitpoints'];
 		if ($healhp < 0) {
 			$healhp = 0;
@@ -263,20 +263,20 @@ function process_lifetaps($ltaps, $damage) {
 			$msg = substitute_array("`)".$msg."`0`n", array("{damage}"), array($healhp));
 			output($msg);
 		}
-		if ($buff['schema']) tlschema();
+		if ($buff['schema']) translator::tlschema();
 	}
-	tlschema();
+	translator::tlschema();
 }
 
 function process_dmgshield($dshield, $damage) {
 	global $session, $badguy;
-	tlschema("buffs");
+	translator::tlschema("buffs");
 	foreach($dshield as $buff) {
 		if (isset($buff['suspended']) && $buff['suspended']) {
 			continue;
 		}
 		if ($buff['schema']) {
-			tlschema($buff['schema']);
+			translator::tlschema($buff['schema']);
 		}
 		$realdamage = round($damage * $buff['damageshield'], 0);
 		if ($realdamage < 0) {
@@ -307,18 +307,18 @@ function process_dmgshield($dshield, $damage) {
 			output($msg);
 		}
 		if ($buff['schema']) {
-			tlschema();
+			translator::tlschema();
 		}
 	}
-	tlschema();
+	translator::tlschema();
 }
 
 function expire_buffs() {
 	global $session, $badguy;
-	tlschema("buffs");
+	translator::tlschema("buffs");
 	foreach($session['bufflist'] as $key=>$buff) {
 		if (array_key_exists('suspended',$buff) && $buff['suspended']) continue;
-		if ($buff['schema']) tlschema($buff['schema']);
+		if ($buff['schema']) translator::tlschema($buff['schema']);
 		if (array_key_exists('used',$buff) && $buff['used']) {
 			$session['bufflist'][$key]['used'] = 0;
 			if ($session['bufflist'][$key]['rounds']>0) {
@@ -340,9 +340,9 @@ function expire_buffs() {
 				strip_buff($key);
 			}
 		}
-		if ($buff['schema']) tlschema();
+		if ($buff['schema']) translator::tlschema();
 	}
-	tlschema();
+	translator::tlschema();
 }
 
 ?>

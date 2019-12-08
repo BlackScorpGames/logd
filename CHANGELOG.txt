@@ -34,7 +34,7 @@ Changes from 1.1.0 to 1.1.1
 [FIX] - /modules/outhouse.php had a `2 missing after the name which caused colour errors
 [FIX] - corrected create.php who had two queries with emailvalidation='$id' AND emailvalidation!='' ... where the last part made no sense
 [FIX] - translatortool.php are the namespace+intext now readonly...they should *not* be editable, same goes for untranslated.php
-[FIX] - lib/datetime.php reltime($date,$short=true) is now tl-ready, you can have minutes/hours etc in your language. also the date outputs there are not in the tlschema "datetime"
+[FIX] - lib/datetime.php reltime($date,$short=true) is now tl-ready, you can have minutes/hours etc in your language. also the date outputs there are not in the translator::tlschema "datetime"
 [FIX] - validation email now translation ready
 
 [FIX] - Moved datacache settings into dbconnect.php. Otherwise settings-query could not be cached.
@@ -129,7 +129,7 @@ Changes from 1.1.0 to 1.1.1
 [UPDATE] - lib/forestoutcomes.php now also shows a creaturewin phrase automatically if entered in the creature table, same like the creaturelose phrase that is displayed normally. also edited creatures.php (small code cleanup)
 [UPDATE] - lib/battleskills has now a is_buff_active($buffname) to determine if a buff is active&not suspended or not active or suspended. If you want to check if the buff exists use hasbuff($buffname)
 [UPDATE] - added a few more key indices to the account table to be more innodb friendly
-[UPDATE] - lib/translator.php modified, now a translate_inline($intext,$namespace=FALSE) is possible, i.e you don't need to construct for a single line a tlschema and reset it afterwards
+[UPDATE] - lib/translator.php modified, now a translate_inline($intext,$namespace=FALSE) is possible, i.e you don't need to construct for a single line a translator::tlschema and reset it afterwards
 [UPDATE] - mail.php,lib/systemmail.php,lib/pageparts.php now cache the amount of mails the user has, this speeds things up on the servers (nasty sum query...(Edorian)
 [UPDATE] - game settings are cached now (were not before) which caused the move of the datacachepath and the usedatacache to be shifted to the dbconnect.php ... fresh installs will get this automatically, upgrades need to do it manually (see AFTERUPGRADE.txt)
 [UPDATE] - lib/checkban.php has its messages now in the ban scheme and those are therefore translatable

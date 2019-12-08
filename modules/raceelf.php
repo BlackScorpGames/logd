@@ -140,16 +140,16 @@ function raceelf_dohook($hookname,$args){
 		break;
 	case "moderate":
 		if (is_module_active("cities")) {
-			tlschema("commentary");
+			translator::tlschema("commentary");
 			$args["village-$race"]=sprintf_translate("City of %s", $city);
-			tlschema();
+			translator::tlschema();
 		}
 		break;
 	case "travel":
 		$capital = getsetting("villagename", LOCATION_FIELDS);
 		$hotkey = substr($city, 0, 1);
 		$ccity=urlencode($city);
-		tlschema("module-cities");
+		translator::tlschema("module-cities");
 		if ($session['user']['location']==$capital){
 			addnav("Safer Travel");
 			addnav(array("%s?Go to %s", $hotkey, $city),"runmodule.php?module=cities&op=travel&city=$ccity");
@@ -161,7 +161,7 @@ function raceelf_dohook($hookname,$args){
 			addnav("Superuser");
 			addnav(array("%s?Go to %s", $hotkey, $city),"runmodule.php?module=cities&op=travel&city=$ccity&su=1");
 		}
-		tlschema();
+		translator::tlschema();
 		break;
 	case "villagetext":
 		raceelf_checkcity();

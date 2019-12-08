@@ -8,7 +8,7 @@ define("ALLOW_ANONYMOUS",true);
 require_once("common.php");
 require_once("lib/http.php");
 
-tlschema("payment");
+translator::tlschema("payment");
 
 // read the post from PayPal system and add 'cmd'
 $req = 'cmd=_notify-validate';

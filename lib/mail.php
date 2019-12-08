@@ -8,7 +8,7 @@ require_once("lib/systemmail.php");
 require_once("lib/sanitize.php");
 require_once("lib/http.php");
 
-tlschema("mail");
+translator::tlschema("mail");
 
 $superusermessage = getsetting("superuseryommessage","Asking an admin for gems, gold, weapons, armor, or anything else which you have not earned will not be honored.  If you are experiencing problems with the game, please use the 'Petition for Help' link instead of contacting an admin directly.");
 

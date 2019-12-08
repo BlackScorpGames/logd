@@ -10,7 +10,7 @@ require_once("lib/showform.php");
 
 check_su_access(SU_EDIT_MOUNTS);
 
-tlschema("companions");
+translator::tlschema("companions");
 
 page_header("Companion Editor");
 

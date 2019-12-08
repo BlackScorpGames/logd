@@ -8,7 +8,7 @@ require_once("lib/villagenav.php");
 require_once("lib/events.php");
 require_once("lib/http.php");
 
-tlschema("gardens");
+translator::tlschema("gardens");
 
 page_header("The Gardens");
 

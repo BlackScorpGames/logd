@@ -8,7 +8,7 @@ require_once("lib/http.php");
 require_once("lib/sanitize.php");
 require_once("lib/names.php");
 
-tlschema("user");
+translator::tlschema("user");
 check_su_access(SU_EDIT_USERS);
 
 $op = http::httpget('op');

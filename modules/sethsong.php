@@ -96,14 +96,14 @@ function sethsong_run(){
 	$visits=get_module_setting("visits");
 	$been=get_module_pref("been");
 	$iname = getsetting("innname", LOCATION_INN);
-	tlschema("inn");
+	translator::tlschema("inn");
 	page_header($iname);
 
 	rawoutput("<span style='color: #9900FF'>");
 	output_notl("`c`b");
 	output($iname);
 	output_notl("`b`c");
-	tlschema();
+	translator::tlschema();
 
 	// Short circuit out if we've heard enough
 	if ($been >= $visits) {

@@ -23,9 +23,9 @@ function forestvictory($enemies,$denyflawless=false){
 			$badguy['creaturegold']=e_rand(0,$badguy['creaturegold']);
 		}
 		$gold += $badguy['creaturegold'];
-		tlschema("battle");
+		translator::tlschema("battle");
 		if(isset($badguy['creaturelose'])) $msg = translate_inline($badguy['creaturelose']);
-		tlschema();
+		translator::tlschema();
 		if(isset($msg)) output_notl("`b`&%s`0`b`n",$msg);
 		output("`b`\$You have slain %s!`0`b`n",$badguy['creaturename']);
 		$count++;

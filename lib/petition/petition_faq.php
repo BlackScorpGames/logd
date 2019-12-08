@@ -1,5 +1,5 @@
 <?php
-tlschema("faq");
+translator::tlschema("faq");
 popup_header("Frequently Asked Questions (FAQ)");
 output("`^Welcome to Legend of the Green Dragon.`n`n");
 output("`@You wake up one day, and you're in a village for some reason.");

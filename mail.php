@@ -6,7 +6,7 @@ define("OVERRIDE_FORCED_NAV",true);
 require_once("common.php");
 require_once("lib/http.php");
 
-tlschema("mail");
+translator::tlschema("mail");
 
 $superusermessage = getsetting("superuseryommessage","Asking an admin for gems, gold, weapons, armor, or anything else which you have not earned will not be honored.  If you are experiencing problems with the game, please use the 'Petition for Help' link instead of contacting an admin directly.");
 

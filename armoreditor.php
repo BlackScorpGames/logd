@@ -8,7 +8,7 @@ require_once("lib/http.php");
 
 check_su_access(SU_EDIT_EQUIPMENT);
 
-tlschema("armor");
+translator::tlschema("armor");
 
 page_header("Armor Editor");
 $armorlevel = (int)http::httpget('level');

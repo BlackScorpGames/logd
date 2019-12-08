@@ -7,7 +7,7 @@ require_once("lib/http.php");
 require_once("lib/sanitize.php");
 require_once("lib/buffs.php");
 
-tlschema("newday");
+translator::tlschema("newday");
 //mass_module_prepare(array("newday-intercept", "newday"));
 modulehook("newday-intercept",array());
 
@@ -146,13 +146,13 @@ if ($dp < $dkills) {
 	$tempbuf = unserialize($session['user']['bufflist']);
 	$session['user']['bufflist']="";
 	strip_all_buffs();
-	tlschema("buffs");
+	translator::tlschema("buffs");
 	while(list($key,$val)=@each($tempbuf)){
 		if (array_key_exists('survivenewday', $val) &&
 				$val['survivenewday']==1){
 			//$session['bufflist'][$key]=$val;
 			if (array_key_exists('schema', $val) && $val['schema'])
-				tlschema($val['schema']);
+				translator::tlschema($val['schema']);
 			apply_buff($key,$val);
 			if (array_key_exists('newdaymessage', $val) &&
 					$val['newdaymessage']) {
@@ -160,10 +160,10 @@ if ($dp < $dkills) {
 				output_notl("`n");
 			}
 			if (array_key_exists('schema', $val) && $val['schema'])
-				tlschema();
+				translator::tlschema();
 		}
 	}
-	tlschema();
+	translator::tlschema();
 
 	output("`2Hitpoints have been restored to `^%s`2.`n",$session['user']['maxhitpoints']);
 

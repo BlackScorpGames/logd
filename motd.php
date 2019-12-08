@@ -10,7 +10,7 @@ require_once("lib/nltoappon.php");
 require_once("lib/http.php");
 require_once("lib/motd.php");
 
-tlschema("motd");
+translator::tlschema("motd");
 
 $op = http::httpget('op');
 $id = http::httpget('id');

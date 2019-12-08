@@ -29,7 +29,7 @@ if ($op=="xml") {
 
 check_su_access(SU_EDIT_MOUNTS);
 
-tlschema("mounts");
+translator::tlschema("mounts");
 
 page_header("Mount Editor");
 

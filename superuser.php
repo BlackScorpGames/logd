@@ -9,7 +9,7 @@ require_once("lib/http.php");
 
 check_su_access(0xFFFFFFFF &~ SU_DOESNT_GIVE_GROTTO);
 addcommentary();
-tlschema("superuser");
+translator::tlschema("superuser");
 
 require_once("lib/superusernav.php");
 superusernav();

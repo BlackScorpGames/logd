@@ -6,7 +6,7 @@ require_once("common.php");
 require_once("lib/http.php");
 require_once("lib/sanitize.php");
 check_su_access(SU_MANAGE_MODULES);
-tlschema("modulemanage");
+translator::tlschema("modulemanage");
 
 page_header("Module Manager");
 

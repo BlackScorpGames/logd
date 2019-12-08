@@ -10,7 +10,7 @@ require_once("lib/taunt.php");
 require_once("lib/events.php");
 require_once("lib/battle-skills.php");
 
-tlschema("forest");
+translator::tlschema("forest");
 
 $fight = false;
 page_header("The Forest");

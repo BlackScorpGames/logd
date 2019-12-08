@@ -11,7 +11,7 @@ require_once("lib/http.php");
 require_once("lib/taunt.php");
 require_once("lib/villagenav.php");
 
-tlschema("pvp");
+translator::tlschema("pvp");
 
 $iname = getsetting("innname", LOCATION_INN);
 $battle = false;
@@ -28,9 +28,9 @@ if ($op=="" && $act!="attack"){
 		'schemas'=>array('atkmsg'=>'pvp')
 	);
 	$args = modulehook("pvpstart", $args);
-	tlschema($args['schemas']['atkmsg']);
+	translator::tlschema($args['schemas']['atkmsg']);
 	output($args['atkmsg'], $session['user']['playerfights']);
-	tlschema();
+	translator::tlschema();
 	addnav("L?Refresh List of Warriors","pvp.php");
 	pvplist();
 	villagenav();

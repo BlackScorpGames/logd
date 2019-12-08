@@ -7,7 +7,7 @@ require_once("common.php");
 require_once("lib/http.php");
 require_once("lib/villagenav.php");
 
-tlschema("list");
+translator::tlschema("list");
 
 page_header("List Warriors");
 if ($session['user']['loggedin']) {
@@ -154,9 +154,9 @@ for($i=0;$i<$max;$i++){
 	}
 	rawoutput("</td><td>");
 	if (!$row['race']) $row['race'] = RACE_UNKNOWN;
-	tlschema("race");
+	translator::tlschema("race");
 	output($row['race']);
-	tlschema();
+	translator::tlschema();
 	rawoutput("</td><td>");
 	$sex = translate_inline($row['sex']?"`%Female`0":"`!Male`0");
 	output_notl("%s", $sex);

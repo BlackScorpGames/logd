@@ -98,13 +98,13 @@ function cedrikspotions_run(){
 	$wish = httppost('wish');
 	$op = http::httpget("op");
 	$iname = getsetting("innname", LOCATION_INN);
-	tlschema("inn");
+	translator::tlschema("inn");
 	page_header($iname);
 	rawoutput("<span style='color: #9900FF'>");
 	output_notl("`c`b");
 	output($iname);
 	output_notl("`b`c");
-	tlschema();
+	translator::tlschema();
 	$barkeep = getsetting("barkeep","`tCedrik");
 	$mincost = 0;
 	$maxcost = 0;

@@ -30,7 +30,7 @@ function drinks_dohook_private($hookname,$args) {
 		if ($drunk > 10) $drunk = 10;
 		$hard = "";
 		if (get_module_pref('harddrinks')>=get_module_setting('hardlimit')) {
-			tlschema($drinktexts['schemas']['toomany']);
+			translator::tlschema($drinktexts['schemas']['toomany']);
 			output_notl("`n`n");
 			$remark = translate_inline($drinktexts['toomany']);
 			$remark = str_replace("{lover}",$partner."`0", $remark);
@@ -78,9 +78,9 @@ function drinks_dohook_private($hookname,$args) {
 			$drunk = round($drunk * $soberval, 0);
 			set_module_pref("drunkeness", $drunk);
 			if ($sobermsg) {
-				if ($args['schema']) tlschema($args['schema']);
+				if ($args['schema']) translator::tlschema($args['schema']);
 				output($sobermsg);
-				if ($args['schema']) tlschema();
+				if ($args['schema']) translator::tlschema();
 			}
 		}
 		break;

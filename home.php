@@ -21,7 +21,7 @@ if ($session['loggedin']){
 	redirect("badnav.php");
 }
 
-tlschema("home");
+translator::tlschema("home");
 
 $op = http::httpget('op');
 

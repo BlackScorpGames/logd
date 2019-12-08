@@ -50,7 +50,7 @@ function reltime($date,$short=true){
 
 function relativedate($indate){
 	$laston = round((strtotime("now")-strtotime($indate)) / 86400,0) . " days";
-	tlschema("datetime");
+	translator::tlschema("datetime");
 	if (substr($laston,0,2)=="1 ")
 		$laston=translate_inline("1 day");
 	elseif (date("Y-m-d",strtotime($laston)) == date("Y-m-d"))
@@ -63,7 +63,7 @@ function relativedate($indate){
 		$laston= sprintf_translate("%s days", round((strtotime("now")-strtotime($indate)) / 86400,0));
 		rawoutput(tlbutton_clear());
 	}
-	tlschema();
+	translator::tlschema();
 	return $laston;
 }
 

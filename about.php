@@ -7,7 +7,7 @@ require_once("common.php");
 require_once("lib/showform.php");
 require_once("lib/http.php");
 
-tlschema("about");
+translator::tlschema("about");
 
 page_header("About Legend of the Green Dragon");
 $details = gametimedetails();

@@ -8,7 +8,7 @@ require_once("lib/is_email.php");
 require_once("lib/checkban.php");
 require_once("lib/http.php");
 
-tlschema("create");
+translator::tlschema("create");
 
 $trash = getsetting("expiretrashacct",1);
 $new = getsetting("expirenewacct",10);

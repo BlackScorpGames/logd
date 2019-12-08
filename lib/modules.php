@@ -22,21 +22,21 @@ function injectmodule($modulename,$force=false){
 	$modulename = modulename_sanitize($modulename);
 	$modulefilename = "modules/{$modulename}.php";
 	if (file_exists($modulefilename)){
-		tlschema("module-{$modulename}");
+		translator::tlschema("module-{$modulename}");
 		$sql = "SELECT active,filemoddate,infokeys,version FROM " . db_prefix("modules") . " WHERE modulename='$modulename'";
 		$result = db_query_cached($sql, "inject-$modulename", 3600);
 		if (!$force) {
 			//our chance to abort if this module isn't currently installed
 			//or doesn't meet the prerequisites.
 			if (db_num_rows($result)==0) {
-				tlschema();
+				translator::tlschema();
 			 	output_notl("`n`3Module `#%s`3 is not installed, but was attempted to be injected.`n",$modulename);
 				$injected_modules[$force][$modulename]=false;
 				return false;
 			}
 			$row = db_fetch_assoc($result);
 			if ($row['active']){ } else {
-				tlschema();
+				translator::tlschema();
 			 	output("`n`3Module `#%s`3 is not active, but was attempted to be injected.`n",$modulename);
 				$injected_modules[$force][$modulename]=false;
 				return false;
@@ -55,7 +55,7 @@ function injectmodule($modulename,$force=false){
 			if (!isset($info['description'])) $info['description']="";
 			if (!module_check_requirements($info['requires'])) {
 				$injected_modules[$force][$modulename]=false;
-				tlschema();
+				translator::tlschema();
 				output("`n`3Module `#%s`3 does not meet its prerequisites.`n",$modulename);
 				return false;
 			}
@@ -119,7 +119,7 @@ function injectmodule($modulename,$force=false){
 				}
 			}
 		}
-		tlschema();
+		translator::tlschema();
 		$injected_modules[$force][$modulename]=true;
 		return true;
 	}else{
@@ -492,7 +492,7 @@ function modulehook($hookname, $args=false, $allowinactive=false, $only=false){
 
 		if (injectmodule($row['modulename'], $allowinactive)) {
 			$oldnavsection = $navsection;
-			tlschema("module-{$row['modulename']}");
+			translator::tlschema("module-{$row['modulename']}");
 			// Pass the args into the function and reassign them to the
 			// result of the function.
 			// Note: each module gets the previous module's modified return
@@ -551,7 +551,7 @@ function modulehook($hookname, $args=false, $allowinactive=false, $only=false){
 			}
 
 			//revert the translation namespace
-			tlschema();
+			translator::tlschema();
 			//revert nav section after we're done here.
 			$navsection = $oldnavsection;
 		}
@@ -859,9 +859,9 @@ function get_module_info($shortname){
 	if(injectmodule($shortname,true)) {
 		$fname = $shortname."_getmoduleinfo";
 		if (function_exists($fname)){
-			tlschema("module-$shortname");
+			translator::tlschema("module-$shortname");
 			$moduleinfo = $fname();
-			tlschema();
+			translator::tlschema();
 			// Don't pick up this text unless we need it.
 			if (!isset($moduleinfo['name']) ||
 					!isset($moduleinfo['category']) ||
@@ -1086,9 +1086,9 @@ function module_events($eventtype, $basechance, $baseLink = false) {
 			}
 			if ($chance > $sum && $chance <= $sum + $event['normchance']) {
 				$_POST['i_am_a_hack'] = 'true';
-				tlschema("events");
+				translator::tlschema("events");
 				output("`^`c`bSomething Special!`c`b`0");
-				tlschema();
+				translator::tlschema();
 				$op = http::httpget('op');
 				httpset('op', "");
 				module_do_event($eventtype, $event['modulename'], false, $baseLink);
@@ -1120,10 +1120,10 @@ function module_do_event($type, $module, $allowinactive=false, $baseLink=false)
 	$_POST['i_am_a_hack'] = 'true';
 	if(injectmodule($module, $allowinactive)) {
 		$oldnavsection = $navsection;
-		tlschema("module-$module");
+		translator::tlschema("module-$module");
 		$fname = $module."_runevent";
 		$fname($type,$baseLink);
-		tlschema();
+		translator::tlschema();
 		//hook into the running event, but only in *this* running event, not in all
 		modulehook("runevent_$module", array("type"=>$type, "baselink"=>$baseLink, "get"=>httpallget(), "post"=>httpallpost()));
 		//revert nav section after we're done here.
@@ -1150,7 +1150,7 @@ function module_display_events($eventtype, $forcescript=false) {
 
 	usort($events, "event_sort");
 
-	tlschema("events");
+	translator::tlschema("events");
 	output("`n`nSpecial event triggers:`n");
 	$name = translate_inline("Name");
 	$rchance = translate_inline("Raw Chance");
@@ -1227,9 +1227,9 @@ function module_objpref_edit($type, $module, $id)
 		while($row = db_fetch_assoc($result)) {
 			$data[$row['setting']] = $row['value'];
 		}
-		tlschema("module-$module");
+		translator::tlschema("module-$module");
 		showform($msettings, $data);
-		tlschema();
+		translator::tlschema();
 	}
 }
 
@@ -1284,9 +1284,9 @@ function uninstall_module($module){
 	if (injectmodule($module,true)) {
 		$fname = $module."_uninstall";
 		output("Running module uninstall script`n");
-		tlschema("module-{$module}");
+		translator::tlschema("module-{$module}");
 		$fname();
-		tlschema();
+		translator::tlschema();
 
 		output("Deleting module entry`n");
 		$sql = "DELETE FROM " . db_prefix("modules") .

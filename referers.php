@@ -6,7 +6,7 @@ require_once("common.php");
 require_once("lib/dhms.php");
 require_once("lib/http.php");
 
-tlschema("referers");
+translator::tlschema("referers");
 
 check_su_access(SU_EDIT_CONFIG);
 

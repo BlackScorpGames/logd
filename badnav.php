@@ -6,7 +6,7 @@ define("OVERRIDE_FORCED_NAV",true);
 require_once("common.php");
 require_once("lib/villagenav.php");
 
-tlschema("badnav");
+translator::tlschema("badnav");
 
 if ($session['user']['loggedin'] && $session['loggedin']){
 	if (strpos($session['output'],"<!--CheckNewDay()-->")){

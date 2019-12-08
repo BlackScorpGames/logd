@@ -18,9 +18,9 @@ function check_su_access($level){
 			page_header("Oops.");
 			output("Looks like you're probably an admin with appropriate permissions to perform this action, but a module is preventing you from doing so.");
 			output("Sorry about that!");
-			tlschema("nav");
+			translator::tlschema("nav");
 			addnav("M?Return to the Mundane","village.php");
-			tlschema();
+			translator::tlschema();
 			page_footer();
 		}
 	}else{

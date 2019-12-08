@@ -10,7 +10,7 @@ require_once("lib/sanitize.php");
 require_once("lib/http.php");
 require_once("lib/villagenav.php");
 
-tlschema("clans");
+translator::tlschema("clans");
 
 
 addnav("Village");

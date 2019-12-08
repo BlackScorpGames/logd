@@ -4,7 +4,7 @@
 // mail ready
 function fightnav($allowspecial=true, $allowflee=true,$script=false){
 	global $PHP_SELF,$session,$newenemies,$companions;
-	tlschema("fightnav");
+	translator::tlschema("fightnav");
 	if ($script===false){
 		$script = substr($PHP_SELF,strrpos($PHP_SELF,"/")+1)."?";
 	}else{
@@ -59,6 +59,6 @@ function fightnav($allowspecial=true, $allowflee=true,$script=false){
 			addnav(array("%s%s`0",(isset($badguy['istarget'])&&$badguy['istarget'])?"`#*`0":"", $badguy['creaturename']), $script."op=fight&newtarget=$index");
 		}
 	}
-	tlschema();
+	translator::tlschema();
 }
 ?>

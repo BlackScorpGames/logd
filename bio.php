@@ -5,7 +5,7 @@
 require_once("common.php");
 require_once("lib/sanitize.php");
 
-tlschema("bio");
+translator::tlschema("bio");
 
 checkday();
 
@@ -32,9 +32,9 @@ if ($target = db_fetch_assoc($result)) {
 
   page_header("Character Biography: %s", full_sanitize($target['name']));
 
-  tlschema("nav");
+  translator::tlschema("nav");
   addnav("Return");
-  tlschema();
+  translator::tlschema();
 
   if ($session['user']['superuser'] & SU_EDIT_USERS){
 	  addnav("Superuser");
@@ -52,10 +52,10 @@ if ($target = db_fetch_assoc($result)) {
   if ($target['clanname']>"" && getsetting("allowclans",false)){
 	  $ranks = array(CLAN_APPLICANT=>"`!Applicant`0",CLAN_MEMBER=>"`#Member`0",CLAN_OFFICER=>"`^Officer`0",CLAN_LEADER=>"`&Leader`0", CLAN_FOUNDER=>"`\$Founder");
 	  $ranks = modulehook("clanranks", array("ranks"=>$ranks, "clanid"=>$target['clanid']));
-	  tlschema("clans"); //just to be in the right schema
+	  translator::tlschema("clans"); //just to be in the right schema
 	  array_push($ranks['ranks'],"`\$Founder");
 	  $ranks = translate_inline($ranks['ranks']);
-	  tlschema();
+	  translator::tlschema();
 	  output("`@%s`2 is a %s`2 to `%%s`2`n", $target['name'], $ranks[$target['clanrank']], $target['clanname']);
   }
 
@@ -74,9 +74,9 @@ if ($target = db_fetch_assoc($result)) {
 
   $race = $target['race'];
   if (!$race) $race = RACE_UNKNOWN;
-  tlschema("race");
+  translator::tlschema("race");
   $race = translate_inline($race);
-  tlschema();
+  translator::tlschema();
   output("`^Race: `@%s`n",$race);
 
   $genders = array("Male","Female");
@@ -113,9 +113,9 @@ if ($target = db_fetch_assoc($result)) {
   $result = db_query("SELECT * FROM " . db_prefix("news") . " WHERE accountid={$target['acctid']} ORDER BY newsdate DESC,newsid ASC LIMIT 100");
 
   $odate="";
-  tlschema("news");
+  translator::tlschema("news");
   while ($row = db_fetch_assoc($result)) {
-	  tlschema($row['tlschema']);
+	  translator::tlschema($row['tlschema']);
 	  if ($row['arguments'] > "") {
 		  $arguments = array();
 		  $base_arguments = unserialize($row['arguments']);
@@ -129,7 +129,7 @@ if ($target = db_fetch_assoc($result)) {
 		  $news = translate_inline($row['newstext']);
 		  rawoutput(tlbutton_clear());
 	  }
-	  tlschema();
+	  translator::tlschema();
 	  if ($odate!=$row['newsdate']){
 		  output_notl("`n`b`@%s`0`b`n",
 				  date("D, M d", strtotime($row['newsdate'])));
@@ -137,24 +137,24 @@ if ($target = db_fetch_assoc($result)) {
 	  }
 	  output_notl("`@$news`0`n");
   }
-  tlschema();
+  translator::tlschema();
 
   if ($ret==""){
 	  $return = substr($return,strrpos($return,"/")+1);
-	  tlschema("nav");
+	  translator::tlschema("nav");
 	  addnav("Return");
 	  addnav("Return to the warrior list",$return);
-	  tlschema();
+	  translator::tlschema();
   }else{
 	  $return = substr($return,strrpos($return,"/")+1);
-	  tlschema("nav");
+	  translator::tlschema("nav");
 	  addnav("Return");
 	  if ($return=="list.php") {
 		  addnav("Return to the warrior list",$return);
 	  } else {
 		  addnav("Return whence you came",$return);
 	  }
-	  tlschema();
+	  translator::tlschema();
   }
 
   modulehook("bioend", $target);
@@ -164,20 +164,20 @@ if ($target = db_fetch_assoc($result)) {
 	output("This character is already deleted.");
   if ($ret==""){
 	  $return = substr($return,strrpos($return,"/")+1);
-	  tlschema("nav");
+	  translator::tlschema("nav");
 	  addnav("Return");
 	  addnav("Return to the warrior list",$return);
-	  tlschema();
+	  translator::tlschema();
   }else{
 	  $return = substr($return,strrpos($return,"/")+1);
-	  tlschema("nav");
+	  translator::tlschema("nav");
 	  addnav("Return");
 	  if ($return=="list.php") {
 		  addnav("Return to the warrior list",$return);
 	  } else {
 		  addnav("Return whence you came",$return);
 	  }
-	  tlschema();
+	  translator::tlschema();
   }
 	page_footer();
 }

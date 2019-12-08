@@ -10,7 +10,7 @@ require_once("lib/buffs.php");
 require_once("lib/taunt.php");
 require_once("lib/names.php");
 
-tlschema("dragon");
+translator::tlschema("dragon");
 $battle = false;
 page_header("The Green Dragon!");
 $op = http::httpget('op');
@@ -268,14 +268,14 @@ if ($battle){
 		// $session['user']['dragonkills']++;
 		output("`&With a mighty final blow, `@The Green Dragon`& lets out a tremendous bellow and falls at your feet, dead at last.");
 		addnews("`&%s has slain the hideous creature known as `@The Green Dragon`&.  All across the land, people rejoice!",$session['user']['name']);
-		tlschema("nav");
+		translator::tlschema("nav");
 		addnav("Continue","dragon.php?op=prologue1&flawless=$flawless");
-		tlschema();
+		translator::tlschema();
 	}else{
 		if($defeat){
-			tlschema("nav");
+			translator::tlschema("nav");
 			addnav("Daily news","news.php");
-			tlschema();
+			translator::tlschema();
 			$taunt = select_taunt_array();
 			if ($session['user']['sex']){
 				addnews("`%%s`5 has been slain when she encountered `@The Green Dragon`5!!!  Her bones now litter the cave entrance, just like the bones of those who came before.`n%s",$session['user']['name'],$taunt);

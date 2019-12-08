@@ -69,9 +69,9 @@ function crazyaudrey_dohook($hookname,$args){
 		if ($args['doaudrey']) {
 			$cost = get_module_setting("cost");
 			// And since the capital can change the texts
-			tlschema($args['schemas']['marketnav']);
+			translator::tlschema($args['schemas']['marketnav']);
 			addnav($args["marketnav"]);
-			tlschema();
+			translator::tlschema();
 			addnav(array(" ?Pet Crazy Audrey's %s`0 (`^%s gold`0)",$animals,$cost),"runmodule.php?module=crazyaudrey&op=pet");
 		}
 		break;

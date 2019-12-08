@@ -10,7 +10,7 @@ require_once("lib/http.php");
 
 check_su_access(SU_EDIT_CONFIG);
 
-tlschema("gamelog");
+translator::tlschema("gamelog");
 
 page_header("Game Log");
 addnav("Navigation");

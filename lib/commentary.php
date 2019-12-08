@@ -13,7 +13,7 @@ function commentarylocs() {
 
 	$vname = getsetting("villagename", LOCATION_FIELDS);
 	$iname = getsetting("innname", LOCATION_INN);
-	tlschema("commentary");
+	translator::tlschema("commentary");
 	$comsecs['village'] = sprintf_translate("%s Square", $vname);
 	if ($session['user']['superuser'] & ~SU_DOESNT_GIVE_GROTTO) {
 		$comsecs['superuser']=translate_inline("Grotto");
@@ -29,7 +29,7 @@ function commentarylocs() {
 	if (getsetting("betaperplayer", 1) == 1 && @file_exists("pavilion.php")) {
 		$comsecs['beta']=translate_inline("Pavilion");
 	}
-	tlschema();
+	translator::tlschema();
 	// All of the ones after this will be translated in the modules.
 	$comsecs = modulehook("moderate", $comsecs);
 	rawoutput(tlbutton_clear());
@@ -107,7 +107,7 @@ function injectcommentary($section, $talkline, $comment, $schema=false) {
 	if ($schema===false) $schema=$translation_namespace;
 	// Make the comment pristine so that we match on it correctly.
 	$comment = stripslashes($comment);
-	tlschema("commentary");
+	translator::tlschema("commentary");
 	$doublepost=0;
 	$emptypost = 0;
 	$colorcount = 0;
@@ -129,9 +129,9 @@ function injectcommentary($section, $talkline, $comment, $schema=false) {
 		$args = modulehook("commentary", $args);
 		$commentary = $args['commentline'];
 		$talkline = $args['commenttalk'];
-		tlschema($schema);
+		translator::tlschema($schema);
 		$talkline = translate_inline($talkline);
-		tlschema();
+		translator::tlschema();
 
 		$commentary = preg_replace("'([^[:space:]]{45,45})([^[:space:]])'","\\1 \\2",$commentary);
 		$commentary = addslashes($commentary);
@@ -160,7 +160,7 @@ function injectcommentary($section, $talkline, $comment, $schema=false) {
 				$doublepost = 1;
 			}
 		}
-		tlschema();
+		translator::tlschema();
 	}
 }
 
@@ -186,7 +186,7 @@ function viewcommentary($section,$message="Interject your own commentary?",$limi
 
 	if ($schema === false)
 		$schema=$translation_namespace;
-	tlschema("commentary");
+	translator::tlschema("commentary");
 
 	$nobios = array("motd.php"=>true);
 	if (!array_key_exists(basename($_SERVER['SCRIPT_NAME']),$nobios)) $nobios[basename($_SERVER['SCRIPT_NAME'])] = false;
@@ -558,7 +558,7 @@ function viewcommentary($section,$message="Interject your own commentary?",$limi
 		output_notl("$next $lastu",true);
 	}
 	if (!$cc) db_free_result($result);
-	tlschema();
+	translator::tlschema();
 	if ($needclose) modulehook("}collapse");
 }
 
@@ -566,7 +566,7 @@ function talkform($section,$talkline,$limit=10,$schema=false){
 	require_once("lib/forms.php");
 	global $REQUEST_URI,$session,$translation_namespace;
 	if ($schema===false) $schema=$translation_namespace;
-	tlschema("commentary");
+	translator::tlschema("commentary");
 
 	$jump = false;
 	if (isset($session['user']['prefs']['nojump']) && $session['user']['prefs']['nojump'] == true) {
@@ -624,6 +624,6 @@ function talkform($section,$talkline,$limit=10,$schema=false){
 		output("`)(You have %s posts left today)`n`0",(round($limit/2,0)-$counttoday));
 	}
 	rawoutput("<div id='previewtext'></div></form>");
-	tlschema();
+	translator::tlschema();
 }
 ?>

@@ -7,7 +7,7 @@ require_once("common.php");
 require_once("lib/http.php");
 require_once("lib/villagenav.php");
 
-tlschema("news");
+translator::tlschema("news");
 
 modulehook("news-intercept",array());
 
@@ -65,7 +65,7 @@ while ($row = db_fetch_assoc($result)) {
 		rawoutput("[ <a href='superuser.php?op=newsdelete&newsid=".$row['newsid']."&return=".URLEncode($_SERVER['REQUEST_URI'])."'>$del</a> ]&nbsp;");
 		addnav("","superuser.php?op=newsdelete&newsid={$row['newsid']}&return=".URLEncode($_SERVER['REQUEST_URI']));
 	}
-	tlschema($row['tlschema']);
+	translator::tlschema($row['tlschema']);
 	if ($row['arguments']>""){
 		$arguments = array();
 		$base_arguments = unserialize($row['arguments']);
@@ -78,7 +78,7 @@ while ($row = db_fetch_assoc($result)) {
 	}else{
 		$news = translate_inline($row['newstext']);
 	}
-	tlschema();
+	translator::tlschema();
 	output_notl($news."`n");
 }
 if (db_num_rows($result)==0){
@@ -91,7 +91,7 @@ if (!$session['user']['loggedin']) {
 } else if ($session['user']['alive']){
 	villagenav();
 }else{
-	tlschema("nav");
+	translator::tlschema("nav");
 	if($session['user']['sex'] == 1) {
 		addnav("`!`bYou're dead, Jane!`b`0");
 	} else {
@@ -102,7 +102,7 @@ if (!$session['user']['loggedin']) {
 	require_once("lib/extended-battle.php");
 	suspend_companions("allowinshades", true);
 	addnav("Log out","login.php?op=logout");
-	tlschema();
+	translator::tlschema();
 }
 addnav("News");
 addnav("Previous News","news.php?offset=".($offset+1));
@@ -113,7 +113,7 @@ if ($session['user']['loggedin'])
 	addnav("Preferences","prefs.php");
 addnav("About this game","about.php");
 
-tlschema("nav");
+translator::tlschema("nav");
 if ($session['user']['superuser'] & SU_EDIT_COMMENTS){
 	addnav("Superuser");
 	addnav(",?Comment Moderation","moderate.php");
@@ -126,7 +126,7 @@ if ($session['user']['superuser'] & SU_INFINITE_DAYS){
 	addnav("Superuser");
 	addnav("/?New Day","newday.php");
 }
-tlschema();
+translator::tlschema();
 
 addnav("","news.php");
 if ($totaltoday>$newsperpage){

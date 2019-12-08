@@ -55,7 +55,7 @@ function pvplist($location=false,$link=false,$extra=false,$sql=false){
 
 	$pvp = modulehook("pvpmodifytargets", $pvp);
 
-	tlschema("pvp");
+	translator::tlschema("pvp");
 	$n = translate_inline("Name");
 	$l = translate_inline("Level");
 	$loc = translate_inline("Location");
@@ -127,6 +127,6 @@ function pvplist($location=false,$link=false,$extra=false,$sql=false){
 			}
 		}
 	}
-	tlschema();
+	translator::tlschema();
 }
 ?>

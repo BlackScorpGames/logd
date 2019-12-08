@@ -1,5 +1,5 @@
 <?php
-tlschema("faq");
+translator::tlschema("faq");
 popup_header("New Player Primer");
 $c = translate_inline("Return to Contents");
 rawoutput("<a href='petition.php?op=faq'>$c</a><hr>");

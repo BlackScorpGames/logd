@@ -5,7 +5,7 @@
 require_once("common.php");
 require_once("lib/http.php");
 
-tlschema("taunt");
+translator::tlschema("taunt");
 
 check_su_access(SU_EDIT_CREATURES);
 

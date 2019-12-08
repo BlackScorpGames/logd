@@ -14,7 +14,7 @@ require_once("lib/http.php");
 
 check_su_access(SU_IS_TRANSLATOR);
 
-tlschema("untranslated");
+translator::tlschema("untranslated");
 
 $op = http::httpget('op');
 page_header("Untranslated Texts");

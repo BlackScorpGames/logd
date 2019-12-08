@@ -6,7 +6,7 @@ require_once("common.php");
 require_once("lib/commentary.php");
 
 
-tlschema("shades");
+translator::tlschema("shades");
 
 page_header("Land of the Shades");
 addcommentary();
@@ -28,7 +28,7 @@ addnav("The Graveyard","graveyard.php");
 
 addnav("Return to the news","news.php");
 
-tlschema("nav");
+translator::tlschema("nav");
 
 // the mute module blocks players from speaking until they
 // read the FAQs, and if they first try to speak when dead
@@ -49,7 +49,7 @@ if ($session['user']['superuser'] & SU_INFINITE_DAYS){
   addnav("/?New Day","newday.php");
 }
 
-tlschema();
+translator::tlschema();
 
 page_footer();
 ?>

@@ -10,7 +10,7 @@ require_once("common.php");
 require_once("lib/http.php");
 require_once("lib/villagenav.php");
 
-tlschema("hof");
+translator::tlschema("hof");
 
 $superusermask = SU_HIDE_FROM_LEADERBOARD;
 $standardwhere = "(locked=0 AND (superuser & $superusermask) = 0)";

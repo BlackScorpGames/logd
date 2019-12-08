@@ -5,7 +5,7 @@
 require_once("common.php");
 require_once("lib/http.php");
 
-tlschema("paylog");
+translator::tlschema("paylog");
 
 check_su_access(SU_EDIT_PAYLOG);
 /*
