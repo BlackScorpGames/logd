@@ -3,10 +3,14 @@
     "authors": [
         {
             "name": "BlackScorp"
-           
+
         }
     ],
-    "require": {},
+    "require": {
+    },
+    "require-dev": {
+        "phpunit/phpunit": "*"
+    },
     "autoload":{
     "psr-4":{
         "":"lib/"
