@@ -2,9 +2,11 @@
 use PHPUnit\Framework\TestCase;
 
 class TranslatorTest extends TestCase{
+  
     public function testCanAppendSchemaToNamespaceStack(){
-        global $translation_namespace,$translation_namespace;
+        global $translation_namespace_stack,$translation_namespace;
+        $translation_namespace_stack = [];
         translator::tlschema('test');
-        $this->assetSame($translation_namespace,'test');
+        $this->assertSame($translation_namespace,'test');
     }
 }
