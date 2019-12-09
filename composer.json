@@ -15,5 +15,8 @@
     "psr-4":{
         "":"lib/"
         }
+    },
+    "scripts": {
+        "test": "phpunit"
     }
 }
