@@ -221,7 +221,7 @@ if ($op==""){
 			}
 			if ($lefttoborrow-$session['user']['goldinbank'] > $maxborrow){
 				if ($didwithdraw) {
-					output("`6Additionally, you ask to borrow `^%s`6 gold.", $leftoborrow);
+					output("`6Additionally, you ask to borrow `^%s`6 gold.", $lefttoborrow);
 				} else {
 					output("`6You ask to borrow `^%s`6 gold.", $lefttoborrow);
 				}
