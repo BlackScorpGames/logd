@@ -9,7 +9,8 @@
     "require": {},
     "autoload":{
     "psr-4":{
-        "":"lib/"
+        "":"lib/",
+        "BlackScorpGames\\logd\\": "src/"
         }
     }
 }
