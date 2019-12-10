@@ -73,4 +73,3 @@
 		addnav("Online Members","list.php?op=clan");
 		addnav("Your Clan's Waiting Area","clan.php?op=waiting");
 		addnav("Withdraw From Your Clan","clan.php?op=withdrawconfirm");
-?>

@@ -129,4 +129,3 @@ switch ($op) {
 }
 
 page_footer();
-?>

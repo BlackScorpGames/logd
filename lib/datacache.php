@@ -134,5 +134,3 @@ function makecachetempname($name){
 	}
 	return $fullname;
 }
-
-?>

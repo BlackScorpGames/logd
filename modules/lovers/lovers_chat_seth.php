@@ -41,4 +41,3 @@ function lovers_chat_seth(){
 		output("Finally he reaches a conclusion and states, \"%s`0\"", $msg);
 	}
 }
-?>

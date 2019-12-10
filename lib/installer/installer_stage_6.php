@@ -106,4 +106,3 @@ if ($success && !$initial){
 }else if(!$success) {
 	$session['stagecompleted']=5;
 }
-?>

@@ -33,5 +33,3 @@ function get_partner($player=false)
 //	translator::tlschema();
 	return $partner;
 }
-
-?>

@@ -234,4 +234,3 @@ if (isset($table) && is_array($table)){
 }
 
 page_footer();
-?>

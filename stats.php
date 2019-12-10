@@ -86,4 +86,3 @@ if ($op=="stats" || $op==""){
 	rawoutput("</table>");
 }
 page_footer();
-?>

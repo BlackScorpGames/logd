@@ -141,4 +141,3 @@ function lovers_seth(){
 	}
 	set_module_pref("seenlover",$seenlover);
 }
-?>

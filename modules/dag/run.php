@@ -242,4 +242,3 @@ function dag_run_private(){
 	rawoutput("</span>");
 	page_footer();
 }
-?>

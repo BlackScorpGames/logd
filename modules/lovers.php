@@ -148,4 +148,3 @@ function lovers_getbuff(){
 	);
 	return $buff;
 }
-?>

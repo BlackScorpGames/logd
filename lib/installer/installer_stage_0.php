@@ -83,4 +83,3 @@ if ($needsauthentication){
 }else{
 	output("`nPlease continue on to the next page, \"License Agreement.\"");
 }
-?>

@@ -284,4 +284,3 @@ function show_bitfield($val){
 	}
 	return($out);
 }
-?>

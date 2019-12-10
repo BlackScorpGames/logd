@@ -101,4 +101,3 @@ if (count($post)>0){
 	output("Remember, if you are not signed in, and do not provide an email address, we have no way to contact you.");
 	rawoutput("</form>");
 }
-?>

@@ -245,4 +245,3 @@ if ($op=="" || $op=="search"){
 	addnav("Return to the creature editor","creatures.php?level=$level");
 }
 page_footer();
-?>

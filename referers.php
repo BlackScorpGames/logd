@@ -104,4 +104,3 @@ for ($i=0;$i<$number;$i++){
 }
 rawoutput("</table>");
 page_footer();
-?>

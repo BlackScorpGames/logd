@@ -147,5 +147,3 @@ addnav("N?Translate by Namespace", "untranslated.php?op=list");
 require_once("lib/superusernav.php");
 superusernav();
 page_footer();
-
-?>

@@ -37,4 +37,3 @@ function findgem_runevent($type,$link)
 
 function findgem_run(){
 }
-?>

@@ -58,4 +58,3 @@ function clanform(){
 	$apply = translator::translate_inline("Apply");
 	rawoutput("<input type='submit' class='button' value='$apply'></form>");
 }
-?>

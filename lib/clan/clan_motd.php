@@ -68,4 +68,3 @@
 			output("You do not have authority to change your clan's motd or description.");
 		}
 		addnav("Return to your clan hall","clan.php");
-?>

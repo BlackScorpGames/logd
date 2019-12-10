@@ -66,4 +66,3 @@ function handle_event($location, $baseLink=false, $needHeader=false)
 	translator::tlschema();
 	return $skipdesc;
 }
-?>

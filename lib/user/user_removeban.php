@@ -128,4 +128,3 @@ while ($row = db_fetch_assoc($result)) {
 	$i++;
 }
 rawoutput("</table>");
-?>

@@ -12,4 +12,3 @@ if ($session['user']['superuser'] & SU_IS_GAMEMASTER) {
 }
 rawoutput("</form>");
 rawoutput("<script type='text/javascript'>document.getElementById(\"to\").focus();</script>");
-?>

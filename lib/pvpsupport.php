@@ -203,5 +203,3 @@ function pvpdefeat($badguy, $killedloc, $taunt, $options)
 	output("You may begin fighting again tomorrow.");
 	return $args['handled'];
 }
-
-?>

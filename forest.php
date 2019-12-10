@@ -307,4 +307,3 @@ if ($op==""){
 	forest($dontdisplayforestmessage);
 }
 page_footer();
-?>

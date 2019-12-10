@@ -338,4 +338,3 @@ function racedwarf_run(){
 		break;
 	}
 }
-?>

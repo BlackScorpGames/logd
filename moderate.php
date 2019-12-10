@@ -288,4 +288,3 @@ foreach ($mods as $area=>$name) {
 translator::tlschema();
 
 page_footer();
-?>

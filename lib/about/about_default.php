@@ -97,4 +97,3 @@ addnav("Game Setup Info","about.php?op=setup");
 addnav("Module Info","about.php?op=listmodules");
 addnav("License Info", "about.php?op=license");
 modulehook("about");
-?>

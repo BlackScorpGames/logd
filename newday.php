@@ -321,4 +321,3 @@ if ($dp < $dkills) {
 
 }
 page_footer();
-?>

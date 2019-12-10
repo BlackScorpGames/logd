@@ -313,4 +313,3 @@ function darkhorse_run(){
 		page_footer();
 	}
 }
-?>

@@ -7,4 +7,3 @@ function stripslashes_deep($input){
 	}
 	return $input;
 }
-?>

@@ -463,4 +463,3 @@ function mountform($mount){
 }
 
 page_footer();
-?>

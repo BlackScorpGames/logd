@@ -93,4 +93,3 @@ if ($op == "") {
 	addnav("Add a new taunt","taunt.php?op=edit");
 }
 page_footer();
-?>

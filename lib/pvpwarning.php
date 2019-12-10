@@ -19,5 +19,3 @@ function pvpwarning($dokill=false) {
 	}
 	modulehook("pvpwarning", array("dokill"=>$dokill));
 }
-
-?>

@@ -52,4 +52,3 @@ if ($session['user']['superuser'] & SU_INFINITE_DAYS){
 translator::tlschema();
 
 page_footer();
-?>

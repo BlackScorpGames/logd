@@ -88,4 +88,3 @@ default:
 	break;
 }
 popup_footer();
-?>

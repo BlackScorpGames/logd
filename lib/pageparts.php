@@ -803,4 +803,3 @@ function motdlink(){
 		return "<a href='motd.php' target='_blank' onClick=\"".popup("motd.php").";return false;\" class='motd'><b>".translator::translate_inline("MoTD")."</b></a>";
 	}
 }
-?>

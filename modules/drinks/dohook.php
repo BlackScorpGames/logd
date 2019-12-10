@@ -110,4 +110,3 @@ function drinks_dohook_private($hookname,$args) {
 	}//end select
 	return $args;
 }//end function
-?>

@@ -80,4 +80,3 @@ function drinks_install_private(){
 	module_addhook("dragonkill");
 	return true;
 }
-?>

@@ -1455,5 +1455,3 @@ function module_delete_oldvalues($table,$key) {
 function module_pref_filter($a){ 
     return !is_numeric($a);
 }
-
-?>

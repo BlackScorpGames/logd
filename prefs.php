@@ -319,4 +319,3 @@ if ($op=="suicide" && getsetting("selfdelete",0)!=0) {
 	}
 }
 page_footer();
-?>

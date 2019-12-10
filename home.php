@@ -142,4 +142,3 @@ if (getsetting("homeskinselect", 1)) {
 }
 
 page_footer();
-?>

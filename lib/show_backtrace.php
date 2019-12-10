@@ -90,4 +90,3 @@ function backtrace_getType($in){
 	}
 	return $return;
 }
-?>

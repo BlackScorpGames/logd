@@ -82,4 +82,3 @@ addnav("Module Configurations");
 modulehook("superuser", array(), true);
 
 page_footer();
-?>

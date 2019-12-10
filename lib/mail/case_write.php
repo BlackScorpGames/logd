@@ -168,4 +168,3 @@ rawoutput("
 	}
 	check_su_warning();
 </script>");
-?>

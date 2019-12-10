@@ -218,4 +218,3 @@ function chooseRecommendedModules(){
 	rawoutput("
 </script>");
 }
-?>

@@ -132,4 +132,3 @@ if ($return==""){
 translator::tlschema();
 output_notl("`0");
 page_footer();
-?>

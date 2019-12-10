@@ -116,4 +116,3 @@ $row = db_fetch_assoc($result);
 $session['user']['lastmotd']=$row['motddate'];
 
 popup_footer();
-?>

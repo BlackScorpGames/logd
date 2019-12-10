@@ -626,4 +626,3 @@ function talkform($section,$talkline,$limit=10,$schema=false){
 	rawoutput("<div id='previewtext'></div></form>");
 	translator::tlschema();
 }
-?>

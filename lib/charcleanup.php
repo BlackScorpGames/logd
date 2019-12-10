@@ -61,5 +61,3 @@ function char_cleanup($id, $type)
 	
 	return true;
 }
-
-?>

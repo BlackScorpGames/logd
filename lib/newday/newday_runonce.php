@@ -67,4 +67,3 @@
 	}
 	if (strtotime(getsetting("lastdboptimize", date("Y-m-d H:i:s", strtotime("-1 day")))) < strtotime("-1 day"))
 	require_once("lib/newday/dbcleanup.php");
-?>

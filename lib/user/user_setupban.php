@@ -73,4 +73,3 @@ if ($row['name']!=""){
 		$oip = $thisip."%";
 	}
 }
-?>

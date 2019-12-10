@@ -69,4 +69,3 @@ if ($lastexpire < $needtoexpire){
 		db_query($sql);
 	}
 }
-?>

@@ -15,4 +15,3 @@ function safeescape($input){
 	}
 	return $out;
 }
-?>

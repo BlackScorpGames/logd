@@ -12,4 +12,3 @@ for ($i=0;$i<db_num_rows($result);$i++){
 $time = round(getmicrotime() - $start,2);
 require_once("lib/gamelog.php");
 gamelog("Optimized tables: ".join(", ",$tables)." in $time seconds.","maintenance");
-?>

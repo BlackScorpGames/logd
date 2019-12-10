@@ -142,4 +142,3 @@ if ($totaltoday>$newsperpage){
 }
 
 page_footer();
-?>

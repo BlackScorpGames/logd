@@ -81,4 +81,3 @@ function postparse($verify=false, $subval=false){
 	}
 	return array($sql, $keys, $vals);
 }
-

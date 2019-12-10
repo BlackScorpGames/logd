@@ -627,4 +627,3 @@ function battle_badguy_attacks() {
 	}
 	return $break;
 }
-?>

@@ -82,5 +82,3 @@ function restore_temp_stats(){
 		return false;
 	}
 }
-
-?>

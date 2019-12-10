@@ -126,5 +126,3 @@ function sanitize_html($str)
 	$str = strip_tags($str);
 	return $str;
 }
-
-?>

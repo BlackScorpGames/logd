@@ -74,4 +74,3 @@ while ($row = db_fetch_assoc($result)) {
 	rawoutput("</tr>");
 }
 rawoutput("</table>");
-?>

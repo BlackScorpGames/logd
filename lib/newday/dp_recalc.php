@@ -24,4 +24,3 @@ if ($pdktotal == $dkills-$dp && !$pdkneg) {
 }else{
 	output("`\$Error: Please spend the correct total amount of dragon points.`n`n");
 }
-?>

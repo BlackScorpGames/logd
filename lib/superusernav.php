@@ -21,4 +21,3 @@ function superusernav()
 		addnav("M?Return to the Mundane", "village.php");
 	translator::tlschema();
 }
-?>

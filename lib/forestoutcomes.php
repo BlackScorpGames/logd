@@ -204,4 +204,3 @@ function buffbadguy($badguy){
 	debug("DEBUG: +".($hpflux/5)."*5 to hitpoints.");
 	return modulehook("buffbadguy",$badguy);
 }
-?>

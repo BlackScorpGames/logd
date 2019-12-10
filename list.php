@@ -168,4 +168,3 @@ for($i=0;$i<$max;$i++){
 rawoutput("</table>");
 output_notl("`c");
 page_footer();
-?>
