@@ -13,15 +13,15 @@
 			httppostset('clanshort', $clanshort);
 			$sql = "SELECT * FROM " . db_prefix("clans") . " WHERE clanname='$clanname'";
 			$result = db_query($sql);
-			$e = array (translate_inline("%s`7 looks over your form but informs you that your clan name must consist only of letters, spaces, apostrophes, or dashes.  Also, your short name can consist only of letters. She hands you a blank form."),
-				translate_inline("%s`7 looks over your form but informs you that you must have at least 5 and no more than 50 characters in your clan's name (and they must consist only of letters, spaces, apostrophes, or dashes), then hands you a blank form."),
-				translate_inline("%s`7 looks over your form but informs you that you must have at least 2 and no more than 5 characters in your clan's short name (and they must all be letters), then hands you a blank form."),
-				translate_inline("%s`7 looks over your form but informs you that the clan name %s is already taken, and hands you a blank form."),
-				translate_inline("%s`7 looks over your form but informs you that the short name %s is already taken, and hands you a blank form."),
-				translate_inline("%s`7 asks for the %s gold to start the clan, but you seem to be unable to produce the fees."),
-				translate_inline("%s`7 asks for the %s gold and %s gems to start the clan, but you seem to be unable to produce the fees."),
-				translate_inline("%s`7 asks for the %s gems to start the clan, but you seem to be unable to produce the fees."),
-				translate_inline("She takes your application, and stamps it \"`\$DENIED`7\"."),
+			$e = array (translator::translate_inline("%s`7 looks over your form but informs you that your clan name must consist only of letters, spaces, apostrophes, or dashes.  Also, your short name can consist only of letters. She hands you a blank form."),
+				translator::translate_inline("%s`7 looks over your form but informs you that you must have at least 5 and no more than 50 characters in your clan's name (and they must consist only of letters, spaces, apostrophes, or dashes), then hands you a blank form."),
+				translator::translate_inline("%s`7 looks over your form but informs you that you must have at least 2 and no more than 5 characters in your clan's short name (and they must all be letters), then hands you a blank form."),
+				translator::translate_inline("%s`7 looks over your form but informs you that the clan name %s is already taken, and hands you a blank form."),
+				translator::translate_inline("%s`7 looks over your form but informs you that the short name %s is already taken, and hands you a blank form."),
+				translator::translate_inline("%s`7 asks for the %s gold to start the clan, but you seem to be unable to produce the fees."),
+				translator::translate_inline("%s`7 asks for the %s gold and %s gems to start the clan, but you seem to be unable to produce the fees."),
+				translator::translate_inline("%s`7 asks for the %s gems to start the clan, but you seem to be unable to produce the fees."),
+				translator::translate_inline("She takes your application, and stamps it \"`\$DENIED`7\"."),
 			);
 			if ($clanname!=$ocn || $clanshort!=$ocs){
 				output_notl($e[0],$registrar);
@@ -57,7 +57,7 @@
 /*//*/						$args = array("ocn"=>$ocn, "ocs"=>$ocs, "clanname"=>$clanname, "clanshort"=>$clanshort);
 /*//*/						$args = modulehook("process-createclan", $args);
 /*//*/						if (isset($args['blocked']) && $args['blocked']){
-/*//*/							output_notl(sprintf_translate($args['blockmsg']));
+/*//*/							output_notl(translator::sprintf_translate($args['blockmsg']));
 /*//*/							clanform();
 /*//*/							addnav("Return to the Lobby","clan.php");
 /*//*/						} else {
@@ -86,9 +86,9 @@
 			output("This fee is used to tailor the locks on your clan door to you and your members.`n");
 			output("The fees are as follows:`nGold: `^%s`7`nGems: `%%s`7",$gold,$gems);
 			addnav("Return to the Lobby","clan.php");
-			$e1 = translate_inline("`n`n\"`5Since you do not have enough gold with you, I cannot allow you to apply for a clan,`7\" she says.");
-			$e2 = translate_inline("`n`n\"`5Since you do not have enough gems with you, I cannot allow you to apply for a clan,`7\" she says.");
-			$e3 = translate_inline("`n`n\"`5If you're ok with these three requirements, please fill out the following form,`7\" she says, handing you a sheet of paper.");
+			$e1 = translator::translate_inline("`n`n\"`5Since you do not have enough gold with you, I cannot allow you to apply for a clan,`7\" she says.");
+			$e2 = translator::translate_inline("`n`n\"`5Since you do not have enough gems with you, I cannot allow you to apply for a clan,`7\" she says.");
+			$e3 = translator::translate_inline("`n`n\"`5If you're ok with these three requirements, please fill out the following form,`7\" she says, handing you a sheet of paper.");
 			if ($session['user']['gold']<$gold){
 				output_notl($e1);
 			}else{

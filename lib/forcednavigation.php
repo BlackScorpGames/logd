@@ -29,7 +29,7 @@ function do_forced_nav($anonymous,$overrideforced){
 			}
 		}else{
 			$session=array();
-			$session['message']=translate_inline("`4Error, your login was incorrect`0","login");
+			$session['message']=translator::translate_inline("`4Error, your login was incorrect`0","login");
 			redirect("index.php","Account Disappeared!");
 		}
 		db_free_result($result);
@@ -42,7 +42,7 @@ function do_forced_nav($anonymous,$overrideforced){
 		}
 	}else{
 		if (!$anonymous){
-			$session['message']=translate_inline("You are not logged in, this may be because your session timed out.","login");
+			$session['message']=translator::translate_inline("You are not logged in, this may be because your session timed out.","login");
 			redirect("index.php?op=timeout","Not logged in: $REQUEST_URI");
 		}
 	}

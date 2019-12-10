@@ -33,9 +33,9 @@ function showform($layout,$row,$nosave=false,$keypref=false){
 			$info = explode(",",$val);
 		}
 		if (is_array($info[0])) {
-			$info[0] = call_user_func_array("sprintf_translate", $info[0]);
+			$info[0] = call_user_func_array("translator::sprintf_translate", $info[0]);
 		} else {
-			$info[0] = translate($info[0]);
+			$info[0] = translator::translate($info[0]);
 		}
 		if (isset($info[1])) $info[1] = trim($info[1]);
 		else $info[1] = "";
@@ -135,7 +135,7 @@ function showform($layout,$row,$nosave=false,$keypref=false){
 				$optval = $v;
 				list($k,$v)=each($info);
 				$optdis = $v;
-				if (!$pretrans) $optdis = translate_inline($optdis);
+				if (!$pretrans) $optdis = translator::translate_inline($optdis);
 				if (is_array($row[$key])){
 					if ($row[$key][$optval]) {
 						$checked=true;
@@ -163,7 +163,7 @@ function showform($layout,$row,$nosave=false,$keypref=false){
 				$optval = $v;
 				list($k,$v)=each($info);
 				$optdis = $v;
-				if (!$pretrans) $optdis = translate_inline($optdis);
+				if (!$pretrans) $optdis = translator::translate_inline($optdis);
 				$select.=("<input type='radio' name='$keyout' value='$optval'".($row[$key]==$optval?" checked":"").">&nbsp;".("$optdis")."<br>");
 			}
 			rawoutput($select);
@@ -231,7 +231,7 @@ function showform($layout,$row,$nosave=false,$keypref=false){
 					.($disablemask & (int)$v?"":" disabled")
 					." value='1'> ");
 				list($k,$v)=each($info);
-				if (!$pretrans) $v = translate_inline($v);
+				if (!$pretrans) $v = translator::translate_inline($v);
 				output_notl("%s`n",$v,true);
 			}
 			break;
@@ -253,8 +253,8 @@ function showform($layout,$row,$nosave=false,$keypref=false){
 			);
 			translator::tlschema("showform");
 			while (list($k,$v)=each($vals)){
-				$vals[$k]=translate($v);
-				rawoutput(tlbutton_pop());
+				$vals[$k]=translator::translate($v);
+				rawoutput(translator::tlbutton_pop());
 			}
 			translator::tlschema();
 			reset($vals);
@@ -278,7 +278,7 @@ function showform($layout,$row,$nosave=false,$keypref=false){
 				list($k,$v)=each($info);
 				$optdis = $v;
 				if (!$pretrans) {
-					$optdis = translate_inline($optdis);
+					$optdis = translator::translate_inline($optdis);
 				}
 				$selected = 0;
 				if (isset($row[$key]) && $row[$key] == $optval)
@@ -296,8 +296,8 @@ function showform($layout,$row,$nosave=false,$keypref=false){
 			break;
 		case "bool":
 			translator::tlschema("showform");
-			$yes = translate_inline("Yes");
-			$no = translate_inline("No");
+			$yes = translator::translate_inline("Yes");
+			$no = translator::translate_inline("No");
 			translator::tlschema();
 			rawoutput("<select name='$keyout'>");
 			rawoutput("<option value='0'".($row[$key]==0?" selected":"").">$no</option>");
@@ -436,7 +436,7 @@ function showform($layout,$row,$nosave=false,$keypref=false){
 	}
 	rawoutput("</td></tr></table>");
 	translator::tlschema("showform");
-	$save = translate_inline("Save");
+	$save = translator::translate_inline("Save");
 	translator::tlschema();
 	if ($nosave) {}
 	else rawoutput("<input type='submit' class='button' value='$save'>");

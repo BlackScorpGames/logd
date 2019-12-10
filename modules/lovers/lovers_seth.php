@@ -12,16 +12,16 @@ function lovers_seth(){
 			if (e_rand(1,4)==1){
 				switch(e_rand(1,4)){
 				case 1:
-					$msg = translate_inline("being too busy tuning his lute,");
+					$msg = translator::translate_inline("being too busy tuning his lute,");
 					break;
 				case 2:
-					$msg = translate_inline("\"that time of month,\"");
+					$msg = translator::translate_inline("\"that time of month,\"");
 					break;
 				case 3:
-					$msg = translate_inline("\"a little cold...  *cough cough* see?\"");
+					$msg = translator::translate_inline("\"a little cold...  *cough cough* see?\"");
 					break;
 				case 4:
-					$msg = translate_inline("wanting you to fetch him a beer,");
+					$msg = translator::translate_inline("wanting you to fetch him a beer,");
 					break;
 				}
 				output("You head over to snuggle up to %s`0 and kiss him about the face and neck, but he grumbles something about %s and with a comment like that, you storm away from him!",$partner,$msg);

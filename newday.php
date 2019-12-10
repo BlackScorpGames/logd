@@ -175,14 +175,14 @@ if ($dp < $dkills) {
 		}
 	}
 	if ($session['user']['hashorse']){
-		$buff = unserialize($playermount['mountbuff']);
+		$buff = unserialize($playermount->getBuff());
 		if (!isset($buff['schema']) || $buff['schema'] == "")
 			$buff['schema']="mounts";
 		apply_buff('mount',$buff);
 	}
 	if ($dkff>0) {
 		output("`n`2You gain `^%s`2 forest %s from spent dragon points!",
-				$dkff, translate_inline($dkff == 1?"fight":"fights"));
+				$dkff, translator::translate_inline($dkff == 1?"fight":"fights"));
 	}
 	$r1 = e_rand(-1,1);
 	$r2 = e_rand(-1,1);
@@ -206,17 +206,17 @@ if ($dp < $dkills) {
 
 	$sp = array((-6)=>"Resurrected", (-2)=>"Very Low", (-1)=>"Low",
 			(0)=>"Normal", 1=>"High", 2=>"Very High");
-	$sp = translate_inline($sp);
+	$sp = translator::translate_inline($sp);
 	output("`n`2You are in `^%s`2 spirits today!`n",$sp[$spirits]);
 	if (abs($spirits)>0){
 		if($resurrectionturns>0){
-			$gain=translate_inline("gain");
+			$gain=translator::translate_inline("gain");
 		}else{
-			$gain=translate_inline("lose");
+			$gain=translator::translate_inline("lose");
 		}
 		$sff = abs($resurrectionturns);
 		output("`2As a result, you `^%s %s forest %s`2 for today!`n",
-				$gain, $sff, translate_inline($sff==1?"fight":"fights"));
+				$gain, $sff, translator::translate_inline($sff==1?"fight":"fights"));
 	}
 	$rp = $session['user']['restorepage'];
 	$x = max(strrpos("&",$rp),strrpos("?",$rp));
@@ -254,26 +254,26 @@ if ($dp < $dkills) {
 	$session['user']['recentcomments']=$session['user']['lasthit'];
 	$session['user']['lasthit'] = gmdate("Y-m-d H:i:s");
 	if ($session['user']['hashorse']){
-		$msg = $playermount['newday'];
+		$msg = $playermount->getNewDay();
 		require_once("lib/substitute.php");
 		$msg = substitute_array("`n`&".$msg."`0`n");
 		output($msg);
-		require_once("lib/mountname.php");
-		list($name, $lcname) = getmountname();
+		global $mount_dev, $playermount;
+		list($name, $lcname) = $mount_dev->getName($playermount);
 
-		$mff = (int)$playermount['mountforestfights'];
+		$mff = $playermount->getForestFights();
 		$session['user']['turns'] += $mff;
 		$turnstoday.=", Mount: $mff";
 		if ($mff > 0) {
-			$state = translate_inline("gain");
+			$state = translator::translate_inline("gain");
 			$color = "`^";
 		} elseif ($mff < 0) {
-			$state = translate_inline("lose");
+			$state = translator::translate_inline("lose");
 			$color = "`$";
 		}
 		$mff = abs($mff);
 		if ($mff != 0) {
-			output("`n`&Because of %s`&, you %s%s %s`& forest %s for today!`n`0", $lcname, $color, $state, $mff, translate_inline($mff==1?'fight':'fights'));
+			output("`n`&Because of %s`&, you %s%s %s`& forest %s for today!`n`0", $lcname, $color, $state, $mff, translator::translate_inline($mff==1?'fight':'fights'));
 		}
 	}else{
 		output("`n`&You strap your `%%s`& to your back and head out for some adventure.`0",$session['user']['weapon']);

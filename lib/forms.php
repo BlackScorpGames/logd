@@ -1,9 +1,9 @@
 <?php
 function previewfield($name, $startdiv=false, $talkline="says", $showcharsleft=true, $info=false, $default=false) {
 	global $schema,$session;
-	$talkline = translate_inline($talkline, $schema);
-	$youhave = translate_inline("You have ");
-	$charsleft = translate_inline(" characters left.");
+	$talkline = translator::translate_inline($talkline, $schema);
+	$youhave = translator::translate_inline("You have ");
+	$charsleft = translator::translate_inline(" characters left.");
 
 	if ($startdiv === false)
 		$startdiv = "";
@@ -38,8 +38,8 @@ function previewfield($name, $startdiv=false, $talkline="says", $showcharsleft=t
 					}");
 	}
 	if ($showcharsleft == true) {
-/*		if (translate_inline($talkline,$schema)!="says")
-		$tll = strlen(translate_inline($talkline,$schema))+11;
+/*		if (translator::translate_inline($talkline,$schema)!="says")
+		$tll = strlen(translator::translate_inline($talkline,$schema))+11;
 		else $tll=0;  // Don't know why needed
 		rawoutput("	if (x!=0) {
 						if (max.maxlength!=200-$tll) max.maxlength=200-$tll;

@@ -214,7 +214,7 @@ if ($op=="search"){
 							$badguy['creaturedefense'] = round($badguy['creaturedefense']*$mul, 0);
 							$badguy['creaturehealth'] = round($badguy['creaturehealth']*$mul, 0);
 							// And mark it as an 'elite' troop.
-							$prefixs = translate_inline($prefixs);
+							$prefixs = translator::translate_inline($prefixs);
 							$key = array_rand($prefixs);
 							$prefix = $prefixs[$key];
 							$badguy['creaturename'] = $prefix . " " . $badguy['creaturename'];
@@ -251,7 +251,7 @@ if ($op=="search"){
 							$badguy['creaturehealth'] = round($badguy['creaturehealth']*$mul, 0);
 							// And mark it as an 'elite' troop.
 							$prefixs = array("Elite","Dangerous","Lethal","Savage","Deadly","Malevolent","Malignant");
-							$prefixs = translate_inline($prefixs);
+							$prefixs = translator::translate_inline($prefixs);
 							$key = array_rand($prefixs);
 							$prefix = $prefixs[$key];
 							$badguy['creaturename'] = $prefix . " " . $badguy['creaturename'];

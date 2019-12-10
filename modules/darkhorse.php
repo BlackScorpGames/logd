@@ -24,15 +24,11 @@ function darkhorse_getmoduleinfo(){
 
 function darkhorse_tavernmount() {
 	global $playermount;
-	if (isset($playermount) && is_array($playermount) && array_key_exists("mountid",$playermount)){
-		$id = $playermount['mountid'];
-	}else{
-		$id = 0;
-	}
-	// We need the module parameter here because this function can be
+	
+        // We need the module parameter here because this function can be
 	// called from the eventchance eval and this module might not be loaded
 	// at that point.
-	$tavern = get_module_objpref("mounts", $id, "findtavern", "darkhorse");
+	$tavern = get_module_objpref("mounts", $playermount->getID(), "findtavern", "darkhorse");
 	return $tavern;
 }
 
@@ -79,8 +75,8 @@ function darkhorse_dohook($hookname,$args){
 			// add the nav
 			addnav("Other");
 			$iname = get_module_setting("tavernname");
-			require_once("lib/mountname.php");
-			list($name, $lcname) = getmountname();
+			global $mount_dev, $playermount;
+			list($name, $lcname) = $mount_dev->getName($playermount);
 			addnav(array("D?Take %s`0 to %s", $lcname, $iname),
 					"runmodule.php?module=darkhorse&op=enter");
 		}
@@ -102,7 +98,7 @@ function darkhorse_bartender($from){
 	$what = http::httpget('what');
 	if ($what==""){
 		output("The grizzled old man behind the bar reminds you very much of a strip of beef jerky.`n`n");
-		$dname = translate_inline($session['user']['sex']?"lasshie":"shon");
+		$dname = translator::translate_inline($session['user']['sex']?"lasshie":"shon");
 		output("\"`7Shay, what can I do for you %s?`0\" inquires the toothless fellow.", $dname);
 		output("\"`7Don't shee the likesh of your short too offen 'round theshe partsh.`0\"");
 		addnav("Learn about my enemies",$from."op=bartender&what=enemies");
@@ -114,7 +110,7 @@ function darkhorse_bartender($from){
 		output("He continues, \"`%To do colorsh, here'sh what you need to do.  Firsht, you ushe a &#0096; mark (found right above the tab key) followed by 1, 2, 3, 4, 5, 6, 7, !, @, #, $, %, ^, &, ), q or Q.  Each of thoshe correshpondsh with a color to look like this: `n`1&#0096;1 `2&#0096;2 `3&#0096;3 `4&#0096;4 `5&#0096;5 `6&#0096;6 `7&#0096;7 `n`!&#0096;! `@&#0096;@ `#&#0096;# `\$&#0096;\$ `%&#0096;% `^&#0096;^ `&&#0096;& `n `)&#0096;) `q&#0096;q `Q&#0096;Q `n`% got it?`0\"`n  You can practice below:", true);
 		rawoutput("<form action=\"".$from."op=bartender&what=colors\" method='POST'>");
 		$testtext = httppost('testtext');
-		$try = translate_inline("Try");
+		$try = translator::translate_inline("Try");
 		rawoutput("<input name='testtext' id='testtext'><input type='submit' class='button' value='$try'></form>");
 		addnav("",$from."op=bartender&what=colors");
 		rawoutput("<script language='JavaScript'>document.getElementById('testtext').focus();</script>");
@@ -129,7 +125,7 @@ function darkhorse_bartender($from){
 			output("\"`7Sho, you want to learn about your enemiesh, do you?  Who do you want to know about?  Well?  Shpeak up!  It only costs `^100`7 gold per person for information.`0\"");
 			$subop = http::httpget('subop');
 			if ($subop!="search"){
-				$search = translate_inline("Search");
+				$search = translator::translate_inline("Search");
 				rawoutput("<form action='".$from."op=bartender&what=enemies&subop=search' method='POST'><input name='name' id='name'><input type='submit' class='button' value='$search'></form>");
 				addnav("",$from."op=bartender&what=enemies&subop=search");
 				rawoutput("<script language='JavaScript'>document.getElementById('name').focus();</script>");
@@ -147,8 +143,8 @@ function darkhorse_bartender($from){
 					output("`n`n\"`7Hey, whatsh you think yoush doin'.  That'sh too many namesh to shay.  I'll jusht tell you 'bout shome of them.`0`n");
 					$max = 100;
 				}
-				$n = translate_inline("Name");
-				$lev = translate_inline("Level");
+				$n = translator::translate_inline("Name");
+				$lev = translator::translate_inline("Level");
 				rawoutput("<table border=0 cellpadding=0><tr><td>$n</td><td>$lev</td></tr>");
 				for ($i=0;$i<$max;$i++){
 					$row = db_fetch_assoc($result);
@@ -171,7 +167,7 @@ function darkhorse_bartender($from){
 					output("\"`7Well... letsh shee what I know about %s`7,`0\" he says...`n`n", $name);
 					output("`4`bName:`b`6 %s`n", $row['name']);
 					output("`4`bRace:`b`6 %s`n",
-							translate_inline($row['race'],"race"));
+							translator::translate_inline($row['race'],"race"));
 					output("`4`bLevel:`b`6 %s`n", $row['level']);
 					output("`4`bHitpoints:`b`6 %s`n", $row['maxhitpoints']);
 					output("`4`bGold:`b`6 %s`n", $row['gold']);
@@ -233,8 +229,8 @@ function darkhorse_runevent($type, $link){
 		output("You're sure you've seen this place before.");
 		output("As you approach the grove, a strange mist creeps in around you; your mind begins to buzz, and you're no longer sure exactly how you got here.");
 		if(darkhorse_tavernmount()) {
-			require_once("lib/mountname.php");
-			list($name, $lcname) = getmountname();
+			global $mount_dev, $playermount;
+			list($name, $lcname) = $mount_dev->getName($playermount);
 			output("%s`0 seems to have known the way, however.", $name);
 		}
 		output("`n`nThe mist clears, and before you is a log building with smoke trailing from its chimney.");

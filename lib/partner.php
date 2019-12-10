@@ -29,7 +29,7 @@ function get_partner($player=false)
 	}
 //	No need to translate names...
 //	translator::tlschema("partner");
-//	$partner = translate_inline($partner);
+//	$partner = translator::translate_inline($partner);
 //	translator::tlschema();
 	return $partner;
 }

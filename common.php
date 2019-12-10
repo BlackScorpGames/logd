@@ -3,6 +3,8 @@
 // addnews ready
 // mail ready
 
+use BlackScorpGames\logd\Mount\{Mount, MountRepository};
+
 // **** NOTICE ****
 // This series of scripts (collectively known as Legend of the Green Dragon
 // or LotGD) is copyright as per below.
@@ -58,6 +60,12 @@ require_once("lib/output.php");
 require_once("lib/tempstat.php");
 require_once("lib/su_access.php");
 require_once("lib/datetime.php");
+$translation_namespace = "";
+$translation_namespace_stack = array();
+$translation_is_enabled = true;
+$translatorbuttons = array();
+$seentlbuttons = array();
+$translation_table = array();
 require_once("lib/translator.php");
 
 if(!function_exists("file_get_contents")) {
@@ -84,7 +92,6 @@ require_once("lib/saveuser.php");
 require_once("lib/arrayutil.php");
 require_once("lib/addnews.php");
 require_once("lib/sql.php");
-require_once("lib/mounts.php");
 require_once("lib/debuglog.php");
 require_once("lib/forcednavigation.php");
 require_once("lib/php_generic_environment.php");
@@ -123,6 +130,20 @@ if (file_exists("dbconnect.php")){
 //
 //$link = db_pconnect($DB_HOST, $DB_USER, $DB_PASS);
 $link = db_connect($DB_HOST, $DB_USER, $DB_PASS);
+
+/**
+ * Quick and Dirty PDO Connection
+ * @todo removed it!
+ */
+$dsn  = 'mysql:dbname='.$DB_NAME.';host=.'.$DB_HOST.';charset=utf8';
+$options = [
+    PDO::ATTR_ERRMODE => PDO::ERRMODE_WARNING,
+    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ,
+    PDO::ATTR_EMULATE_PREPARES => false
+];
+$pdo = new \PDO($dsn, $DB_USER, $DB_PASS, $options);
+
+$mount_dev = new MountRepository($pdo, $DB_PREFIX);
 
 $out = ob_get_contents();
 ob_end_clean();
@@ -182,8 +203,8 @@ if (strtotime("-".getsetting("LOGINTIMEOUT",900)." seconds") > $session['lasthit
 	// technically we should be able to translate this, but for now,
 	// ignore it.
 	// 1.1.1 now should be a good time to get it on with it, added tl-inline
-	translator_setup();
-	$session['message'].=translate_inline("`nYour session has expired!`n","common");
+	translator::translator_setup();
+	$session['message'].=translator::translate_inline("`nYour session has expired!`n","common");
 }
 $session['lasthit']=strtotime("now");
 
@@ -332,7 +353,7 @@ if ($session['user']['superuser']==0){
 prepare_template();
 
 if (!isset($session['user']['hashorse'])) $session['user']['hashorse']=0;
-$playermount = getmount($session['user']['hashorse']);
+$playermount = $mount_dev->getMount($session['user']['hashorse']);
 $temp_comp = @unserialize($session['user']['companions']);
 $companions = array();
 if(is_array($temp_comp)) {
@@ -361,7 +382,7 @@ if ($session['user']['superuser'] & SU_MEGAUSER)
 	$session['user']['superuser'] =
 		$session['user']['superuser'] | SU_EDIT_USERS;
 
-translator_setup();
+translator::translator_setup();
 //set up the error handler after the intial setup (since it does require a
 //db call for notification)
 require_once("lib/errorhandler.php");

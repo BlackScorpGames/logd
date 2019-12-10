@@ -20,7 +20,7 @@ if ($op=="xml") {
 		echo("\"/>");
 	}
 	if (db_num_rows($r) == 0) {
-		echo("<name name=\"" . translate_inline("NONE") . "\"/>");
+		echo("<name name=\"" . translator::translate_inline("NONE") . "\"/>");
 	}
 	echo("</xml>");
 	exit();
@@ -154,19 +154,19 @@ if ($op==""){
 	</script>");
 
 	$sql = "SELECT * FROM " . db_prefix("mounts") . " ORDER BY mountcategory, mountcostgems, mountcostgold";
-	$ops = translate_inline("Ops");
-	$name = translate_inline("Name");
-	$cost = translate_inline("Cost");
-	$feat = translate_inline("Features");
-	$owners = translate_inline("Owners");
+	$ops = translator::translate_inline("Ops");
+	$name = translator::translate_inline("Name");
+	$cost = translator::translate_inline("Cost");
+	$feat = translator::translate_inline("Features");
+	$owners = translator::translate_inline("Owners");
 
-	$edit = translate_inline("Edit");
-	$give = translate_inline("Give");
-	$del = translate_inline("Del");
-	$deac = translate_inline("Deactivate");
-	$act = translate_inline("Activate");
+	$edit = translator::translate_inline("Edit");
+	$give = translator::translate_inline("Give");
+	$del = translator::translate_inline("Del");
+	$deac = translator::translate_inline("Deactivate");
+	$act = translator::translate_inline("Activate");
 
-	$conf = translate_inline("There are %s user(s) who own this mount, are you sure you wish to delete it?");
+	$conf = translator::translate_inline("There are %s user(s) who own this mount, are you sure you wish to delete it?");
 
 	rawoutput("<table border=0 cellpadding=2 cellspacing=1 bgcolor='#999999'>");
 	rawoutput("<tr class='trhead'><td nowrap>$ops</td><td>$name</td><td>$cost</td><td>$feat</td><td nowrap>$owners</td></tr>");
@@ -220,7 +220,7 @@ if ($op==""){
 		$mcount = 1;
 		$max = count($features);
 		foreach ($features as $fname=>$fval) {
-			$fname = translate_inline($fname);
+			$fname = translator::translate_inline($fname);
 			output_notl("%s: %s%s", $fname,  $fval, ($mcount==$max?"":", "));
 			$mcount++;
 		}
@@ -346,9 +346,9 @@ function mountform($mount){
 	// they are located in 'Degolburg' (ie, getgamesetting('villagename'));
 	// Some later module can remove them however.
 	$vname = getsetting('villagename', LOCATION_FIELDS);
-	$locs = array($vname => sprintf_translate("The Village of %s", $vname));
+	$locs = array($vname => translator::sprintf_translate("The Village of %s", $vname));
 	$locs = modulehook("stablelocs", $locs);
-	$locs['all'] = translate_inline("Everywhere");
+	$locs['all'] = translator::translate_inline("Everywhere");
 	ksort($locs);
 	reset($locs);
 	rawoutput("<select name='mount[mountlocation]'>");
@@ -458,7 +458,7 @@ function mountform($mount){
 	output("`@Finally, starting a field with 'debug:' will enable debug output for that field to help you locate errors in your implementation.");
 	output("While testing new buffs, you should be sure to debug fields before you release them on the world, as the PHP script will otherwise throw errors to the user if you have any, and this can break the site at various spots (as in places that redirects should happen).");
 	rawoutput("</td></tr></table>");
-	$save = translate_inline("Save");
+	$save = translator::translate_inline("Save");
 	rawoutput("<input type='submit' class='button' value='$save'></form>");
 }
 

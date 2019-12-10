@@ -25,14 +25,14 @@ function drinks_dohook_private($hookname,$args) {
 				8=>"really hammered",
 				9=>"almost unconscious",
 				10=>"about to pass out");
-		$drunklist = translate_inline($drunklist);
+		$drunklist = translator::translate_inline($drunklist);
 		$drunk = round($drunk/10-.5, 0);
 		if ($drunk > 10) $drunk = 10;
 		$hard = "";
 		if (get_module_pref('harddrinks')>=get_module_setting('hardlimit')) {
 			translator::tlschema($drinktexts['schemas']['toomany']);
 			output_notl("`n`n");
-			$remark = translate_inline($drinktexts['toomany']);
+			$remark = translator::translate_inline($drinktexts['toomany']);
 			$remark = str_replace("{lover}",$partner."`0", $remark);
 			$remark = str_replace("{barkeep}", $drinktext['barkeep']."`0", $remark);
 			output_notl("%s`n", $remark);

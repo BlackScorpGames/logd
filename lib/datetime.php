@@ -14,7 +14,7 @@ function reltime($date,$short=true){
 	$s = (int)($x);
 	if ($short){
 		$array=array("d"=>"d","h"=>"h","m"=>"m","s"=>"s");
-		$array=translate_inline($array,"datetime");
+		$array=translator::translate_inline($array,"datetime");
 		if ($d > 0)
 			$o = $d.$array['d'].($h>0?$h.$array['h']:"");
 		elseif ($h > 0)
@@ -35,7 +35,7 @@ function reltime($date,$short=true){
 		$o = str_replace(" ", "&nbsp;", $o);*/
 	}else{
 		$array=array("day"=>"day","days"=>"days","hour"=>"hour","hours"=>"hours","minute"=>"minute","minutes"=>"minutes","second"=>"second","seconds"=>"second");
-		$array=translate_inline($array,"datetime"); //translate it... tl-ready now
+		$array=translator::translate_inline($array,"datetime"); //translate it... tl-ready now
 		if ($d > 0)
 			$o = "$d ".($d>1?$array['days']:$array['day']).($h>0?", $h ".($h>1?$array['hours']:$array['hour']):"");
 		elseif ($h > 0)
@@ -52,16 +52,16 @@ function relativedate($indate){
 	$laston = round((strtotime("now")-strtotime($indate)) / 86400,0) . " days";
 	translator::tlschema("datetime");
 	if (substr($laston,0,2)=="1 ")
-		$laston=translate_inline("1 day");
+		$laston=translator::translate_inline("1 day");
 	elseif (date("Y-m-d",strtotime($laston)) == date("Y-m-d"))
-		$laston=translate_inline("Today");
+		$laston=translator::translate_inline("Today");
 	elseif (date("Y-m-d",strtotime($laston)) == date("Y-m-d",strtotime("-1 day")))
-		$laston=translate_inline("Yesterday");
+		$laston=translator::translate_inline("Yesterday");
 	elseif (strpos($indate,"0000-00-00")!==false)
-		$laston = translate_inline("Never");
+		$laston = translator::translate_inline("Never");
 	else {
-		$laston= sprintf_translate("%s days", round((strtotime("now")-strtotime($indate)) / 86400,0));
-		rawoutput(tlbutton_clear());
+		$laston= translator::sprintf_translate("%s days", round((strtotime("now")-strtotime($indate)) / 86400,0));
+		rawoutput(translator::tlbutton_clear());
 	}
 	translator::tlschema();
 	return $laston;

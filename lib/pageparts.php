@@ -30,7 +30,7 @@ function page_header(){
 	$nopopups["mail.php"]=1;
 
 	//in case this didn't already get called (such as on a database error)
-	translator_setup();
+	translator::translator_setup();
 	prepare_template();
 	$script = substr($SCRIPT_NAME,0,strrpos($SCRIPT_NAME,"."));
 	if ($script) {
@@ -50,14 +50,14 @@ function page_header(){
 	if (!$arguments || count($arguments) == 0) {
 		$arguments = array("Legend of the Green Dragon");
 	}
-	$title = call_user_func_array("sprintf_translate", $arguments);
+	$title = call_user_func_array("translator::sprintf_translate", $arguments);
 	$title = holidayize($title,'title');
 	$title = sanitize($title);
 	calculate_buff_fields();
 
 	$header = $template['header'];
 	$header=str_replace("{title}",$title,$header);
-	$header.=tlbutton_pop();
+	$header.=translator::tlbutton_pop();
 }
 
 /**
@@ -319,8 +319,8 @@ function page_footer($saveuser=true){
 	}
 	//output petition count
 
-	$header=str_replace("{petition}","<a href='petition.php' onClick=\"".popup("petition.php").";return false;\" target='_blank' align='right' class='motd'>".translate_inline("Petition for Help")."</a>",$header);
-	$footer=str_replace("{petition}","<a href='petition.php' onClick=\"".popup("petition.php").";return false;\" target='_blank' align='right' class='motd'>".translate_inline("Petition for Help")."</a>",$footer);
+	$header=str_replace("{petition}","<a href='petition.php' onClick=\"".popup("petition.php").";return false;\" target='_blank' align='right' class='motd'>".translator::translate_inline("Petition for Help")."</a>",$header);
+	$footer=str_replace("{petition}","<a href='petition.php' onClick=\"".popup("petition.php").";return false;\" target='_blank' align='right' class='motd'>".translator::translate_inline("Petition for Help")."</a>",$footer);
 	if ($session['user']['superuser'] & SU_EDIT_PETITIONS){
 		$sql = "SELECT count(petitionid) AS c,status FROM " . db_prefix("petitions") . " GROUP BY status";
 		$result = db_query_cached($sql,"petition_counts");
@@ -328,8 +328,8 @@ function page_footer($saveuser=true){
 		while ($row = db_fetch_assoc($result)) {
 			$petitions[(int)$row['status']] = $row['c'];
 		}
-		$pet = translate_inline("`0`bPetitions:`b");
-		$ued = translate_inline("`0`bUser Editor`b");
+		$pet = translator::translate_inline("`0`bPetitions:`b");
+		$ued = translator::translate_inline("`0`bUser Editor`b");
 		db_free_result($result);
 		if ($session['user']['superuser'] & SU_EDIT_USERS){
 			$p = "<a href='user.php'>$ued</a>|<a href='viewpetition.php'>$pet</a>";
@@ -354,8 +354,8 @@ function page_footer($saveuser=true){
 	$header=str_replace("{script}",$script,$header);
 	//output view PHP source link
 	$sourcelink = "source.php?url=".preg_replace("/[?].*/","",($_SERVER['REQUEST_URI']));
-	$footer=str_replace("{source}","<a href='$sourcelink' onclick=\"".popup($sourcelink).";return false;\" target='_blank'>".translate_inline("View PHP Source")."</a>",$footer);
-	$header=str_replace("{source}","<a href='$sourcelink' onclick=\"".popup($sourcelink).";return false;\" target='_blank'>".translate_inline("View PHP Source")."</a>",$header);
+	$footer=str_replace("{source}","<a href='$sourcelink' onclick=\"".popup($sourcelink).";return false;\" target='_blank'>".translator::translate_inline("View PHP Source")."</a>",$footer);
+	$header=str_replace("{source}","<a href='$sourcelink' onclick=\"".popup($sourcelink).";return false;\" target='_blank'>".translator::translate_inline("View PHP Source")."</a>",$header);
 	//output version
 	$footer=str_replace("{version}", "Version: $logd_version", $footer);
 	//output page generation time
@@ -392,7 +392,7 @@ function page_footer($saveuser=true){
 function popup_header($title="Legend of the Green Dragon"){
 	global $header, $template;
 
-	translator_setup();
+	translator::translator_setup();
 	prepare_template();
 
 	modulehook("header-popup");
@@ -401,7 +401,7 @@ function popup_header($title="Legend of the Green Dragon"){
 	if (!$arguments || count($arguments) == 0) {
 		$arguments = array("Legend of the Green Dragon");
 	}
-	$title = call_user_func_array("sprintf_translate", $arguments);
+	$title = call_user_func_array("translator::sprintf_translate", $arguments);
 	$title = holidayize($title,'title');
 
 	$header = $template['popuphead'];
@@ -525,18 +525,18 @@ function getcharstats($buffs){
 	reset($charstat_info);
 	foreach ($charstat_info as $label=>$section) {
 		if (count($section)) {
-			$arr = array("title"=>translate_inline($label));
+			$arr = array("title"=>translator::translate_inline($label));
 			$sectionhead = templatereplace("stathead", $arr);
 			reset($section);
 			foreach ($section as $name=>$val) {
 				if ($name==$label){
 					// when the section and stat name are equal, use
 					// 'statbuff' template piece.
-					$a2 = array("title"=>translate_inline("`0$name"),
+					$a2 = array("title"=>translator::translate_inline("`0$name"),
 							"value"=>"`^$val`0");
 					$charstat_str .= templatereplace("statbuff", $a2);
 				}else{
-					$a2 = array("title"=>translate_inline("`&$name`0"),
+					$a2 = array("title"=>translator::translate_inline("`&$name`0"),
 							"value"=>"`^$val`0");
 					$charstat_str .= $sectionhead.templatereplace("statrow", $a2);
 					$sectionhead = "";
@@ -545,7 +545,7 @@ function getcharstats($buffs){
 		}
 	}
 	$charstat_str .= templatereplace("statbuff",
-			array("title"=>translate_inline("`0Buffs"),"value"=>$buffs));
+			array("title"=>translator::translate_inline("`0Buffs"),"value"=>$buffs));
 	$charstat_str .= templatereplace("statend");
 	return appoencode($charstat_str,true);
 }
@@ -607,15 +607,15 @@ function charstats(){
 					$val['name'] = "DEBUG: {$key}";
 				if (is_array($val['name'])) {
 					$val['name'][0] = str_replace("`%","`%%",$val['name'][0]);
-					$val['name']=call_user_func_array("sprintf_translate", $val['name']);
+					$val['name']=call_user_func_array("translator::sprintf_translate", $val['name']);
 				} else { //in case it's a string
-					$val['name']=translate_inline($val['name']);
+					$val['name']=translator::translate_inline($val['name']);
 				}
 				if ($val['rounds']>=0){
 					// We're about to sprintf, so, let's makes sure that
 					// `% is handled.
-					//$n = translate_inline(str_replace("`%","`%%",$val['name']));
-					$b = translate_inline("`#%s `7(%s rounds left)`n","buffs");
+					//$n = translator::translate_inline(str_replace("`%","`%%",$val['name']));
+					$b = translator::translate_inline("`#%s `7(%s rounds left)`n","buffs");
 					$b = sprintf($b, $val['name'], $val['rounds']);
 					$buffs.=appoencode($b, true);
 				}else{
@@ -626,7 +626,7 @@ function charstats(){
 			}
 		}
 		if ($buffcount==0){
-			$buffs.=appoencode(translate_inline("`^None`0"),true);
+			$buffs.=appoencode(translator::translate_inline("`^None`0"),true);
 		}
 
 		$atk = round($atk, 2);
@@ -664,11 +664,11 @@ function charstats(){
 			addcharstat("Psyche", 10+round(($u['level']-1)*1.5));
 			addcharstat("Spirit", 10+round(($u['level']-1)*1.5));
 		}
-		addcharstat("Spirits", translate_inline("`b".$spirits[(int)$u['spirits']]."`b"));
+		addcharstat("Spirits", translator::translate_inline("`b".$spirits[(int)$u['spirits']]."`b"));
 		if ($u['race'] != RACE_UNKNOWN) {
-			addcharstat("Race", translate_inline($u['race'],"race"));
+			addcharstat("Race", translator::translate_inline($u['race'],"race"));
 		}else {
-			addcharstat("Race", translate_inline(RACE_UNKNOWN,"race"));
+			addcharstat("Race", translator::translate_inline(RACE_UNKNOWN,"race"));
 		}
 		if (count($companions)>0) {
 			addcharstat("Companions");
@@ -703,8 +703,8 @@ function charstats(){
 		addcharstat("Weapon", $u['weapon']);
 		addcharstat("Armor", $u['armor']);
 		if ($u['hashorse'])
-			addcharstat("Creature", $playermount['mountname'] . "`0");
-
+			addcharstat("Creature", $playermount->getName() . "`0");
+                
 		modulehook("charstats");
 
 		$charstat = getcharstats($buffs);
@@ -726,14 +726,14 @@ function charstats(){
 			} else {
 				$sql="SELECT name,alive,location,sex,level,laston,loggedin,lastip,uniqueid FROM " . db_prefix("accounts") . " WHERE locked=0 AND loggedin=1 AND laston>'".date("Y-m-d H:i:s",strtotime("-".getsetting("LOGINTIMEOUT",900)." seconds"))."' ORDER BY level DESC";
 				$result = db_query($sql);
-				$ret.=appoencode(sprintf(translate_inline("`bOnline Characters (%s players):`b`n"),db_num_rows($result)));
+				$ret.=appoencode(sprintf(translator::translate_inline("`bOnline Characters (%s players):`b`n"),db_num_rows($result)));
 				while ($row = db_fetch_assoc($result)) {
 					$ret.=appoencode("`^{$row['name']}`n");
 					$onlinecount++;
 				}
 				db_free_result($result);
 				if ($onlinecount==0)
-					$ret.=appoencode(translate_inline("`iNone`i"));
+					$ret.=appoencode(translator::translate_inline("`iNone`i"));
 			}
 			savesetting("OnlineCount",$onlinecount);
 			savesetting("OnlineCountLast",strtotime("now"));
@@ -784,9 +784,9 @@ function maillink(){
 	$row['seencount']=(int)$row['seencount'];
 	$row['notseen']=(int)$row['notseen'];
 	if ($row['notseen']>0){
-		return sprintf("<a href='mail.php' target='_blank' onClick=\"".popup("mail.php").";return false;\" class='hotmotd'>".translate_inline("Ye Olde Mail: %s new, %s old", 'common')."</a>",$row['notseen'],$row['seencount']);
+		return sprintf("<a href='mail.php' target='_blank' onClick=\"".popup("mail.php").";return false;\" class='hotmotd'>".translator::translate_inline("Ye Olde Mail: %s new, %s old", 'common')."</a>",$row['notseen'],$row['seencount']);
 	}else{
-		return sprintf("<a href='mail.php' target='_blank' onClick=\"".popup("mail.php").";return false;\" class='motd'>".translate_inline("Ye Olde Mail: %s new, %s old", 'common')."</a>",$row['notseen'],$row['seencount']);
+		return sprintf("<a href='mail.php' target='_blank' onClick=\"".popup("mail.php").";return false;\" class='motd'>".translator::translate_inline("Ye Olde Mail: %s new, %s old", 'common')."</a>",$row['notseen'],$row['seencount']);
 	}
 }
 
@@ -798,9 +798,9 @@ function maillink(){
 function motdlink(){
 	global $session;
 	if ($session['needtoviewmotd']){
-		return "<a href='motd.php' target='_blank' onClick=\"".popup("motd.php").";return false;\" class='hotmotd'><b>".translate_inline("MoTD")."</b></a>";
+		return "<a href='motd.php' target='_blank' onClick=\"".popup("motd.php").";return false;\" class='hotmotd'><b>".translator::translate_inline("MoTD")."</b></a>";
 	}else{
-		return "<a href='motd.php' target='_blank' onClick=\"".popup("motd.php").";return false;\" class='motd'><b>".translate_inline("MoTD")."</b></a>";
+		return "<a href='motd.php' target='_blank' onClick=\"".popup("motd.php").";return false;\" class='motd'><b>".translator::translate_inline("MoTD")."</b></a>";
 	}
 }
 ?>

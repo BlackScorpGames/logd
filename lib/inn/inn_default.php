@@ -46,11 +46,11 @@ if (!$skipinndesc) {
 	output("%s`0 the innkeep stands behind his counter, chatting with someone.",$barkeep);
 
 	$chats = array(
-		translate_inline("dragons"),
-		translate_inline(getsetting("bard", "`^Seth")),
-		translate_inline(getsetting("barmaid", "`%Violet")),
-		translate_inline("`#MightyE"),
-		translate_inline("fine drinks"),
+		translator::translate_inline("dragons"),
+		translator::translate_inline(getsetting("bard", "`^Seth")),
+		translator::translate_inline(getsetting("barmaid", "`%Violet")),
+		translator::translate_inline("`#MightyE"),
+		translator::translate_inline("fine drinks"),
 		$partner,
 	);
 	$chats = modulehook("innchatter", $chats);

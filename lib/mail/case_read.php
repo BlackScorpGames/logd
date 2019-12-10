@@ -7,19 +7,19 @@ if (db_num_rows($result)>0){
 	$row = db_fetch_assoc($result);
 	if ($row['msgfrom']==0  || !is_numeric($row['msgfrom'])){
 		if ($row['msgfrom'] == 0 && is_numeric($row['msgfrom'])) {
-			$row['name']=translate_inline("`i`^System`0`i");
+			$row['name']=translator::translate_inline("`i`^System`0`i");
 		} else {
 			$row['name']=$row['msgfrom'];
 		}
 		// No translation for subject if it's not an array
 		$row_subject = @unserialize($row['subject']);
 		if ($row_subject !== false) {
-			$row['subject'] = call_user_func_array("sprintf_translate", $row_subject);
+			$row['subject'] = call_user_func_array("translator::sprintf_translate", $row_subject);
 		}
 		// No translation for body if it's not an array
 		$row_body = @unserialize($row['body']);
 		if ($row_body !== false) {
-			$row['body'] = call_user_func_array("sprintf_translate", $row_body);
+			$row['body'] = call_user_func_array("translator::sprintf_translate", $row_body);
 		}
 	}
 	if (!$row['seen']) {
@@ -36,10 +36,10 @@ if (db_num_rows($result)>0){
 	$sql = "UPDATE " . db_prefix("mail") . " SET seen=1 WHERE  msgto=\"".$session['user']['acctid']."\" AND messageid=\"".$id."\"";
 	db_query($sql);
 	invalidatedatacache("mail-{$session['user']['acctid']}");
-	$reply = translate_inline("Reply");
-	$del = translate_inline("Delete");
-	$unread = translate_inline("Mark Unread");
-	$report = translate_inline("Report to Admin");
+	$reply = translator::translate_inline("Reply");
+	$del = translator::translate_inline("Delete");
+	$unread = translator::translate_inline("Mark Unread");
+	$report = translator::translate_inline("Report to Admin");
 	$problem = "Abusive Email Report:\nFrom: {$row['name']}\nSubject: {$row['subject']}\nSent: {$row['sent']}\nID: {$row['messageid']}\nBody:\n{$row['body']}";
 	rawoutput("<table width='50%' border='0' cellpadding='0' cellspacing='5'><tr>");
 	if ($row['msgfrom'] > 0 && is_numeric($row['msgfrom'])) {
@@ -73,8 +73,8 @@ if (db_num_rows($result)>0){
 	}else{
 		$nid = 0;
 	}
-	$prev = translate_inline("< Previous");
-	$next = translate_inline("Next >");
+	$prev = translator::translate_inline("< Previous");
+	$next = translator::translate_inline("Next >");
 	rawoutput("<td nowrap='true'>");
 	if ($pid > 0) {
 		rawoutput("<a href='mail.php?op=read&id=$pid' class='motd'>".htmlentities($prev, ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."</a>");

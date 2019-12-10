@@ -136,7 +136,7 @@ function racedwarf_dohook($hookname,$args){
 	case "moderate":
 		if (is_module_active("cities")) {
 			translator::tlschema("commentary");
-			$args["village-$race"]=sprintf_translate("City of %s", $city);
+			$args["village-$race"]=translator::sprintf_translate("City of %s", $city);
 			translator::tlschema();
 		}
 		break;
@@ -240,10 +240,10 @@ function racedwarf_dohook($hookname,$args){
 		$args['schemas']['toomany'] = "module-racedwarf";
 		$args['drinksubs']=array(
 				"/Cedrik/"=>$args['barkeep']."`0",
-				"/ Violet /"=>translate_inline(" a stranger "),
-				"/ Seth /"=>translate_inline(" a stranger "),
-				"/ `.Violet`. /"=>translate_inline(" a stranger "),
-				"/ `.Seth`. /"=>translate_inline(" a stranger "),
+				"/ Violet /"=>translator::translate_inline(" a stranger "),
+				"/ Seth /"=>translator::translate_inline(" a stranger "),
+				"/ `.Violet`. /"=>translator::translate_inline(" a stranger "),
+				"/ `.Seth`. /"=>translator::translate_inline(" a stranger "),
 				);
 		break;
 	case "drinks-check":
@@ -253,7 +253,7 @@ function racedwarf_dohook($hookname,$args){
 		}
 		break;
 	case "camplocs":
-		$args[$city] = sprintf_translate("The Village of %s", $city);
+		$args[$city] = translator::sprintf_translate("The Village of %s", $city);
 		break;
 	case "mercenarycamptext":
 		if ($session['user']['location'] == $city) {

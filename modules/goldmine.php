@@ -113,8 +113,8 @@ function goldmine_runevent($type)
 			$horsecandie = get_module_objpref('mounts', $hashorse, 'dieinmine');
 			$horsecansave = get_module_objpref('mounts', $hashorse, 'saveplayer');
 		}
-		require_once("lib/mountname.php");
-		list($mountname, $lcmountname) = getmountname();
+		global $mount_dev, $playermount;
+		list($mountname, $lcmountname) = $mount_dev->getName($playermount);
 	}
 	$session['user']['specialinc']="module:goldmine";
 	$op = http::httpget('op');
@@ -168,7 +168,7 @@ function goldmine_runevent($type)
 				break;
 			case 11: case 12: case 13: case 14: case 15:
 				$gems = e_rand(1, round($session['user']['level']/7)+1);
-				output("`^After a few hours of hard work, you find `%%s %s`^!`n`n", $gems, translate_inline($gems == 1 ? "gem" : "gems"));
+				output("`^After a few hours of hard work, you find `%%s %s`^!`n`n", $gems, translator::translate_inline($gems == 1 ? "gem" : "gems"));
 				$session['user']['gems'] += $gems;
 				debuglog("found $gems gems in the goldmine");
 				output("`^You lose one forest fight while digging.`n`n");
@@ -179,7 +179,7 @@ function goldmine_runevent($type)
 				$gold = e_rand($session['user']['level']*10, $session['user']['level']*40);
 				$gems = e_rand(1, round($session['user']['level']/3)+1);
 				output("`^You have found the mother lode!`n`n");
-				output("`^After a few hours of hard work, you find `%%s %s`^ and %s gold!`n`n", $gems, translate_inline($gems==1?"gem":"gems"), $gold);
+				output("`^After a few hours of hard work, you find `%%s %s`^ and %s gold!`n`n", $gems, translator::translate_inline($gems==1?"gem":"gems"), $gold);
 				$session['user']['gems'] += $gems;
 				$session['user']['gold'] += $gold;
 				debuglog("found $gold gold and $gems gems in the goldmine");
@@ -198,7 +198,7 @@ function goldmine_runevent($type)
 				$racesave = 1;
 				if (isset($vals['racesave']) && $vals['racesave']) {
 					if ($vals['schema']) translator::tlschema($vals['schema']);
-					$racemsg = translate_inline($vals['racesave']);
+					$racemsg = translator::translate_inline($vals['racesave']);
 					if ($vals['schema']) translator::tlschema();
 				}
 
@@ -226,7 +226,7 @@ function goldmine_runevent($type)
 							output("%s`7's bones were buried right alongside yours.", $mountname);
 						}
 						global $playermount;
-						$debugmount = $playermount['mountname'];
+						$debugmount = $playermount->getName();
 						debuglog("lost their mount, a $debugmount, in a mine collapse.");
 						$session['user']['hashorse'] = 0;
 						if(isset($session['bufflist']['mount']))
@@ -249,7 +249,7 @@ function goldmine_runevent($type)
 					$gemlost = round(get_module_setting("percentgemloss")/100 * $session['user']['gems'], 0);
 					$goldlost = round(get_module_setting("percentgoldloss")/100 * $session['user']['gold'], 0);
 					debuglog("lost $goldlost gold and $gemlost gems by dying in the goldmine");
-					output("`^%s gold `&and `%%s %s`& were lost when you were buried!", $goldlost, $gemlost, translate_inline($gemlost == 1?"gem":"gems"));
+					output("`^%s gold `&and `%%s %s`& were lost when you were buried!", $goldlost, $gemlost, translator::translate_inline($gemlost == 1?"gem":"gems"));
 					$session['user']['gold'] -= $goldlost;
 					$session['user']['gems'] -= $gemlost;
 					addnav("Daily News","news.php");

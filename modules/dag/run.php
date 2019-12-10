@@ -27,13 +27,13 @@ function dag_run_private(){
 		$sql = "SELECT bountyid,amount,target,setter,setdate FROM " . db_prefix("bounty") . " WHERE status=0 AND setdate<='".date("Y-m-d H:i:s")."' ORDER BY bountyid ASC";
 		$result = db_query($sql);
 		rawoutput("<table border=0 cellpadding=2 cellspacing=1 bgcolor='#999999'>");
-		$amount = translate_inline("Amount");
-		$level = translate_inline("Level");
-		$name = translate_inline("Name");
-		$loc = translate_inline("Location");
-		$sex = translate_inline("Sex");
-		$alive = translate_inline("Alive");
-		$last = translate_inline("Last On");
+		$amount = translator::translate_inline("Amount");
+		$level = translator::translate_inline("Level");
+		$name = translator::translate_inline("Name");
+		$loc = translator::translate_inline("Location");
+		$sex = translator::translate_inline("Sex");
+		$alive = translator::translate_inline("Alive");
+		$last = translator::translate_inline("Last On");
 		rawoutput("<tr class='trhead'><td><b>$amount</b></td><td><b>$level</b></td><td><b>$name</b></td><td><b>$loc</b></td><td><b>$sex</b></td><td><b>$alive</b></td><td><b>$last</b></td>");
 		$listing = array();
 		$totlist = 0;
@@ -112,7 +112,7 @@ function dag_run_private(){
 			output("`2Amount to Place: ");
 			rawoutput("<input name='amount' id='amount' width='5'>");
 			output_notl("`n`n");
-			$final = translate_inline("Finalize Contract");
+			$final = translator::translate_inline("Finalize Contract");
 			rawoutput("<input type='submit' class='button' value='$final'>");
 			rawoutput("</form>");
 			addnav("","runmodule.php?module=dag&op=finalize");
@@ -148,7 +148,7 @@ function dag_run_private(){
 			output("`2Amount to Place: ");
 			rawoutput("<input name='amount' id='amount' width='5' value='$amount'>");
 			output_notl("`n`n");
-			$final = translate_inline("Finalize Contract");
+			$final = translator::translate_inline("Finalize Contract");
 			rawoutput("<input type='submit' class='button' value='$final'>");
 			rawoutput("</form>");
 			addnav("","runmodule.php?module=dag&op=finalize&subfinal=1");

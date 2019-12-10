@@ -28,7 +28,7 @@ if ($op=="unblock"){
 $sql = "SELECT name,acctid,bio,biotime FROM " . db_prefix("accounts") . " WHERE biotime<'9999-12-31' AND bio>'' ORDER BY biotime DESC LIMIT 100";
 $result = db_query($sql);
 page_header("User Bios");
-$block = translate_inline("Block");
+$block = translator::translate_inline("Block");
 output("`b`&Player Bios:`0`b`n");
 $number=db_num_rows($result);
 for ($i=0;$i<$number;$i++){
@@ -52,7 +52,7 @@ addnav("Refresh","bios.php");
 $sql = "SELECT name,acctid,bio,biotime FROM " . db_prefix("accounts") . " WHERE biotime>'9000-01-01' AND bio>'' ORDER BY biotime DESC LIMIT 100";
 $result = db_query($sql);
 output("`n`n`b`&Blocked Bios:`0`b`n");
-$unblock = translate_inline("Unblock");
+$unblock = translator::translate_inline("Unblock");
 $number=db_num_rows($result);
 for ($i=0;$i<$number;$i++){
 	$row = db_fetch_assoc($result);

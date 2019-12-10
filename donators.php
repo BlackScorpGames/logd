@@ -23,7 +23,7 @@ translator::tlschema("nav");
 addnav("Return whence you came", $return);
 translator::tlschema();
 
-$add = translate_inline("Add Donation");
+$add = translator::translate_inline("Add Donation");
 rawoutput("<form action='donators.php?op=add1&ret=" . rawurlencode($ret) . "' method='POST'>");
 addnav("", "donators.php?op=add1&ret=" . rawurlencode($ret) . "");
 $name = httppost("name");
@@ -39,7 +39,7 @@ $txnid = httppost("txnid");
 if ($txnid == "")
     $txnid = http::httpget("txnid");
 if ($reason == "")
-    $reason = translate_inline("manual donation entry");
+    $reason = translator::translate_inline("manual donation entry");
 
 
 output("`bAdd Donation Points:`b`n");
@@ -117,9 +117,9 @@ if ($op == "") {
     $sql = "SELECT name,donation,donationspent FROM " . db_prefix("accounts") . " WHERE donation>0 ORDER BY donation DESC LIMIT 25";
     $result = db_query($sql);
 
-    $name = translate_inline("Name");
-    $points = translate_inline("Points");
-    $spent = translate_inline("Spent");
+    $name = translator::translate_inline("Name");
+    $points = translator::translate_inline("Points");
+    $spent = translator::translate_inline("Spent");
 
     rawoutput("<table border='0' cellpadding='3' cellspacing='1' bgcolor='#999999'>");
     rawoutput("<tr class='trhead'><td>$name</td><td>$points</td><td>$spent</td></tr>");

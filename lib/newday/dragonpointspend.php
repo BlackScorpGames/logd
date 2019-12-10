@@ -61,7 +61,7 @@ if ($dkills-$dp > 1) {
 	}
 	rawoutput("<tr><td colspan='2'>&nbsp;");
 	rawoutput("</td></tr><tr><td colspan='2' align='center'>");
-	$click = translate_inline("Spend");
+	$click = translator::translate_inline("Spend");
 	rawoutput("<input id='dksub' type='submit' class='button' value='$click'>");
 	rawoutput("</td></tr><tr><td colspan='2'>&nbsp;");
 	rawoutput("</td></tr><tr><td colspan='2' align='center'>");

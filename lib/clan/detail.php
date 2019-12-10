@@ -11,7 +11,7 @@
 			invalidatedatacache("clandata-$detail");
 		}
 		if (httppost('block')>""){
-			$blockdesc = translate_inline("Description blocked for inappropriate usage.");
+			$blockdesc = translator::translate_inline("Description blocked for inappropriate usage.");
 			$sql = "UPDATE " . db_prefix("clans") . " SET descauthor=4294967295, clandesc='$blockdesc' where clanid='$detail'";
 			output("Blocking public description`n");
 			db_query($sql);
@@ -36,10 +36,10 @@
 		output("`nShort Name: ");
 		rawoutput("<input name='clanshort' value=\"".htmlentities($row1['clanshort'], ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."\" maxlength=5 size=5>");
 		output_notl("`n");
-		$save = translate_inline("Save");
+		$save = translator::translate_inline("Save");
 		rawoutput("<input type='submit' class='button' value=\"$save\">");
-		$snu = htmlentities(translate_inline("Save & UNblock public description"), ENT_COMPAT, getsetting("charset", "ISO-8859-1"));
-		$snb = htmlentities(translate_inline("Save & Block public description"), ENT_COMPAT, getsetting("charset", "ISO-8859-1"));
+		$snu = htmlentities(translator::translate_inline("Save & UNblock public description"), ENT_COMPAT, getsetting("charset", "ISO-8859-1"));
+		$snb = htmlentities(translator::translate_inline("Save & Block public description"), ENT_COMPAT, getsetting("charset", "ISO-8859-1"));
 		if ($row1['descauthor']=="4294967295")
 			rawoutput("<input type='submit' name='unblock' value=\"$snu\" class='button'>");
 		else
@@ -47,7 +47,7 @@
 		rawoutput("</form>");
 		rawoutput("</div>");
 		rawoutput("<script language='JavaScript'>var hidearea = document.getElementById('hidearea');hidearea.style.visibility='hidden';hidearea.style.display='none';</script>",true);
-		$e = translate_inline("Edit Clan Info");
+		$e = translator::translate_inline("Edit Clan Info");
 		rawoutput("<a href='#' onClick='hidearea.style.visibility=\"visible\"; hidearea.style.display=\"inline\"; return false;'>$e</a>",true);
 		output_notl("`n");
 	}
@@ -57,10 +57,10 @@
 	output("`0This is the current clan membership of %s < %s >:`n",$row1['clanname'],$row1['clanshort']);
 	page_header("Clan Membership for %s &lt;%s&gt;", full_sanitize($row1['clanname']), full_sanitize($row1['clanshort']));
 	addnav("Clan Options");
-	$rank = translate_inline("Rank");
-	$name = translate_inline("Name");
-	$dk = translate_inline("Dragon Kills");
-	$jd = translate_inline("Join Date");
+	$rank = translator::translate_inline("Rank");
+	$name = translator::translate_inline("Name");
+	$dk = translator::translate_inline("Dragon Kills");
+	$jd = translator::translate_inline("Join Date");
 	rawoutput("<table border='0' cellpadding='2' cellspacing='0'>");
 	rawoutput("<tr class='trhead'><td>$rank</td><td>$name</td><td>$dk</td><td>$jd</td></tr>");
 	$i=0;
@@ -70,7 +70,7 @@
 	//little hack with the hook...can't think of any other way
 	$ranks = array(CLAN_APPLICANT=>"`!Applicant`0",CLAN_MEMBER=>"`#Member`0",CLAN_OFFICER=>"`^Officer`0",CLAN_LEADER=>"`&Leader`0", CLAN_FOUNDER=>"`\$Founder");
 	$args = modulehook("clanranks", array("ranks"=>$ranks, "clanid"=>$detail));
-	$ranks = translate_inline($args['ranks']);
+	$ranks = translator::translate_inline($args['ranks']);
 	//end
 	while ($row=db_fetch_assoc($result)){
 		$i++;

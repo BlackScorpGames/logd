@@ -106,7 +106,7 @@ page_header("Comment Moderation");
 if ($op==""){
 	$area = http::httpget('area');
 	$link = "moderate.php" . ($area ? "?area=$area" : "");
-	$refresh = translate_inline("Refresh");
+	$refresh = translator::translate_inline("Refresh");
 	rawoutput("<form action='$link' method='POST'>");
 	rawoutput("<input type='submit' class='button' value='$refresh'>");
 	rawoutput("</form>");
@@ -158,11 +158,11 @@ if ($op==""){
 	translator::tlschema();
 	addnav("Commentary");
 	output("`c`bComment Auditing`b`c");
-	$ops = translate_inline("Ops");
-	$mod = translate_inline("Moderator");
-	$when = translate_inline("When");
-	$com = translate_inline("Comment");
-	$unmod = translate_inline("Unmoderate");
+	$ops = translator::translate_inline("Ops");
+	$mod = translator::translate_inline("Moderator");
+	$when = translator::translate_inline("When");
+	$com = translator::translate_inline("Comment");
+	$unmod = translator::translate_inline("Unmoderate");
 	rawoutput("<form action='moderate.php?op=audit&subop=undelete' method='POST'>");
 	addnav("","moderate.php?op=audit&subop=undelete");
 	rawoutput("<table border='0' cellpadding='2' cellspacing='0'>");

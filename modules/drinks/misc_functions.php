@@ -41,12 +41,12 @@ function drinks_editor(){
 	if ($op != "") {
 		addnav("Drink Editor Main","runmodule.php?module=drinks&act=editor&admin=true");
 		if ($op == 'add') {
-			$header = translate_inline("Adding a new drink");
+			$header = translator::translate_inline("Adding a new drink");
 		} else if ($op == 'edit') {
-			$header = translate_inline("Editing a drink");
+			$header = translator::translate_inline("Editing a drink");
 		}
 	} else {
-		$header = translate_inline("Current drinks");
+		$header = translator::translate_inline("Current drinks");
 	}
 	output_notl("`&<h3>$header`0</h3>", true);
 	$drinksarray=array(
@@ -142,16 +142,16 @@ function drinks_editor(){
 		httpset('op', "");
 	}
 	if ($op==""){
-		$op = translate_inline("Ops");
-		$id = translate_inline("Id");
-		$nm = translate_inline("Name");
-		$dkn = translate_inline("Drunkeness");
-		$hard = translate_inline("Hard Alchohol?");
-		$edit = translate_inline("Edit");
-		$deac = translate_inline("Deactivate");
-		$act = translate_inline("Activate");
-		$conf = translate_inline("Are you sure you wish to delete this drink?");
-		$del = translate_inline("Del");
+		$op = translator::translate_inline("Ops");
+		$id = translator::translate_inline("Id");
+		$nm = translator::translate_inline("Name");
+		$dkn = translator::translate_inline("Drunkeness");
+		$hard = translator::translate_inline("Hard Alchohol?");
+		$edit = translator::translate_inline("Edit");
+		$deac = translator::translate_inline("Deactivate");
+		$act = translator::translate_inline("Activate");
+		$conf = translator::translate_inline("Are you sure you wish to delete this drink?");
+		$del = translator::translate_inline("Del");
 		rawoutput("<table border=0 cellpadding=2 cellspacing=1 bgcolor='#999999'>");
 		rawoutput("<tr class='trhead'>");
 		rawoutput("<td>$op</td><td>$id</td><td>$nm</td><td>$dkn</td><td>$hard</td>");
@@ -177,8 +177,8 @@ function drinks_editor(){
 			output_notl("<td>`^%s</td>`0", $id, true);
 			output_notl("<td>`&%s`0</td>", $row['name'], true);
 			output_notl("<td>`^%s`0</td>", $row['drunkeness'], true);
-			$hard = translate_inline("`^No");
-			if ($row['harddrink']) $hard = translate_inline("`\$Yes");
+			$hard = translator::translate_inline("`^No");
+			if ($row['harddrink']) $hard = translator::translate_inline("`\$Yes");
 			output_notl("<td>%s`0</td>", $hard, true);
 			rawoutput("</tr>");
 		}

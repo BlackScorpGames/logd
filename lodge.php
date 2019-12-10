@@ -35,7 +35,7 @@ if ($op==""){
 	output("A guard stops you at the door and asks to see your membership card.`n`n");
 
 	if ($entry){
-		output("Upon showing it to him, he says, `3\"Very good %s, welcome to the J. C. Petersen Hunting Lodge.", translate_inline($session['user']['sex']?"ma'am":"sir"));
+		output("Upon showing it to him, he says, `3\"Very good %s, welcome to the J. C. Petersen Hunting Lodge.", translator::translate_inline($session['user']['sex']?"ma'am":"sir"));
 		output("You have earned `^%s`3 points and have `^%s`3 points available to spend,\"`7 and admits you in.`n`n", $session['user']['donation'], $pointsavailable);
 		output("You enter a room dominated by a large fireplace at the far end.");
 		output("The wood-panelled walls are covered with weapons, shields, and mounted hunting trophies, including the heads of several dragons that seem to move in the flickering light.`n`n");

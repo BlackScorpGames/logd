@@ -49,7 +49,7 @@ if ($op==""){
   	translator::tlschema($schemas['desc']);
   	if (is_array($texts['desc'])) {
   		foreach ($texts['desc'] as $description) {
-  			output_notl(sprintf_translate($description));
+  			output_notl(translator::sprintf_translate($description));
   		}
   	} else {
   		output($texts['desc']);
@@ -66,16 +66,16 @@ if ($op==""){
  	translator::tlschema($schemas['tradein']);
   	if (is_array($texts['tradein'])) {
   		foreach ($texts['tradein'] as $description) {
-  			output_notl(sprintf_translate($description));
+  			output_notl(translator::sprintf_translate($description));
   		}
   	} else {
   		output($texts['tradein']);
   	}
   	translator::tlschema();
 
-	$aname = translate_inline("`bName`b");
-	$adef = translate_inline("`bDefense`b");
-	$acost = translate_inline("`bCost`b");
+	$aname = translator::translate_inline("`bName`b");
+	$adef = translator::translate_inline("`bDefense`b");
+	$acost = translator::translate_inline("`bCost`b");
 	rawoutput("<table border='0' cellpadding='0'>");
 	rawoutput("<tr class='trhead'><td>");
 	output_notl($aname);

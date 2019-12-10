@@ -44,10 +44,10 @@ function game_dice_run(){
 		if ($bet<=0){
 			addnav("Never mind", appendlink(urldecode($ret), "op=oldman"));
 			output("`3\"`!You get to roll a die, and choose to keep or pass on the roll.  If you pass, you get up to two more chances to roll, for a total of three rolls.  Once you keep your roll (or on the third roll), I will do the same.  In the end, if my die is higher than yours, I win, if yours is higher, you win, and if they are a tie, neither of us wins, and we each keep our bet.`3\"`n`n");
-			output("`3\"`!How much would you bet young %s?`3\"", translate_inline($session['user']['sex']?"lady":"man"));
+			output("`3\"`!How much would you bet young %s?`3\"", translator::translate_inline($session['user']['sex']?"lady":"man"));
 			rawoutput("<form action='runmodule.php?module=game_dice&ret=$ret' method='POST'>");
 			rawoutput("<input name='bet' id='bet'>");
-			$b = translate_inline("Bet");
+			$b = translator::translate_inline("Bet");
 			rawoutput("<input type='submit' class='button' value='$b'>");
 			rawoutput("</form>");
 			rawoutput("<script language='JavaScript'>document.getElementById('bet').focus();</script>");
@@ -69,7 +69,7 @@ function game_dice_run(){
 				case 2: $die = "second";  break;
 				default: $die = "third";  break;
 				}
-				$die = translate_inline($die);
+				$die = translator::translate_inline($die);
 				output("You roll your %s die, and it comes up as `b%s`b`n`n", $die, $session['user']['specialmisc']);
 				output("`3You have bet `^%s`3.", $bet);
 				output("What do you do?");

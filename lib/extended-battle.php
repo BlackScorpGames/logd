@@ -22,9 +22,9 @@ function show_enemies($enemies) {
 			$health = $badguy['creaturehealth'];
 		}
 		if ($session['user']['alive']){
-			output("%s%s%s%s's Hitpoints%s (Level %s): `6%s`0`n",$ccode,(isset($badguy['istarget'])&&$badguy['istarget']&&$enemycounter>1)?"*":"", $badguy['creaturename'],$ccode,$ccode, $badguy['creaturelevel'],$badguy['creaturehealth']>0?$health:translate_inline("`7DEAD`0"));
+			output("%s%s%s%s's Hitpoints%s (Level %s): `6%s`0`n",$ccode,(isset($badguy['istarget'])&&$badguy['istarget']&&$enemycounter>1)?"*":"", $badguy['creaturename'],$ccode,$ccode, $badguy['creaturelevel'],$badguy['creaturehealth']>0?$health:translator::translate_inline("`7DEAD`0"));
 		}else{
-			output("`2%s`2's Soulpoints: `6%s`0`n",$badguy['creaturename'],$badguy['creaturehealth']>0?$health:translate_inline("`7DEFEATED`0"));
+			output("`2%s`2's Soulpoints: `6%s`0`n",$badguy['creaturename'],$badguy['creaturehealth']>0?$health:translator::translate_inline("`7DEFEATED`0"));
 		}
 	}
 	if ($session['user']['alive']){

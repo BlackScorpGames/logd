@@ -159,7 +159,7 @@ if (!($session['user']['loggedin'] && $session['user']['superuser'] & SU_VIEW_SO
 					//we're hiding the file completely.
 					}else{
 					rawoutput("<li>$key1$entry");
-					$reason = translate_inline($illegal_files[$key2 . $entry]);
+					$reason = translator::translate_inline($illegal_files[$key2 . $entry]);
 					output("&#151; This file cannot be viewed: %s", $reason, true);
 					rawoutput("</li>\n");
 					}
@@ -189,7 +189,7 @@ if (!($session['user']['loggedin'] && $session['user']['superuser'] & SU_VIEW_SO
 			rawoutput("</font>", true);
 			rawoutput("</td></tr></table>", true);
 		}else if ($illegal_files[$url]!="" && $illegal_files[$url]!="X"){
-			$reason = translate_inline($illegal_files[$url]);
+			$reason = translator::translate_inline($illegal_files[$url]);
 			output("`nCannot view this file: %s`n", $reason);
 		}else {
 			output("`nCannot view this file.`n");

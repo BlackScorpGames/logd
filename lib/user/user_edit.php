@@ -21,17 +21,17 @@ addnav("Set up ban","user.php?op=setupban&userid={$row['acctid']}");
 if (http::httpget("subop")==""){
 	rawoutput("<form action='user.php?op=special&userid=$userid$returnpetition' method='POST'>");
 	addnav("","user.php?op=special&userid=$userid$returnpetition");
-	$grant = translate_inline("Grant New Day");
+	$grant = translator::translate_inline("Grant New Day");
 	rawoutput("<input type='submit' class='button' name='newday' value='$grant'>");
-	$fix = translate_inline("Fix Broken Navs");
+	$fix = translator::translate_inline("Fix Broken Navs");
 	rawoutput("<input type='submit' class='button' name='fixnavs' value='$fix'>");
-	$mark = translate_inline("Mark Email As Valid");
+	$mark = translator::translate_inline("Mark Email As Valid");
 	rawoutput("<input type='submit' class='button' name='clearvalidation' value='$mark'>");
 	rawoutput("</form>");
 		//Show a user's usertable
 	rawoutput("<form action='user.php?op=save&userid=$userid$returnpetition' method='POST'>");
 	addnav("","user.php?op=save&userid=$userid$returnpetition");
-	$save = translate_inline("Save");
+	$save = translator::translate_inline("Save");
 	rawoutput("<input type='submit' class='button' value='$save'>");
 	if ($row['loggedin']==1 && $row['laston']>date("Y-m-d H:i:s",strtotime("-".getsetting("LOGINTIMEOUT",900)." seconds"))){
 		output_notl("`\$");

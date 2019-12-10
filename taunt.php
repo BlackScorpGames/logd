@@ -26,7 +26,7 @@ if ($op=="edit"){
 		require_once("lib/substitute.php");
 		$badguy=array('creaturename'=>'Baron Munchausen', 'creatureweapon'=>'Bad Puns');
 		$taunt = substitute_array($row['taunt']);
-		$taunt = call_user_func_array("sprintf_translate", $taunt);
+		$taunt = call_user_func_array("translator::sprintf_translate", $taunt);
 		output("Preview: %s`0`n`n", $taunt);
 	} else {
 		$row = array('tauntid'=>0, 'taunt'=>"");
@@ -42,7 +42,7 @@ if ($op=="edit"){
 	output("%o = Objective pronoun for the player (he she)`n");
 	output("%W = The monster's name (also can be specified as {badguy}`n");
 	output("%X = The monster's weapon (also can be specified as {creatureweapon}`n");
-	$save = translate_inline("Save");
+	$save = translator::translate_inline("Save");
 	rawoutput("<input type='submit' class='button' value='$save'>");
 	rawoutput("</form>");
 }else if($op=="del"){
@@ -65,18 +65,18 @@ if ($op == "") {
 	$sql = "SELECT * FROM " . db_prefix("taunts");
 	$result = db_query($sql);
 	rawoutput("<table border=0 cellpadding=2 cellspacing=1 bgcolor='#999999'>");
-	$op = translate_inline("Ops");
-	$t = translate_inline("Taunt String");
-	$auth = translate_inline("Author");
+	$op = translator::translate_inline("Ops");
+	$t = translator::translate_inline("Taunt String");
+	$auth = translator::translate_inline("Author");
 	rawoutput("<tr class='trhead'><td nowrap>$op</td><td>$t</td><td>$auth</td></tr>");
 	$number=db_num_rows($result);
 	for ($i=0;$i<$number;$i++){
 		$row=db_fetch_assoc($result);
 		rawoutput("<tr class='".($i%2==0?"trdark":"trlight")."'>",true);
 		rawoutput("<td nowrap>");
-		$edit = translate_inline("Edit");
-		$del = translate_inline("Del");
-		$conf = translate_inline("Are you sure you wish to delete this taunt?");
+		$edit = translator::translate_inline("Edit");
+		$del = translator::translate_inline("Del");
+		$conf = translator::translate_inline("Are you sure you wish to delete this taunt?");
 		$id = $row['tauntid'];
 		rawoutput("[ <a href='taunt.php?op=edit&tauntid=$id'>$edit</a> | <a href='taunt.php?op=del&tauntid=$id' onClick='return confirm(\"$conf\");'>$del</a> ]");
 		addnav("","taunt.php?op=edit&tauntid=$id");

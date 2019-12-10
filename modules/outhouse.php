@@ -142,7 +142,7 @@ function outhouse_run(){
 		output("`2The smell is so strong your eyes tear up and your nose hair curls!`n");
 		output("After blowing his nose with it, the Toilet Paper Gnome gives you 1 sheet of single-ply TP to use.`n");
 		output("After looking at the stuff covering his hands, you think you might not want to use it.`n`n");
-		output("While %s over the big hole in the middle of the room with the TP Gnome observing you closely, you almost slip in.`n", translate_inline($session['user']['sex']?"squatting":"standing"));
+		output("While %s over the big hole in the middle of the room with the TP Gnome observing you closely, you almost slip in.`n", translator::translate_inline($session['user']['sex']?"squatting":"standing"));
 		output("You go ahead and take care of business as fast as you can; you can only hold your breath so long.`n");
 		addnav("Wash your hands", "runmodule.php?module=outhouse&op=washfree");
 		addnav("Leave", "runmodule.php?module=outhouse&op=nowash");
@@ -190,7 +190,7 @@ function outhouse_run(){
 			if ($session['user']['gold'] >= $goldinhand){
 				$session['user']['gold'] -= $takeback;
 				debuglog("lost $takeback gold in the outhouse for not washing");
-				output("`nThe Toilet Paper Gnome has thrown you to the slimy, filthy floor and extracted `\$%s gold`2 %s from you due to your slovenliness!`n", $takeback, translate_inline($takeback ==1?"piece":"pieces"));
+				output("`nThe Toilet Paper Gnome has thrown you to the slimy, filthy floor and extracted `\$%s gold`2 %s from you due to your slovenliness!`n", $takeback, translator::translate_inline($takeback ==1?"piece":"pieces"));
 			}
 			output("Aren't you glad an embarrassing moment like this isn't in the news?`n");
 			if ($session['user']['sex']) {
