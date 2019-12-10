@@ -3,7 +3,7 @@
 // addnews ready
 // mail ready
 
-use BlackScorpGames\logd\Mount\{Mount, MountRepository};
+use blackscorp\logd\Mount\{Mount, MountRepository};
 
 // **** NOTICE ****
 // This series of scripts (collectively known as Legend of the Green Dragon

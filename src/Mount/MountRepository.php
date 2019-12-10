@@ -1,14 +1,14 @@
 <?php
 
-namespace BlackScorpGames\logd\Mount;
+namespace blackscorp\logd\Mount;
 
 use PDO;
 
 
-use BlackScorpGames\logd\Mount\MountEntity;
+use blackscorp\logd\Mount\{MountEntity, MountRepositoryInteface};
 use translator;
 
-class MountRepository 
+class MountRepository implements MountRepositoryInteface
 {
 
     private $pdo        =   null;

@@ -1,5 +1,5 @@
 <?php
-namespace  BlackScorpGames\logd\Mount;
+namespace  blackscorp\logd\Mount;
 
 interface MountEntity 
 {

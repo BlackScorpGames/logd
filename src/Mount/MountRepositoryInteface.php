@@ -1,10 +1,10 @@
 <?php
 
-namespace BlackScorpGames\logd\Mount;
+namespace blackscorp\logd\Mount;
 
 interface MountRepositoryInteface 
 {
     public function getMount(int $mountID=0) : MountEntity;
     
-    public function getMountName(MountEntity $mount);
+    public function getName(MountEntity $mount);
 }

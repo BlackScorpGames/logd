@@ -1,7 +1,7 @@
 <?php
-namespace  BlackScorpGames\logd\Mount;
+namespace  blackscorp\logd\Mount;
 
-use BlackScorpGames\logd\Mount\MountEntity;
+use blackscorp\logd\Mount\MountEntity;
 
 
 class Mount implements MountEntity
