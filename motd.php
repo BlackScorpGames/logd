@@ -19,8 +19,8 @@ addcommentary();
 popup_header("LoGD Message of the Day (MoTD)");
 
 if ($session['user']['superuser'] & SU_POST_MOTD) {
-	$addm = translate_inline("Add MoTD");
-	$addp = translate_inline("Add Poll");
+	$addm = translator::translate_inline("Add MoTD");
+	$addp = translator::translate_inline("Add Poll");
 	rawoutput(" [ <a href='motd.php?op=add'>$addm</a> | <a href='motd.php?op=addpoll'>$addp</a> ]<br/><br/>");
 }
 
@@ -96,13 +96,13 @@ if ($op=="") {
 	rawoutput("<option value=''>--Current--</option>");
 	while ($row = db_fetch_assoc($result)){
 		$time = strtotime("{$row['d']}-01");
-		$m = translate_inline(date("M",$time));
+		$m = translator::translate_inline(date("M",$time));
 		rawoutput ("<option value='{$row['d']}'".(http::httpget("month")==$row['d']?" selected":"").">$m".date(", Y",$time)." ({$row['c']})</option>");
 	}
-	rawoutput("</select>".tlbutton_clear());
+	rawoutput("</select>".translator::tlbutton_clear());
 	rawoutput("<input type='hidden' name='newcount' value='".($count+$newcount)."'>");
 	rawoutput("<input type='submit' value='&gt;' name='proceed'  class='button'>");
-	rawoutput(" <input type='submit' value='".translate_inline("Submit")."' class='button'>");
+	rawoutput(" <input type='submit' value='".translator::translate_inline("Submit")."' class='button'>");
 	rawoutput("</form>");
 
 	commentdisplay("`n`@Commentary:`0`n", "motd");

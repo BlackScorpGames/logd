@@ -40,8 +40,8 @@ if($op=="del"){
 }
 
 popup_header("Ye Olde Poste Office");
-$inbox = translate_inline("Inbox");
-$write = translate_inline("Write");
+$inbox = translator::translate_inline("Inbox");
+$write = translator::translate_inline("Write");
 
 // Build the initial args array
 $args = array();

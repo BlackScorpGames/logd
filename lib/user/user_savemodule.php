@@ -7,7 +7,7 @@ $post = modulehook("validateprefs", $post, true, $module);
 if (isset($post['validation_error']) && $post['validation_error']) {
 	translator::tlschema("module-$module");
 	$post['validation_error'] =
-		translate_inline($post['validation_error']);
+		translator::translate_inline($post['validation_error']);
 	translator::tlschema();
 	output("Unable to change settings: `\$%s`0", $post['validation_error']);
 } else {

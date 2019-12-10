@@ -174,7 +174,7 @@ function game_fivesix_run(){
 					output("\"Well now...three out of five sixes isn't a bad effort, my friend. I'll give ye %s gold for that try.\"`n`n",$win);
 					output("`^The old man hands you %s gold.", $win);
 				}else{
-					output("The old man cackles.  You rolled %s %s...but that's not enough!`n`n", $almost, translate_inline($almost == 1? "six": "sixes"));
+					output("The old man cackles.  You rolled %s %s...but that's not enough!`n`n", $almost, translator::translate_inline($almost == 1? "six": "sixes"));
 					output("Disappointed, you walk away.");
 				}
 			}

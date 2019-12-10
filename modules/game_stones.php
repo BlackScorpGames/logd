@@ -58,12 +58,12 @@ function game_stones_run(){
 		$stones['player']=0;
 		$stones['oldman']=0;
 	}elseif (!isset($stones['bet']) || $stones['bet']==0){
-		$s1 = translate_inline($stones['side']=="likepair"?"Like":"Unlike");
-		$s2 = translate_inline($stones['side']=="likepair"?"unlike":"like");
+		$s1 = translator::translate_inline($stones['side']=="likepair"?"Like":"Unlike");
+		$s2 = translator::translate_inline($stones['side']=="likepair"?"unlike":"like");
 		output("`3\"`7%s pair for you, and %s pair for me it is then!  How much do you bet?`3\"", $s1, $s2);
 		rawoutput("<form action='runmodule.php?module=game_stones&ret=$ret' method='POST'>");
 		rawoutput("<input name='bet' id='bet'>");
-		$b = translate_inline("Bet");
+		$b = translator::translate_inline("Bet");
 		rawoutput("<input type='submit' class='button' value='$b'>");
 		rawoutput("</form>");
 		rawoutput("<script language='JavaScript'>document.getElementById('bet').focus();</script>");
@@ -73,8 +73,8 @@ function game_stones_run(){
 			$stones['oldman']<=8 && $stones['player']<=8){
 		$s1="";
 		$s2="";
-		$rstone = translate_inline("`\$red`3");
-		$bstone = translate_inline("`!blue`3");
+		$rstone = translator::translate_inline("`\$red`3");
+		$bstone = translator::translate_inline("`!blue`3");
 		while ($s1=="" || $s2==""){
 			$s1 = e_rand(1,($stones['red']+$stones['blue']));
 			if ($s1<=$stones['red']) {
@@ -102,9 +102,9 @@ function game_stones_run(){
 			$stones['oldman']+=2;
 			$winner = "his";
 		}
-		$winner = translate_inline($winner);
+		$winner = translator::translate_inline($winner);
 
-		output("Since you are %s pairs, the old man places the stones in %s pile.`n`n", translate_inline($stones['side']=="likepair"?"like":"unlike"), $winner);
+		output("Since you are %s pairs, the old man places the stones in %s pile.`n`n", translator::translate_inline($stones['side']=="likepair"?"like":"unlike"), $winner);
 
 		output("You currently have `^%s`3 stones in your pile, and the old man has `^%s`3 stones in his.`n`n", $stones['player'], $stones['oldman']);
 		output("There are %s %s stones and %s %s stones in the bag yet.", $stones['red'], $rstone, $stones['blue'], $bstone);

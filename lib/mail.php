@@ -50,8 +50,8 @@ if($op=="del"){
 }
 
 popup_header("Ye Olde Poste Office");
-$inbox = translate_inline("Inbox");
-$write = translate_inline("Write");
+$inbox = translator::translate_inline("Inbox");
+$write = translator::translate_inline("Write");
 
 // Build the initial args array
 $args = array();
@@ -129,13 +129,13 @@ if ($op==""){
 		for ($i=0;$i<db_num_rows($result);$i++){
 			$row = db_fetch_assoc($result);
 			if ((int)$row['msgfrom']==0){
-				$row['name']=translate_inline("`i`^System`0`i");
+				$row['name']=translator::translate_inline("`i`^System`0`i");
 				// Only translate the subject if it's an array, ie, it came
 				// from the game.
 				if (is_array(@unserialize($row['subject']))) {
 					$row['subject'] = unserialize($row['subject']);
 					$row['subject'] =
-						call_user_func_array("sprintf_translate",
+						call_user_func_array("translator::sprintf_translate",
 								$row['subject']);
 				}
 			}
@@ -152,14 +152,14 @@ if ($op==""){
 			output_notl("</tr>",true);
 		}
 		output_notl("</table>",true);
-		$checkall = htmlentities(translate_inline("Check All"));
+		$checkall = htmlentities(translator::translate_inline("Check All"));
 		$out="<input type='button' value=\"$checkall\" class='button' onClick='";
 		for ($i=$i-1;$i>=0;$i--){
 			$out.="document.getElementById(\"checkbox$i\").checked=true;";
 		}
 		$out.="'>";
 		output_notl($out,true);
-		$delchecked = htmlentities(translate_inline("Delete Checked"));
+		$delchecked = htmlentities(translator::translate_inline("Delete Checked"));
 		output_notl("<input type='submit' class='button' value=\"$delchecked\">",true);
 		output_notl("</form>",true);
 	}else{
@@ -172,18 +172,18 @@ if ($op==""){
 	if (db_num_rows($result)>0){
 		$row = db_fetch_assoc($result);
 		if ((int)$row['msgfrom']==0){
-			$row['name']=translate_inline("`i`^System`0`i");
+			$row['name']=translator::translate_inline("`i`^System`0`i");
 			// No translation for subject if it's not an array
 			if (is_array(@unserialize($row['subject']))) {
 				$row['subject'] = unserialize($row['subject']);
 				$row['subject'] =
-					call_user_func_array("sprintf_translate", $row['subject']);
+					call_user_func_array("translator::sprintf_translate", $row['subject']);
 			}
 			// No translation for body if it's not an array
 			if (is_array(@unserialize($row['body']))) {
 				$row['body'] = unserialize($row['body']);
 				$row['body'] =
-					call_user_func_array("sprintf_translate", $row['body']);
+					call_user_func_array("translator::sprintf_translate", $row['body']);
 			}
 		}
 		if (!$row['seen']) output("`b`#NEW`b`n");
@@ -198,10 +198,10 @@ if ($op==""){
 		$sql = "UPDATE " . db_prefix("mail") . " SET seen=1 WHERE  msgto=\"".$session['user']['acctid']."\" AND messageid=\"".$id."\"";
 		db_query($sql);
 
-		$reply = translate_inline("Reply");
-		$del = translate_inline("Delete");
-		$unread = translate_inline("Mark Unread");
-		$report = translate_inline("Report to Admin");
+		$reply = translator::translate_inline("Reply");
+		$del = translator::translate_inline("Delete");
+		$unread = translator::translate_inline("Mark Unread");
+		$report = translator::translate_inline("Report to Admin");
 		$problem = "Abusive Email Report:\nFrom: {$row['name']}\nSubject: {$row['subject']}\nSent: {$row['sent']}\nID: {$row['messageid']}\nBody:\n{$row['body']}";
 		rawoutput("<table width='50%' border='0' cellpadding='0' cellspacing='5'><tr>
 			<td><a href='mail.php?op=write&replyto={$row['messageid']}' class='motd'>$reply</a></td>
@@ -231,8 +231,8 @@ if ($op==""){
 		}else{
 			$nid = 0;
 		}
-		$prev = translate_inline("< Previous");
-		$next = translate_inline("Next >");
+		$prev = translator::translate_inline("< Previous");
+		$next = translator::translate_inline("Next >");
 		rawoutput("<td nowrap='true'>");
 		if ($pid > 0) rawoutput("<a href='mail.php?op=read&id=$pid' class='motd'>".htmlentities($prev)."</a>");
 		else rawoutput(htmlentities($prev));
@@ -247,8 +247,8 @@ if ($op==""){
 }elseif($op=="address"){
 	output_notl("<form action='mail.php?op=write' method='POST'>",true);
 	output("`b`2Address:`b`n");
-	$to = translate_inline("To: ");
-	$search = htmlentities(translate_inline("Search"));
+	$to = translator::translate_inline("To: ");
+	$search = htmlentities(translator::translate_inline("Search"));
 	output_notl("`2$to <input name='to' value=\"".htmlentities(stripslashes(http::httpget('prepop')))."\"> <input type='submit' class='button' value=\"$search\"></form>",true);
 }elseif($op=="write"){
 	$subject=httppost('subject');
@@ -282,19 +282,19 @@ if ($op==""){
 	if (is_array($row)){
 		if (isset($row['subject']) && $row['subject']!=""){
 			if ((int)$row['msgfrom']==0){
-				$row['name']=translate_inline("`i`^System`0`i");
+				$row['name']=translator::translate_inline("`i`^System`0`i");
 				// No translation for subject if it's not an array
 				if (is_array(@unserialize($row['subject']))) {
 					$row['subject'] = unserialize($row['subject']);
 					$row['subject'] =
-						call_user_func_array("sprintf_translate",
+						call_user_func_array("translator::sprintf_translate",
 								$row['subject']);
 				}
 				// No translation for body if it's not an array
 				if (is_array(@unserialize($row['body']))) {
 					$row['body'] = unserialize($row['body']);
 					$row['body'] =
-						call_user_func_array("sprintf_translate",
+						call_user_func_array("translator::sprintf_translate",
 								$row['body']);
 				}
 			}
@@ -302,7 +302,7 @@ if ($op==""){
 			if (substr($subject,0,4)!="RE: ") $subject="RE: $subject";
 		}
 		if (isset($row['body']) && $row['body']!=""){
-			$body="\n\n---".translate_inline("Original Message")."---\n".$row['body'];
+			$body="\n\n---".translator::translate_inline("Original Message")."---\n".$row['body'];
 		}
 	}
 	rawoutput("<input type='hidden' name='returnto' value=\"".htmlentities(stripslashes(http::httpget("replyto")))."\">");
@@ -333,7 +333,7 @@ if ($op==""){
             }
 		}elseif (db_num_rows($result)==0){
 			output("`@No one was found who matches \"%s\".  ",stripslashes($to));
-			$try = translate_inline("Please try again");
+			$try = translator::translate_inline("Please try again");
 			output_notl("<a href=\"mail.php?op=address&prepop=".rawurlencode(stripslashes(htmlentities($to)))."\">$try</a>.",true);
 			popup_footer();
 			exit();
@@ -365,14 +365,14 @@ if ($op==""){
 	rawoutput("</div>");
 	output("`2Body:`n");
 	rawoutput("<textarea name='body' id='textarea' class='input' cols='60' rows='9' onKeyUp='sizeCount(this);'>".HTMLEntities($body).HTMLEntities(stripslashes(http::httpget('body')))."</textarea><br>");
-	$send = translate_inline("Send");
+	$send = translator::translate_inline("Send");
 	rawoutput("<table border='0' cellpadding='0' cellspacing='0' width='100%'><tr><td><input type='submit' class='button' value='$send'></td><td align='right'><div id='sizemsg'></div></td></tr></table>");
 	output_notl("</form>",true);
 	$sizemsg = "`#Max message size is `@%s`#, you have `^XX`# characters left.";
-	$sizemsg = translate_inline($sizemsg);
+	$sizemsg = translator::translate_inline($sizemsg);
 	$sizemsg = sprintf($sizemsg,getsetting("mailsizelimit",1024));
 	$sizemsgover = "`\$Max message size is `@%s`\$, you are over by `^XX`\$ characters!";
-	$sizemsgover = translate_inline($sizemsgover);
+	$sizemsgover = translator::translate_inline($sizemsgover);
 	$sizemsgover = sprintf($sizemsgover,getsetting("mailsizelimit",1024));
 	$sizemsg = explode("XX",$sizemsg);
 	$sizemsgover = explode("XX",$sizemsgover);

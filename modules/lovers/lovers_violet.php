@@ -9,16 +9,16 @@ function lovers_violet(){
 			if (e_rand(1, 4)==1){
 				switch(e_rand(1,4)){
 				case 1:
-					$msg = translate_inline("being too busy serving these pigs,");
+					$msg = translator::translate_inline("being too busy serving these pigs,");
 					break;
 				case 2:
-					$msg = translate_inline("\"that time of month,\"");
+					$msg = translator::translate_inline("\"that time of month,\"");
 					break;
 				case 3:
-					$msg = translate_inline("\"a little cold...  *cough cough* see?\"");
+					$msg = translator::translate_inline("\"a little cold...  *cough cough* see?\"");
 					break;
 				case 4:
-					$msg = translate_inline("men all being pigs,");
+					$msg = translator::translate_inline("men all being pigs,");
 					break;
 				}
 				output("You head over to cuddle %s`0 and kiss her about the face and neck, but she grumbles something about %s and with a comment like that, you storm away from her!`n`n",$partner,$msg);

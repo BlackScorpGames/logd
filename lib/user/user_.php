@@ -4,21 +4,21 @@ if ($display == 1){
 	if ($query) {
 		$q = "&q=$query";
 	}
-	$ops=translate_inline("Ops");
-	$acid =translate_inline("AcctID");
-	$login =translate_inline("Login");
-	$nm =translate_inline("Name");
-	$lev =translate_inline("Level");
-	$lon =translate_inline("Last On");
-	$hits =translate_inline("Hits");
-	$lip =translate_inline("Last IP");
-	$lid =translate_inline("Last ID");
-	$email =translate_inline("Email");
-	$ed = translate_inline("Edit");
-	$del = translate_inline("Del");
-	$conf = translate_inline("Are you sure you wish to delete this user?");
-	$ban = translate_inline("Ban");
-	$log = translate_inline("Log");
+	$ops=translator::translate_inline("Ops");
+	$acid =translator::translate_inline("AcctID");
+	$login =translator::translate_inline("Login");
+	$nm =translator::translate_inline("Name");
+	$lev =translator::translate_inline("Level");
+	$lon =translator::translate_inline("Last On");
+	$hits =translator::translate_inline("Hits");
+	$lip =translator::translate_inline("Last IP");
+	$lid =translator::translate_inline("Last ID");
+	$email =translator::translate_inline("Email");
+	$ed = translator::translate_inline("Edit");
+	$del = translator::translate_inline("Del");
+	$conf = translator::translate_inline("Are you sure you wish to delete this user?");
+	$ban = translator::translate_inline("Ban");
+	$log = translator::translate_inline("Log");
 		rawoutput("<table>");
 	rawoutput("<tr class='trhead'><td>$ops</td><td><a href='user.php?sort=acctid$q'>$acid</a></td><td><a href='user.php?sort=login$q'>$login</a></td><td><a href='user.php?sort=name$q'>$nm</a></td><td><a href='user.php?sort=level$q'>$lev</a></td><td><a href='user.php?sort=laston$q'>$lon</a></td><td><a href='user.php?sort=gentimecount$q'>$hits</a></td><td><a href='user.php?sort=lastip$q'>$lip</a></td><td><a href='user.php?sort=uniqueid$q'>$lid</a></td><td><a href='user.php?sort=emailaddress$q'>$email</a></td></tr>");
 	addnav("","user.php?sort=acctid$q");
@@ -39,7 +39,7 @@ if ($display == 1){
 			(date("U") - strtotime($row['laston']) <
 			 getsetting("LOGINTIMEOUT",900) && $row['loggedin']);
 		if ($loggedin)
-			$laston=translate_inline("`#Online`0");
+			$laston=translator::translate_inline("`#Online`0");
 		$row['laston']=$laston;
 		if ($row[$order]!=$oorder) $rn++;
 		$oorder = $row[$order];

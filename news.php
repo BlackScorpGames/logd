@@ -38,7 +38,7 @@ $date=date("D, M j, Y",$timestamp);
 
 $pagestr = "";
 if ($totaltoday > $newsperpage) {
-	$pagestr = sprintf_translate("(Items %s - %s of %s)", $pageoffset+1,
+	$pagestr = translator::sprintf_translate("(Items %s - %s of %s)", $pageoffset+1,
 			min($pageoffset+$newsperpage,$totaltoday), $totaltoday);
 }
 
@@ -61,7 +61,7 @@ output("`c`b`!News for %s %s`0`b`c", $date, $pagestr);
 while ($row = db_fetch_assoc($result)) {
 	output_notl("`c`2-=-`@=-=`2-=-`@=-=`2-=-`@=-=`2-=-`0`c");
 	if ($session['user']['superuser'] & SU_EDIT_COMMENTS){
-		$del = translate_inline("Del");
+		$del = translator::translate_inline("Del");
 		rawoutput("[ <a href='superuser.php?op=newsdelete&newsid=".$row['newsid']."&return=".URLEncode($_SERVER['REQUEST_URI'])."'>$del</a> ]&nbsp;");
 		addnav("","superuser.php?op=newsdelete&newsid={$row['newsid']}&return=".URLEncode($_SERVER['REQUEST_URI']));
 	}
@@ -73,10 +73,10 @@ while ($row = db_fetch_assoc($result)) {
 		while (list($key,$val)=each($base_arguments)){
 			array_push($arguments,$val);
 		}
-		$news = call_user_func_array("sprintf_translate",$arguments);
-		rawoutput(tlbutton_clear());
+		$news = call_user_func_array("translator::sprintf_translate",$arguments);
+		rawoutput(translator::tlbutton_clear());
 	}else{
-		$news = translate_inline($row['newstext']);
+		$news = translator::translate_inline($row['newstext']);
 	}
 	translator::tlschema();
 	output_notl($news."`n");

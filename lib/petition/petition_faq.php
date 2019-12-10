@@ -17,13 +17,13 @@ output("`^`bContents:`b`0`n");
 
 modulehook("faq-pretoc");
 output("`^`bNew Player & FAQ`b`0`n");
-$t = translate_inline("`@New Player Primer`0");
+$t = translator::translate_inline("`@New Player Primer`0");
 output_notl("&#149;<a href='petition.php?op=primer'>%s</a><br/>", $t, true);
-$t = translate_inline("`@Frequently Asked Questions on Game Play (General)`0");
+$t = translator::translate_inline("`@Frequently Asked Questions on Game Play (General)`0");
 output_notl("&#149;<a href='petition.php?op=faq1'>%s</a><br/>", $t, true);
-$t = translate_inline("`@Frequently Asked Questions on Game Play (with spoilers)`0");
+$t = translator::translate_inline("`@Frequently Asked Questions on Game Play (with spoilers)`0");
 output_notl("&#149;<a href='petition.php?op=faq2'>%s</a><br/>", $t, true);
-$t = translate_inline("`@Frequently Asked Questions on Technical Issues`0");
+$t = translator::translate_inline("`@Frequently Asked Questions on Technical Issues`0");
 output_notl("&#149;<a href='petition.php?op=faq3'>%s</a><br/>", $t, true);
 modulehook("faq-toc");
 modulehook("faq-posttoc");

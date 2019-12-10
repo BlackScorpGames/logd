@@ -39,7 +39,7 @@ if ($op==""){
 			output("`6She scans her ledgers briefly, \"`@For your knowledge, you have already transferred `^%s`@ gold today.`6\"`n",$session['user']['amountouttoday']);
 		}
 		output_notl("`n");
-		$preview = translate_inline("Preview Transfer");
+		$preview = translator::translate_inline("Preview Transfer");
 		rawoutput("<form action='bank.php?op=transfer2' method='POST'>");
 		output("Transfer how much: ");
 		rawoutput("<input name='amount' id='amount' width='5'>");
@@ -65,14 +65,14 @@ if ($op==""){
 	$amt = abs((int)httppost('amount'));
 	if (db_num_rows($result)==1){
 		$row = db_fetch_assoc($result);
-		$msg = translate_inline("Complete Transfer");
+		$msg = translator::translate_inline("Complete Transfer");
 		rawoutput("<form action='bank.php?op=transfer3' method='POST'>");
 		output("`6Transfer `^%s`6 to `&%s`6.",$amt,$row['name']);
 		rawoutput("<input type='hidden' name='to' value='".HTMLEntities($row['login'], ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."'><input type='hidden' name='amount' value='$amt'><input type='submit' class='button' value='$msg'></form>",true);
 		addnav("","bank.php?op=transfer3");
 	}elseif(db_num_rows($result)>100){
 		output("`@Elessa`6 looks at you disdainfully and coldly, but politely, suggests you try narrowing down the field of who you want to send money to just a little bit!`n`n");
-		$msg = translate_inline("Preview Transfer");
+		$msg = translator::translate_inline("Preview Transfer");
 		rawoutput("<form action='bank.php?op=transfer2' method='POST'>");
 		output("Transfer how much: ");
 		rawoutput("<input name='amount' id='amount' width='5' value='$amt'><br>");
@@ -91,7 +91,7 @@ if ($op==""){
 			$row = db_fetch_assoc($result);
 			rawoutput("<option value=\"".HTMLEntities($row['login'], ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."\">".full_sanitize($row['name'])."</option>");
 		}
-		$msg = translate_inline("Complete Transfer");
+		$msg = translator::translate_inline("Complete Transfer");
 		rawoutput("</select><input type='hidden' name='amount' value='$amt'><input type='submit' class='button' value='$msg'></form>",true);
 		addnav("","bank.php?op=transfer3");
 	}else{
@@ -143,14 +143,14 @@ if ($op==""){
 }elseif($op=="deposit"){
 	output("`0");
 	rawoutput("<form action='bank.php?op=depositfinish' method='POST'>");
-	$balance = translate_inline("`@Elessa`6 says, \"`@You have a balance of `^%s`@ gold in the bank.`6\"`n");
-	$debt = translate_inline("`@Elessa`6 says, \"`@You have a `\$debt`@ of `^%s`@ gold to the bank.`6\"`n");
+	$balance = translator::translate_inline("`@Elessa`6 says, \"`@You have a balance of `^%s`@ gold in the bank.`6\"`n");
+	$debt = translator::translate_inline("`@Elessa`6 says, \"`@You have a `\$debt`@ of `^%s`@ gold to the bank.`6\"`n");
 	output_notl($session['user']['goldinbank']>=0?$balance:$debt,abs($session['user']['goldinbank']));
 	output("`6Searching through all your pockets and pouches, you calculate that you currently have `^%s`6 gold on hand.`n`n", $session['user']['gold']);
-	$dep = translate_inline("`^Deposit how much?");
-	$pay = translate_inline("`^Pay off how much?");
+	$dep = translator::translate_inline("`^Deposit how much?");
+	$pay = translator::translate_inline("`^Pay off how much?");
 	output_notl($session['user']['goldinbank']>=0?$dep:$pay);
-	$dep = translate_inline("Deposit");
+	$dep = translator::translate_inline("Deposit");
 	rawoutput(" <input id='input' name='amount' width=5 > <input type='submit' class='button' value='$dep'>");
 	output("`n`iEnter 0 or nothing to deposit it all`i");
 	rawoutput("</form>");
@@ -161,9 +161,9 @@ if ($op==""){
 	if ($amount==0){
 		$amount=$session['user']['gold'];
 	}
-	$notenough = translate_inline("`\$ERROR: Not enough gold in hand to deposit.`n`n`^You plunk your `&%s`^ gold on the counter and declare that you would like to deposit all `&%s`^ gold of it.`n`n`@Elessa`6 stares blandly at you for a few seconds until you become self conscious and recount your money, realizing your mistake.");
-	$depositdebt = translate_inline("`@Elessa`6 records your deposit of `^%s `6gold in her ledger. \"`@Thank you, `&%s`@.  You now have a debt of `\$%s`@ gold to the bank and `^%s`@ gold in hand.`6\"");
-	$depositbalance= translate_inline("`@Elessa`6 records your deposit of `^%s `6gold in her ledger. \"`@Thank you, `&%s`@.  You now have a balance of `^%s`@ gold in the bank and `^%s`@ gold in hand.`6\"");
+	$notenough = translator::translate_inline("`\$ERROR: Not enough gold in hand to deposit.`n`n`^You plunk your `&%s`^ gold on the counter and declare that you would like to deposit all `&%s`^ gold of it.`n`n`@Elessa`6 stares blandly at you for a few seconds until you become self conscious and recount your money, realizing your mistake.");
+	$depositdebt = translator::translate_inline("`@Elessa`6 records your deposit of `^%s `6gold in her ledger. \"`@Thank you, `&%s`@.  You now have a debt of `\$%s`@ gold to the bank and `^%s`@ gold in hand.`6\"");
+	$depositbalance= translator::translate_inline("`@Elessa`6 records your deposit of `^%s `6gold in her ledger. \"`@Thank you, `&%s`@.  You now have a balance of `^%s`@ gold in the bank and `^%s`@ gold in hand.`6\"");
 	if ($amount>$session['user']['gold']){
 		output_notl($notenough,$session['user']['gold'],$amount);
 	}else{
@@ -174,9 +174,9 @@ if ($op==""){
 	}
 }elseif($op=="borrow"){
 	$maxborrow = $session['user']['level']*getsetting("borrowperlevel",20);
-	$borrow = translate_inline("Borrow");
-	$balance = translate_inline("`@Elessa`6 scans through her ledger, \"`@You have a balance of `^%s`@ gold in the bank.`6\"`n");
-	$debt = translate_inline("`@Elessa`6 scans through her ledger, \"`@You have a `\$debt`@ of `^%s`@ gold to the bank.`6\"`n");
+	$borrow = translator::translate_inline("Borrow");
+	$balance = translator::translate_inline("`@Elessa`6 scans through her ledger, \"`@You have a balance of `^%s`@ gold in the bank.`6\"`n");
+	$debt = translator::translate_inline("`@Elessa`6 scans through her ledger, \"`@You have a `\$debt`@ of `^%s`@ gold to the bank.`6\"`n");
 	rawoutput("<form action='bank.php?op=withdrawfinish' method='POST'>");
 	output_notl($session['user']['goldinbank']>=0?$balance:$debt,abs($session['user']['goldinbank']));
 	output("`6\"`@How much would you like to borrow `&%s`@?  At your level, you may borrow up to a total of `^%s`@ from the bank.`6\"`n`n",$session['user']['name'], $maxborrow);
@@ -186,9 +186,9 @@ if ($op==""){
 	rawoutput("<script language='javascript'>document.getElementById('input').focus();</script>");
 	addnav("","bank.php?op=withdrawfinish");
 }elseif($op=="withdraw"){
-	$withdraw = translate_inline("Withdraw");
-	$balance = translate_inline("`@Elessa`6 scans through her ledger, \"`@You have a balance of `^%s`@ gold in the bank.`6\"`n");
-	$debt = translate_inline("`@Elessa`6 scans through her ledger, \"`@You have a `\$debt`@ of `^%s`@ gold in the bank.`6\"`n");
+	$withdraw = translator::translate_inline("Withdraw");
+	$balance = translator::translate_inline("`@Elessa`6 scans through her ledger, \"`@You have a balance of `^%s`@ gold in the bank.`6\"`n");
+	$debt = translator::translate_inline("`@Elessa`6 scans through her ledger, \"`@You have a `\$debt`@ of `^%s`@ gold in the bank.`6\"`n");
 	rawoutput("<form action='bank.php?op=withdrawfinish' method='POST'>");
 	output_notl($session['user']['goldinbank']>=0?$balance:$debt,abs($session['user']['goldinbank']));
 	output("`6\"`@How much would you like to withdraw `&%s`@?`6\"`n`n",$session['user']['name']);

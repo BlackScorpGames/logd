@@ -13,7 +13,8 @@
     },
     "autoload":{
     "psr-4":{
-        "":"lib/"
+        "":"lib/",
+        "blackscorp\\logd\\": "src/"
         }
     },
     "scripts": {

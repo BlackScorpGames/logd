@@ -13,16 +13,16 @@ if ($op==""){
 	$uri = rawurldecode(http::httpget('u'));
 	$text = stripslashes(rawurldecode(http::httpget('t')));
 	
-	$translation = translate_loadnamespace($uri);
+	$translation = translator::translate_loadnamespace($uri);
 	if (isset($translation[$text]))
 		$trans = $translation[$text];
 	else
 		$trans = "";
-	$namespace = translate_inline("Namespace:");
-	$texta = translate_inline("Text:");
-	$translation = translate_inline("Translation:");
-	$saveclose = htmlentities(translate_inline("Save & Close"), ENT_COMPAT, getsetting("charset", "ISO-8859-1"));
-	$savenotclose = htmlentities(translate_inline("Save No Close"), ENT_COMPAT, getsetting("charset", "ISO-8859-1"));
+	$namespace = translator::translate_inline("Namespace:");
+	$texta = translator::translate_inline("Text:");
+	$translation = translator::translate_inline("Translation:");
+	$saveclose = htmlentities(translator::translate_inline("Save & Close"), ENT_COMPAT, getsetting("charset", "ISO-8859-1"));
+	$savenotclose = htmlentities(translator::translate_inline("Save No Close"), ENT_COMPAT, getsetting("charset", "ISO-8859-1"));
 	rawoutput("<form action='translatortool.php?op=save' method='POST'>");
 	rawoutput("$namespace <input name='uri' value=\"".htmlentities(stripslashes($uri), ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."\" readonly><br/>");
 	rawoutput("$texta<br>");
@@ -103,15 +103,15 @@ if ($op==""){
 		rawoutput("<option value=\"".rawurlencode(htmlentities($row['uri'], ENT_COMPAT, getsetting("charset", "ISO-8859-1")))."\">".htmlentities($row['uri'], ENT_COMPAT, getsetting("charset", "ISO-8859-1"))." ({$row['c']})</option>",true);
 	}
 	rawoutput("</select>");
-	$show = translate_inline("Show");
+	$show = translator::translate_inline("Show");
 	rawoutput("<input type='submit' class='button' value=\"$show\">");
 	rawoutput("</form>");
-	$ops = translate_inline("Ops");
-	$from = translate_inline("From");
-	$to = translate_inline("To");
-	$version = translate_inline("Version");
-	$author = translate_inline("Author");
-	$norows = translate_inline("No rows found");
+	$ops = translator::translate_inline("Ops");
+	$from = translator::translate_inline("From");
+	$to = translator::translate_inline("To");
+	$version = translator::translate_inline("Version");
+	$author = translator::translate_inline("Author");
+	$norows = translator::translate_inline("No rows found");
 	rawoutput("<table border='0' cellpadding='2' cellspacing='0'>");
 	rawoutput("<tr class='trhead'><td>$ops</td><td>$from</td><td>$to</td><td>$version</td><td>$author</td></tr>");
 	$sql = "SELECT * FROM " . db_prefix("translations") . " WHERE language='".LANGUAGE."' AND uri='".httpget("u")."'";
@@ -121,7 +121,7 @@ if ($op==""){
 		while ($row = db_fetch_assoc($result)){
 			$i++;
 			rawoutput("<tr class='".($i%2?"trlight":"trdark")."'><td>");
-			$edit = translate_inline("Edit");
+			$edit = translator::translate_inline("Edit");
 			rawoutput("<a href='translatortool.php?u=".rawurlencode(htmlentities($row['uri'], ENT_COMPAT, getsetting("charset", "ISO-8859-1")))."&t=".rawurlencode(htmlentities($row['intext']))."'>$edit</a>");
 			rawoutput("</td><td>");
 			rawoutput(htmlentities($row['intext'], ENT_COMPAT, getsetting("charset", "ISO-8859-1")));

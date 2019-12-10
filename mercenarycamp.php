@@ -13,7 +13,7 @@ $name = stripslashes(rawurldecode(http::httpget('name')));
 if (isset($companions[$name])) {
 	$displayname = $companions[$name]['name'];
 } else {
-	$displayname = translate_inline("your companion");
+	$displayname = translator::translate_inline("your companion");
 }
 
 $basetext=array(
@@ -102,7 +102,7 @@ if ($op==""){
 		translator::tlschema($schemas['desc']);
 	  	if (is_array($texts['desc'])) {
 	  		foreach ($texts['desc'] as $description) {
-	  			output_notl(sprintf_translate($description));
+	  			output_notl(translator::sprintf_translate($description));
 	  		}
 	  	} else {
 	  		output($texts['desc']);
@@ -122,7 +122,7 @@ if ($op==""){
 		case 0:
 			if (is_array($texts['nocompanions'])) {
 				foreach ($texts['nocompanions'] as $description) {
-					output_notl(sprintf_translate($description));
+					output_notl(translator::sprintf_translate($description));
 				}
 			} else {
 				output($texts['nocompanions']);
@@ -131,7 +131,7 @@ if ($op==""){
 		case 1:
 			if (is_array($texts['onecompanion'])) {
 				foreach ($texts['onecompanion'] as $description) {
-					output_notl(sprintf_translate($description));
+					output_notl(translator::sprintf_translate($description));
 				}
 			} else {
 				output($texts['onecompanion']);
@@ -140,7 +140,7 @@ if ($op==""){
 		default:
 			if (is_array($texts['manycompanions'])) {
 				foreach ($texts['manycompanions'] as $description) {
-					output_notl(sprintf_translate($description));
+					output_notl(translator::sprintf_translate($description));
 				}
 			} else {
 				output($texts['manycompanions']);
@@ -179,7 +179,7 @@ if ($op==""){
 		translator::tlschema($schemas['healpaid']);
 	  	if (is_array($texts['healnotenough'])) {
 	  		foreach ($texts['healnotenough'] as $healnotenough) {
-	  			output_notl(sprintf_translate($healnotenough));
+	  			output_notl(translator::sprintf_translate($healnotenough));
 	  		}
 	  	} else {
 	  		output($texts['healnotenough']);
@@ -192,7 +192,7 @@ if ($op==""){
 		translator::tlschema($schemas['healpaid']);
 	  	if (is_array($texts['healpaid'])) {
 	  		foreach ($texts['healpaid'] as $healpaid) {
-	  			output_notl(sprintf_translate($healpaid));
+	  			output_notl(translator::sprintf_translate($healpaid));
 	  		}
 	  	} else {
 	  		output($texts['healpaid']);
@@ -215,7 +215,7 @@ if ($op==""){
 		$row['abilities'] = @unserialize($row['abilities']);
 		require_once("lib/buffs.php");
 		if (apply_companion($row['name'], $row)) {
-			output("`QYou hand over `^%s gold`Q and `%%s %s`Q.`n`n", (int)$row['companioncostgold'], (int)$row['companioncostgems'],translate_inline($row['companioncostgems'] == 1?"gem":"gems"));
+			output("`QYou hand over `^%s gold`Q and `%%s %s`Q.`n`n", (int)$row['companioncostgold'], (int)$row['companioncostgems'],translator::translate_inline($row['companioncostgems'] == 1?"gem":"gems"));
 			if (isset($row['jointext']) && $row['jointext'] > "") {
 				output($row['jointext']);
 			}
@@ -227,7 +227,7 @@ if ($op==""){
 			translator::tlschema($schemas['toomanycompanions']);
 			if (is_array($texts['toomanycompanions'])) {
 				foreach ($texts['toomanycompanions'] as $toomanycompanions) {
-					output_notl(sprintf_translate($toomanycompanions));
+					output_notl(translator::sprintf_translate($toomanycompanions));
 				}
 			} else {
 				output($texts['toomanycompanions']);
@@ -268,7 +268,7 @@ function healnav($companions, $texts, $schemas) {
 	  	translator::tlschema($schemas['healtext']);
 	  	if (is_array($texts['healtext'])) {
 	  		foreach ($texts['healtext'] as $healtext) {
-	  			output_notl(sprintf_translate($healtext));
+	  			output_notl(translator::sprintf_translate($healtext));
 	  		}
 	  	} else {
 	  		output($texts['healtext']);

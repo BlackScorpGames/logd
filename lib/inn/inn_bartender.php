@@ -96,7 +96,7 @@ if ($act==""){
 	$testtext = httppost('testtext');
 	output("You entered %s`n", prevent_colors(HTMLEntities($testtext, ENT_COMPAT, getsetting("charset", "ISO-8859-1"))), true);
 	output("It looks like %s`n", $testtext);
-	$try = translate_inline("Try");
+	$try = translator::translate_inline("Try");
 	rawoutput("<input name='testtext' id='input'>");
 	rawoutput("<input type='submit' class='button' value='$try'>");
 	rawoutput("</form>");

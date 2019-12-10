@@ -42,7 +42,7 @@
 			if ($row['clanrank']>CLAN_OFFICER) $leaders += $row['c'];
 		}
 		output("`n");
-		$noleader = translate_inline("`^There is currently no leader!  Promoting %s`^ to leader as they are the highest ranking member (or oldest member in the event of a tie).`n`n");
+		$noleader = translator::translate_inline("`^There is currently no leader!  Promoting %s`^ to leader as they are the highest ranking member (or oldest member in the event of a tie).`n`n");
 		if ($leaders==0){
 			//There's no leader here, probably because the leader's account
 			//expired.

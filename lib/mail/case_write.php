@@ -31,16 +31,16 @@ if ($to){
 if (is_array($row)){
 	if (isset($row['subject']) && $row['subject']){
 		if ((int)$row['msgfrom']==0){
-			$row['name']=translate_inline("`i`^System`0`i");
+			$row['name']=translator::translate_inline("`i`^System`0`i");
 			// No translation for subject if it's not an array
 			$row_subject = @unserialize($row['subject']);
 			if ($row_subject !== false) {
-				$row['subject'] = call_user_func_array("sprintf_translate", $row_subject);
+				$row['subject'] = call_user_func_array("translator::sprintf_translate", $row_subject);
 			}
 			// No translation for body if it's not an array
 			$row_body = @unserialize($row['body']);
 			if ($row_body !== false) {
-				$row['body'] = call_user_func_array("sprintf_translate", $row_body);
+				$row['body'] = call_user_func_array("translator::sprintf_translate", $row_body);
 			}
 		}
 		$subject=$row['subject'];
@@ -49,7 +49,7 @@ if (is_array($row)){
 		}
 	}
 	if (isset($row['body']) && $row['body']){
-		$body="\n\n---".sprintf_translate(array("Original Message from %s (%s)",sanitize($row['name']),date("Y-m-d H:i:s",strtotime($row['sent']))))."---\n".$row['body'];
+		$body="\n\n---".translator::sprintf_translate(array("Original Message from %s (%s)",sanitize($row['name']),date("Y-m-d H:i:s",strtotime($row['sent']))))."---\n".$row['body'];
 	}
 }
 rawoutput("<form action='mail.php?op=send' method='post'>");
@@ -125,14 +125,14 @@ output("`2Body:`n");
 require_once("lib/forms.php");
 previewfield("body", "`^", false, false, array("type"=>"textarea", "class"=>"input", "cols"=>"60", "rows"=>"9", "onKeyDown"=>"sizeCount(this);"), htmlentities($body, ENT_COMPAT, getsetting("charset", "ISO-8859-1")).htmlentities(stripslashes(http::httpget('body')), ENT_COMPAT, getsetting("charset", "ISO-8859-1")));
 //rawoutput("<textarea name='body' id='textarea' class='input' cols='60' rows='9' onKeyUp='sizeCount(this);'>".htmlentities($body, ENT_COMPAT, getsetting("charset", "ISO-8859-1")).htmlentities(stripslashes(http::httpget('body')), ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."</textarea><br>");
-$send = translate_inline("Send");
+$send = translator::translate_inline("Send");
 rawoutput("<table border='0' cellpadding='0' cellspacing='0' width='100%'><tr><td><input type='submit' class='button' value='$send'></td><td align='right'><div id='sizemsg'></div></td></tr></table>");
 rawoutput("</form>");
 $sizemsg = "`#Max message size is `@%s`#, you have `^XX`# characters left.";
-$sizemsg = translate_inline($sizemsg);
+$sizemsg = translator::translate_inline($sizemsg);
 $sizemsg = sprintf($sizemsg,getsetting("mailsizelimit",1024));
 $sizemsgover = "`\$Max message size is `@%s`\$, you are over by `^XX`\$ characters!";
-$sizemsgover = translate_inline($sizemsgover);
+$sizemsgover = translator::translate_inline($sizemsgover);
 $sizemsgover = sprintf($sizemsgover,getsetting("mailsizelimit",1024));
 $sizemsg = explode("XX",$sizemsg);
 $sizemsgover = explode("XX",$sizemsgover);

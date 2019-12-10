@@ -61,7 +61,7 @@ rawoutput("<form action='installer.php?stage=5' method='POST'>");
 output("`nTo provide a table prefix, enter it here.");
 output("If you don't know what this means, you should either leave it blank, or enter an intuitive value such as \"logd\".`n");
 rawoutput("<input name='DB_PREFIX' value=\"".htmlentities($session['dbinfo']['DB_PREFIX'], ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."\"><br>");
-$submit = translate_inline("Submit your prefix.");
+$submit = translator::translate_inline("Submit your prefix.");
 rawoutput("<input type='submit' value='$submit' class='button'>");
 rawoutput("</form>");
 if (count($conflict)==0){

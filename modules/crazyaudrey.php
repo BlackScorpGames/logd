@@ -157,7 +157,7 @@ function crazyaudrey_baskets($type)
 			set_module_pref("played",1);
 		}
 		$colors = array("`^C`&a`Ql`6i`7c`qo","`7T`&i`7g`&e`7r","`QGinger","`&White","`^`bHedgehog!`b");
-		$colors = translate_inline($colors);
+		$colors = translator::translate_inline($colors);
 		$c1 = e_rand(0,3);
 		$c2 = e_rand(0,3);
 		$c3 = e_rand(0,3);
@@ -184,7 +184,7 @@ function crazyaudrey_baskets($type)
 
 		if ($c1==$c2 && $c2==$c3){
 			if ($c1==4){
-				$where = translate_inline($type=="forest"?"forest":"crowd");
+				$where = translator::translate_inline($type=="forest"?"forest":"crowd");
 				output("\"`%Hedgehogs?  HEDGEHOGS??  Hahahahaha, HEDGEHOGS!!!!`5\" shouts Crazy Audrey as she snatches them up in glee and runs cheering into the %s.", $where);
 				output("You notice that she has dropped a full BAG of those wonderful salves.`n`n");
 				output("`^You gain FIVE forest fights!");

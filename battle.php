@@ -69,7 +69,7 @@ if ($op=="fight"){
 				$enemies[$index]['istarget'] = 1;
 			}else{
 				if (is_array($badguy['cannotbetarget'])) {
-					$msg = sprintf_translate($badguy['cannotbetarget']);
+					$msg = translator::sprintf_translate($badguy['cannotbetarget']);
 					$msg = substitute($msg);
 					output_notl($msg); //Here it's already translated
 				}else{
@@ -431,7 +431,7 @@ if ($op != "newtarget") {
 			foreach ($newenemies as $index => $badguy) {
 				if (isset($badguy['fleesifalone']) && $badguy['fleesifalone'] == true) {
 					if (is_array($badguy['fleesifalone'])) {
-						$msg = sprintf_translate($badguy['fleesifalone']);
+						$msg = translator::sprintf_translate($badguy['fleesifalone']);
 						$msg = substitute($msg);
 						output_notl($msg); //Here it's already translated
 					}else{
@@ -449,7 +449,7 @@ if ($op != "newtarget") {
 			}
 		} else if ($leaderisdead) {
 			if (is_array($badguy['essentialleader'])) {
-				$msg = sprintf_translate($badguy['essentialleader']);
+				$msg = translator::sprintf_translate($badguy['essentialleader']);
 				$msg = substitute($msg);
 				output_notl($msg); //Here it's already translated
 			}else{

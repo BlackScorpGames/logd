@@ -20,9 +20,9 @@ if ($op==""){
 		output("Sadly, this is not to be the case, for as you round a corner within the cave you discover the great beast sitting on its haunches on a huge pile of gold, picking its teeth with a rib.");
 	}
 	$badguy = array(
-		"creaturename"=>translate_inline("`@The Green Dragon`0"),
+		"creaturename"=>translator::translate_inline("`@The Green Dragon`0"),
 		"creaturelevel"=>18,
-		"creatureweapon"=>translate_inline("Great Flaming Maw"),
+		"creatureweapon"=>translator::translate_inline("Great Flaming Maw"),
 		"creatureattack"=>45,
 		"creaturedefense"=>25,
 		"creaturehealth"=>300,

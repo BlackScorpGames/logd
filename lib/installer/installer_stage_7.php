@@ -33,7 +33,7 @@ if (!isset($session['fromversion']) || $session['fromversion']==""){
 	rawoutput("<br><input type='radio' value='install' name='type'".($session['dbinfo']['upgrade']?"":" checked").">");
 	output(" `2Perform a clean install.");
 	rawoutput("</td></tr></table>");
-	$submit=translate_inline("Submit");
+	$submit=translator::translate_inline("Submit");
 	rawoutput("<input type='submit' value='$submit' class='button'>");
 	rawoutput("</form>");
 	$session['stagecompleted']=$stage - 1;

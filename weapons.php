@@ -14,7 +14,7 @@ $basetext=array(
 	"title"			=>	"MightyE's Weapons",
 	"desc"			=>	array(
 		"`!MightyE `7stands behind a counter and appears to pay little attention to you as you enter, but you know from experience that he has his eye on every move you make.",
-		array("He may be a humble weapons merchant, but he still carries himself with the grace of a man who has used his weapons to kill mightier %s than you.`n`n",translate_inline($session['user']['sex']?"women":"men")),
+		array("He may be a humble weapons merchant, but he still carries himself with the grace of a man who has used his weapons to kill mightier %s than you.`n`n",translator::translate_inline($session['user']['sex']?"women":"men")),
 		"The massive hilt of a claymore protrudes above his shoulder; its gleam in the torch light not much brighter than the gleam off of `!MightyE's`7 bald forehead, kept shaved mostly as a strategic advantage, but in no small part because nature insisted that some level of baldness was necessary.`n`n",
 		"`!MightyE`7 finally nods to you, stroking his goatee and looking like he wished he could have an opportunity to use one of these weapons.",
 	),
@@ -55,7 +55,7 @@ if ($op==""){
   	translator::tlschema($schemas['desc']);
   	if (is_array($texts['desc'])) {
   		foreach ($texts['desc'] as $description) {
-  			output_notl(sprintf_translate($description));
+  			output_notl(translator::sprintf_translate($description));
   		}
   	} else {
   		output($texts['desc']);
@@ -73,16 +73,16 @@ if ($op==""){
  	translator::tlschema($schemas['tradein']);
   	if (is_array($texts['tradein'])) {
   		foreach ($texts['tradein'] as $description) {
-  			output_notl(sprintf_translate($description));
+  			output_notl(translator::sprintf_translate($description));
   		}
   	} else {
   		output($texts['tradein']);
   	}
   	translator::tlschema();
 
-	$wname=translate_inline("`bName`b");
-	$wdam=translate_inline("`bDamage`b");
-	$wcost=translate_inline("`bCost`b");
+	$wname=translator::translate_inline("`bName`b");
+	$wdam=translator::translate_inline("`bDamage`b");
+	$wcost=translator::translate_inline("`bCost`b");
 	rawoutput("<table border='0' cellpadding='0'>");
 	rawoutput("<tr class='trhead'><td>");
 	output_notl($wname);

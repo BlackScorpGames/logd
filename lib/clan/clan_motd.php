@@ -51,7 +51,7 @@
 			output("`&`bMoTD:`b `7(4096 chars)`n");
 			rawoutput("<textarea name='clanmotd' cols='50' rows='10' class='input' style='width: 66%'>".htmlentities($claninfo['clanmotd'], ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."</textarea><br>");
 			output("`n`&`bDescription:`b `7(4096 chars)`n");
-			$blocked = translate_inline("Your clan has been blocked from posting a description.`n");
+			$blocked = translator::translate_inline("Your clan has been blocked from posting a description.`n");
 			if ($claninfo['descauthor']==INT_MAX){
 				output_notl($blocked);
 			}else{
@@ -61,7 +61,7 @@
 				output("`n`&`bCustom Talk Line`b `7(blank means \"says\" -- 15 chars max)`n");
 				rawoutput("<input name='customsay' value=\"".htmlentities($claninfo['customsay'], ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."\" class='input' maxlength=\"15\"><br/>");
 			}
-			$save = translate_inline("Save");
+			$save = translator::translate_inline("Save");
 			rawoutput("<input type='submit' class='button' value='$save'>");
 			rawoutput("</form>");
 		}else{

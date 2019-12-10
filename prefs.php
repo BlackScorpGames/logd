@@ -171,7 +171,7 @@ if ($op=="suicide" && getsetting("selfdelete",0)!=0) {
 		"nojump"=>"Don't jump to comment areas after refreshing or posting a comment?,bool",
 	);
 	rawoutput("<script language='JavaScript' src='lib/md5.js'></script>");
-	$warn = translate_inline("Your password is too short.  It must be at least 4 characters long.");
+	$warn = translator::translate_inline("Your password is too short.  It must be at least 4 characters long.");
 	rawoutput("<script language='JavaScript'>
 	<!--
 	function md5pass(){
@@ -309,8 +309,8 @@ if ($op=="suicide" && getsetting("selfdelete",0)!=0) {
 	// monster killed them.
 	if ($session['user']['alive'] && getsetting("selfdelete",0)!=0) {
 		rawoutput("<form action='prefs.php?op=suicide&userid={$session['user']['acctid']}' method='POST'>");
-		$deltext = translate_inline("Delete Character");
-		$conf = translate_inline("Are you sure you wish to delete your character?");
+		$deltext = translator::translate_inline("Delete Character");
+		$conf = translator::translate_inline("Are you sure you wish to delete your character?");
 		rawoutput("<table class='noborder' width='100%'><tr><td width='100%'></td><td style='background-color:#FF00FF' align='right'>");
 		rawoutput("<input type='submit' class='button' value='$deltext' onClick='return confirm(\"$conf\");'>");
 		rawoutput("</td></tr></table>");

@@ -26,18 +26,18 @@ function checkban($login=false){
 	if (db_num_rows($result)>0){
 		$session=array();
 		translator::tlschema("ban");
-		$session['message'].=translate_inline("`n`4You fall under a ban currently in place on this website:`n");
+		$session['message'].=translator::translate_inline("`n`4You fall under a ban currently in place on this website:`n");
 		while ($row = db_fetch_assoc($result)) {
 			$session['message'].=$row['banreason']."`n";
 			if ($row['banexpire']=='0000-00-00')
-				$session['message'].=translate_inline("  `\$This ban is permanent!`0");
+				$session['message'].=translator::translate_inline("  `\$This ban is permanent!`0");
 				else
-				$session['message'].=sprintf_translate("  `^This ban will be removed `\$after`^ %s.`0",date("M d, Y",strtotime($row['banexpire'])));
+				$session['message'].=translator::sprintf_translate("  `^This ban will be removed `\$after`^ %s.`0",date("M d, Y",strtotime($row['banexpire'])));
 			$sql = "UPDATE " . db_prefix("bans") . " SET lasthit='".date("Y-m-d H:i:s")."' WHERE ipfilter='{$row['ipfilter']}' AND uniqueid='{$row['uniqueidid']}'";
 			db_query($sql);
 			$session['message'].="`n";
 		}
-		$session['message'].=translate_inline("`4If you wish, you may appeal your ban with the petition link.");
+		$session['message'].=translator::translate_inline("`4If you wish, you may appeal your ban with the petition link.");
 		translator::tlschema();
 		header("Location: index.php");
 		exit();

@@ -71,7 +71,7 @@ function output_notl($indata){
 	//`1`2 etc color & formatting
 	$out = appoencode($out,$priv);
 	//apply to the page.
-	$output.=tlbutton_pop().$out;
+	$output.=translator::tlbutton_pop().$out;
 	$output.="\n";
 }
 
@@ -91,9 +91,9 @@ function output(){
 	if (is_array($args[0])) $args = $args[0];
 	if (is_bool($args[0]) && array_shift($args)) {
 		$schema= array_shift($args);
-		$args[0] = translate($args[0],$schema);
+		$args[0] = translator::translate($args[0],$schema);
 	} else {
-		$args[0] = translate($args[0]);
+		$args[0] = translator::translate($args[0]);
 	}
 	call_user_func_array("output_notl",$args);
 }
@@ -709,7 +709,7 @@ function private_addnav($text,$link=false,$priv=false,$pop=false,$popsize="500x3
 			}
 		}
 		if ($link != "!!!addraw!!!") {
-			if ($translate) $text[0] = translate($text[0]);
+			if ($translate) $text[0] = translator::translate($text[0]);
 			$text = call_user_func_array("sprintf",$text);
 		} else {
 			$text = call_user_func_array("sprintf",$text);
@@ -719,17 +719,17 @@ function private_addnav($text,$link=false,$priv=false,$pop=false,$popsize="500x3
 			translator::tlschema($navschema[$text]);
 			$unschema = 1;
 		}
-		if ($link != "!!!addraw!!!" && $text>"" && $translate) $text = translate($text); //leave the hack in here for now, use addnav_notl please
+		if ($link != "!!!addraw!!!" && $text>"" && $translate) $text = translator::translate($text); //leave the hack in here for now, use addnav_notl please
 	}
 
 	$extra="";
 	$ignoreuntil="";
 	if ($link===false){
 		$text = holidayize($text,'nav');
-		$thisnav.=tlbutton_pop().templatereplace("navhead",array("title"=>appoencode($text,$priv)));
+		$thisnav.=translator::tlbutton_pop().templatereplace("navhead",array("title"=>appoencode($text,$priv)));
 	}elseif ($link === "") {
 		$text = holidayize($text,'nav');
-		$thisnav.=tlbutton_pop().templatereplace("navhelp",array("text"=>appoencode($text,$priv)));
+		$thisnav.=translator::tlbutton_pop().templatereplace("navhelp",array("text"=>appoencode($text,$priv)));
 	} elseif ($link == "!!!addraw!!!") {
 		$thisnav .= $text;
 	}else{
@@ -842,7 +842,7 @@ function private_addnav($text,$link=false,$priv=false,$pop=false,$popsize="500x3
 				"accesskey"=>$keyrep,
 				"popup"=>($pop==true ? "target='_blank'".($popsize>""?" onClick=\"".popup($link,$popsize)."; return false;\"":"") : "")
 				));
-			$n = str_replace("<a ",tlbutton_pop()."<a ",$n);
+			$n = str_replace("<a ",translator::tlbutton_pop()."<a ",$n);
 			$thisnav.=$n;
 		}
 		$session['allowednavs'][$link.$extra]=true;

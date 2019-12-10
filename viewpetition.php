@@ -26,7 +26,7 @@ $statuses=array(
 	);
 
 //$statuses = modulehook("petition-status", $status);
-$statuses=translate_inline($statuses);
+$statuses=translator::translate_inline($statuses);
 
 $op = http::httpget("op");
 $id = http::httpget("id");
@@ -135,16 +135,16 @@ if ($op==""){
 	$result = db_query($sql);
 	addnav("Petitions");
 	addnav("Refresh","viewpetition.php");
-	$num = translate_inline("Num");
-	$ops = translate_inline("Ops");
-	$from = translate_inline("From");
-	$sent = translate_inline("Sent");
-	$com = translate_inline("Com");
-	$last = translate_inline("Last Updater");
-	$when = translate_inline("Updated");
-	$view = translate_inline("View");
-	$close = translate_inline("Close");
-	$mark = translate_inline("Mark");
+	$num = translator::translate_inline("Num");
+	$ops = translator::translate_inline("Ops");
+	$from = translator::translate_inline("From");
+	$sent = translator::translate_inline("Sent");
+	$com = translator::translate_inline("Com");
+	$last = translator::translate_inline("Last Updater");
+	$when = translator::translate_inline("Updated");
+	$view = translator::translate_inline("View");
+	$close = translator::translate_inline("Close");
+	$mark = translator::translate_inline("Mark");
 
 	rawoutput("<table border='0'><tr class='trhead'><td>$num</td><td>$ops</td><td>$from</td><td>$sent</td><td>$com</td><td>$last</td><td>$when</td></tr>");
 	$i=0;
@@ -270,13 +270,13 @@ if ($op==""){
 		addnav("User Ops");
 		addnav("Edit User Donations","donators.php?op=add1&name=".rawurlencode($row['login'])."&ret=".urlencode($_SERVER['REQUEST_URI']));
 	}
-	$write = translate_inline("Write Mail");
+	$write = translator::translate_inline("Write Mail");
 	// We assume that petitions are handled in default language
-	$yourpeti = translate_mail("Your Petition",0);
-	$peti = translate_mail("Petition",0);
-	$row['body'] = str_replace("[charname]",translate_mail("[charname]",0),$row['body']);
-	$row['body'] = str_replace("[email]",translate_mail("[email]",0),$row['body']);
-	$row['body'] = str_replace("[description]",translate_mail("[description]",0),$row['body']);
+	$yourpeti = translator::translate_mail("Your Petition",0);
+	$peti = translator::translate_mail("Petition",0);
+	$row['body'] = str_replace("[charname]",translator::translate_mail("[charname]",0),$row['body']);
+	$row['body'] = str_replace("[email]",translator::translate_mail("[email]",0),$row['body']);
+	$row['body'] = str_replace("[description]",translator::translate_mail("[description]",0),$row['body']);
 	// For email replies, make sure we don't overflow the URI buffer.
 	$reppet = substr(stripslashes($row['body']), 0, 2000);
 	output("`@From: ");

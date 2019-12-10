@@ -85,12 +85,12 @@ function lovers_dohook($hookname, $args){
 		if ($session['user']['sex']==SEX_MALE){
 			addnav(array("F?Flirt with %s", $partner),
 					"runmodule.php?module=lovers&op=flirt");
-			addnav(array("Chat with %s",translate_inline(getsetting("bard", "`^Seth"))),
+			addnav(array("Chat with %s",translator::translate_inline(getsetting("bard", "`^Seth"))),
 					"runmodule.php?module=lovers&op=chat");
 		}else{
 			addnav(array("F?Flirt with %s", $partner),
 					"runmodule.php?module=lovers&op=flirt");
-			addnav(array("Gossip with %s",translate_inline(getsetting("barmaid", "`%Violet"))),
+			addnav(array("Gossip with %s",translator::translate_inline(getsetting("barmaid", "`%Violet"))),
 					"runmodule.php?module=lovers&op=chat");
 		}
 		break;

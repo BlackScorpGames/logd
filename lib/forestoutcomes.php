@@ -24,7 +24,7 @@ function forestvictory($enemies,$denyflawless=false){
 		}
 		$gold += $badguy['creaturegold'];
 		translator::tlschema("battle");
-		if(isset($badguy['creaturelose'])) $msg = translate_inline($badguy['creaturelose']);
+		if(isset($badguy['creaturelose'])) $msg = translator::translate_inline($badguy['creaturelose']);
 		translator::tlschema();
 		if(isset($msg)) output_notl("`b`&%s`0`b`n",$msg);
 		output("`b`\$You have slain %s!`0`b`n",$badguy['creaturename']);
@@ -108,7 +108,7 @@ function forestvictory($enemies,$denyflawless=false){
 	if (!$diddamage) {
 		output("`c`b`&~~ Flawless Fight! ~~`0`b`c");
 		if ($denyflawless){
-			output("`c`\$%s`0`c", translate_inline($denyflawless));
+			output("`c`\$%s`0`c", translator::translate_inline($denyflawless));
 		}elseif ($session['user']['level']<=$creaturelevel){
 			output("`c`b`\$You receive an extra turn!`0`b`c`n");
 			$session['user']['turns']++;
@@ -134,7 +134,7 @@ function forestdefeat($enemies,$where="in the forest"){
 		$names[] = $badguy['creaturename'];
 		if (isset($badguy['killedplayer']) && $badguy['killedplayer'] == true) $killer = $badguy;
 		if (isset($badguy['creaturewin']) && $badguy['creaturewin'] > "") {
-			$msg = translate_inline($badguy['creaturewin'],"battle");
+			$msg = translator::translate_inline($badguy['creaturewin'],"battle");
 			output_notl("`b`&%s`0`b`n",$msg);
 		}
 	}
@@ -142,13 +142,13 @@ function forestdefeat($enemies,$where="in the forest"){
 	elseif(!isset($badguy['creaturename'])) $badguy = $enemies[0];
 	if (count($names) > 1) $lastname = array_pop($names);
 	$enemystring = join(", ", $names);
-	$and = translate_inline("and");
+	$and = translator::translate_inline("and");
 	if (isset($lastname) && $lastname > "") $enemystring = "$enemystring $and $lastname";
 	$taunt = select_taunt_array();
 	if (is_array($where)) {
-		$where=sprintf_translate($where);
+		$where=translator::sprintf_translate($where);
 	} else {
-		$where=translate_inline($where);
+		$where=translator::translate_inline($where);
 	}
 	addnews("`%%s`5 has been slain %s by %s.`n%s",$session['user']['name'],$where,$badguy['creaturename'],$taunt);
 	$session['user']['alive']=false;

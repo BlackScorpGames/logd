@@ -95,12 +95,12 @@ function racehuman_dohook($hookname,$args){
 	case "setrace":
 		if ($session['user']['race']==$race){
 			$bonus = get_module_setting("bonus");
-			$one = translate_inline("an");
-			$two = translate_inline("two");
-			$three = translate_inline("three");
+			$one = translator::translate_inline("an");
+			$two = translator::translate_inline("two");
+			$three = translator::translate_inline("three");
 			$word = $bonus==1?$one:$bonus==2?$two:$three;
-			$fight = translate_inline("fight");
-			$fights = translate_inline("fights");
+			$fight = translator::translate_inline("fight");
+			$fights = translator::translate_inline("fights");
 			output("`&As a human, your size and strength permit you the ability to effortlessly wield weapons, tiring much less quickly than other races.`n`^You gain %s extra forest %s each day!", $word, $bonus==1?$fight:$fights);
 			if (is_module_active("cities")) {
 				if ($session['user']['dragonkills']==0 &&
@@ -120,17 +120,17 @@ function racehuman_dohook($hookname,$args){
 			racehuman_checkcity();
 
 			$bonus = get_module_setting("bonus");
-			$one = translate_inline("an");
-			$two = translate_inline("two");
-			$three = translate_inline("three");
+			$one = translator::translate_inline("an");
+			$two = translator::translate_inline("two");
+			$three = translator::translate_inline("three");
 			$word = $bonus==1?$one:$bonus==2?$two:$three;
-			$fight = translate_inline("fight");
-			$fights = translate_inline("fights");
+			$fight = translator::translate_inline("fight");
+			$fights = translator::translate_inline("fights");
 
 			$args['turnstoday'] .= ", Race (human): $bonus";
 			$session['user']['turns']+=$bonus;
-			$fight = translate_inline("fight");
-			$fights = translate_inline("fights");
+			$fight = translator::translate_inline("fight");
+			$fights = translator::translate_inline("fights");
 			output("`n`&Because you are human, you gain `^%s extra`& forest fights for today!`n`0", $word, $bonus==1?$fight:$fights);
 		}
 		break;
@@ -142,7 +142,7 @@ function racehuman_dohook($hookname,$args){
 	case "moderate":
 		if (is_module_active("cities")) {
 			translator::tlschema("commentary");
-			$args["village-$race"]=sprintf_translate("City of %s", $city);
+			$args["village-$race"]=translator::sprintf_translate("City of %s", $city);
 			translator::tlschema();
 		}
 		break;
@@ -214,7 +214,7 @@ function racehuman_dohook($hookname,$args){
 		$args['desc'] = array(
 			"`6Just outside the outskirts of the village, a training area and riding range has been set up.",
 			"Many people from all across the land mingle as Bertold, a strapping man with a wind-weathered face, extols the virtues of each of the creatures in his care.",
-			array("As you approach, Bertold smiles broadly, \"`^Ahh! how can I help you today, my %s?`6\" he asks in a booming voice.", translate_inline($session['user']['sex']?'lass':'lad', 'stables'))
+			array("As you approach, Bertold smiles broadly, \"`^Ahh! how can I help you today, my %s?`6\" he asks in a booming voice.", translator::translate_inline($session['user']['sex']?'lass':'lad', 'stables'))
 		);
 		$args['schemas']['desc'] = "module-racehuman";
 		$args['lad']="friend";
@@ -258,7 +258,7 @@ function racehuman_dohook($hookname,$args){
 		break;
 	case "stablelocs":
 		translator::tlschema("mounts");
-		$args[$city]=sprintf_translate("The Village of %s", $city);
+		$args[$city]=translator::sprintf_translate("The Village of %s", $city);
 		translator::tlschema();
 		break;
 	}

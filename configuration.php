@@ -93,7 +93,7 @@ if ($op=="save"){
 			$post = modulehook("validatesettings", $post, true, $module);
 			if (isset($post['validation_error'])) {
 				$post['validation_error'] =
-					translate_inline($post['validation_error']);
+					translator::translate_inline($post['validation_error']);
 				output("Unable to change settings:`\$%s`0",
 						$post['validation_error']);
 			} else {
@@ -148,14 +148,14 @@ if ($op=="save"){
 				$msettings = modulehook("mod-dyn-settings", $msettings);
 				if (is_module_active($module)){
 					output("This module is currently active: ");
-					$deactivate = translate_inline("Deactivate");
+					$deactivate = translator::translate_inline("Deactivate");
 					rawoutput("<a href='modules.php?op=deactivate&module={$module}&cat={$info['category']}'>");
 					output_notl($deactivate);
 					rawoutput("</a>");
 					addnav("","modules.php?op=deactivate&module={$module}&cat={$info['category']}");
 				}else{
 					output("This module is currently deactivated: ");
-					$deactivate = translate_inline("Activate");
+					$deactivate = translator::translate_inline("Activate");
 					rawoutput("<a href='modules.php?op=activate&module={$module}&cat={$info['category']}'>");
 					output_notl($deactivate);
 					rawoutput("</a>");
@@ -182,7 +182,7 @@ superusernav();
 addnav("Module Manager", "modules.php");
 if ($module) {
 	$cat = $info['category'];
-	addnav(array("Module Category - `^%s`0", translate_inline($cat)), "modules.php?cat=$cat");
+	addnav(array("Module Category - `^%s`0", translator::translate_inline($cat)), "modules.php?cat=$cat");
 }
 
 addnav("Game Settings");
@@ -200,11 +200,11 @@ if ($op == "") {
 		$off = ($details['realsecstotomorrow'] - ($offset - $i));
 		if ($off < 0) $off += 86400;
 		$x = strtotime("+".$off." secs");
-        $str = sprintf_translate("In %s at %s (+%s)",
+        $str = translator::sprintf_translate("In %s at %s (+%s)",
                 reltime($x), date("h:i a", $x),date("H:i",$i));
 		$enum.=",$i,$str";
 	}
-	rawoutput(tlbutton_clear());
+	rawoutput(translator::tlbutton_clear());
 	$setup = array(
 		"Game Setup,title",
 		"loginbanner"=>"Login Banner (under login prompt: 255 chars)",

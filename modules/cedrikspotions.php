@@ -168,12 +168,12 @@ function cedrikspotions_run(){
 	if($op=="gems"){
 		if ($gemcount==""){
 			if (get_module_setting("random") || $mincost == $maxcost) {
-				output("\"`%You have gems, do ya?`0\" %s`0 asks.  \"`%Well, I'll make you a magic elixir for `^ %s %s`%!`0\"",$barkeep,$cost, translate_inline($cost == 1?"gem" : "gems"));
+				output("\"`%You have gems, do ya?`0\" %s`0 asks.  \"`%Well, I'll make you a magic elixir for `^ %s %s`%!`0\"",$barkeep,$cost, translator::translate_inline($cost == 1?"gem" : "gems"));
 			} else {
 				output("\"`%You have gems, do ya?`0\" %s`0 asks.  \"`%Well, I'll make you a magic elixir for between `^%s and %s gems`%, depending on which one you want!`0\"",$barkeep,$mincost, $maxcost);
 			}
 			output("`n`nGive him how many gems?");
-			$give = translate_inline("Give");
+			$give = translator::translate_inline("Give");
 			$link = appendcount("runmodule.php?module=cedrikspotions&op=gems");
 			addnav("", $link);
 			rawoutput("<form action='$link' method='POST'>");
@@ -185,7 +185,7 @@ function cedrikspotions_run(){
 				output("Charm");
 				if ($mincost != $maxcost) {
 					$cm = get_module_setting("charmcost");
-					output("(%s %s for %s charm)", $cm, translate_inline($cm==1?"gem":"gems"), get_module_setting("charmgain"));
+					output("(%s %s for %s charm)", $cm, translator::translate_inline($cm==1?"gem":"gems"), get_module_setting("charmgain"));
 				}
 				output_notl("`n");
 			}
@@ -200,12 +200,12 @@ function cedrikspotions_run(){
 							(is_module_active("globalhp") &&
 							 !get_module_setting("carrydk", "globalhp")))
 						$hptype = "temporary";
-					$hptype = translate_inline($hptype);
+					$hptype = translator::translate_inline($hptype);
 
 					output("(%s %s for %s %s max %s)", $cm,
-							translate_inline($cm==1?"gem":"gems"), $hm,
+							translator::translate_inline($cm==1?"gem":"gems"), $hm,
 							$hptype,
-							translate_inline($hm==1?"hitpoint":"hitpoints"));
+							translator::translate_inline($hm==1?"hitpoint":"hitpoints"));
 				}
 				output_notl("`n");
 			}
@@ -215,7 +215,7 @@ function cedrikspotions_run(){
 				if ($mincost != $maxcost) {
 					$cm = get_module_setting("tempcost");
 					$hm = get_module_setting("tempgain");
-					output("(%s %s for %s %s)", $cm, translate_inline($cm==1?"gem":"gems"), $hm, translate_inline($hm == 1? "hitpoint":"hitpoints"));
+					output("(%s %s for %s %s)", $cm, translator::translate_inline($cm==1?"gem":"gems"), $hm, translator::translate_inline($hm == 1? "hitpoint":"hitpoints"));
 				}
 				output_notl("`n");
 			}
@@ -224,7 +224,7 @@ function cedrikspotions_run(){
 				output("Forgetfulness");
 				if ($mincost != $maxcost) {
 					$cm = get_module_setting("forgcost");
-					output_notl("(%s %s)", $cm, translate_inline($cm==1?"gem":"gems"));
+					output_notl("(%s %s)", $cm, translator::translate_inline($cm==1?"gem":"gems"));
 				}
 				output_notl("`n");
 			}
@@ -233,7 +233,7 @@ function cedrikspotions_run(){
 				output("Transmutation");
 				if ($mincost != $maxcost) {
 					$cm = get_module_setting("transcost");
-					output_notl("(%s %s)", $cm, translate_inline($cm==1?"gem":"gems"));
+					output_notl("(%s %s)", $cm, translator::translate_inline($cm==1?"gem":"gems"));
 				}
 				output_notl("`n");
 			}
@@ -244,7 +244,7 @@ function cedrikspotions_run(){
 				output("%s`0 stares at you blankly.",$barkeep);
 				output("\"`%You don't have that many gems, `bgo get some more gems!`b`0\" he says.");
 			}else{
-				output("`#You place %s %s on the counter.", $gemcount, translate_inline($gemcount==1?"gem":"gems"));
+				output("`#You place %s %s on the counter.", $gemcount, translator::translate_inline($gemcount==1?"gem":"gems"));
 				if (($wish == 4 || $wish == 5) && $gemcount > $cost) {
 					output("%s`0, feeling sorry for you, prevents you from paying for multiple doses of a potion that only needs a single dose.",$barkeep);
 					$gemcount = $cost;
@@ -256,7 +256,7 @@ function cedrikspotions_run(){
 					$gemcount=($strength * $cost);
 				}
 				if ($gemcount>0) {
-					output("You drink the potion %s`0 hands you in exchange for your %s, and.....`n`n",$barkeep, translate_inline($gemcount==1?"gem":"gems"));
+					output("You drink the potion %s`0 hands you in exchange for your %s, and.....`n`n",$barkeep, translator::translate_inline($gemcount==1?"gem":"gems"));
 					$session['user']['gems']-=$gemcount;
 					switch($wish){
 					case 1:
@@ -265,7 +265,7 @@ function cedrikspotions_run(){
 						output("`&You feel charming!");
 						output("`^(You gain %s charm %s.)",
 								$strength*get_module_setting("charmgain"),
-								translate_inline($strength *
+								translator::translate_inline($strength *
 									get_module_setting("charmgain")==1 ?
 									"point" : "points"));
 						$potiontype = "charm";
@@ -281,11 +281,11 @@ function cedrikspotions_run(){
 								(is_module_active("globalhp") &&
 								 !get_module_setting("carrydk", "globalhp")))
 							$hptype = "temporarily";
-						$hptype = translate_inline($hptype);
+						$hptype = translator::translate_inline($hptype);
 
 						output("`^(You %s gain %s max %s.)", $hptype,
 								$strength * get_module_setting("vitalgain"),
-								translate_inline($strength *
+								translator::translate_inline($strength *
 									get_module_setting("vitalgain") == 1 ?
 									"hitpoint" : "hitpoints"));
 						$potiontype = "vitality";
@@ -303,7 +303,7 @@ function cedrikspotions_run(){
 						output("`&You feel healthy!");
 						output("`^(You gain %s temporary %s.)",
 								$strength * get_module_setting("tempgain"),
-								translate_inline($strength *
+								translator::translate_inline($strength *
 									get_module_setting("tempgain") == 1 ?
 									"hitpoint" : "hitpoints"));
 						$potiontype = "health";

@@ -90,7 +90,7 @@ function fairy_runevent($type)
 						(is_module_active("globalhp") &&
 						 !get_module_setting("carrydk", "globalhp")))
 					$hptype = "temporarily";
-				$hptype = translate_inline($hptype);
+				$hptype = translator::translate_inline($hptype);
 
 				$extra = get_module_setting("hptoaward");
 				output("Your maximum hitpoints are `b%s`b increased by %d!",

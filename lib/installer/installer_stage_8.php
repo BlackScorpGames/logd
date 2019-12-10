@@ -33,9 +33,9 @@ if (return_bytes($phpram) < 12582912 && $phpram!=-1 && !$session['overridememory
 		output("`4`n`nYou have been warned... you are now working on your own risk.`n`n");
 		$session['skipmodules'] = false;
 	}
-	$submit = translate_inline("Save Module Settings");
-	$install = translate_inline("Select Recommended Modules");
-	$reset = translate_inline("Reset Values");
+	$submit = translator::translate_inline("Save Module Settings");
+	$install = translator::translate_inline("Select Recommended Modules");
+	$reset = translator::translate_inline("Reset Values");
 	$all_modules = array();
 	$sql = "SELECT * FROM ".db_prefix("modules")." ORDER BY category,active DESC,formalname";
 	$result = @db_query($sql);
@@ -70,7 +70,7 @@ if (return_bytes($phpram) < 12582912 && $phpram!=-1 && !$session['overridememory
 			strpos($file,$modulenamelower."_install")===false ||
 			strpos($file,$modulenamelower."_uninstall")===false) {
 			//here the files has neither do_hook nor getinfo, which means it won't execute as a module here --> block it + notify the admin who is the manage modules section
-			$moduleinfo=array_merge($invalidmodule,array("name"=>$modulename.".php ".appoencode(translate_inline("(`\$Invalid Module! Contact Author or check file!`0)"))));
+			$moduleinfo=array_merge($invalidmodule,array("name"=>$modulename.".php ".appoencode(translator::translate_inline("(`\$Invalid Module! Contact Author or check file!`0)"))));
 		} else {
 			$moduleinfo= get_module_info($modulename);
 		}

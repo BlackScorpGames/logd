@@ -22,7 +22,7 @@ $gold = getsetting("goldtostartclan",10000);
 $gems = getsetting("gemstostartclan",15);
 $ranks = array(CLAN_APPLICANT=>"`!Applicant`0",CLAN_MEMBER=>"`#Member`0",CLAN_OFFICER=>"`^Officer`0",CLAN_LEADER=>"`&Leader`0", CLAN_FOUNDER=>"`\$Founder");
 $args = modulehook("clanranks", array("ranks"=>$ranks, "clanid"=>$session['user']['clanid']));
-$ranks = translate_inline($args['ranks']);
+$ranks = translator::translate_inline($args['ranks']);
 
 $apply_short = "`@Clan App: `&%s`0";
 $apply_subj = array($apply_short, $session['user']['name']);
@@ -55,7 +55,7 @@ function clanform(){
 	rawoutput("<input name='clanshort' maxlength='5' size='5' value=\"".htmlentities(stripslashes(httppost('clanshort')), ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."\">");
 	output("`nNote, color codes are permitted in neither clan names nor short names.");
 	output("The clan name is shown on player bios and on clan overview pages while the short name is displayed next to players' names in comment areas and such.`n");
-	$apply = translate_inline("Apply");
+	$apply = translator::translate_inline("Apply");
 	rawoutput("<input type='submit' class='button' value='$apply'></form>");
 }
 ?>

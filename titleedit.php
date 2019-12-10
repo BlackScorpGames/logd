@@ -65,15 +65,15 @@ if ($op == ""){
 		$row = db_fetch_assoc($result);
 	}
 	output("`@`c`b-=Title Editor=-`b`c");
-	$ops = translate_inline("Ops");
-	$dks = translate_inline("Dragon Kills");
+	$ops = translator::translate_inline("Ops");
+	$dks = translator::translate_inline("Dragon Kills");
 	// $ref is currently unused
-	// $reftag = translate_inline("Reference Tag");
-	$mtit = translate_inline("Male Title");
-	$ftit = translate_inline("Female Title");
-	$edit = translate_inline("Edit");
-	$del = translate_inline("Delete");
-	$delconfirm = translate_inline("Are you sure you wish to delete this title?");
+	// $reftag = translator::translate_inline("Reference Tag");
+	$mtit = translator::translate_inline("Male Title");
+	$ftit = translator::translate_inline("Female Title");
+	$edit = translator::translate_inline("Edit");
+	$del = translator::translate_inline("Delete");
+	$delconfirm = translator::translate_inline("Are you sure you wish to delete this title?");
 	rawoutput("<table border=0 cellspacing=0 cellpadding=2 width='100%' align='center'>");
 	// reference tag is currently unused
 	// rawoutput("<tr class='trhead'><td>$ops</td><td>$dks</td><td>$reftag</td><td>$mtit</td><td>$ftit</td></tr>");
@@ -137,7 +137,7 @@ if ($op == ""){
 		$otitle = $row['title'];
 		$dk = (int)($row['dragonkills']);
 		if (!valid_dk_title($otitle, $dk, $row['sex'])) {
-			$sex = translate_inline($row['sex']?"female":"male");
+			$sex = translator::translate_inline($row['sex']?"female":"male");
 			$newtitle = get_dk_title($dk, (int)$row['sex']);
 			$newname = change_player_title($newtitle, $row);
 			$id = $row['acctid'];

@@ -35,7 +35,7 @@ if ($op=="pay"){
 	output("All of them promise to let you talk with the deceased, and most of them surprisingly seem to work.");
 	output("There are also rumors that the gypsy have the power to speak over distances other than just those of the afterlife.");
 	output("In typical gypsy style, the old woman sitting behind a somewhat smudgy crystal ball informs you that the dead only speak with the paying.");
-	output("\"`!For you, %s, the price is a trifling `^%s`! gold.`5\", she rasps.", translate_inline($session['user']['sex']?"my pretty":"my handsome"), $cost);
+	output("\"`!For you, %s, the price is a trifling `^%s`! gold.`5\", she rasps.", translator::translate_inline($session['user']['sex']?"my pretty":"my handsome"), $cost);
 	addnav("Seance");
 	addnav(array("Pay to talk to the dead (%s gold)", $cost),"gypsy.php?op=pay");
 	if ($session['user']['superuser'] & SU_EDIT_COMMENTS)

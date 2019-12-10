@@ -127,7 +127,7 @@ function racetroll_dohook($hookname,$args){
 	case "moderate":
 		if (is_module_active("cities")) {
 			translator::tlschema("commentary");
-			$args["village-$race"]=sprintf_translate("City of %s", $city);
+			$args["village-$race"]=translator::sprintf_translate("City of %s", $city);
 			translator::tlschema();
 		}
 		break;

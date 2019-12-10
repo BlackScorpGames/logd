@@ -72,7 +72,7 @@ if ($battle){
 	if ($victory || $defeat) $badguy = $newenemies[0]; // Only one badguy
 	if ($victory) {
 		translator::tlschema("battle");
-		$msg = translate_inline($badguy['creaturelose']);
+		$msg = translator::translate_inline($badguy['creaturelose']);
 		translator::tlschema();
 		output_notl("`b`&%s`0`b`n", $msg);
 		output("`b`\$You have tormented %s!`0`b`n", $badguy['creaturename']);

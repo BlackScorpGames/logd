@@ -166,7 +166,7 @@ function payment_error($errno, $errstr, $errfile, $errline){
 
 $adminEmail = getsetting("gameadminemail", "postmaster@localhost.com");
 if ($payment_errors>"") {
-	$subj = translate_mail("Payment Error",0);
+	$subj = translator::translate_mail("Payment Error",0);
 	// $payment_errors not translated
 	ob_start();
 	echo "<b>GET:</b><pre>";

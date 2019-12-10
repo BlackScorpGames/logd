@@ -82,8 +82,8 @@ function specialtythiefskills_dohook($hookname,$args){
 		if ($session['user']['specialty'] == "" ||
 				$session['user']['specialty'] == '0') {
 			addnav("$ccode$name`0","newday.php?setspecialty=".$spec."$resline");
-			$t1 = translate_inline("Stealing from the rich and giving to yourself");
-			$t2 = appoencode(translate_inline("$ccode$name`0"));
+			$t1 = translator::translate_inline("Stealing from the rich and giving to yourself");
+			$t2 = appoencode(translator::translate_inline("$ccode$name`0"));
 			rawoutput("<a href='newday.php?setspecialty=$spec$resline'>$t1 ($t2)</a><br>");
 			addnav("","newday.php?setspecialty=$spec$resline");
 		}
@@ -99,7 +99,7 @@ function specialtythiefskills_dohook($hookname,$args){
 		$args[$spec] = $ccode;
 		break;
 	case "specialtynames":
-		$args[$spec] = translate_inline($name);
+		$args[$spec] = translator::translate_inline($name);
 		break;
 	case "specialtymodules":
 		$args[$spec] = "specialtythiefskills";
@@ -108,7 +108,7 @@ function specialtythiefskills_dohook($hookname,$args){
 		if($session['user']['specialty'] == $spec) {
 			$new = get_module_pref("skill") + 1;
 			set_module_pref("skill", $new);
-			$name = translate_inline($name);
+			$name = translator::translate_inline($name);
 			$c = $args['color'];
 			output("`n%sYou gain a level in `&%s%s to `#%s%s!",
 					$c, $name, $c, $new, $c);
@@ -129,7 +129,7 @@ function specialtythiefskills_dohook($hookname,$args){
 	case "newday":
 		$bonus = getsetting("specialtybonus", 1);
 		if($session['user']['specialty'] == $spec) {
-			$name = translate_inline($name);
+			$name = translator::translate_inline($name);
 			if ($bonus == 1) {
 				output("`n`2For being interested in %s%s`2, you receive `^1`2 extra `&%s%s`2 use for today.`n",$ccode,$name,$ccode,$name);
 			} else {

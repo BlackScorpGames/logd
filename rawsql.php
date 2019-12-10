@@ -53,7 +53,7 @@ if ($op=="" || $op=="sql"){
 	}
 
 	output("Type your query");
-	$execute = translate_inline("Execute");
+	$execute = translator::translate_inline("Execute");
 	$ret = modulehook("rawsql-modsql",array("sql"=>$sql));
 	$sql = $ret['sql'];
 	rawoutput("<form action='rawsql.php' method='post'>");
@@ -63,8 +63,8 @@ if ($op=="" || $op=="sql"){
 	addnav("", "rawsql.php");
 }else{
 	$php = stripslashes(httppost("php"));
-	$source = translate_inline("Source:");
-	$execute = translate_inline("Execute");
+	$source = translator::translate_inline("Source:");
+	$execute = translator::translate_inline("Execute");
 	if ($php>""){
 		rawoutput("<div style='background-color: #FFFFFF; color: #000000; width: 100%'><b>$source</b><br>");
 		rawoutput(highlight_string("<?php\n$php\n?>",true));

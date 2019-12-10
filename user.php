@@ -51,7 +51,7 @@ if ($m) $m = "&module=$m&subop=module";
 rawoutput("<form action='user.php?op=search$m' method='POST'>");
 output("Search by any field below: ");
 rawoutput("<input name='q' id='q'>");
-$se = translate_inline("Search");
+$se = translator::translate_inline("Search");
 rawoutput("<input type='submit' class='button' value='$se'>");
 rawoutput("</form>");
 rawoutput("<script language='JavaScript'>document.getElementById('q').focus();</script>");
@@ -69,14 +69,14 @@ addnav("List/Remove bans","user.php?op=removeban");
 //}
 
 // Collect a list of the mounts
-$mounts="0," . translate_inline("None");
+$mounts="0," . translator::translate_inline("None");
 $sql = "SELECT mountid,mountname,mountcategory FROM " . db_prefix("mounts") .  " ORDER BY mountcategory";
 $result = db_query($sql);
 while ($row = db_fetch_assoc($result)){
 	$mounts.=",{$row['mountid']},{$row['mountcategory']}: ".color_sanitize($row['mountname']);
 }
 
-$specialties = array(""=>translate_inline("Undecided"));
+$specialties = array(""=>translator::translate_inline("Undecided"));
 $specialties = modulehook("specialtynames", $specialties);
 $enum = "";
 foreach ($specialties as $key=>$name) {
@@ -163,7 +163,7 @@ $userinfo = array(
 		(($session['user']['superuser'] & SU_MEGAUSER) ? "int" : "viewonly"),
 
 	"Clan Info,title",
-	"clanid"=>"Clan,enumpretrans,0,".translate_inline("None"),
+	"clanid"=>"Clan,enumpretrans,0,".translator::translate_inline("None"),
 	"clanrank"=>"Clan Rank,enum,$rankstring",
 	"clanjoindate"=>"Clan Join Date",
 

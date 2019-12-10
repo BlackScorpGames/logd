@@ -77,17 +77,17 @@ function display_table($title, $sql, $none=false, $foot=false,
 {
 	global $session, $from, $to, $page, $playersperpage, $totalplayers;
 
-	$title = translate_inline($title);
-	if ($foot !== false) $foot = translate_inline($foot);
-	if ($none !== false) $none = translate_inline($none);
-	else $none = translate_inline("No players found.");
+	$title = translator::translate_inline($title);
+	if ($foot !== false) $foot = translator::translate_inline($foot);
+	if ($none !== false) $none = translator::translate_inline($none);
+	else $none = translator::translate_inline("No players found.");
 	if ($data_header !== false) {
-		$data_header = translate_inline($data_header);
+		$data_header = translator::translate_inline($data_header);
 		reset ($data_header);
 	}
-	if ($tag !== false) $tag = translate_inline($tag);
-	$rank = translate_inline("Rank");
-	$name = translate_inline("Name");
+	if ($tag !== false) $tag = translator::translate_inline($tag);
+	$rank = translator::translate_inline("Rank");
+	$name = translator::translate_inline("Name");
 
 	if ($totalplayers > $playersperpage) {
 		output("`c`b`^%s`0`b `7(Page %s: %s-%s of %s)`0`c`n", $title, $page, $from, $to, $totalplayers);
@@ -122,7 +122,7 @@ function display_table($title, $sql, $none=false, $foot=false,
 					$val = $row[$id];
 					if (isset($translate[$id]) &&
 							$translate[$id] == 1 && !is_numeric($val)) {
-						$val = translate_inline($val);
+						$val = translator::translate_inline($val);
 					}
 					if ($tag !== false) $val = $val . " " . $tag[$j];
 					output_notl("<td align='right'>%s</td>", $val, true);
@@ -201,7 +201,7 @@ if ($op=="money"){
 	$headers = array("Level");
 	$table = array($title, $sql, false, false, $headers, false);
 } elseif ($op=="days") {
-	$unk = translate_inline("Unknown");
+	$unk = translator::translate_inline("Unknown");
 	$sql = "SELECT name, IF(bestdragonage,bestdragonage,'$unk') AS data1 FROM " . db_prefix("accounts") . " WHERE $standardwhere $extra ORDER BY bestdragonage $order, level $order, experience $order, acctid $order LIMIT $limit";
 	$me = "SELECT count(acctid) AS count FROM ".db_prefix("accounts")." WHERE $standardwhere $extra AND bestdragonage $meop {$session['user']['bestdragonage']}";
 	$adverb = "fastest";
@@ -211,7 +211,7 @@ if ($op=="money"){
 	$none = "There are no heroes in the land.";
 	$table = array($title, $sql, $none, false, $headers, false);
 } else {
-	$unk = translate_inline("Unknown");
+	$unk = translator::translate_inline("Unknown");
 	$sql = "SELECT name,dragonkills AS data1,level AS data2,'&nbsp;' AS data3, IF(dragonage,dragonage,'$unk') AS data4, '&nbsp;' AS data5, IF(bestdragonage,bestdragonage,'$unk') AS data6 FROM " . db_prefix("accounts") . " WHERE $standardwhere $extra ORDER BY dragonkills $order,level $order,experience $order, acctid $order LIMIT $limit";
 	if ($session['user']['dragonkills']>0) $me = "SELECT count(acctid) AS count FROM ".db_prefix("accounts")." WHERE $standardwhere $extra AND dragonkills $meop {$session['user']['dragonkills']}";
 	$adverb = "most";

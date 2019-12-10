@@ -44,17 +44,17 @@ function dag_manage(){
 	rawoutput("<input name='target' value=\"".htmlentities(stripslashes(httppost('target')))."\">");
 	output_notl("`n");
 	output("Order by: ");
-	$id = translate_inline("ID");
-	$amt = translate_inline("Amount");
-	$targ = translate_inline("Target");
-	$set = translate_inline("Setter");
-	$sdate = translate_inline("Set Date");
-	$stat = translate_inline("Status");
-	$win = translate_inline("Winner");
-	$wdate = translate_inline("Win Date");
-	$desc = translate_inline("Descending");
-	$asc = translate_inline("Ascending");
-	$search = translate_inline("Search");
+	$id = translator::translate_inline("ID");
+	$amt = translator::translate_inline("Amount");
+	$targ = translator::translate_inline("Target");
+	$set = translator::translate_inline("Setter");
+	$sdate = translator::translate_inline("Set Date");
+	$stat = translator::translate_inline("Status");
+	$win = translator::translate_inline("Winner");
+	$wdate = translator::translate_inline("Win Date");
+	$desc = translator::translate_inline("Descending");
+	$asc = translator::translate_inline("Ascending");
+	$search = translator::translate_inline("Search");
 	rawoutput("<select name='s'>
 		<option value='1'".(httppost('s')=='1'?" selected":"").">$id</option>
 		<option value='2'".(httppost('s')=='2'?" selected":"").">$amt</option>
@@ -81,13 +81,13 @@ function dag_manage(){
 		$sql = "SELECT bountyid,amount,target,setter,setdate FROM " . db_prefix("bounty") . " WHERE status=0 ORDER BY bountyid ASC";
 		$result = db_query($sql);
 		rawoutput("<table border=0 cellpadding=2 cellspacing=1 bgcolor='#999999'>");
-		$amt = translate_inline("Amount");
-		$lev = translate_inline("Level");
-		$name = translate_inline("Name");
-		$loc = translate_inline("Location");
-		$sex = translate_inline("Sex");
-		$alive = translate_inline("Alive");
-		$last = translate_inline("Last On");
+		$amt = translator::translate_inline("Amount");
+		$lev = translator::translate_inline("Level");
+		$name = translator::translate_inline("Name");
+		$loc = translator::translate_inline("Location");
+		$sex = translator::translate_inline("Sex");
+		$alive = translator::translate_inline("Alive");
+		$last = translator::translate_inline("Last On");
 		rawoutput("<tr class='trhead'><td><b>$amt</b></td><td><b>$lev</b></td><td><b>$name</b></td><td><b>$loc</b></td><td><b>$sex</b></td><td><b>$alive</b></td><td><b>$last</b></td>");
 		$listing = array();
 		$totlist = 0;
@@ -131,7 +131,7 @@ function dag_manage(){
 			output($listing[$i]['Alive']?"`1Yes`0":"`4No`0");
 			rawoutput("</td><td>");
 			$laston= relativedate($listing[$i]['LastOn']);
-			if ($loggedin) $laston=translate_inline("Now");
+			if ($loggedin) $laston=translator::translate_inline("Now");
 			output_notl("%s", $laston);
 			rawoutput("</td></tr>");
 		}
@@ -144,7 +144,7 @@ function dag_manage(){
 		output("`2Amount to Place: ");
 		rawoutput("<input name='amount' id='amount' width='5'>");
 		output_notl("`n`n");
-		$final = translate_inline("Finalize Contract");
+		$final = translator::translate_inline("Finalize Contract");
 		rawoutput("<input type='submit' class='button' value='$final'>");
 		rawoutput("</form>");
 		addnav("","runmodule.php?module=dag&manage=true&op=addbounty&admin=true");
@@ -179,7 +179,7 @@ function dag_manage(){
 			output("`2Amount to Place: ");
 			rawoutput("<input name='amount' id='amount' width='5' value='$amount'>");
 			output_notl("`n`n");
-			$final = translate_inline("Finalize Contract");
+			$final = translator::translate_inline("Finalize Contract");
 			rawoutput("<input type='submit' class='button' value='$final'>");
 			rawoutput("</form>");
 			addnav("","runmodule.php?module=dag&manage=true&op=addbounty&subfinal=1");
@@ -406,49 +406,49 @@ function dag_manage(){
 		$sql = "SELECT bountyid,amount,target,setter,setdate,status,winner,windate FROM " . db_prefix("bounty").$t.$s.$d;
 		$result = db_query($sql);
 		rawoutput("<table border=0 cellpadding=2 cellspacing=1 bgcolor='#999999'>");
-		$id = translate_inline("ID");
-		$amt = translate_inline("Amt");
-		$targ = translate_inline("Target");
-		$set = translate_inline("Setter");
-		$sdate = translate_inline("Set Date/Time");
-		$stat = translate_inline("Status");
-		$win = translate_inline("Winner");
-		$wdate = translate_inline("Win Date/Time");
-		$ops = translate_inline("Ops");
+		$id = translator::translate_inline("ID");
+		$amt = translator::translate_inline("Amt");
+		$targ = translator::translate_inline("Target");
+		$set = translator::translate_inline("Setter");
+		$sdate = translator::translate_inline("Set Date/Time");
+		$stat = translator::translate_inline("Status");
+		$win = translator::translate_inline("Winner");
+		$wdate = translator::translate_inline("Win Date/Time");
+		$ops = translator::translate_inline("Ops");
 
 		rawoutput("<tr class='trhead'><td><b>$id</b></td><td><b>$amt</b></td><td><b>$targ</b></td><td><b>$set</b></td><td><b>$sdate</b></td><td><b>$stat</b></td><td><b>$win</b></td><td><b>$wdate</b></td><td>$ops</td></tr>");
 		for($i=0;$i<db_num_rows($result);$i++){
 			$row = db_fetch_assoc($result);
 			if ($row['target']==0) {
-				$target['name'] = translate_inline("`2Green Dragon");
+				$target['name'] = translator::translate_inline("`2Green Dragon");
 			} else {
 				$sql = "SELECT name FROM " . db_prefix("accounts") . " WHERE acctid=".(int)$row['target'];
 				$result2 = db_query($sql);
 				if (db_num_rows($result2) == 0) {
-					$target['name'] = translate_inline("`4Deleted Character");
+					$target['name'] = translator::translate_inline("`4Deleted Character");
 				} else {
 					$target = db_fetch_assoc($result2);
 				}
 			}
 			if ($row['setter']==0) {
-				$setter['name'] = translate_inline("`2Green Dragon");
+				$setter['name'] = translator::translate_inline("`2Green Dragon");
 			}else {
 				$sql = "SELECT name FROM " . db_prefix("accounts") . " WHERE acctid=".(int)$row['setter'];
 				$result3 = db_query($sql);
 				if (db_num_rows($result3) == 0) {
-					$setter['name'] = translate_inline("`4Deleted Character");
+					$setter['name'] = translator::translate_inline("`4Deleted Character");
 				} else {
 					$setter = db_fetch_assoc($result3);
 				}
 			}
 			$winner['name'] = "";
 			if (($row['winner']==0) && $row['status'] == 1) {
-				$winner['name'] = translate_inline("`2Green Dragon");
+				$winner['name'] = translator::translate_inline("`2Green Dragon");
 			} elseif ($row['status'] == 1) {
 				$sql = "SELECT name FROM " . db_prefix("accounts") . " WHERE acctid=".(int)$row['winner'];
 					$result4 = db_query($sql);
 				if (db_num_rows($result4) == 0) {
-					$winner['name'] = translate_inline("`2Deleted Character");
+					$winner['name'] = translator::translate_inline("`2Deleted Character");
 				} else {
 					$winner = db_fetch_assoc($result4);
 				}
@@ -472,7 +472,7 @@ function dag_manage(){
 			rawoutput("</td><td>");
 			if ($row['status'] == 0) {
 				$link = "runmodule.php?module=dag&manage=true&op=closebounty&id={$row['bountyid']}&admin=true";
-				$close = translate_inline("Close");
+				$close = translator::translate_inline("Close");
 				rawoutput("<a href=\"$link\">$close</a>");
 				addnav("",$link);
 			} else {
@@ -538,8 +538,8 @@ function dag_pvpwin($args){
 	// End Bounty Check - Andrew
 	// ***END ADD***
 	if ($totgoodamt > 0) {
-		$args['pvpmessageadd'] .= sprintf_translate("`nThey also received `^%s`2 in bounty gold.`n", $totgoodamt);
-		rawoutput(tlbutton_clear());
+		$args['pvpmessageadd'] .= translator::sprintf_translate("`nThey also received `^%s`2 in bounty gold.`n", $totgoodamt);
+		rawoutput(translator::tlbutton_clear());
 	}
 	return $args;
 }
