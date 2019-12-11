@@ -104,8 +104,8 @@ if (return_bytes($phpram) < 12582912 && $phpram!=-1 && !$session['overridememory
 	reset($all_modules);
 	$x=0;
 	while (list($categoryName,$categoryItems)=each($all_modules)){
-		rawoutput("<tr class='trhead'><td colspan='6'>".tl($categoryName)."</td></tr>");
-		rawoutput("<tr class='trhead'><td>".tl("Uninstalled")."</td><td>".tl("Installed")."</td><td>".tl("Activated")."</td><td>".tl("Recommended")."</td><td>".tl("Module Name")."</td><td>".tl("Author")."</td></tr>");
+		rawoutput("<tr class='trhead'><td colspan='6'>".translator::tl($categoryName)."</td></tr>");
+		rawoutput("<tr class='trhead'><td>".translator::tl("Uninstalled")."</td><td>".translator::tl("Installed")."</td><td>".translator::tl("Activated")."</td><td>".translator::tl("Recommended")."</td><td>".translator::tl("Module Name")."</td><td>".translator::tl("Author")."</td></tr>");
 		reset($categoryItems);
 		while (list($modulename,$moduleinfo)=each($categoryItems)){
 			$x++;
@@ -173,7 +173,7 @@ if (return_bytes($phpram) < 12582912 && $phpram!=-1 && !$session['overridememory
 				rawoutput("<td><input type='radio' name='modules[$modulename]' id='install-$modulename' value='$installop'".($installcheck?" checked":"")."></td>");
 				rawoutput("<td><input type='radio' name='modules[$modulename]' id='activate-$modulename' value='$activateop'".($activatecheck?" checked":"")."></td>");
 			}
-			output_notl("<td>".(in_array($modulename,$recommended_modules)?tl("`^Yes`0"):tl("`\$No`0"))."</td>",true);
+			output_notl("<td>".(in_array($modulename,$recommended_modules)?translator::tl("`^Yes`0"):translator::tl("`\$No`0"))."</td>",true);
 			require_once("lib/sanitize.php");
 			rawoutput("<td><span title=\"" .
 			(isset($moduleinfo['description']) &&
