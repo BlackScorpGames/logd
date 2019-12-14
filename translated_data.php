@@ -62,7 +62,7 @@ $allTranslations = $translationsRepository->findAll();
             <a><b>intext:</b> <?=htmlspecialchars($translations->getIntext());?></a>
             <input type="hidden" id="intext" name="intext" value="<?=htmlspecialchars($translations->getIntext());?>">
             <a><b>outtext:</b></a>
-            <input type="text" id="outtext" name="outtext" size="80" value="<?=htmlspecialchars($translations->getOuttext());?>">
+            <input type="text" id="outtext" name="outtext" value="<?=htmlspecialchars($translations->getOuttext());?>">
             <input type="hidden" id="author" name="author" value="<?=$translations->getAuthor();?>">
             <input type="hidden" id="version" name="version" value="<?=$translations->getVersion();?>">
             <button type="submit" name="speichern" value="edit">speichern</button>

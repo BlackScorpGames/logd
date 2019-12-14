@@ -74,7 +74,7 @@ $untranslated       = $untranslatedRepository->getFirstEntry();
             <a>
                 <b>outtext:</b>
             </a>
-            <input type="text" id="outtext" name="outtext" value="<?=htmlspecialchars($untranslated->getIntext());?>"><br>
+            <input type="text" id="outtext" name="outtext" size="255" value="<?=htmlspecialchars($untranslated->getIntext());?>"><br>
             <button type="submit" name="speichern" value="translate">Übersetzen</button>
         </form>
         <table>
