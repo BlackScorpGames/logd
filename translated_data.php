@@ -47,7 +47,7 @@ $allTranslations = $translationsRepository->findAll();
         </style>
     </head>
     <body>
-        <a href="superuser.php?c=19-200820">zurück zur Grotte</a>
+        <a href="superuser.php?c=19-200820">zurück zur Grotte</a> - | - <a href="export_translations.php">Export/overwrite translations_german.sql</a>
 <?php
         if (filter_input(INPUT_GET, 'action', FILTER_SANITIZE_STRING)==='edit') :
             
