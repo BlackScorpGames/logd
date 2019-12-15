@@ -15,4 +15,6 @@ interface UntranslatedEntity {
     public function setLanguage(string $language): void;
 
     public function setNamespace(string $namespace): void;
+    
+    public function isUntranslated() : bool;
 }

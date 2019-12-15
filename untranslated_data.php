@@ -17,8 +17,8 @@ $untranslatedRepository = new UntranslatedRepository($pdo);
 $translationsRepository = new TranslationsRepository($pdo);    
 $allUntranslated        = $untranslatedRepository->findAll();
 
-foreach ($allUntranslated as $untranslated) {
-    $translation = $translationsRepository->findByIntext($untranslated->getIntext());   
+foreach ($allUntranslated as $untranslated) {       
+    $translation = $translationsRepository->findByUntranslated($untranslated);   
     if (($translation->isTranslations()) && ($translation->getLanguage() == $untranslated->getLanguage()) && ($translation->getNamespace() == $untranslated->getNamespace())) {
         $untranslatedRepository->delete($untranslated);
         array_shift($allUntranslated);

@@ -34,5 +34,12 @@ class Untranslated implements UntranslatedEntity {
         $this->namespace = $namespace;
     }
 
+    public function isUntranslated() : bool
+    {
+        $response = false;
+        if ($this->intext)
+            $response = true;
+        return $response;
+    }
 
 }

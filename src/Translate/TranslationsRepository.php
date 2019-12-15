@@ -1,7 +1,7 @@
 <?php
 namespace blackscorp\logd\Translate;
 
-use blackscorp\logd\{Translate, TranslateEntity};
+use blackscorp\logd\{Translate, TranslateEntity, UntranslatedEntity};
 
 use PDO;
 
@@ -33,7 +33,18 @@ class TranslationsRepository
     {
         $response = new Translations();
         if ($id > 0) {
-            $sql = "SELECT `tid`, `language`, `uri`, `intext`, `outtext`, `author`, `version` FROM `translations` WHERE `tid`=:id";
+            $sql = "SELECT "
+                    . "`tid`, "
+                    . "`language`, "
+                    . "`uri`, "
+                    . "`intext`, "
+                    . "`outtext`, "
+                    . "`author`, "
+                    . "`version` "
+                 . "FROM "
+                    . "`translations` "
+                 . "WHERE "
+                    . "`tid`=:id";
             $stmt = $this->pdo->prepare($sql);
             $stmt->bindParam(':id', $id, PDO::PARAM_INT);
             $stmt->execute();
@@ -43,9 +54,20 @@ class TranslationsRepository
         return $response;        
     }
     
-    public function findByIntext(string $intext)
+    public function findByIntext(string $intext) : TranslationsEntity
     {
-        $sql = "SELECT `tid`, `language`, `uri`, `intext`, `outtext`, `author`, `version` FROM `translations` WHERE `intext`=:intext";
+        $sql = "SELECT "
+                . "`tid`, "
+                . "`language`, "
+                . "`uri`, "
+                . "`intext`, "
+                . "`outtext`, "
+                . "`author`, "
+                . "`version` "
+             . "FROM "
+                . "`translations` "
+             . "WHERE "
+                . "`intext`=:intext";
         $stmt = $this->pdo->prepare($sql);
         $stmt->bindParam(':intext', $intext, PDO::PARAM_STR);
         $stmt->execute();
@@ -56,7 +78,42 @@ class TranslationsRepository
         return $response;
     }
 
-
+    public function findByUntranslated(Untranslated $untranslated) : TranslationsEntity
+    {
+        $response = new Translations();
+        if (!$untranslated->isUntranslated())
+            return $response;
+        $sql = "SELECT "
+                . "`tid`, "
+                . "`language`, "
+                . "`uri`, "
+                . "`intext`, "
+                . "`outtext`, "
+                . "`author`, "
+                . "`version` "
+             . "FROM "
+                . "`translations` "
+             . "WHERE "
+                . "`language`=:language "
+             . "AND "
+                . "`uri`=:namespace "
+             . "AND"
+                . "`intext`=:intext";
+        $stmt = $this->pdo->prepare($sql);
+        $language   = $untranslated->getLanguage();
+        $namespace  = $untranslated->getNamespace();
+        $intext     = $untranslated->getIntext();
+        $stmt->bindParam(':language', $language, PDO::PARAM_STR);
+        $stmt->bindParam(':namespace', $namespace, PDO::PARAM_STR);
+        $stmt->bindParam(':intext', $intext, PDO::PARAM_STR);
+        $stmt->execute();
+        $result = $stmt->fetch();
+        
+        if ($result)
+            $response = $this->setAll($result);
+        return $response;
+    }
+    
     public function findAll() : array 
     {
         $sql = "SELECT `tid`, `language`, `uri`, `intext`, `outtext`, `author`, `version` FROM `translations`";
