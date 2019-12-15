@@ -19,7 +19,7 @@ $allUntranslated        = $untranslatedRepository->findAll();
 
 foreach ($allUntranslated as $untranslated) {       
     $translation = $translationsRepository->findByUntranslated($untranslated);   
-    if (($translation->isTranslations()) && ($translation->getLanguage() == $untranslated->getLanguage()) && ($translation->getNamespace() == $untranslated->getNamespace())) {
+    if ($translation->isTranslations()) {
         $untranslatedRepository->delete($untranslated);
         array_shift($allUntranslated);
     }
