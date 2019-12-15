@@ -92,4 +92,3 @@
 	}
 	rawoutput("</table>");
 	output("`n`n`^This clan has a total of `\$%s`^ dragon kills.",$tot);
-?>

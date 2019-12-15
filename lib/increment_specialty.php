@@ -21,4 +21,3 @@ function increment_specialty($colorcode, $spec=false){
 		$session['user']['specialty'] = $revertspec;
 	}
 }
-?>

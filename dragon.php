@@ -297,4 +297,3 @@ if ($battle){
 	}
 }
 page_footer();
-?>

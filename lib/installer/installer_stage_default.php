@@ -10,4 +10,3 @@ if ($session['user']['loggedin']){
 }
 savesetting("installer_version",$logd_version);
 $noinstallnavs=true;
-?>

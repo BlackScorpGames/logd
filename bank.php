@@ -264,5 +264,3 @@ if (getsetting("allowgoldtransfer",1)){
 }
 
 page_footer();
-
-?>

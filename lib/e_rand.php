@@ -38,4 +38,3 @@ function r_rand($min=false,$max=false){
 		return (@mt_rand($max,$min)/1000);
 	}
 }
-?>

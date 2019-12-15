@@ -898,5 +898,3 @@ function clearoutput(){
 	$header="";
 	$nav="";
 }
-
-?>

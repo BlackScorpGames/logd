@@ -37,4 +37,3 @@ if (isset($licensemd5s[md5($license)])){
 	$stage=-1;
 	$session['stagecompleted']=-1;
 }
-?>

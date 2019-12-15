@@ -52,4 +52,3 @@ commentdisplay("", "gardens","Whisper here",30,"whispers");
 
 module_display_events("gardens", "gardens.php");
 page_footer();
-?>

@@ -271,4 +271,3 @@ if (db_num_rows($result) > 0 && $session['user']['level'] <= 14){
 	villagenav();
 }
 page_footer();
-?>

@@ -129,4 +129,3 @@ function pvplist($location=false,$link=false,$extra=false,$sql=false){
 	}
 	translator::tlschema();
 }
-?>

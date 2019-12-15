@@ -874,4 +874,3 @@ $sql_upgrade_statements = array(
 "1.1.2 Dragonprime Edition"=>array(
 ),
 );
-?>

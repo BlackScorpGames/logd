@@ -18,4 +18,3 @@ function villagenav($extra=false)
 	}
 	translator::tlschema();
 }
-?>

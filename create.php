@@ -314,4 +314,3 @@ if (getsetting("allowcreation",1)==0){
 }
 addnav("Login","index.php");
 page_footer();
-?>

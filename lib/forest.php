@@ -52,5 +52,3 @@ function forest($noshowmessage=false) {
 	module_display_events("forest", "forest.php");
 	translator::tlschema();
 }
-
-?>

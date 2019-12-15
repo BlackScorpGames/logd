@@ -69,4 +69,3 @@ if ($session['user']['loggedin']){
 	addnav("Login Page","index.php");
 	page_footer();
 }
-?>

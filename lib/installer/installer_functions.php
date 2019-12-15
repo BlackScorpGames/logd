@@ -57,4 +57,3 @@ function return_bytes($val) {
 	}
 	return $val;
 }
-?>

@@ -47,5 +47,3 @@ if ($session['user']['loggedin'] && $session['loggedin']){
 	translator::translator_setup();
 	redirect("index.php");
 }
-
-?>

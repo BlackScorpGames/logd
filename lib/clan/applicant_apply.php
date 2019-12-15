@@ -69,4 +69,3 @@
 				addnav("Return to the Lobby","clan.php");
 			}
 		}
-?>

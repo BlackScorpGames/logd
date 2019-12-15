@@ -351,4 +351,3 @@ function cedrikspotions_run(){
 	rawoutput("</span>");
 	page_footer();
 }
-?>

@@ -40,4 +40,3 @@ if ($session['user']['dragonkills']>0 ||
 villagenav();
 
 page_footer();
-?>

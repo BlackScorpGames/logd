@@ -313,4 +313,3 @@ function sethsong_sing()
 		break;
 	}
 }
-?>

@@ -50,4 +50,3 @@ if (injectmodule(http::httpget('module'), (http::httpget('admin')?true:false))){
 	output("You are attempting to use a module which is no longer active, or has been uninstalled.");
 	page_footer();
 }
-?>

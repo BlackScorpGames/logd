@@ -197,4 +197,3 @@ if (!($session['user']['loggedin'] && $session['user']['superuser'] & SU_VIEW_SO
 	}
 	popup_footer();
 }
-?>

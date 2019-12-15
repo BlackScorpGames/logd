@@ -39,4 +39,3 @@ if ($session['user']['gravefights']<=0){
 		$session['user']['badguy']=createstring($attackstack);
 	}
 }
-?>

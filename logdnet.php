@@ -274,4 +274,3 @@ function apply_logdnet_bans($logdnet){
 	}
 	return $logdnet;
 }
-?>

@@ -92,4 +92,3 @@ if (db_num_rows($result)>0){
 }else{
 	output("Eek, no such message was found!");
 }
-?>

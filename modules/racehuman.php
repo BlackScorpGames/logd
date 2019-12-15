@@ -282,4 +282,3 @@ function racehuman_checkcity(){
 function racehuman_run(){
 
 }
-?>

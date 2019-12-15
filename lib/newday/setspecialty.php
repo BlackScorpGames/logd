@@ -26,4 +26,3 @@ if (navcount() == 0) {
 }else{
 	page_footer();
 }
-?>

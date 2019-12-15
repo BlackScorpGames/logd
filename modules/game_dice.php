@@ -115,4 +115,3 @@ function game_dice_run(){
 	}
 	page_footer();
 }
-?>

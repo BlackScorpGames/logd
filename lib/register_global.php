@@ -16,4 +16,3 @@ function register_global(&$var){
 	}
 	@reset($var);
 }
-?>

@@ -232,4 +232,3 @@ function racetroll_checkcity(){
 function racetroll_run(){
 
 }
-?>

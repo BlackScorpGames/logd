@@ -98,4 +98,3 @@ if (http::httpget("subop")==""){
 }
 module_editor_navs('prefs', "user.php?op=edit&subop=module&userid=$userid$returnpetition&module=");
 addnav("","user.php?op=lasthit&userid=$userid");
-?>

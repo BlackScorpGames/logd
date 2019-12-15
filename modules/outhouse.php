@@ -238,4 +238,3 @@ function outhouse_run(){
 	}
 	page_footer();
 }
-?>

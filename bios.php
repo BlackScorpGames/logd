@@ -63,4 +63,3 @@ for ($i=0;$i<$number;$i++){
 }
 db_free_result($result);
 page_footer();
-?>

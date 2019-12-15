@@ -241,4 +241,3 @@ function specialtymysticpower_dohook($hookname,$args){
 
 function specialtymysticpower_run(){
 }
-?>

@@ -190,4 +190,3 @@ function game_fivesix_run(){
 
 	page_footer();
 }
-?>

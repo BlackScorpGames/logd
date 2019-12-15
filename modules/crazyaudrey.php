@@ -270,4 +270,3 @@ function crazyaudrey_run(){
 	}
 	page_footer();
 }
-?>

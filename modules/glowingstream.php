@@ -122,4 +122,3 @@ function glowingstream_runevent($type,$link)
 
 function glowingstream_run(){
 }
-?>

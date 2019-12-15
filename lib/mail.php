@@ -412,4 +412,3 @@ if ($op==""){
 	</script>");
 }
 popup_footer();
-?>

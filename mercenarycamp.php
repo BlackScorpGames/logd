@@ -276,4 +276,3 @@ function healnav($companions, $texts, $schemas) {
 		translator::tlschema();
 	}
 }
-?>

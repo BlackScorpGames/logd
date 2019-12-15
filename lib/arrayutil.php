@@ -36,4 +36,3 @@ function createstring($array){
 	return $out;
 }
 
-?>

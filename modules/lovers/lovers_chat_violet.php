@@ -44,4 +44,3 @@ function lovers_chat_violet(){
 		output("Finally she reaches a conclusion and states, \"%s`0\"", $msg);
 	}
 }
-?>

@@ -442,4 +442,3 @@ function showform($layout,$row,$nosave=false,$keypref=false){
 	else rawoutput("<input type='submit' class='button' value='$save'>");
 	return $returnvalues;
 }
-?>

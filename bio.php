@@ -181,4 +181,3 @@ if ($target = db_fetch_assoc($result)) {
   }
 	page_footer();
 }
-?>

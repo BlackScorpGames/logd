@@ -124,4 +124,3 @@ if ($act==""){
 		$session['user']['specialty']=$specialty;
 	}
 }
-?>

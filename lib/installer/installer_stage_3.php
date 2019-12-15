@@ -51,4 +51,3 @@ if (file_exists("dbconnect.php")){
 	output_notl("`n`n<input type='submit' value='$submit' class='button'>",true);
 }
 rawoutput("</form>");
-?>

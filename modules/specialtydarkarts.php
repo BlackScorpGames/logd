@@ -249,4 +249,3 @@ function specialtydarkarts_dohook($hookname,$args){
 
 function specialtydarkarts_run(){
 }
-?>

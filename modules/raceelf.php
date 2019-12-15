@@ -268,4 +268,3 @@ function raceelf_checkcity(){
 function raceelf_run(){
 
 }
-?>

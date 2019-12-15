@@ -53,4 +53,3 @@
 		output("`&You have withdrawn from your clan.");
 		addnav("Clan Options");
 		addnav("Return to the Lobby","clan.php");
-?>

@@ -83,5 +83,3 @@ function addnews_for_user()
 		$user .",'".addslashes($arguments)."','".$translation_namespace."')";
 	return db_query($sql);
 }
-
-?>

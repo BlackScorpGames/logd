@@ -45,4 +45,3 @@ if ($op=="pay"){
 	modulehook("gypsy");
 }
 page_footer();
-?>

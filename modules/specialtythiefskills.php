@@ -229,4 +229,3 @@ function specialtythiefskills_dohook($hookname,$args){
 
 function specialtythiefskills_run(){
 }
-?>

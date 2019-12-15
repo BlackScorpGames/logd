@@ -113,4 +113,3 @@ function substitute_array($string, $extra=false, $extrarep=false){
 	}
 	return $replacement_array;
 }
-?>

@@ -15,5 +15,3 @@
 	}elseif ($op=="withdraw"){
 		require_once("lib/clan/clan_withdraw.php");
 	}
-
-?>

@@ -85,5 +85,3 @@ function change_player_title($ntitle, $old=false) {
 	}
 	return $newname;
 }
-
-?>

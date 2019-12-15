@@ -69,4 +69,3 @@ if (count($conflict)==0){
 }
 output("`n`n`@Once you have submitted your prefix, you will be returned to this page to select the next step.");
 output("If you don't need a prefix, just select the next step now.");
-?>

@@ -169,4 +169,3 @@ function show_word_list($words){
 		}
 	}
 }
-?>

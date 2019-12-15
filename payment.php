@@ -201,4 +201,3 @@ if ($output > ""){
 	mail($adminEmail,"Serious LoGD Payment Problems on {$_SERVER['HTTP_HOST']}",ob_get_contents(),"Content-Type: text/html");
 }
 ob_end_clean();
-?>

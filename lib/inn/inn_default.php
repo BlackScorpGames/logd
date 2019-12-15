@@ -61,4 +61,3 @@ if (!$skipinndesc) {
 }
 modulehook("inn", array());
 module_display_events("inn", "inn.php");
-?>

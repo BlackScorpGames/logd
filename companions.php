@@ -356,4 +356,3 @@ function companionform($companion){
 }
 
 page_footer();
-?>

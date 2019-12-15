@@ -139,4 +139,3 @@ if ($op==""){
 	rawoutput("</table>");
 	popup_footer();
 }
-?>

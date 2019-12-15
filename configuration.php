@@ -448,4 +448,3 @@ if ($op == "") {
 	rawoutput("</form>");
 }
 page_footer();
-?>

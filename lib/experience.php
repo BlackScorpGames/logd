@@ -26,5 +26,3 @@ function exp_for_next_level($curlevel, $curdk)
 	$exprequired = $exparray[$curlevel];
 	return $exprequired;
 }
-
-?>

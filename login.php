@@ -185,4 +185,3 @@ if ($name!=""){
 $session=array();
 $session['message']=translator::translate_inline("`4Error, your login was incorrect`0");
 redirect("index.php");
-?>

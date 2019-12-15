@@ -279,4 +279,3 @@ function goldmine_runevent($type)
 
 function goldmine_run(){
 }
-?>

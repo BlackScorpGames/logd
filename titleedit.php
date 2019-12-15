@@ -180,4 +180,3 @@ function title_help()
 }
 
 page_footer();
-?>

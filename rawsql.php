@@ -87,4 +87,3 @@ if ($op=="" || $op=="sql"){
 	addnav("", "rawsql.php?op=php");
 }
 page_footer();
-?>
