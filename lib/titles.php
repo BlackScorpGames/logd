@@ -70,5 +70,3 @@ function get_dk_title($dks, $gender, $ref=false)
 	else
 		return $row['female'];
 }
-
-?>

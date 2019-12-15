@@ -71,4 +71,3 @@ function getsetting($settingname,$default){
 		return $settings[$settingname];
 	}
 }
-?>

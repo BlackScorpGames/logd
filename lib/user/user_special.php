@@ -16,4 +16,3 @@ if (httppost("newday") !=""){
 }
 $op = "edit";
 httpset("op", "edit");
-?>

@@ -141,4 +141,3 @@ if ($op == "") {
 	output("It is suggested, that you do not toy around with this, unless you know what you are doing.`0`n");
 }
 page_footer();
-?>

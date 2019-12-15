@@ -276,4 +276,3 @@ function apply_skill($skill,$l){
 	}
 	modulehook("apply-specialties");
 }
-?>

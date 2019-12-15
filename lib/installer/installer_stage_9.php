@@ -140,4 +140,3 @@ while (list($tablename,$descriptor)=each($descriptors)){
 }
 rawoutput("</div>");
 output("`n`n`^You're ready for the next step.");
-?>

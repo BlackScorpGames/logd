@@ -8,4 +8,3 @@ function nltoappon($in){
 	$out = str_replace("\n","`n",$out);
 	return $out;
 }
-?>

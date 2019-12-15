@@ -300,4 +300,3 @@ if (!isset($args['block']) || $args['block'] != 'yes') {
 
 module_display_events("village", "village.php");
 page_footer();
-?>

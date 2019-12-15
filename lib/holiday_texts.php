@@ -18,5 +18,3 @@ function holidayize($text,$type='unknown'){
 
 	return $text;
 }
-
-?>

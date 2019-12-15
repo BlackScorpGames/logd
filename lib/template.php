@@ -90,4 +90,3 @@ function prepare_template($force=false){
 	}
 
 }
-?>

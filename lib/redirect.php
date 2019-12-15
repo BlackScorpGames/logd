@@ -24,4 +24,3 @@ function redirect($location,$reason=false){
 	//echo $session['debug'];
 	exit();
 }
-?>

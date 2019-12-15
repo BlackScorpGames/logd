@@ -31,4 +31,3 @@ function code_array($array){
 	$output.=")\n";
 	return $output;
 }
-?>

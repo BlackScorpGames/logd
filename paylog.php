@@ -99,4 +99,3 @@ if ($op==""){
 	addnav("Refresh","paylog.php");
 }
 page_footer();
-?>

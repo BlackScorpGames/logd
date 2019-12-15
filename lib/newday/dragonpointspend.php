@@ -115,4 +115,3 @@ if ($dkills-$dp > 1) {
 	rawoutput("</table>");
 	rawoutput("</blockquote>");
 }
-?>

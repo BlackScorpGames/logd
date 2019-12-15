@@ -47,4 +47,3 @@ function do_forced_nav($anonymous,$overrideforced){
 		}
 	}
 }
-?>

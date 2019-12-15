@@ -155,4 +155,3 @@ function creature_gold($level){
 	}
 	return $gold;
 }
-?>

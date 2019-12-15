@@ -40,4 +40,3 @@ function return_legal_dirs($dirs, &$legal_dirs, $path="./") {
 		}
 	}
 }
-?>

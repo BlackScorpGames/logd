@@ -34,4 +34,3 @@ output("Allowing this would cause that imported code to be released under the GP
 output("Authors of modifications to 0.9.7 will need to re-release their modifications as derivatives/modifications to 0.9.8 code and place them under the same Creative Commons license.");
 output("It must be done by the original author since only the original author has the right to change the copyright or license upon their work.");
 output("[Additionally, reworking the modifications will be a good idea anyway as the mechanism for making modifications is substantially cleaner/clearer starting with the 0.9.8-prerelease code.]`@\"");
-?>

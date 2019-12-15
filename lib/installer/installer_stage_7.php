@@ -42,4 +42,3 @@ if (!isset($session['fromversion']) || $session['fromversion']==""){
 	header("Location: installer.php?stage=".($stage+1));
 	exit();
 }
-?>

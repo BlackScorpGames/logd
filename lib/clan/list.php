@@ -40,4 +40,3 @@
 	}
 
 	page_footer();
-?>

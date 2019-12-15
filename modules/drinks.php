@@ -72,6 +72,3 @@ function drinks_run(){
 	$args = func_get_args();
 	return call_user_func_array("drinks_run_private",$args);
 }
-
-
-?>

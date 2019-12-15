@@ -71,4 +71,3 @@ function check_su_access($level){
 		page_footer();
 	}
 }
-?>

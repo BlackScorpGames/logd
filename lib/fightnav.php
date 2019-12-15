@@ -61,4 +61,3 @@ function fightnav($allowspecial=true, $allowflee=true,$script=false){
 	}
 	translator::tlschema();
 }
-?>

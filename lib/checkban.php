@@ -44,5 +44,3 @@ function checkban($login=false){
 	}
 	db_free_result($result);
 }
-
-?>

@@ -193,5 +193,3 @@ function db_prefix($tablename, $force=false) {
 	}
 	return $prefix . $tablename;
 }
-
-?>

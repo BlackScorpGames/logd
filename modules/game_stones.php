@@ -129,4 +129,3 @@ function game_stones_run(){
 	$session['user']['specialmisc']=serialize($stones);
 	page_footer();
 }
-?>

@@ -543,4 +543,3 @@ function dag_pvpwin($args){
 	}
 	return $args;
 }
-?>

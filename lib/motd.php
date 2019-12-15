@@ -236,5 +236,3 @@ function motd_del($id) {
 	header("Location: motd.php");
 	exit();
 }
-
-?>

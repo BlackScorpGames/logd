@@ -300,4 +300,3 @@ if ($confirm == 0) {
 }
 
 page_footer();
-?>

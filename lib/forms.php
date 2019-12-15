@@ -214,4 +214,3 @@ function previewfield($name, $startdiv=false, $talkline="says", $showcharsleft=t
 		</script>
 	");
 }
-?>

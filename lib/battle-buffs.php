@@ -345,4 +345,3 @@ function expire_buffs() {
 	translator::tlschema();
 }
 
-?>

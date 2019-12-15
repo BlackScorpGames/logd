@@ -127,4 +127,3 @@ function fairy_runevent($type)
 
 function fairy_run(){
 }
-?>

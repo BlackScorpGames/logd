@@ -18,4 +18,3 @@ addnav(array("Question `\$%s`0 about the worth of your soul",$deathoverlord),"gr
 addnav("Places");
 addnav("S?Land of the Shades","shades.php");
 addnav("G?Return to the Graveyard","graveyard.php");
-?>

@@ -147,4 +147,3 @@ function lovers_violet(){
 	}
 	set_module_pref("seenlover",$seenlover);
 }
-?>

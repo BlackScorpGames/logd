@@ -77,4 +77,3 @@ if ($display == 1){
 	output("Total CPU time: %s seconds`n", round($gentime,3));
 	output("Average page gen time is %s seconds`n", round($gentime/max($gentimecount,1),4));
 }
-?>

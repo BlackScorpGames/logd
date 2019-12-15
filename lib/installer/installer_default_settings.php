@@ -146,4 +146,3 @@ $default_settings = array(
 	"villagechance"=>0,
 	"enablecompanions"=>true,
 );
-?>

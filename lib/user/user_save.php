@@ -147,4 +147,3 @@ addnav("","user.php");
 }
 $op = "edit";
 httpset($op, "edit");
-?>

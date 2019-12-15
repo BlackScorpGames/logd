@@ -29,4 +29,3 @@ if (navcount()==0){
 	page_header("A little history about yourself");
 	page_footer();
 }
-?>

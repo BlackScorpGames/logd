@@ -67,4 +67,3 @@ switch ($op) {
 if (!$skipinndesc) rawoutput("</span>");
 
 page_footer();
-?>

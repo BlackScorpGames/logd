@@ -39,5 +39,3 @@ function dump_item_ascode($item,$indent="\t"){
 	}
 	return $out;
 }
-
-?>

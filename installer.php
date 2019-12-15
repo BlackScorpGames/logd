@@ -138,5 +138,3 @@ if (!$noinstallnavs){
 	}
 }
 page_footer(false);
-
-?>

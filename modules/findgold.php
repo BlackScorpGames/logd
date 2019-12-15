@@ -45,4 +45,3 @@ function findgold_runevent($type,$link)
 
 function findgold_run(){
 }
-?>

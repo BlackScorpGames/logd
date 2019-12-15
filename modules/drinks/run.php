@@ -152,4 +152,3 @@ function drinks_run_private(){
 		page_footer();
 	}
 }
-?>

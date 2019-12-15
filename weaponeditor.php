@@ -113,4 +113,3 @@ if ($op==""){
 	rawoutput("</table>");
 }
 page_footer();
-?>

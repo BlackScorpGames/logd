@@ -20,4 +20,3 @@ switch ($op) {
 		break;
 }
 popup_footer();
-?>

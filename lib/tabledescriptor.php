@@ -259,4 +259,3 @@ function descriptor_sanitize_type($type){
 	else
 		return $type;
 }
-?>

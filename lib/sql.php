@@ -8,5 +8,3 @@ function sql_error($sql){
 	global $session;
 	return output_array($session)."SQL = <pre>$sql</pre>".db_error(LINK);
 }
-
-?>

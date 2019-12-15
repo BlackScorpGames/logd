@@ -243,5 +243,3 @@ function drinks_editor(){
 	}
 	page_footer();
 }
-
-?>

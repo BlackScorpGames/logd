@@ -398,5 +398,3 @@ modulehook("everyhit");
 if ($session['user']['loggedin']) {
 	modulehook("everyhit-loggedin");
 }
-
-?>

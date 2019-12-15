@@ -105,4 +105,3 @@ function spell($input,$words=false,$prefix="<span style='border: 1px dotted #FF0
 	}
 	return $output;
 }
-?>

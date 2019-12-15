@@ -52,6 +52,8 @@ if ($session['user']['superuser'] & SU_RAW_SQL) addnav("Q?Run Raw SQL", "rawsql.
 if ($session['user']['superuser'] & SU_IS_TRANSLATOR) addnav("U?Untranslated Texts", "untranslated.php");
 
 addnav("Editors");
+if ($session['user']['superuser']) addnav("Untranslated Editor","untranslated_data.php");
+if ($session['user']['superuser']) addnav("Translated Editor","translated_data.php");
 if ($session['user']['superuser'] & SU_EDIT_USERS) addnav("User Editor","user.php");
 if ($session['user']['superuser'] & SU_EDIT_USERS) addnav("Title Editor","titleedit.php");
 if ($session['user']['superuser'] & SU_EDIT_CREATURES) addnav("E?Creature Editor","creatures.php");
@@ -82,4 +84,3 @@ addnav("Module Configurations");
 modulehook("superuser", array(), true);
 
 page_footer();
-?>

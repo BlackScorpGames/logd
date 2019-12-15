@@ -42,4 +42,3 @@ function select_taunt_array(){
 	array_unshift($taunt, true, "taunts");
 	return $taunt;
 }
-?>

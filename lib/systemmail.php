@@ -104,5 +104,3 @@ function systemmail($to,$subject,$body,$from=0,$noemail=false){
 	}
 	invalidatedatacache("mail-$to");
 }
-
-?>

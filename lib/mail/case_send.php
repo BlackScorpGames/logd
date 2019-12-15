@@ -46,4 +46,3 @@ if(httppost("returnto")){
 	$op="";
 	httpset('op', "");
 }
-?>

@@ -61,4 +61,3 @@ function dag_dohook_private($hookname,$args){
 	}
 	return $args;
 }
-?>
