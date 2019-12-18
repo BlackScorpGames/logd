@@ -703,7 +703,7 @@ function charstats(){
 		addcharstat("Weapon", $u['weapon']);
 		addcharstat("Armor", $u['armor']);
 		if ($u['hashorse'])
-			addcharstat("Creature", $playermount->findName() . "`0");
+			addcharstat("Creature", $playermount->getName() . "`0");
                 
 		modulehook("charstats");
 
