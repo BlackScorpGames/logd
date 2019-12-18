@@ -259,7 +259,7 @@ if ($dp < $dkills) {
 		$msg = substitute_array("`n`&".$msg."`0`n");
 		output($msg);
 		global $mount_dev, $playermount;
-		list($name, $lcname) = $mount_dev->getName($playermount);
+		list($name, $lcname) = $mount_dev->findName($playermount);
 
 		$mff = $playermount->getForestFights();
 		$session['user']['turns'] += $mff;

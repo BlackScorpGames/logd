@@ -21,7 +21,7 @@ class MountRepository implements MountRepositoryInteface
         $this->dbPrefix = $dbPrefix;
     }
     
-    public function getMount(int $mountID=0) : MountEntity 
+    public function findMount(int $mountID=0) : MountEntity 
     {
         $sql = 'SELECT '
                 . '`mountid`,'
@@ -52,7 +52,7 @@ class MountRepository implements MountRepositoryInteface
         return $response;
     }
     
-    public function getName(MountEntity $mount)
+    public function findName(MountEntity $mount)
     {
 	translator::tlschema("mountname");
 	$name = '';

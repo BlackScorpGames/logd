@@ -354,7 +354,7 @@ if ($session['user']['superuser']==0){
 prepare_template();
 
 if (!isset($session['user']['hashorse'])) $session['user']['hashorse']=0;
-$playermount = $mount_dev->getMount($session['user']['hashorse']);
+$playermount = $mount_dev->findMount($session['user']['hashorse']);
 $temp_comp = @unserialize($session['user']['companions']);
 $companions = array();
 if(is_array($temp_comp)) {

@@ -72,7 +72,7 @@ villagenav();
 modulehook("stables-nav");
 
 global $mount_dev, $playermount;
-list($name, $lcname) = $mount_dev->getName($playermount);
+list($name, $lcname) = $mount_dev->findName($playermount);
 
 $repaygold = 0;
 $repaygems = 0;
@@ -161,8 +161,8 @@ if ($op == 'confirmbuy') {
 				output($texts['newmount'], $mount['mountname']);
 				translator::tlschema();
 			}
-                        if ($playermount->getName() !== '')
-                            $debugmount1=$playermount->getName();
+                        if ($playermount->findName() !== '')
+                            $debugmount1=$playermount->findName();
                         else 
                             $debugmount1=false;
                         
@@ -179,14 +179,14 @@ if ($op == 'confirmbuy') {
 			apply_buff('mount',unserialize($mount['mountbuff']));
 			// Recalculate so the selling stuff works right
 			global $mount_dev;
-                        $playermount = $mount_dev->getMount($mount['mountid']);
+                        $playermount = $mount_dev->findMount($mount['mountid']);
 			$repaygold = round($playermount->getCostGold()*2/3,0);
 			$repaygems = round($playermount->getCostGems()*2/3,0);
 			// Recalculate the special name as well.
 			modulehook("stable-mount", array());
 			modulehook("boughtmount");
 			global $mount_dev, $playermount;
-			list($name, $lcname) = $mount_dev->getName($playermount);
+			list($name, $lcname) = $mount_dev->findName($playermount);
 			$grubprice = round($session['user']['level']*$playermount->getFeedCost(), 0);
 		}
 	}
@@ -222,7 +222,7 @@ if ($op == 'confirmbuy') {
 			translator::tlschema($schemas['mountfull']);
 			output($texts['mountfull'],
 				($session['user']['sex']?$texts["lass"]:$texts["lad"]),
-				($playermount->getName()));
+				($playermount->findName()));
 			translator::tlschema();
 		}
 	} else {
@@ -242,7 +242,7 @@ if ($op == 'confirmbuy') {
 }elseif($op=='confirmsell'){
 	$session['user']['gold']+=$repaygold;
 	$session['user']['gems']+=$repaygems;
-	$debugmount=$playermount->getName();
+	$debugmount=$playermount->findName();
 	debuglog("gained $repaygold gold and $repaygems gems selling their mount, a $debugmount");
 	strip_buff('mount');
 	$session['user']['hashorse']=0;
@@ -266,7 +266,7 @@ if ($op == 'confirmbuy') {
 
 	translator::tlschema($schemas['mountsold']);
 	output($texts['mountsold'],
-			($playermount->getName()),
+			($playermount->findName()),
 			$amtstr);
 	translator::tlschema();
 }

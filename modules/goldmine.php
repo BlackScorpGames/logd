@@ -114,7 +114,7 @@ function goldmine_runevent($type)
 			$horsecansave = get_module_objpref('mounts', $hashorse, 'saveplayer');
 		}
 		global $mount_dev, $playermount;
-		list($mountname, $lcmountname) = $mount_dev->getName($playermount);
+		list($mountname, $lcmountname) = $mount_dev->findName($playermount);
 	}
 	$session['user']['specialinc']="module:goldmine";
 	$op = http::httpget('op');
@@ -226,7 +226,7 @@ function goldmine_runevent($type)
 							output("%s`7's bones were buried right alongside yours.", $mountname);
 						}
 						global $playermount;
-						$debugmount = $playermount->getName();
+						$debugmount = $playermount->findName();
 						debuglog("lost their mount, a $debugmount, in a mine collapse.");
 						$session['user']['hashorse'] = 0;
 						if(isset($session['bufflist']['mount']))
