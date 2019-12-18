@@ -161,8 +161,8 @@ if ($op == 'confirmbuy') {
 				output($texts['newmount'], $mount['mountname']);
 				translator::tlschema();
 			}
-                        if ($playermount->findName() !== '')
-                            $debugmount1=$playermount->findName();
+                        if ($playermount->getName()() !== '')
+                            $debugmount1=$playermount->getName()();
                         else 
                             $debugmount1=false;
                         
@@ -222,7 +222,7 @@ if ($op == 'confirmbuy') {
 			translator::tlschema($schemas['mountfull']);
 			output($texts['mountfull'],
 				($session['user']['sex']?$texts["lass"]:$texts["lad"]),
-				($playermount->findName()));
+				($playermount->getName()()));
 			translator::tlschema();
 		}
 	} else {
@@ -242,7 +242,7 @@ if ($op == 'confirmbuy') {
 }elseif($op=='confirmsell'){
 	$session['user']['gold']+=$repaygold;
 	$session['user']['gems']+=$repaygems;
-	$debugmount=$playermount->findName();
+	$debugmount=$playermount->getName()();
 	debuglog("gained $repaygold gold and $repaygems gems selling their mount, a $debugmount");
 	strip_buff('mount');
 	$session['user']['hashorse']=0;
@@ -266,7 +266,7 @@ if ($op == 'confirmbuy') {
 
 	translator::tlschema($schemas['mountsold']);
 	output($texts['mountsold'],
-			($playermount->findName()),
+			($playermount->getName()()),
 			$amtstr);
 	translator::tlschema();
 }

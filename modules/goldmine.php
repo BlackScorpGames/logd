@@ -226,7 +226,7 @@ function goldmine_runevent($type)
 							output("%s`7's bones were buried right alongside yours.", $mountname);
 						}
 						global $playermount;
-						$debugmount = $playermount->findName();
+						$debugmount = $playermount->getName()();
 						debuglog("lost their mount, a $debugmount, in a mine collapse.");
 						$session['user']['hashorse'] = 0;
 						if(isset($session['bufflist']['mount']))
