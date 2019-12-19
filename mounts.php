@@ -9,6 +9,10 @@ require_once("lib/showform.php");
 $op = http::httpget('op');
 $id = http::httpget('id');
 
+$mount = new blackscorp\logd\Mount\Mount();
+if ($id)
+    $mount = $mountRepository->findMount($id);
+
 if ($op=="xml") {
 	header("Content-Type: text/xml");
 	$sql = "select name from " . db_prefix("accounts") . " where hashorse=$id";
@@ -40,14 +44,14 @@ addnav("Mount Editor");
 addnav("Add a mount","mounts.php?op=add");
 
 if ($op=="deactivate"){
-	$sql = "UPDATE " . db_prefix("mounts") . " SET mountactive=0 WHERE mountid='$id'";
-	db_query($sql);
+        $mount->setActive(0);
+        $mountRepository->update($mount);
 	$op="";
 	httpset("op", "");
 	invalidatedatacache("mountdata-$id");
 } elseif ($op=="activate"){
-	$sql = "UPDATE " . db_prefix("mounts") . " SET mountactive=1 WHERE mountid='$id'";
-	db_query($sql);
+        $mount->setActive(1);
+        $mountRepository->update($mount);
 	$op="";
 	httpset("op", "");
 	invalidatedatacache("mountdata-$id");
