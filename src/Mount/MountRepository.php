@@ -3,8 +3,6 @@
 namespace blackscorp\logd\Mount;
 
 use PDO;
-
-
 use blackscorp\logd\Mount\{MountEntity, MountRepositoryInteface};
 use translator;
 
@@ -21,9 +19,37 @@ class MountRepository implements MountRepositoryInteface
         $this->dbPrefix = $dbPrefix;
     }
     
+    private function getAllBindParam(MountEntity $mount) : array 
+    {
+        return [
+                        ':name'         => $mount->getName(),
+                        ':desc'         => $mount->getDesc(),
+                        ':category'     => $mount->getCategory(),
+                        ':buff'         => $mount->getBuff(),
+                        ':costgems'     => $mount->getCostGems(),
+                        ':costgold'     => $mount->getCostGold(),
+                        ':active'       => (int)$mount->getActive(),
+                        ':forestfights' => $mount->getForestFights(),
+                        ':newday'       => $mount->getNewDay(),
+                        ':recharge'     => $mount->getRecharge(),
+                        ':partrecharge' => $mount->getPartRecharge(),
+                        ':feedcost'     => $mount->getFeedCost(),
+                        ':location'     => $mount->getLocation(),
+                        ':dkcost'       => $mount->getDkCost(),
+                        ':mountID'      => $mount->getID()
+                    ];
+    }
+    
+    private function prepareQueryAndExceute(string $query, array $bindParam) : \PDOStatement
+    {
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute($bindParam);
+        return $stmt;
+    }
+    
     public function create(MountEntity $mount) 
     {
-        $sql = ('INSERT INTO '
+        $query = 'INSERT INTO '
                     .'`'. $this->dbPrefix . 'mounts` '
                     . '('
                         . '`mountname`, '
@@ -57,31 +83,13 @@ class MountRepository implements MountRepositoryInteface
                         . ':feedcost, '
                         . ':location, '
                         . ':dkcost'
-                    . ')');
-        $bindParam = [
-                        ':name'         => $mount->getName(),
-                        ':desc'         => $mount->getDesc(),
-                        ':category'     => $mount->getCategory(),
-                        ':buff'         => $mount->getBuff(),
-                        ':costgems'     => $mount->getCostGems(),
-                        ':costgold'     => $mount->getCostGold(),
-                        ':active'       => (int)$mount->getActive(),
-                        ':forestfights' => $mount->getForestFights(),
-                        ':newday'       => $mount->getNewDay(),
-                        ':recharge'     => $mount->getRecharge(),
-                        ':partrecharge' => $mount->getPartRecharge(),
-                        ':feedcost'     => $mount->getFeedCost(),
-                        ':location'     => $mount->getLocation(),
-                        ':dkcost'       => $mount->getDkCost(),
-                        ':mountID'      => $mount->getID()
-                    ];
-        $stmt = $this->pdo->prepare($sql);
-        $stmt->execute($bindParam);
+                    . ')';
+        $this->prepareQueryAndExceute($query, $this->getAllBindParam($mount));        
     }
     
     public function update(MountEntity $mount) 
     {
-        $sql = ('UPDATE '
+        $query = 'UPDATE '
                     .'`'. $this->dbPrefix . 'mounts` '
               . 'SET '
                     . '`mountname`=:name, '
@@ -99,41 +107,23 @@ class MountRepository implements MountRepositoryInteface
                     . '`mountlocation`=:location, '
                     . '`mountdkcost`=:dkcost '
               . 'WHERE '
-                    . '`mountid`=:mountID');        
-        $bindParam = [
-                        ':name'         => $mount->getName(),
-                        ':desc'         => $mount->getDesc(),
-                        ':category'     => $mount->getCategory(),
-                        ':buff'         => $mount->getBuff(),
-                        ':costgems'     => $mount->getCostGems(),
-                        ':costgold'     => $mount->getCostGold(),
-                        ':active'       => (int)$mount->getActive(),
-                        ':forestfights' => $mount->getForestFights(),
-                        ':newday'       => $mount->getNewDay(),
-                        ':recharge'     => $mount->getRecharge(),
-                        ':partrecharge' => $mount->getPartRecharge(),
-                        ':feedcost'     => $mount->getFeedCost(),
-                        ':location'     => $mount->getLocation(),
-                        ':dkcost'       => $mount->getDkCost(),
-                        ':mountID'      => $mount->getID()
-                    ];
-        $stmt = $this->pdo->prepare($sql);
-        $stmt->execute($bindParam);
+                    . '`mountid`=:mountID';        
+        $this->prepareQueryAndExceute($query, $this->getAllBindParam($mount));
     }
     
-    public function delete(int $id)
+    public function delete(int $mountID)
     {
-        $sql = ('DELETE FROM '
+        $query = ('DELETE FROM '
                     .'`'. $this->dbPrefix . 'mounts` '
               . 'WHERE '
                     . '`mountid`=:mountID');
-        $stmt = $this->pdo->prepare($sql);
-        $stmt->execute([':mountID' => $id]);
+
+        $this->prepareQueryAndExceute($query, [':mountID' => $mountID]);
     }
 
     public function findMount(int $mountID=0) : MountEntity 
     {
-        $sql = 'SELECT '
+        $query = 'SELECT '
                 . '`mountid`,'
                 . '`mountname`,'
                 . '`mountdesc`,'
@@ -153,9 +143,7 @@ class MountRepository implements MountRepositoryInteface
                 . '`'. $this->dbPrefix . 'mounts` '
             . ' WHERE '
                 . '`mountid`=:mountID';
-        $stmt = $this->pdo->prepare($sql);
-        $stmt->bindParam(':mountID', $mountID);
-        $stmt->execute();
+        $stmt = $this->prepareQueryAndExceute($query, [':mountID' => $mountID]);
         $row = $stmt->fetch();
         $response = new Mount();
         $response->setAllOutOfStdClass($row);
