@@ -19,6 +19,28 @@ class MountRepository implements MountRepositoryInteface
         $this->dbPrefix = $dbPrefix;
     }
     
+    private function getSelectQuery() : string
+    {
+        return 'SELECT '
+                . '`mountid`,'
+                . '`mountname`,'
+                . '`mountdesc`,'
+                . '`mountcategory`,'
+                . '`mountbuff`,'
+                . '`mountcostgems`,'
+                . '`mountcostgold`,'
+                . '`mountactive`,'
+                . '`mountforestfights`,'
+                . '`newday`,'
+                . '`recharge`,'
+                . '`partrecharge`,'
+                . '`mountfeedcost`,'
+                . '`mountlocation`,'
+                . '`mountdkcost`'
+            .  'FROM '
+                . '`'. $this->dbPrefix . 'mounts` ';
+    }
+    
     private function getAllBindParam(MountEntity $mount) : array 
     {
         return [
@@ -42,9 +64,9 @@ class MountRepository implements MountRepositoryInteface
     
     private function prepareQueryAndExecute(string $query, array $bindParam) : \PDOStatement
     {
-        $stmt = $this->pdo->prepare($query);
-        $stmt->execute($bindParam);
-        return $stmt;
+        $PDOStatement = $this->pdo->prepare($query);
+        $PDOStatement->execute($bindParam);
+        return $PDOStatement;
     }
     
     public function create(MountEntity $mount) 
@@ -108,7 +130,7 @@ class MountRepository implements MountRepositoryInteface
                     . '`mountdkcost`=:dkcost '
               . 'WHERE '
                     . '`mountid`=:mountID';        
-        $this->prepareQueryAndExecute($query, $this->getAllBindParam($mount));
+            $this->prepareQueryAndExecute($query, $this->getAllBindParam($mount));
     }
     
     public function delete(int $mountID)
@@ -123,33 +145,42 @@ class MountRepository implements MountRepositoryInteface
 
     public function findMount(int $mountID=0) : MountEntity 
     {
-        $query = 'SELECT '
-                . '`mountid`,'
-                . '`mountname`,'
-                . '`mountdesc`,'
-                . '`mountcategory`,'
-                . '`mountbuff`,'
-                . '`mountcostgems`,'
-                . '`mountcostgold`,'
-                . '`mountactive`,'
-                . '`mountforestfights`,'
-                . '`newday`,'
-                . '`recharge`,'
-                . '`partrecharge`,'
-                . '`mountfeedcost`,'
-                . '`mountlocation`,'
-                . '`mountdkcost`'
-            .  'FROM '
-                . '`'. $this->dbPrefix . 'mounts` '
-            . ' WHERE '
-                . '`mountid`=:mountID';
-        $stmt = $this->prepareQueryAndExecute($query, [':mountID' => $mountID]);
-        $row = $stmt->fetch();
-        $response = new Mount();
-        $response->setAllOutOfStdClass($row);
-        return $response;
+        $query = $this->getSelectQuery()            
+                        . ' WHERE '
+                            . '`mountid`=:mountID';
+        
+        $PDOStatement = $this->prepareQueryAndExecute($query, [':mountID' => $mountID]);
+        $foundMount = $PDOStatement->fetch();
+        
+        $mountToBeSearched = new Mount();
+        $mountToBeSearched->setAllOutOfStdClass($foundMount);
+        
+        return $mountToBeSearched;
     }
     
+    public function findAllMountsSorted()
+    {
+        $query = $this->getSelectQuery()
+                        . 'ORDER BY '
+                            . '`mountcategory`, '
+                            . '`mountcostgems`, '
+                            . '`mountcostgold`';
+        
+        $PDOStatement = $this->prepareQueryAndExecute($query, []);
+        $foundMounts = $PDOStatement->fetchAll();
+        
+        $mountToBeSearched = [];
+        foreach ($foundMounts as $mount)
+        {
+            $cacheMount = new Mount();
+            $cacheMount->setAllOutOfStdClass($mount);
+            $mountToBeSearched[] = $cacheMount;
+        }
+        
+        return $mountToBeSearched;
+    }
+
+
     public function findName(MountEntity $mount)
     {
 	translator::tlschema("mountname");

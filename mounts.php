@@ -44,7 +44,7 @@ addnav("Mount Editor");
 addnav("Add a mount","mounts.php?op=add");
 
 if ($op=="deactivate"){
-        $mount->setActive(0);
+        $mount->setActive(0);        
         $mountRepository->update($mount);
 	$op="";
 	httpset("op", "");
@@ -155,8 +155,7 @@ if ($op==""){
 		}
 		document.getElementById('mountusers'+divid).innerHTML=output;
 	}
-	</script>");
-
+	</script>");        
 	$sql = "SELECT * FROM " . db_prefix("mounts") . " ORDER BY mountcategory, mountcostgems, mountcostgold";
 	$ops = translator::translate_inline("Ops");
 	$name = translator::translate_inline("Name");

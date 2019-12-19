@@ -3,7 +3,7 @@
 // addnews ready
 // mail ready
 
-use blackscorp\logd\Mount\{Mount, MountRepository};
+use blackscorp\logd\Mount\{Mount, MountRepository, MountController};
 
 // **** NOTICE ****
 // This series of scripts (collectively known as Legend of the Green Dragon
@@ -145,6 +145,8 @@ $options = [
 $pdo = new \PDO($dsn, $DB_USER, $DB_PASS, $options);
 
 $mountRepository = new MountRepository($pdo, $DB_PREFIX);
+
+$mountController = new MountController($mountRepository);
 
 $out = ob_get_contents();
 ob_end_clean();

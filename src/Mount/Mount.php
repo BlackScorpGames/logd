@@ -193,19 +193,19 @@ class Mount implements MountEntity
     public function setAllOutOfStdClass($mount) : void
     {
         $this->ID = $mount->mountid ?? 0;
-        $this->name = $mount->mountname;
-        $this->desc = $mount->mountdesc;
-        $this->category = $mount->mountcategory;
-        $this->buff = $mount->mountbuff;
-        $this->costGems = $mount->mountcostgems;
-        $this->costGold = $mount->mountcostgold;
-        $this->active = (bool)$mount->mountactive;
-        $this->forestFights = $mount->mountforestfights;
-        $this->newDay = $mount->newday;
-        $this->recharge = $mount->recharge;
-        $this->partRecharge = $mount->partrecharge;
-        $this->feedCost = $mount->mountfeedcost;
-        $this->location = $mount->mountlocation;
-        $this->dkCost = $mount->mountdkcost;
+        $this->name = $mount->mountname ?? '';
+        $this->desc = $mount->mountdesc ?? '';
+        $this->category = $mount->mountcategory ?? '';
+        $this->buff = $mount->mountbuff ?? '';
+        $this->costGems = $mount->mountcostgems ?? 0;
+        $this->costGold = $mount->mountcostgold ?? 0;
+        $this->active = (bool)$mount->mountactive ?? true;
+        $this->forestFights = $mount->mountforestfights ?? 0;
+        $this->newDay = $mount->newday ?? '';
+        $this->recharge = $mount->recharge ?? '';
+        $this->partRecharge = $mount->partrecharge ?? '';
+        $this->feedCost = $mount->mountfeedcost ?? 20;
+        $this->location = $mount->mountlocation ?? 'all';
+        $this->dkCost = $mount->mountdkcost ?? 0;
     }
 }
