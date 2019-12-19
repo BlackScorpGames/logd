@@ -71,8 +71,8 @@ addnav("Other");
 villagenav();
 modulehook("stables-nav");
 
-global $mount_dev, $playermount;
-list($name, $lcname) = $mount_dev->findName($playermount);
+global $mountRepository, $playermount;
+list($name, $lcname) = $mountRepository->findName($playermount);
 
 $repaygold = 0;
 $repaygems = 0;
@@ -178,15 +178,15 @@ if ($op == 'confirmbuy') {
 			if ($buff['schema'] == "") $buff['schema'] = "mounts";
 			apply_buff('mount',unserialize($mount['mountbuff']));
 			// Recalculate so the selling stuff works right
-			global $mount_dev;
-                        $playermount = $mount_dev->findMount($mount['mountid']);
+			global $mountRepository;
+                        $playermount = $mountRepository->findMount($mount['mountid']);
 			$repaygold = round($playermount->getCostGold()*2/3,0);
 			$repaygems = round($playermount->getCostGems()*2/3,0);
 			// Recalculate the special name as well.
 			modulehook("stable-mount", array());
 			modulehook("boughtmount");
-			global $mount_dev, $playermount;
-			list($name, $lcname) = $mount_dev->findName($playermount);
+			global $mountRepository, $playermount;
+			list($name, $lcname) = $mountRepository->findName($playermount);
 			$grubprice = round($session['user']['level']*$playermount->getFeedCost(), 0);
 		}
 	}

@@ -113,8 +113,8 @@ function goldmine_runevent($type)
 			$horsecandie = get_module_objpref('mounts', $hashorse, 'dieinmine');
 			$horsecansave = get_module_objpref('mounts', $hashorse, 'saveplayer');
 		}
-		global $mount_dev, $playermount;
-		list($mountname, $lcmountname) = $mount_dev->findName($playermount);
+		global $mountRepository, $playermount;
+		list($mountname, $lcmountname) = $mountRepository->findName($playermount);
 	}
 	$session['user']['specialinc']="module:goldmine";
 	$op = http::httpget('op');

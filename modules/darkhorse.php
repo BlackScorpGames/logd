@@ -75,8 +75,8 @@ function darkhorse_dohook($hookname,$args){
 			// add the nav
 			addnav("Other");
 			$iname = get_module_setting("tavernname");
-			global $mount_dev, $playermount;
-			list($name, $lcname) = $mount_dev->findName($playermount);
+			global $mountRepository, $playermount;
+			list($name, $lcname) = $mountRepository->findName($playermount);
 			addnav(array("D?Take %s`0 to %s", $lcname, $iname),
 					"runmodule.php?module=darkhorse&op=enter");
 		}
@@ -229,8 +229,8 @@ function darkhorse_runevent($type, $link){
 		output("You're sure you've seen this place before.");
 		output("As you approach the grove, a strange mist creeps in around you; your mind begins to buzz, and you're no longer sure exactly how you got here.");
 		if(darkhorse_tavernmount()) {
-			global $mount_dev, $playermount;
-			list($name, $lcname) = $mount_dev->findName($playermount);
+			global $mountRepository, $playermount;
+			list($name, $lcname) = $mountRepository->findName($playermount);
 			output("%s`0 seems to have known the way, however.", $name);
 		}
 		output("`n`nThe mist clears, and before you is a log building with smoke trailing from its chimney.");
