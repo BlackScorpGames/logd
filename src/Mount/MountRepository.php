@@ -40,7 +40,7 @@ class MountRepository implements MountRepositoryInteface
                     ];
     }
     
-    private function prepareQueryAndExceute(string $query, array $bindParam) : \PDOStatement
+    private function prepareQueryAndExecute(string $query, array $bindParam) : \PDOStatement
     {
         $stmt = $this->pdo->prepare($query);
         $stmt->execute($bindParam);
@@ -84,7 +84,7 @@ class MountRepository implements MountRepositoryInteface
                         . ':location, '
                         . ':dkcost'
                     . ')';
-        $this->prepareQueryAndExceute($query, $this->getAllBindParam($mount));        
+        $this->prepareQueryAndExecute($query, $this->getAllBindParam($mount));        
     }
     
     public function update(MountEntity $mount) 
@@ -108,7 +108,7 @@ class MountRepository implements MountRepositoryInteface
                     . '`mountdkcost`=:dkcost '
               . 'WHERE '
                     . '`mountid`=:mountID';        
-        $this->prepareQueryAndExceute($query, $this->getAllBindParam($mount));
+        $this->prepareQueryAndExecute($query, $this->getAllBindParam($mount));
     }
     
     public function delete(int $mountID)
@@ -118,7 +118,7 @@ class MountRepository implements MountRepositoryInteface
               . 'WHERE '
                     . '`mountid`=:mountID');
 
-        $this->prepareQueryAndExceute($query, [':mountID' => $mountID]);
+        $this->prepareQueryAndExecute($query, [':mountID' => $mountID]);
     }
 
     public function findMount(int $mountID=0) : MountEntity 
@@ -143,7 +143,7 @@ class MountRepository implements MountRepositoryInteface
                 . '`'. $this->dbPrefix . 'mounts` '
             . ' WHERE '
                 . '`mountid`=:mountID';
-        $stmt = $this->prepareQueryAndExceute($query, [':mountID' => $mountID]);
+        $stmt = $this->prepareQueryAndExecute($query, [':mountID' => $mountID]);
         $row = $stmt->fetch();
         $response = new Mount();
         $response->setAllOutOfStdClass($row);
