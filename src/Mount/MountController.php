@@ -17,80 +17,21 @@ class MountController
     }
 
 
-    private function mountform($mount){
-	// Let's sanitize the data
-	if (!isset($mount['mountname'])) $mount['mountname'] = "";
-	if (!isset($mount['mountid'])) $mount['mountid'] = "";
-	if (!isset($mount['mountdesc'])) $mount['mountdesc'] = "";
-	if (!isset($mount['mountcategory'])) $mount['mountcategory'] = "";
-	if (!isset($mount['mountlocation'])) $mount['mountlocation']  = 'all';
-	if (!isset($mount['mountdkcost'])) $mount['mountdkcost']  = 0;
-	if (!isset($mount['mountcostgems'])) $mount['mountcostgems']  = 0;
-	if (!isset($mount['mountcostgold'])) $mount['mountcostgold']  = 0;
-	if (!isset($mount['mountfeedcost'])) $mount['mountfeedcost']  = 0;
-	if (!isset($mount['mountforestfights'])) $mount['mountforestfights']  = 0;
-	if (!isset($mount['newday'])) $mount['newday']  = "";
-	if (!isset($mount['recharge'])) $mount['recharge']  = "";
-	if (!isset($mount['partrecharge'])) $mount['partrecharge']  = "";
-	if (!isset($mount['mountbuff'])) $mount['mountbuff'] = array();
-	if (!isset($mount['mountactive'])) $mount['mountactive']=0;
-	if (!isset($mount['mountbuff']['name']))
-		$mount['mountbuff']['name'] = "";
-	if (!isset($mount['mountbuff']['roundmsg']))
-		$mount['mountbuff']['roundmsg'] = "";
-	if (!isset($mount['mountbuff']['wearoff']))
-		$mount['mountbuff']['wearoff'] = "";
-	if (!isset($mount['mountbuff']['effectmsg']))
-		$mount['mountbuff']['effectmsg'] = "";
-	if (!isset($mount['mountbuff']['effectnodmgmsg']))
-		$mount['mountbuff']['effectnodmgmsg'] = "";
-	if (!isset($mount['mountbuff']['effectfailmsg']))
-		$mount['mountbuff']['effectfailmsg'] = "";
-	if (!isset($mount['mountbuff']['rounds']))
-		$mount['mountbuff']['rounds'] = 0;
-	if (!isset($mount['mountbuff']['atkmod']))
-		$mount['mountbuff']['atkmod'] = "";
-	if (!isset($mount['mountbuff']['defmod']))
-		$mount['mountbuff']['defmod'] = "";
-	if (!isset($mount['mountbuff']['invulnerable']))
-		$mount['mountbuff']['invulnerable'] = "";
-	if (!isset($mount['mountbuff']['regen']))
-		$mount['mountbuff']['regen'] = "";
-	if (!isset($mount['mountbuff']['minioncount']))
-		$mount['mountbuff']['minioncount'] = "";
-	if (!isset($mount['mountbuff']['minbadguydamage']))
-		$mount['mountbuff']['minbadguydamage'] = "";
-	if (!isset($mount['mountbuff']['maxbadguydamage']))
-		$mount['mountbuff']['maxbadguydamage'] = "";
+    private function mountform(MountEntity $mount){	
 
-	if (!isset($mount['mountbuff']['mingoodguydamage']))
-		$mount['mountbuff']['mingoodguydamage'] = "";
-	if (!isset($mount['mountbuff']['maxgoodguydamage']))
-		$mount['mountbuff']['maxgoodguydamage'] = "";
-	if (!isset($mount['mountbuff']['lifetap']))
-		$mount['mountbuff']['lifetap'] = "";
-	if (!isset($mount['mountbuff']['damageshield']))
-		$mount['mountbuff']['damageshield'] = "";
-	if (!isset($mount['mountbuff']['badguydmgmod']))
-		$mount['mountbuff']['badguydmgmod'] = "";
-	if (!isset($mount['mountbuff']['badguyatkmod']))
-		$mount['mountbuff']['badguyatkmod'] = "";
-	if (!isset($mount['mountbuff']['badguydefmod']))
-		$mount['mountbuff']['badguydefmod'] = "";
-
-	rawoutput("<form action='mounts.php?op=save&id={$mount['mountid']}' method='POST'>");
-	rawoutput("<input type='hidden' name='mount[mountactive]' value=\"".$mount['mountactive']."\">");
-	addnav("","mounts.php?op=save&id={$mount['mountid']}");
+	rawoutput("<form action='mounts.php?op=save&id={$mount->getID()}' method='POST'>");
+	rawoutput("<input type='hidden' name='mount[mountactive]' value=\"".$mount->getActive()."\">");
+	addnav("","mounts.php?op=save&id={$mount->getID()}");
 	rawoutput("<table>");
 	rawoutput("<tr><td nowrap>");
 	output("Mount Name:");
-	rawoutput("</td><td><input name='mount[mountname]' value=\"".htmlentities($mount['mountname'], ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."\"></td></tr>");
+	rawoutput("</td><td><input name='mount[mountname]' value=\"".htmlentities($mount->getName(), ENT_COMPAT, getsetting("charset", "UTF-8"))."\"></td></tr>");
 	rawoutput("<tr><td nowrap>");
 	output("Mount Description:");
-	rawoutput("</td><td><input name='mount[mountdesc]' value=\"".htmlentities($mount['mountdesc'], ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."\"></td></tr>");
+	rawoutput("</td><td><input name='mount[mountdesc]' value=\"".htmlentities($mount->getDesc(), ENT_COMPAT, getsetting("charset", "UTF-8"))."\"></td></tr>");
 	rawoutput("<tr><td nowrap>");
 	output("Mount Category:");
-	rawoutput("</td><td><input name='mount[mountcategory]' value=\"".htmlentities($mount['mountcategory'], ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."\"></td></tr>");
+	rawoutput("</td><td><input name='mount[mountcategory]' value=\"".htmlentities($mount->getCategory(), ENT_COMPAT, getsetting("charset", "UTF-8"))."\"></td></tr>");
 	rawoutput("<tr><td nowrap>");
 	output("Mount Availability:");
 	rawoutput("</td><td nowrap>");
@@ -105,91 +46,91 @@ class MountController
 	reset($locs);
 	rawoutput("<select name='mount[mountlocation]'>");
 	foreach($locs as $loc=>$name) {
-		rawoutput("<option value='$loc'".($mount['mountlocation']==$loc?" selected":"").">$name</option>");
+		rawoutput("<option value='$loc'".($mount->getLocation()==$loc?" selected":"").">$name</option>");
 	}
 
 	rawoutput("<tr><td nowrap>");
 	output("Mount Cost (DKs):");
-	rawoutput("</td><td><input name='mount[mountdkcost]' value=\"".htmlentities((int)$mount['mountdkcost'], ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."\"></td></tr>");
+	rawoutput("</td><td><input name='mount[mountdkcost]' value=\"".htmlentities($mount->getDkCost(), ENT_COMPAT, getsetting("charset", "UTF-8"))."\"></td></tr>");
 	rawoutput("<tr><td nowrap>");
 	output("Mount Cost (Gems):");
-	rawoutput("</td><td><input name='mount[mountcostgems]' value=\"".htmlentities((int)$mount['mountcostgems'], ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."\"></td></tr>");
+	rawoutput("</td><td><input name='mount[mountcostgems]' value=\"".htmlentities($mount->getCostGems(), ENT_COMPAT, getsetting("charset", "UTF-8"))."\"></td></tr>");
 	rawoutput("<tr><td nowrap>");
 	output("Mount Cost (Gold):");
-	rawoutput("</td><td><input name='mount[mountcostgold]' value=\"".htmlentities((int)$mount['mountcostgold'], ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."\"></td></tr>");
+	rawoutput("</td><td><input name='mount[mountcostgold]' value=\"".htmlentities($mount->getCostGold(), ENT_COMPAT, getsetting("charset", "UTF-8"))."\"></td></tr>");
 	rawoutput("<tr><td nowrap>");
 	output("Mount Feed Cost`n(Gold per level):");
-	rawoutput("</td><td><input name='mount[mountfeedcost]' value=\"".htmlentities((int)$mount['mountfeedcost'], ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."\"></td></tr>");
+	rawoutput("</td><td><input name='mount[mountfeedcost]' value=\"".htmlentities($mount->getFeedCost(), ENT_COMPAT, getsetting("charset", "UTF-8"))."\"></td></tr>");
 	rawoutput("<tr><td nowrap>");
 	output("Delta Forest Fights:");
-	rawoutput("</td><td><input name='mount[mountforestfights]' value=\"".htmlentities((int)$mount['mountforestfights'], ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."\" size='5'></td></tr>");
+	rawoutput("</td><td><input name='mount[mountforestfights]' value=\"".htmlentities($mount->getForestFights(), ENT_COMPAT, getsetting("charset", "UTF-8"))."\" size='5'></td></tr>");
 	rawoutput("<tr><td nowrap>");
 	output("`bMount Messages:`b");
 	rawoutput("</td><td></td></tr><tr><td nowrap>");
 	output("New Day:");
-	rawoutput("</td><td><input name='mount[newday]' value=\"".htmlentities($mount['newday'], ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."\" size='40'></td></tr>");
+	rawoutput("</td><td><input name='mount[newday]' value=\"".htmlentities($mount->getNewDay(), ENT_COMPAT, getsetting("charset", "UTF-8"))."\" size='40'></td></tr>");
 	rawoutput("<tr><td nowrap>");
 	output("Full Recharge:");
-	rawoutput("</td><td><input name='mount[recharge]' value=\"".htmlentities($mount['recharge'], ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."\" size='40'></td></tr>");
+	rawoutput("</td><td><input name='mount[recharge]' value=\"".htmlentities($mount->getRecharge(), ENT_COMPAT, getsetting("charset", "UTF-8"))."\" size='40'></td></tr>");
 	rawoutput("<tr><td nowrap>");
 	output("Partial Recharge:");
-	rawoutput("</td><td><input name='mount[partrecharge]' value=\"".htmlentities($mount['partrecharge'], ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."\" size='40'></td></tr>");
+	rawoutput("</td><td><input name='mount[partrecharge]' value=\"".htmlentities($mount->getPartRecharge(), ENT_COMPAT, getsetting("charset", "UTF-8"))."\" size='40'></td></tr>");
 	rawoutput("<tr><td valign='top' nowrap>");
 	output("Mount Buff:");
 	rawoutput("</td><td>");
 	output("Buff name:");
-	rawoutput("<input name='mount[mountbuff][name]' value=\"".htmlentities($mount['mountbuff']['name'], ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."\" size='50'><br/>");
+	rawoutput("<input name='mount[mountbuff][name]' value=\"".htmlentities($mount->getBuff()->getName(), ENT_COMPAT, getsetting("charset", "UTF-8"))."\" size='50'><br/>");
 	output("`bBuff Messages:`b`n");
 	output("Each round:");
-	rawoutput("<input name='mount[mountbuff][roundmsg]' value=\"".htmlentities($mount['mountbuff']['roundmsg'], ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."\" size='50'><br/>");
+	rawoutput("<input name='mount[mountbuff][roundmsg]' value=\"".htmlentities($mount->getBuff()->getRoundMsg(), ENT_COMPAT, getsetting("charset", "UTF-8"))."\" size='50'><br/>");
 	output("Wear off:");
-	rawoutput("<input name='mount[mountbuff][wearoff]' value=\"".htmlentities($mount['mountbuff']['wearoff'], ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."\" size='50'><br/>");
+	rawoutput("<input name='mount[mountbuff][wearoff]' value=\"".htmlentities($mount->getBuff()->getWearoff(), ENT_COMPAT, getsetting("charset", "UTF-8"))."\" size='50'><br/>");
 	output("Effect:");
-	rawoutput("<input name='mount[mountbuff][effectmsg]' value=\"".htmlentities($mount['mountbuff']['effectmsg'], ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."\" size='50'><br/>");
+	rawoutput("<input name='mount[mountbuff][effectmsg]' value=\"".htmlentities($mount->getBuff()->getEffectMsg(), ENT_COMPAT, getsetting("charset", "UTF-8"))."\" size='50'><br/>");
 	output("Effect No Damage:");
-	rawoutput("<input name='mount[mountbuff][effectnodmgmsg]' value=\"".htmlentities($mount['mountbuff']['effectnodmgmsg'], ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."\" size='50'><br/>");
+	rawoutput("<input name='mount[mountbuff][effectnodmgmsg]' value=\"".htmlentities($mount->getBuff()->getEffectNoDmgMsg(), ENT_COMPAT, getsetting("charset", "UTF-8"))."\" size='50'><br/>");
 	output("Effect Fail:");
-	rawoutput("<input name='mount[mountbuff][effectfailmsg]' value=\"".htmlentities($mount['mountbuff']['effectfailmsg'], ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."\" size='50'><br/>");
+	rawoutput("<input name='mount[mountbuff][effectfailmsg]' value=\"".htmlentities($mount->getBuff()->getEffectFailMsg(), ENT_COMPAT, getsetting("charset", "UTF-8"))."\" size='50'><br/>");
 	output("(message replacements: {badguy}, {goodguy}, {weapon}, {armor}, {creatureweapon}, and where applicable {damage}.)`n");
 	output("`n`bEffects:`b`n");
 	output("Rounds to last (from new day):");
-	rawoutput("<input name='mount[mountbuff][rounds]' value=\"".htmlentities((int)$mount['mountbuff']['rounds'], ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."\" size='50'><br/>");
+	rawoutput("<input name='mount[mountbuff][rounds]' value=\"".htmlentities($mount->getBuff()->getRounds(), ENT_COMPAT, getsetting("charset", "UTF-8"))."\" size='50'><br/>");
 	output("Player Atk mod:");
-	rawoutput("<input name='mount[mountbuff][atkmod]' value=\"".htmlentities($mount['mountbuff']['atkmod'], ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."\" size='50'>");
+	rawoutput("<input name='mount[mountbuff][atkmod]' value=\"".htmlentities($mount->getBuff()->getAtkMod(), ENT_COMPAT, getsetting("charset", "UTF-8"))."\" size='50'>");
 	output("(multiplier)`n");
 	output("Player Def mod:");
-	rawoutput("<input name='mount[mountbuff][defmod]' value=\"".htmlentities($mount['mountbuff']['defmod'], ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."\" size='50'>");
+	rawoutput("<input name='mount[mountbuff][defmod]' value=\"".htmlentities($mount->getBuff()->getDefMod(), ENT_COMPAT, getsetting("charset", "UTF-8"))."\" size='50'>");
 	output("(multiplier)`n");
 	output("Player is invulnerable (1 = yes, 0 = no):");
-	rawoutput("<input name='mount[mountbuff][invulnerable]' value=\"".htmlentities($mount['mountbuff']['invulnerable'], ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."\" size=50><br/>");
+	rawoutput("<input name='mount[mountbuff][invulnerable]' value=\"".htmlentities($mount->getBuff()->getInvulnerable(), ENT_COMPAT, getsetting("charset", "UTF-8"))."\" size=50><br/>");
 	output("Regen:");
-	rawoutput("<input name='mount[mountbuff][regen]' value=\"".htmlentities($mount['mountbuff']['regen'], ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."\" size='50'><br/>");
+	rawoutput("<input name='mount[mountbuff][regen]' value=\"".htmlentities($mount->getBuff()->getRegen(), ENT_COMPAT, getsetting("charset", "UTF-8"))."\" size='50'><br/>");
 	output("Minion Count:");
-	rawoutput("<input name='mount[mountbuff][minioncount]' value=\"".htmlentities($mount['mountbuff']['minioncount'], ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."\" size='50'><br/>");
+	rawoutput("<input name='mount[mountbuff][minioncount]' value=\"".htmlentities($mount->getBuff()->getMinionCount(), ENT_COMPAT, getsetting("charset", "UTF-8"))."\" size='50'><br/>");
 
 	output("Min Badguy Damage:");
-	rawoutput("<input name='mount[mountbuff][minbadguydamage]' value=\"".htmlentities($mount['mountbuff']['minbadguydamage'], ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."\" size='50'><br/>");
+	rawoutput("<input name='mount[mountbuff][minbadguydamage]' value=\"".htmlentities($mount->getBuff()->getMinBadGuyDamage(), ENT_COMPAT, getsetting("charset", "UTF-8"))."\" size='50'><br/>");
 	output("Max Badguy Damage:");
-	rawoutput("<input name='mount[mountbuff][maxbadguydamage]' value=\"".htmlentities($mount['mountbuff']['maxbadguydamage'], ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."\" size='50'><br/>");
+	rawoutput("<input name='mount[mountbuff][maxbadguydamage]' value=\"".htmlentities($mount->getBuff()->getMaxBadGuyDamage(), ENT_COMPAT, getsetting("charset", "UTF-8"))."\" size='50'><br/>");
 	output("Min Goodguy Damage:");
-	rawoutput("<input name='mount[mountbuff][mingoodguydamage]' value=\"".htmlentities($mount['mountbuff']['mingoodguydamage'], ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."\" size='50'><br/>");
+	rawoutput("<input name='mount[mountbuff][mingoodguydamage]' value=\"".htmlentities($mount->getBuff()->getMinGoodGuyDamage(), ENT_COMPAT, getsetting("charset", "UTF-8"))."\" size='50'><br/>");
 	output("Max Goodguy Damage:");
-	rawoutput("<input name='mount[mountbuff][maxgoodguydamage]' value=\"".htmlentities($mount['mountbuff']['maxgoodguydamage'], ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."\" size='50'><br/>");
+	rawoutput("<input name='mount[mountbuff][maxgoodguydamage]' value=\"".htmlentities($mount->getBuff()->getMaxGoodGuyDamage(), ENT_COMPAT, getsetting("charset", "UTF-8"))."\" size='50'><br/>");
 
 	output("Lifetap:");
-	rawoutput("<input name='mount[mountbuff][lifetap]' value=\"".htmlentities($mount['mountbuff']['lifetap'], ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."\" size='50'>");
+	rawoutput("<input name='mount[mountbuff][lifetap]' value=\"".htmlentities($mount->getBuff()->getLifeTap(), ENT_COMPAT, getsetting("charset", "UTF-8"))."\" size='50'>");
 	output("(multiplier)`n");
 	output("Damage shield:");
-	rawoutput("<input name='mount[mountbuff][damageshield]' value=\"".htmlentities($mount['mountbuff']['damageshield'], ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."\" size='50'>");
+	rawoutput("<input name='mount[mountbuff][damageshield]' value=\"".htmlentities($mount->getBuff()->getDamageShield(), ENT_COMPAT, getsetting("charset", "UTF-8"))."\" size='50'>");
 	output("(multiplier)`n");
 	output("Badguy Damage mod:");
-	rawoutput("<input name='mount[mountbuff][badguydmgmod]' value=\"".htmlentities($mount['mountbuff']['badguydmgmod'], ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."\" size='50'>");
+	rawoutput("<input name='mount[mountbuff][badguydmgmod]' value=\"".htmlentities($mount->getBuff()->getBadGuyDmgMod(), ENT_COMPAT, getsetting("charset", "UTF-8"))."\" size='50'>");
 	output("(multiplier)`n");
 	output("Badguy Atk mod:");
-	rawoutput("<input name='mount[mountbuff][badguyatkmod]' value=\"".htmlentities($mount['mountbuff']['badguyatkmod'], ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."\" size='50'>");
+	rawoutput("<input name='mount[mountbuff][badguyatkmod]' value=\"".htmlentities($mount->getBuff()->getBadGuyAtkMod(), ENT_COMPAT, getsetting("charset", "UTF-8"))."\" size='50'>");
 	output("(multiplier)`n");
 	output("Badguy Def mod:");
-	rawoutput("<input name='mount[mountbuff][badguydefmod]' value=\"".htmlentities($mount['mountbuff']['badguydefmod'], ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."\" size='50'>");
+	rawoutput("<input name='mount[mountbuff][badguydefmod]' value=\"".htmlentities($mount->getBuff()->getBadGuyDefMod(), ENT_COMPAT, getsetting("charset", "UTF-8"))."\" size='50'>");
 	output("(multiplier)`n");
 	output("`bOn Dynamic Buffs`b`n");
 	output("`@In the above, for most fields, you can choose to enter valid PHP code, substituting <fieldname> for fields in the user's account table.`n");
@@ -251,25 +192,28 @@ class MountController
 	$sql = "SELECT * FROM ".db_prefix("mounts")." WHERE mountid='$mountID'";
 	$result = db_query_cached($sql, "mountdata-$mountID", 3600);
 	$row = db_fetch_assoc($result);
-	$buff = unserialize($row['mountbuff']);
+        //$mount = $this->mountRepository->findMount($mountID);
+	$buff = unserialize($row['mountbuff']);       
+        //$buff = $mount->getBuff()->getMountBuffAsArray();
 	if ($buff['schema'] == "") $buff['schema'] = "mounts";
 	apply_buff("mount",$buff);
         $this->defaultAction();
     }
     
-    public function addMount()
-    {
+    public function addMount(MountEntity $mount)
+    {        
         output("Add a mount:`n");
 	addnav("Mount Editor Home","mounts.php");
-	$this->mountform(array());
+	$this->mountform($mount);
     }
     
     public function editMount(int $mountID)
     {        
         addnav("Mount Editor Home","mounts.php");
-	$sql = "SELECT * FROM " . db_prefix("mounts") . " WHERE mountid='$mountID'";
-	$result = db_query_cached($sql, "mountdata-$mountID", 3600);
-	if (db_num_rows($result)<=0){
+	//$sql = "SELECT * FROM " . db_prefix("mounts") . " WHERE mountid='$mountID'";
+	//$result = db_query_cached($sql, "mountdata-$mountID", 3600);
+        $mount = $this->mountRepository->findMount($mountID);
+	if (!$mount){
 		output("`iThis mount was not found.`i");
 	}else{
 		addnav("Mount properties", "mounts.php?op=edit&id=$mountID");
@@ -283,9 +227,9 @@ class MountController
 			addnav("", "mounts.php?op=save&subop=module&id=$mountID&module=$module");
 		} else {
 			output("Mount Editor:`n");
-			$row = db_fetch_assoc($result);
-			$row['mountbuff']=unserialize($row['mountbuff']);
-			$this->mountform($row);
+			//$row = db_fetch_assoc($result);
+			//$row['mountbuff']=unserialize($row['mountbuff']);
+			$this->mountform($mount);
 		}
 	}
         
@@ -293,7 +237,6 @@ class MountController
     
     public function saveMount(int $mountID)
     {
-        var_dump($mountID);
         $subop = http::httpget("subop");
 	if ($subop == "") {
 		$buff = array();

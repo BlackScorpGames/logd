@@ -2,7 +2,6 @@
 // translator ready
 // addnews ready
 // mail ready
-
 if (isset($_POST['template'])){
 	$skin = $_POST['template'];
 	if ($skin > "") {

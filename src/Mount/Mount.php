@@ -1,43 +1,45 @@
 <?php
 namespace  blackscorp\logd\Mount;
 
-use blackscorp\logd\Mount\MountEntity;
+use blackscorp\logd\Mount\{MountEntity, MountBuff, MountBuffEntity};
 
 
 class Mount implements MountEntity
 {
-    private $ID            = 0;
+    private $ID                 = 0;
     
-    private $name          = '';
+    private $name               = '';
     
-    private $desc          = '';
+    private $desc               = '';
     
-    private $category      = '';
+    private $category           = '';
     
-    private $buff          = '';
+    private $buff               = null;
     
-    private $costGems      = 0;
+    private $costGems           = 0;
     
-    private $costGold      = 0;
+    private $costGold           = 0;
     
-    private $active        = true;
+    private $active             = true;
     
-    private $forestFights  = 0;
+    private $forestFights       = 0;
     
-    private $newDay        = '';
+    private $newDay             = '';
     
-    private $recharge      = '';
+    private $recharge           = '';
     
-    private $partRecharge  = '';
+    private $partRecharge       = '';
     
-    private $feedCost      = 20;
+    private $feedCost           = 20;
     
-    private $location      = 'all';
+    private $location           = 'all';
     
-    private $dkCost        = 0;
+    private $dkCost             = 0;
     
-    public function __construct() {
+    public function __construct() 
+    {
         $this->ID = 0;
+        $this->buff = new MountBuff();
     }
     
     public function getID() : int 
@@ -60,7 +62,7 @@ class Mount implements MountEntity
         return $this->category;
     }
 
-    public function getBuff() : string 
+    public function getBuff() : MountBuffEntity
     {
         return $this->buff;
     }
@@ -135,7 +137,7 @@ class Mount implements MountEntity
         $this->category = $category;
     }
 
-    public function setBuff(string $buff) : void 
+    public function setBuff(MountBuffEntity $buff) : void 
     {
         $this->buff = $buff;
     }
@@ -196,7 +198,8 @@ class Mount implements MountEntity
         $this->name = $mount->mountname ?? '';
         $this->desc = $mount->mountdesc ?? '';
         $this->category = $mount->mountcategory ?? '';
-        $this->buff = $mount->mountbuff ?? '';
+        if ($mount->mountbuff)
+            $this->buff->setMountBuffUnserialized($mount->mountbuff);
         $this->costGems = $mount->mountcostgems ?? 0;
         $this->costGold = $mount->mountcostgold ?? 0;
         $this->active = (bool)$mount->mountactive ?? true;

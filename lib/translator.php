@@ -152,6 +152,8 @@ class translator {
     }
 
     public static function translate_loadnamespace($namespace,$language=false){
+            if (!defined(LANGUAGE))
+                define (LANGUAGE, 'en');
             if ($language===false) $language = LANGUAGE;
             $page = translator_page($namespace);
             $uri = translator_uri($namespace);

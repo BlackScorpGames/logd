@@ -135,6 +135,7 @@ $link = db_connect($DB_HOST, $DB_USER, $DB_PASS);
  * Quick and Dirty PDO Connection
  * @todo removed it!
  */
+
 $dsn  = 'mysql:dbname='.$DB_NAME.';host='.$DB_HOST.';charset=utf8';
 
 $options = [
@@ -142,11 +143,14 @@ $options = [
     PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ,
     PDO::ATTR_EMULATE_PREPARES => false
 ];
-$pdo = new \PDO($dsn, $DB_USER, $DB_PASS, $options);
+$pdo = null;
+if (!defined('IS_INSTALLER'))
+    $pdo = new \PDO($dsn, $DB_USER, $DB_PASS, $options);
 
 $mountRepository = new MountRepository($pdo, $DB_PREFIX);
 
 $mountController = new MountController($mountRepository);
+
 
 $out = ob_get_contents();
 ob_end_clean();
@@ -356,7 +360,10 @@ if ($session['user']['superuser']==0){
 prepare_template();
 
 if (!isset($session['user']['hashorse'])) $session['user']['hashorse']=0;
-$playermount = $mountRepository->findMount($session['user']['hashorse']);
+$playermount = array();
+if (!defined('IS_INSTALLER') || !IS_INSTALLER)
+    $playermount = $mountRepository->findMount($session['user']['hashorse']);
+
 $temp_comp = @unserialize($session['user']['companions']);
 $companions = array();
 if(is_array($temp_comp)) {

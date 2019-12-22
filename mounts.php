@@ -51,7 +51,7 @@ $route =    [
                 'del'           => ['action' => 'deleteMount', 'args' => $id],
                 'give'          => ['action' => 'giveMountUser', 'args' => $id],
                 'save'          => ['action' => 'saveMount', 'args' => $id],
-                'add'           => ['action' => 'addMount', 'args' => null],
+                'add'           => ['action' => 'addMount', 'args' => $mount],
                 'edit'          => ['action' => 'editMount', 'args' => $id],
                 '/'             => ['action' => 'defaultAction', 'args' => null],
             ];

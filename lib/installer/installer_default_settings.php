@@ -2,7 +2,7 @@
 $default_settings = array(
 	"transferperlevel"=>25,
 	"maxtransferout"=>25,
-	"charset"=>"iso-8859-1",
+	"charset"=>"utf-8",
 	"transferreceive"=>3,
 	"borrowperlevel"=>20,
 	"allowgoldtransfer"=>0,

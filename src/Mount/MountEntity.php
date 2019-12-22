@@ -1,6 +1,8 @@
 <?php
 namespace  blackscorp\logd\Mount;
 
+use blackscorp\logd\Mount\{MountEntity, MountBuff, MountBuffEntity};
+
 interface MountEntity 
 {
     public function getID() : int;
@@ -11,7 +13,7 @@ interface MountEntity
 
     public function getCategory() : string;
 
-    public function getBuff() : string;
+    public function getBuff() : MountBuffEntity;
 
     public function getCostGems() : int;
 
@@ -41,7 +43,7 @@ interface MountEntity
 
     public function setCategory(string $category): void;
 
-    public function setBuff(string $buff): void;
+    public function setBuff(MountBuffEntity $buff): void;
 
     public function setCostGems(int $costGems): void;
 

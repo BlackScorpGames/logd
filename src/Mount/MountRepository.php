@@ -13,7 +13,7 @@ class MountRepository implements MountRepositoryInteface
     
     private $dbPrefix   =   '';
     
-    public function __construct(\PDO $pdo, string $dbPrefix = '') 
+    public function __construct(\PDO $pdo = null, string $dbPrefix = null) 
     {
         $this->pdo = $pdo;
         $this->dbPrefix = $dbPrefix;
@@ -47,7 +47,7 @@ class MountRepository implements MountRepositoryInteface
                     ':name'         => $mount->getName(),
                     ':desc'         => $mount->getDesc(),
                     ':category'     => $mount->getCategory(),
-                    ':buff'         => $mount->getBuff(),
+                    ':buff'         => $mount->getBuff()->getMountBuffAsArray(),
                     ':costgems'     => $mount->getCostGems(),
                     ':costgold'     => $mount->getCostGold(),
                     ':active'       => (int)$mount->getActive(),

@@ -33,7 +33,7 @@ if (file_exists("dbconnect.php")){
 		output("`n`\$Unfortunately, I was not able to write your dbconnect.php file.");
 		output("`2You will have to create this file yourself, and upload it to your web server.");
 		output("The contents of this file should be as follows:`3");
-		rawoutput("<blockquote><pre>".htmlentities($dbconnect, ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."</pre></blockquote>");
+		rawoutput("<blockquote><pre>".htmlentities($dbconnect, ENT_COMPAT, getsetting("charset", "utf-8"))."</pre></blockquote>");
 		output("`2Create a new file, past the entire contents from above into it (everything from and including `3<?php`2 up to and including `3?>`2 ).");
 		output("When you have that done, save the file as 'dbconnect.php' and upload this to the location you have LoGD at.");
 		output("You can refresh this page to see if you were successful.");
@@ -94,7 +94,7 @@ if ($success && !$initial){
 			output("`2With this new version the settings for datacaching had to be moved to `idbconnect.php`i.");
 			output("Due to your system settings and privleges for this file, I was not able to perform the changes by myself.");
 			output("This part involves you: We have to ask you to replace the content of your existing `idbconnect.php`i with the following code:`n`n`&");
-			rawoutput("<blockquote><pre>".htmlentities($dbconnect, ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."</pre></blockquote>");
+			rawoutput("<blockquote><pre>".htmlentities($dbconnect, ENT_COMPAT, getsetting("charset", "utf-8"))."</pre></blockquote>");
 			output("`2This will let you use your existing datacaching settings.`n`n");
 			output("If you have done this, you are ready for the next step.");
 		} else {
