@@ -58,6 +58,5 @@ $route =    [
 if ($op=="")
     $op ='/';
 
-$mountController->{$route[$op]['action']}($route[$op]['args']);
-
+call_user_func_array(array($mountController, $route[$op]['action']), array($route[$op]['args']));
 page_footer();
