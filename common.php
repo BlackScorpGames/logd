@@ -144,7 +144,7 @@ $options = [
     PDO::ATTR_EMULATE_PREPARES => false
 ];
 $pdo = null;
-if (!defined('IS_INSTALLER'))
+if (!defined('IS_INSTALLER') || !IS_INSTALLER)
     $pdo = new \PDO($dsn, $DB_USER, $DB_PASS, $options);
 
 $mountRepository = new MountRepository($pdo, $DB_PREFIX);
