@@ -7,11 +7,12 @@ require_once("lib/http.php");
 require_once("lib/showform.php");
 
 $op = http::httpget('op');
-$id = http::httpget('id');
+if (empty($op))
+    $op ='/';
+$id = (int)http::httpget('id');
 
 $mount = new blackscorp\logd\Mount\Mount();
-if ($id)
-    $mount = $mountRepository->findMount($id);
+$mount = $mountRepository->findMount($id);
 
 if ($op=="xml") {
 	header("Content-Type: text/xml");
@@ -43,8 +44,6 @@ superusernav();
 addnav("Mount Editor");
 addnav("Add a mount","mounts.php?op=add");
 
-$id = (int)$id;
-
 $route =    [
                 'deactivate'    => ['action' => 'deactivateMount', 'args' => $mount],
                 'activate'      => ['action' => 'activateMount', 'args' => $mount],
@@ -55,8 +54,6 @@ $route =    [
                 'edit'          => ['action' => 'editMount', 'args' => $id],
                 '/'             => ['action' => 'defaultAction', 'args' => null],
             ];
-if ($op=="")
-    $op ='/';
 
 call_user_func_array(array($mountController, $route[$op]['action']), array($route[$op]['args']));
 page_footer();
