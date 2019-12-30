@@ -25,7 +25,7 @@ translator::tlschema("home");
 
 $op = http::httpget('op');
 
-page_header();
+pageparts::page_header();
 output("`cWelcome to Legend of the Green Dragon, a browser based role playing game, based on Seth Able's Legend of the Red Dragon.`n");
 
 if (getsetting("homecurtime", 1)) {
