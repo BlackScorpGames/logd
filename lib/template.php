@@ -65,7 +65,8 @@ function prepare_template($force=false){
 		//tags that may appear anywhere but must appear
 		$templatetags=array("nav","stats","petition","motd","mail",
 				"paypal","source","version", "copyright");
-		while (list($key,$val)=each($templatetags)){
+		
+                    foreach($templatetags as $key => $val){
 			if (!$key) array_push($templatetags,$y2^$z2);
 			if (strpos($template['header'],"{".$val."}")===false &&
 					strpos($template['footer'],"{".$val."}")===false && $val)

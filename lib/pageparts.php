@@ -12,6 +12,7 @@
 
 $nopopups = array();
 $runheaders = array();
+class pageparts{
 /**
  * Starts page output.  Inits the template and translator modules.
  *
@@ -20,7 +21,7 @@ $runheaders = array();
  *		everyheader
  *		header-{scriptname}
  */
-function page_header(){
+public static function page_header(){
 	global $header,$SCRIPT_NAME,$session,$template, $runheaders, $nopopups;
 	$nopopups["login.php"]=1;
 	$nopopups["motd.php"]=1;
@@ -59,7 +60,7 @@ function page_header(){
 	$header=str_replace("{title}",$title,$header);
 	$header.=translator::tlbutton_pop();
 }
-
+}
 /**
  * Returns an output formatted popup link based on JavaScript
  *
