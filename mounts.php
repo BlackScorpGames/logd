@@ -11,7 +11,6 @@ if (empty($op))
     $op ='/';
 $id = (int)http::httpget('id');
 
-$mount = new blackscorp\logd\Mount\Mount();
 $mount = $mountRepository->findMount($id);
 
 if ($op=="xml") {

@@ -97,7 +97,7 @@ class MountBuff implements MountBuffEntity
     {
         $unserializedMountBuff = unserialize($serializedMountBuff);
         if (is_array($unserializedMountBuff))
-            $this->setMountBuffOutOfArray(unserialize($serializedMountBuff));
+            $this->setMountBuffOutOfArray($unserializedMountBuff);
     }
     
     public function getName() : string
