@@ -97,7 +97,6 @@ require_once("lib/forcednavigation.php");
 require_once("lib/php_generic_environment.php");
 
 //session_register("session");
-
 session_start();
 $session = array();
 $session =& $_SESSION['session'];
