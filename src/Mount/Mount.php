@@ -69,7 +69,7 @@ class Mount implements MountEntity
     {
         return $this->buff;
     }
-
+    
     public function getCostGems() : int 
     {
         return $this->mountcostgems;

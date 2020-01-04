@@ -175,7 +175,8 @@ if ($dp < $dkills) {
 		}
 	}
 	if ($session['user']['hashorse']){
-		$buff = unserialize($playermount->getBuff());
+		//$buff = unserialize($playermount->getBuff());
+                $buff = $playermount->getBuff()->getMountBuffAsArray();
 		if (!isset($buff['schema']) || $buff['schema'] == "")
 			$buff['schema']="mounts";
 		apply_buff('mount',$buff);
