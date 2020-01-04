@@ -13,7 +13,7 @@ class MountRepository implements MountRepositoryInteface
     
     private $dbPrefix   =   '';
     
-    public function __construct(\PDO $pdo = null, string $dbPrefix = null) 
+    public function __construct(?\PDO $pdo = null, ?string $dbPrefix = null) 
     {
         $this->pdo = $pdo;
         $this->dbPrefix = $dbPrefix;
@@ -150,10 +150,11 @@ class MountRepository implements MountRepositoryInteface
                             . '`mountid`=:mountID';
         
         $PDOStatement = $this->prepareQueryAndExecute($query, [':mountID' => $mountID]);
-        $foundMount = $PDOStatement->fetch();
+        $mountToBeSearched = $PDOStatement->fetchObject('blackscorp\\logd\\Mount\\Mount');
         
-        $mountToBeSearched = new Mount();
-        $mountToBeSearched->setAllOutOfStdClass($foundMount);
+        if (!$mountToBeSearched) {
+            $mountToBeSearched = new Mount();
+        }
         
         return $mountToBeSearched;
     }

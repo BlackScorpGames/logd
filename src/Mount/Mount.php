@@ -6,90 +6,93 @@ use blackscorp\logd\Mount\{MountEntity, MountBuff, MountBuffEntity};
 
 class Mount implements MountEntity
 {
-    private $ID                 = 0;
+    private $mountid            = 0;
     
-    private $name               = '';
+    private $mountname          = '';
     
-    private $desc               = '';
+    private $mountdesc          = '';
     
-    private $category           = '';
+    private $mountcategory      = '';
     
     private $buff               = null;
     
-    private $costGems           = 0;
+    private $mountcostgems      = 0;
     
-    private $costGold           = 0;
+    private $mountcostgold      = 0;
     
-    private $active             = true;
+    private $mountactive        = true;
     
-    private $forestFights       = 0;
+    private $mountforestfights  = 0;
     
-    private $newDay             = '';
+    private $newday             = '';
     
     private $recharge           = '';
     
-    private $partRecharge       = '';
+    private $partrecharge       = '';
     
-    private $feedCost           = 20;
+    private $mountfeedcost      = 20;
     
-    private $location           = 'all';
+    private $mountlocation      = 'all';
     
-    private $dkCost             = 0;
+    private $mountdkcost        = 0;
     
     public function __construct() 
-    {
-        $this->ID = 0;
+    {        
         $this->buff = new MountBuff();
+        if (isset($this->mountbuff)) {
+            $this->buff->setMountBuffUnserialized($this->mountbuff);
+            unset($this->mountbuff);
+        }
     }
     
     public function getID() : int 
     {
-        return $this->ID;
+        return $this->mountid;
     }
 
     public function getName() : string
     {
-        return (string)$this->name;
+        return (string)$this->mountname;
     }
 
     public function getDesc() : string 
     {
-        return $this->desc;
+        return $this->mountdesc;
     }
 
     public function getCategory() : string 
     {
-        return $this->category;
+        return $this->mountcategory;
     }
 
-    public function getBuff() : MountBuffEntity
+    public function getBuff() : ?MountBuffEntity
     {
         return $this->buff;
     }
 
     public function getCostGems() : int 
     {
-        return $this->costGems;
+        return $this->mountcostgems;
     }
 
     public function getCostGold() : int 
     {
-        return $this->costGold;
+        return $this->mountcostgold;
     }
 
     public function getActive() : bool 
     {
-        return $this->active;
+        return $this->mountactive;
     }
 
     public function getForestFights() : int 
     {
-        return $this->forestFights;
+        return $this->mountforestfights;
     }
 
     public function getNewDay() : string 
     {
-        return $this->newDay;
+        return $this->newday;
     }
 
     public function getRecharge() : string 
@@ -99,42 +102,42 @@ class Mount implements MountEntity
 
     public function getPartRecharge() : string 
     {
-        return $this->partRecharge;
+        return $this->partrecharge;
     }
 
     public function getFeedCost() : int 
     {
-        return $this->feedCost;
+        return $this->mountfeedcost;
     }
 
     public function getLocation() : string 
     {
-        return $this->location;
+        return $this->mountlocation;
     }
 
     public function getDkCost() : int 
     {
-        return $this->dkCost;
+        return $this->mountdkcost;
     }
 
     public function setID(int $ID) : void 
     {
-        $this->ID = $ID;
+        $this->mountid = $ID;
     }
 
     public function setName(string $name) : void 
     {
-        $this->name = $name;
+        $this->mountname = $name;
     }
 
     public function setDesc(string $desc) : void 
     {
-        $this->desc = $desc;
+        $this->mountdesc = $desc;
     }
 
     public function setCategory(string $category) : void 
     {
-        $this->category = $category;
+        $this->mountcategory = $category;
     }
 
     public function setBuff(MountBuffEntity $buff) : void 
@@ -144,27 +147,27 @@ class Mount implements MountEntity
 
     public function setCostGems(int $costGems) : void 
     {
-        $this->costGems = $costGems;
+        $this->mountcostgems = $costGems;
     }
 
     public function setCostGold(int $costGold) : void 
     {
-        $this->costGold = $costGold;
+        $this->mountcostgold = $costGold;
     }
 
     public function setActive(bool $active) : void 
     {
-        $this->active = $active;
+        $this->mountactive = $active;
     }
 
     public function setForestFights(int $forestFights) : void 
     {
-        $this->forestFights = $forestFights;
+        $this->mountforestfights = $forestFights;
     }
 
     public function setNewDay(string $newDay) : void 
     {
-        $this->newDay = $newDay;
+        $this->newday = $newDay;
     }
 
     public function setRecharge(string $recharge) : void 
@@ -174,41 +177,21 @@ class Mount implements MountEntity
 
     public function setPartRecharge(string $partRecharge) : void 
     {
-        $this->partRecharge = $partRecharge;
+        $this->partrecharge = $partRecharge;
     }
 
     public function setFeedCost(int $feedCost) : void 
     {
-        $this->feedCost = $feedCost;
+        $this->mountfeedcost = $feedCost;
     }
 
     public function setLocation(string $location) : void 
     {
-        $this->location = $location;
+        $this->mountlocation = $location;
     }
 
     public function setDkCost(int $dkCost) : void 
     {
-        $this->dkCost = $dkCost;
-    }
-    
-    public function setAllOutOfStdClass($mount) : void
-    {
-        $this->ID = $mount->mountid ?? 0;
-        $this->name = $mount->mountname ?? '';
-        $this->desc = $mount->mountdesc ?? '';
-        $this->category = $mount->mountcategory ?? '';
-        if ($mount->mountbuff)
-            $this->buff->setMountBuffUnserialized($mount->mountbuff);
-        $this->costGems = $mount->mountcostgems ?? 0;
-        $this->costGold = $mount->mountcostgold ?? 0;
-        $this->active = (bool)$mount->mountactive ?? true;
-        $this->forestFights = $mount->mountforestfights ?? 0;
-        $this->newDay = $mount->newday ?? '';
-        $this->recharge = $mount->recharge ?? '';
-        $this->partRecharge = $mount->partrecharge ?? '';
-        $this->feedCost = $mount->mountfeedcost ?? 20;
-        $this->location = $mount->mountlocation ?? 'all';
-        $this->dkCost = $mount->mountdkcost ?? 0;
-    }
+        $this->mountdkcost = $dkCost;
+    }    
 }

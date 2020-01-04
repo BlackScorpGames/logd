@@ -13,7 +13,7 @@ interface MountEntity
 
     public function getCategory() : string;
 
-    public function getBuff() : MountBuffEntity;
+    public function getBuff() : ?MountBuffEntity;
 
     public function getCostGems() : int;
 
@@ -64,6 +64,4 @@ interface MountEntity
     public function setLocation(string $location): void;
 
     public function setDkCost(int $dkCost): void;
-    
-    public function setAllOutOfStdClass($mount) : void;
 }
