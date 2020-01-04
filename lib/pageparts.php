@@ -595,10 +595,10 @@ function charstats(){
 		while (list($key,$val)=each($session['bufflist'])){
 			if (isset($val['suspended']) && $val['suspended']) continue;
 			if (isset($val['atkmod'])) {
-				$atk *= $val['atkmod'];
+				$atk *= (int)$val['atkmod'];
 			}
 			if (isset($val['defmod'])) {
-				$def *= $val['defmod'];
+				$def *= (int)$val['defmod'];
 			}
 			// Short circuit if the name is blank
 			if ($val['name'] > "" || $session['user']['superuser'] & SU_DEBUG_OUTPUT){
@@ -670,7 +670,7 @@ function charstats(){
 		}else {
 			addcharstat("Race", translator::translate_inline(RACE_UNKNOWN,"race"));
 		}
-		if (count($companions)>0) {
+		if (isset($companions) && count($companions)>0) {
 			addcharstat("Companions");
 			foreach ($companions as $name=>$companion) {
 				if ($companion['hitpoints'] > 0 ||(isset($companion['cannotdie']) && $companion['cannotdie'] == true)) {

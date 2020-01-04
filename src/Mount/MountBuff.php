@@ -6,45 +6,45 @@ class MountBuff implements MountBuffEntity
 {
     private $name               =   '';
     
-    private $roundMsg           =   '';
+    private $roundmsg           =   '';
     
     private $wearoff            =   '';
     
-    private $effectMsg          =   '';
+    private $effectmsg          =   '';
     
-    private $effectNoDmgMsg     =   '';
+    private $effectnodmgmsg     =   '';
     
-    private $effectFailMsg      =   '';
+    private $effectfailmsg      =   '';
     
     private $rounds             =   0;
     
-    private $atkMod             =   '';
+    private $atkmod             =   '';
     
-    private $defMod             =   '';
+    private $defmod             =   '';
     
     private $invulnerable       = '';
     
     private $regen              =   '';
     
-    private $minionCount        =   '';
+    private $minioncount        =   '';
     
-    private $minBadGuyDamage    =   '';
+    private $minbadguydamage    =   '';
     
-    private $maxBadGuyDamage    =   '';
+    private $maxbadguydamage    =   '';
     
-    private $minGoodGuyDamage   =   '';
+    private $mingoodguydamage   =   '';
     
-    private $maxGoodGuyDamage   =   '';
+    private $maxgoodguydamage   =   '';
     
-    private $lifeTap            =   '';
+    private $liferap            =   '';
     
-    private $damageShield       =   '';
+    private $damageshield       =   '';
     
-    private $badGuyDmgMod       =   '';
+    private $badguydmgmod       =   '';
     
-    private $badGuyAtkMod       =   '';
+    private $badguyatkmod       =   '';
     
-    private $badGuyDefMod       =   '';
+    private $badguydefmod       =   '';
             
     public function getMountBuffAsArray() : array
     {        
@@ -78,7 +78,7 @@ class MountBuff implements MountBuffEntity
 
     public function getRoundMsg() : string
     {
-        return $this->roundMsg;
+        return $this->roundmsg;
     }
 
     public function getWearoff() : string 
@@ -88,17 +88,17 @@ class MountBuff implements MountBuffEntity
 
     public function getEffectMsg() : string 
     {
-        return $this->effectMsg;
+        return $this->effectmsg;
     }
 
     public function getEffectNoDmgMsg() : string 
     {
-        return $this->effectNoDmgMsg;
+        return $this->effectnodmgmsg;
     }
 
     public function getEffectFailMsg() : string 
     {
-        return $this->effectFailMsg;
+        return $this->effectfailmsg;
     }
 
     public function getRounds() : int 
@@ -108,12 +108,12 @@ class MountBuff implements MountBuffEntity
 
     public function getAtkMod() : string
     {
-        return $this->atkMod;
+        return $this->atkmod;
     }
 
     public function getDefMod() :string 
     {
-        return $this->defMod;
+        return $this->defmod;
     }
 
     public function getInvulnerable() : string 
@@ -128,52 +128,52 @@ class MountBuff implements MountBuffEntity
 
     public function getMinionCount() : string 
     {
-        return $this->minionCount;
+        return $this->minioncount;
     }
 
     public function getMinBadGuyDamage() : string 
     {
-        return $this->minBadGuyDamage;
+        return $this->minbadguydamage;
     }
 
     public function getMaxBadGuyDamage() : string 
     {
-        return $this->maxBadGuyDamage;
+        return $this->maxbadguydamage;
     }
 
     public function getMinGoodGuyDamage() : string 
     {
-        return $this->minGoodGuyDamage;
+        return $this->mingoodguydamage;
     }
 
     public function getMaxGoodGuyDamage() : string 
     {
-        return $this->maxGoodGuyDamage;
+        return $this->maxgoodguydamage;
     }
 
     public function getLifeTap() : string 
     {
-        return $this->lifeTap;
+        return $this->liferap;
     }
 
     public function getDamageShield() : string 
     {
-        return $this->damageShield;
+        return $this->damageshield;
     }
 
     public function getBadGuyDmgMod() : string 
     {
-        return $this->badGuyDmgMod;
+        return $this->badguydmgmod;
     }
 
     public function getBadGuyAtkMod() : string 
     {
-        return $this->badGuyAtkMod;
+        return $this->badguyatkmod;
     }
 
     public function getBadGuyDefMod() : string 
     {
-        return $this->badGuyDefMod;
+        return $this->badguydefmod;
     }
 
     public function setName(string $name) : void 
@@ -183,7 +183,7 @@ class MountBuff implements MountBuffEntity
 
     public function setRoundMsg(string $roundMsg) : void 
     {
-        $this->roundMsg = $roundMsg;
+        $this->roundmsg = $roundMsg;
     }
 
     public function setWearoff(string $wearoff) : void 
@@ -193,17 +193,17 @@ class MountBuff implements MountBuffEntity
 
     public function setEffectMsg(string $effectMsg) : void 
     {
-        $this->effectMsg = $effectMsg;
+        $this->effectmsg = $effectMsg;
     }
 
     public function setEffectNoDmgMsg(string $effectNoDmgMsg) : void 
     {
-        $this->effectNoDmgMsg = $effectNoDmgMsg;
+        $this->effectnodmgmsg = $effectNoDmgMsg;
     }
 
     public function setEffectFailMsg(string $effectFailMsg) : void 
     {
-        $this->effectFailMsg = $effectFailMsg;
+        $this->effectfailmsg = $effectFailMsg;
     }
 
     public function setRounds(int $rounds) : void 
@@ -213,12 +213,12 @@ class MountBuff implements MountBuffEntity
 
     public function setAtkMod(string $atkMod) : void 
     {
-        $this->atkMod = $atkMod;
+        $this->atkmod = $atkMod;
     }
 
     public function setDefMod(string $defMod) : void 
     {
-        $this->defMod = $defMod;
+        $this->defmod = $defMod;
     }
 
     public function setInvulnerable(string $invulnerable) : void 
@@ -233,51 +233,51 @@ class MountBuff implements MountBuffEntity
 
     public function setMinionCount(string $minionCount) : void 
     {
-        $this->minionCount = $minionCount;
+        $this->minioncount = $minionCount;
     }
 
     public function setMinBadGuyDamage(string $minBadGuyDamage) : void 
     {
-        $this->minBadGuyDamage = $minBadGuyDamage;
+        $this->minbadguydamage = $minBadGuyDamage;
     }
 
     public function setMaxBadGuyDamage(string $maxBadGuyDamage) : void 
     {
-        $this->maxBadGuyDamage = $maxBadGuyDamage;
+        $this->maxbadguydamage = $maxBadGuyDamage;
     }
 
     public function setMinGoodGuyDamage(string $minGoodGuyDamage) : void 
     {
-        $this->minGoodGuyDamage = $minGoodGuyDamage;
+        $this->mingoodguydamage = $minGoodGuyDamage;
     }
 
     public function setMaxGoodGuyDamage(string $maxGoodGuyDamage) : void 
     {
-        $this->maxGoodGuyDamage = $maxGoodGuyDamage;
+        $this->maxgoodguydamage = $maxGoodGuyDamage;
     }
 
     public function setLifeTap(string $lifeTap) : void 
     {
-        $this->lifeTap = $lifeTap;
+        $this->liferap = $lifeTap;
     }
 
     public function setDamageShield(string $damageShield) : void 
     {
-        $this->damageShield = $damageShield;
+        $this->damageshield = $damageShield;
     }
 
     public function setBadGuyDmgMod(string $badGuyDmgMod) : void 
     {
-        $this->badGuyDmgMod = $badGuyDmgMod;
+        $this->badguydmgmod = $badGuyDmgMod;
     }
 
     public function setBadGuyAtkMod(string $badGuyAtkMod) : void 
     {
-        $this->badGuyAtkMod = $badGuyAtkMod;
+        $this->badguyatkmod = $badGuyAtkMod;
     }
 
     public function setBadGuyDefMod(string $badGuyDefMod) : void 
     {
-        $this->badGuyDefMod = $badGuyDefMod;
+        $this->badguydefmod = $badGuyDefMod;
     }
 }

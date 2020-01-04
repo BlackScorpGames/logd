@@ -174,8 +174,8 @@ if ($dp < $dkills) {
 			$dkff++;
 		}
 	}
-	if ($session['user']['hashorse']){
-                $buff = $playermount->getBuff()->getMountBuffAsArray();
+	if ($session['user']['hashorse']){		
+                $buff = $playermount->getBuff()->getMountBuffAsArray();                
 		if (!isset($buff['schema']) || $buff['schema'] == "")
 			$buff['schema']="mounts";
 		apply_buff('mount',$buff);
