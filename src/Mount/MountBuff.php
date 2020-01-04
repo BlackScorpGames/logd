@@ -45,39 +45,10 @@ class MountBuff implements MountBuffEntity
     private $badGuyAtkMod       =   '';
     
     private $badGuyDefMod       =   '';
-    
-    private $mountBuffPorpertys = [
-                                    'name',
-                                    'roundMsg',
-                                    'wearoff',
-                                    'effectMsg',
-                                    'effectNoDmgMsg',
-                                    'effectFailMsg',
-                                    'rounds',
-                                    'atkMod',
-                                    'defMod',
-                                    'invulnerable',
-                                    'regen',
-                                    'minionCount',
-                                    'minBadGuyDamage',
-                                    'maxBadGuyDamage',
-                                    'minGoodGuyDamage',
-                                    'maxGoodGuyDamage',
-                                    'lifeTap',
-                                    'damageSchield',
-                                    'badGuyDmgMod',
-                                    'badGuyAtkMod',
-                                    'badGuyDefMod'
-                                  ];
-        
+            
     public function getMountBuffAsArray() : array
-    {
-        $mountBuffArray = [];
-        foreach ($this->mountBuffPorpertys as $mountBuffProperty)
-        {
-            $mountBuffArray[$mountBuffProperty] = $this->$mountBuffPorpertys;
-        }
-        return $mountBuffArray;
+    {        
+        return get_object_vars($this);
     }
     
     public function setMountBuffOutOfArray(array $mountBuffArray)
