@@ -73,7 +73,7 @@ if ($display == 1){
 		$gentime+=$row['gentime'];
 	}
 	rawoutput("</table>");
-	output("Total hits: %s`n", $gentimecount);
-	output("Total CPU time: %s seconds`n", round($gentime,3));
-	output("Average page gen time is %s seconds`n", round($gentime/max($gentimecount,1),4));
+	output::doOutput("Total hits: %s`n", $gentimecount);
+	output::doOutput("Total CPU time: %s seconds`n", round($gentime,3));
+	output::doOutput("Average page gen time is %s seconds`n", round($gentime/max($gentimecount,1),4));
 }

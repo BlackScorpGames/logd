@@ -139,7 +139,7 @@ if ($op==""){
 			$sql = "DELETE FROM ".db_prefix("moderatedcomments")." WHERE modid IN ('".join("','",array_keys($unkeys))."')";
 			db_query($sql);
 		} else {
-			output("No items selected to undelete -- Please try again`n`n");
+			output::doOutput("No items selected to undelete -- Please try again`n`n");
 		}
 	}
 	$sql = "SELECT DISTINCT acctid, name FROM ".db_prefix("accounts").
@@ -157,7 +157,7 @@ if ($op==""){
 	}
 	translator::tlschema();
 	addnav("Commentary");
-	output("`c`bComment Auditing`b`c");
+	output::doOutput("`c`bComment Auditing`b`c");
 	$ops = translator::translate_inline("Ops");
 	$mod = translator::translate_inline("Moderator");
 	$when = translator::translate_inline("When");

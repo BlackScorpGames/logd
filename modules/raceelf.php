@@ -98,14 +98,14 @@ function raceelf_dohook($hookname,$args){
 		}
 		break;
 	case "chooserace":
-		output("<a href='newday.php?setrace=$race$resline'>High among the trees</a> of the %s forest, in frail looking elaborate `^Elvish`0 structures that look as though they might collapse under the slightest strain, yet have existed for centuries.`n`n", $city, true);
+		output::doOutput("<a href='newday.php?setrace=$race$resline'>High among the trees</a> of the %s forest, in frail looking elaborate `^Elvish`0 structures that look as though they might collapse under the slightest strain, yet have existed for centuries.`n`n", $city, true);
 		addnav("`^Elf`0","newday.php?setrace=$race$resline");
 		addnav("","newday.php?setrace=$race$resline");
 		break;
 	case "setrace":
 		if ($session['user']['race']==$race){
-			output("`^As an elf, you are keenly aware of your surroundings at all times; very little ever catches you by surprise.`n");
-			output("You gain extra defense!");
+			output::doOutput("`^As an elf, you are keenly aware of your surroundings at all times; very little ever catches you by surprise.`n");
+			output::doOutput("You gain extra defense!");
 			if (is_module_active("cities")) {
 				if ($session['user']['dragonkills']==0 &&
 						$session['user']['age']==0){

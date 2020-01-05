@@ -66,14 +66,14 @@ function lovers_dohook($hookname, $args){
 			$dk = max(1, round(.85 * sqrt($dk), 0));
 			$charmloss= e_rand(1,$dk);
 			$session['user']['charm'] -= $charmloss;
-			output("`n`%You're  married,  so there's no reason to keep up that perfect image, and you let yourself go a little today ( You lose `\$%s charmpoint(s)`%).`n",$charmloss);
+			output::doOutput("`n`%You're  married,  so there's no reason to keep up that perfect image, and you let yourself go a little today ( You lose `\$%s charmpoint(s)`%).`n",$charmloss);
 			if ($session['user']['charm']<=0){
-				output("`bWhen  you  wake  up, you find a note next to you, reading`n`5Dear %s`5,`n",$session['user']['name']);
-				output("Despite  many  great  kisses, I find that I'm simply no longer attracted to you the way I used to be.`n`n");
-				output("Call  me fickle, call me flakey, but I need to move on.");
-				output("There are other warriors in the land, and I think some of them are really hot.");
-				output("So it's not you, it's me, etcetera etcetera.`n`n");
-				output("No hard feelings, Love,`n%s`b`n",$partner);
+				output::doOutput("`bWhen  you  wake  up, you find a note next to you, reading`n`5Dear %s`5,`n",$session['user']['name']);
+				output::doOutput("Despite  many  great  kisses, I find that I'm simply no longer attracted to you the way I used to be.`n`n");
+				output::doOutput("Call  me fickle, call me flakey, but I need to move on.");
+				output::doOutput("There are other warriors in the land, and I think some of them are really hot.");
+				output::doOutput("So it's not you, it's me, etcetera etcetera.`n`n");
+				output::doOutput("No hard feelings, Love,`n%s`b`n",$partner);
 				addnews("`\$%s`\$ has left %s`\$ to pursue \"other interests.\"`0",$partner, $session['user']['name']);
 				$session['user']['marriedto']=0;
 				$session['user']['charm']=0;
@@ -105,7 +105,7 @@ function lovers_run(){
 	page_header($iname);
 	rawoutput("<span style='color: #9900FF'>");
 	output_notl("`c`b");
-	output($iname);
+	output::doOutput($iname);
 	output_notl("`b`c");
 	switch(http::httpget('op')){
 	case "flirt":

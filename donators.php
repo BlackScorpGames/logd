@@ -42,17 +42,17 @@ if ($reason == "")
     $reason = translator::translate_inline("manual donation entry");
 
 
-output("`bAdd Donation Points:`b`n");
-output("Character: ");
+output::doOutput("`bAdd Donation Points:`b`n");
+output::doOutput("Character: ");
 rawoutput("<input name='name' value=\"" . htmlentities($name, ENT_COMPAT, getsetting("charset", "ISO-8859-1")) . "\">");
-output("`nPoints: ");
+output::doOutput("`nPoints: ");
 rawoutput("<input name='amt' size='3' value=\"" . htmlentities($amt, ENT_COMPAT, getsetting("charset", "ISO-8859-1")) . "\">");
-output("`nReason: ");
+output::doOutput("`nReason: ");
 rawoutput("<input name='reason' size='30' value=\"" . htmlentities($reason, ENT_COMPAT, getsetting("charset", "ISO-8859-1")) . "\">");
 rawoutput("<input type='hidden' name='txnid' value=\"" . htmlentities($txnid, ENT_COMPAT, getsetting("charset", "ISO-8859-1")) . "\">");
 output_notl("`n");
 if ($txnid > "")
-    output("For transaction: %s`n", $txnid);
+   output::doOutput("For transaction: %s`n", $txnid);
 rawoutput("<input type='submit' class='button' value='$add'>");
 rawoutput("</form>");
 
@@ -70,7 +70,7 @@ if ($op == "add2") {
     $sql = "SELECT name FROM " . db_prefix("accounts") . " WHERE acctid=$id;";
     $result = db_query($sql);
     $row = db_fetch_assoc($result);
-    output("%s donation points added to %s`0, reason: `^%s`0", $amt, $row['name'], $reason);
+   output::doOutput("%s donation points added to %s`0, reason: `^%s`0", $amt, $row['name'], $reason);
 
     $txnid = http::httpget("txnid");
     $ret = http::httpget('ret');
@@ -160,9 +160,9 @@ if ($op == "") {
     $txnid = httppost('txnid');
     if ($txnid == '')
         $txnid = http::httpget("txnid");
-    output("Confirm the addition of %s points to:`n", $amt);
+   output::doOutput("Confirm the addition of %s points to:`n", $amt);
     if ($reason)
-        output("(Reason: `^`b`i%s`i`b`0)`n`n", $reason);
+       output::doOutput("(Reason: `^`b`i%s`i`b`0)`n`n", $reason);
     $number = db_num_rows($result);
     for ($i = 0; $i < $number; $i++) {
         $row = db_fetch_assoc($result);

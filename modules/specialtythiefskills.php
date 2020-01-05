@@ -91,8 +91,8 @@ function specialtythiefskills_dohook($hookname,$args){
 	case "set-specialty":
 		if($session['user']['specialty'] == $spec) {
 			page_header($name);
-			output("`6Growing up, you recall discovering that a casual bump in a crowded room could earn you the coin purse of someone otherwise more fortunate than you.");
-			output("You also discovered that the back side of your enemies were considerably more prone to a narrow blade than the front side was to even a powerful weapon.");
+			output::doOutput("`6Growing up, you recall discovering that a casual bump in a crowded room could earn you the coin purse of someone otherwise more fortunate than you.");
+			output::doOutput("You also discovered that the back side of your enemies were considerably more prone to a narrow blade than the front side was to even a powerful weapon.");
 		}
 		break;
 	case "specialtycolor":
@@ -110,17 +110,17 @@ function specialtythiefskills_dohook($hookname,$args){
 			set_module_pref("skill", $new);
 			$name = translator::translate_inline($name);
 			$c = $args['color'];
-			output("`n%sYou gain a level in `&%s%s to `#%s%s!",
+			output::doOutput("`n%sYou gain a level in `&%s%s to `#%s%s!",
 					$c, $name, $c, $new, $c);
 			$x = $new % 3;
 			if ($x == 0){
-				output("`n`^You gain an extra use point!`n");
+				output::doOutput("`n`^You gain an extra use point!`n");
 				set_module_pref("uses", get_module_pref("uses") + 1);
 			}else{
 				if (3-$x == 1) {
-					output("`n`^Only 1 more skill level until you gain an extra use point!`n");
+					output::doOutput("`n`^Only 1 more skill level until you gain an extra use point!`n");
 				} else {
-					output("`n`^Only %s more skill levels until you gain an extra use point!`n", (3-$x));
+					output::doOutput("`n`^Only %s more skill levels until you gain an extra use point!`n", (3-$x));
 				}
 			}
 			output_notl("`0");
@@ -131,9 +131,9 @@ function specialtythiefskills_dohook($hookname,$args){
 		if($session['user']['specialty'] == $spec) {
 			$name = translator::translate_inline($name);
 			if ($bonus == 1) {
-				output("`n`2For being interested in %s%s`2, you receive `^1`2 extra `&%s%s`2 use for today.`n",$ccode,$name,$ccode,$name);
+				output::doOutput("`n`2For being interested in %s%s`2, you receive `^1`2 extra `&%s%s`2 use for today.`n",$ccode,$name,$ccode,$name);
 			} else {
-				output("`n`2For being interested in %s%s`2, you receive `^%s`2 extra `&%s%s`2 uses for today.`n",$ccode,$name,$bonus,$ccode,$name);
+				output::doOutput("`n`2For being interested in %s%s`2, you receive `^%s`2 extra `&%s%s`2 uses for today.`n",$ccode,$name,$bonus,$ccode,$name);
 			}
 		}
 		$amt = (int)(get_module_pref("skill") / 3);

@@ -65,7 +65,7 @@ while ($row = db_fetch_assoc($result)) {
 	$time = date("H:i:s", strtotime($row['date']))." (".reltime(strtotime($row['date'])).")";
 	output_notl("`#%s (%s) `^%s - `&%s`7 %s`0", $row['field'], $row['value'], $time, $row['actorname'], $row['message']);
 	if ($row['target']) {
-		output(" \\-- Recipient = `\$%s`0", $row['targetname']);
+		output::doOutput(" \\-- Recipient = `\$%s`0", $row['targetname']);
 	}
 	output_notl("`n");
 }

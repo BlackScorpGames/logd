@@ -98,14 +98,14 @@ function racetroll_dohook($hookname,$args){
 		}
 		break;
 	case "chooserace":
-		output("<a href='newday.php?setrace=$race$resline'>In the swamps of %s</a>`2 as a `@Troll`2, fending for yourself from the very moment you crept out of your leathery egg, slaying your yet unhatched siblings, and feasting on their bones.`n`n",$city, true);
+		output::doOutput("<a href='newday.php?setrace=$race$resline'>In the swamps of %s</a>`2 as a `@Troll`2, fending for yourself from the very moment you crept out of your leathery egg, slaying your yet unhatched siblings, and feasting on their bones.`n`n",$city, true);
 		addnav("`@Troll`0","newday.php?setrace=$race$resline");
 		addnav("","newday.php?setrace=$race$resline");
 		break;
 	case "setrace":
 		if ($session['user']['race']==$race){
-			output("`@As a troll, and having always fended for yourself, the ways of battle are not foreign to you.`n");
-			output("`^You gain extra attack!");
+			output::doOutput("`@As a troll, and having always fended for yourself, the ways of battle are not foreign to you.`n");
+			output::doOutput("`^You gain extra attack!");
 			if (is_module_active("cities")) {
 				if ($session['user']['dragonkills']==0 &&
 						$session['user']['age']==0){

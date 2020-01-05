@@ -107,14 +107,14 @@ function racedwarf_dohook($hookname,$args){
 		}
 		break;
 	case "chooserace":
-		output("<a href='newday.php?setrace=$race$resline'>Deep in the subterranean strongholds of %s</a>, home to the noble and fierce `#Dwarven`0 people whose desire for privacy and treasure bears no resemblance to their tiny stature.`n`n", $city, true);
+		output::doOutput("<a href='newday.php?setrace=$race$resline'>Deep in the subterranean strongholds of %s</a>, home to the noble and fierce `#Dwarven`0 people whose desire for privacy and treasure bears no resemblance to their tiny stature.`n`n", $city, true);
 		addnav("`#Dwarf`0","newday.php?setrace=$race$resline");
 		addnav("","newday.php?setrace=$race$resline");
 		break;
 	case "setrace":
 		if ($session['user']['race']==$race){
-			output("`#As a dwarf, you are more easily able to identify the value of certain goods.`n");
-			output("`^You gain extra gold from forest fights!");
+			output::doOutput("`#As a dwarf, you are more easily able to identify the value of certain goods.`n");
+			output::doOutput("`^You gain extra gold from forest fights!");
 			if (is_module_active("cities")) {
 				if ($session['user']['dragonkills']==0 &&
 						$session['user']['age']==0){
@@ -328,8 +328,8 @@ function racedwarf_run(){
 	case "ale":
 		require_once("lib/villagenav.php");
 		page_header("Great Kegs of Ale");
-		output("`3You make your way over to the great kegs of ale lined up near by, looking to score a hearty draught from their mighty reserves.");
-		output("A mighty dwarven barkeep named `\$G`4argoyle`3 stands at least 4 feet tall, and is serving out the drinks to the boisterous crowd.");
+		output::doOutput("`3You make your way over to the great kegs of ale lined up near by, looking to score a hearty draught from their mighty reserves.");
+		output::doOutput("A mighty dwarven barkeep named `\$G`4argoyle`3 stands at least 4 feet tall, and is serving out the drinks to the boisterous crowd.");
 		addnav("Drinks");
 		modulehook("ale");
 		addnav("Other");

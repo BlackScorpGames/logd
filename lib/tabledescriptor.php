@@ -22,10 +22,10 @@ function synctable($tablename,$descriptor,$nodrop=false){
 		$sql = table_create_from_descriptor($tablename,$descriptor);
 		debug($sql);
 		if(!db_query($sql)) {
-			output("`\$Error:`^ %s`n", db_error());
+			output::doOutput("`\$Error:`^ %s`n", db_error());
 			rawoutput("<pre>".htmlentities($sql, ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."</pre>");
 		} else {
-			output("`^Table `#%s`^ created.`n", $tablename);
+			output::doOutput("`^Table `#%s`^ created.`n", $tablename);
 		}
 	}else{
 		//the table exists, so we need to compare it against the descriptor.

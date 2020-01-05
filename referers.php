@@ -59,7 +59,7 @@ for ($i=0;$i<$number;$i++){
 	output_notl("`b".$row['count']."`b");
 	rawoutput("</td><td valign='top'>");
 	$diffsecs = strtotime("now")-strtotime($row['last']);
-	//output((int)($diffsecs/86400)."d ".(int)($diffsecs/3600%3600)."h ".(int)($diffsecs/60%60)."m ".(int)($diffsecs%60)."s");
+	//output::doOutput((int)($diffsecs/86400)."d ".(int)($diffsecs/3600%3600)."h ".(int)($diffsecs/60%60)."m ".(int)($diffsecs%60)."s");
 	output_notl("`b".dhms($diffsecs)."`b");
 	rawoutput("</td><td valign='top' colspan='3'>");
 	output_notl("`b".($row['site']==""?$none:$row['site'])."`b");
@@ -77,7 +77,7 @@ for ($i=0;$i<$number;$i++){
 			rawoutput("<tr class='trlight'><td>");
 			output_notl($row1['count']);
 			rawoutput("</td><td valign='top'>");
-			//output((int)($diffsecs/86400)."d".(int)($diffsecs/3600%3600)."h".(int)($diffsecs/60%60)."m".(int)($diffsecs%60)."s");
+			//output::doOutput((int)($diffsecs/86400)."d".(int)($diffsecs/3600%3600)."h".(int)($diffsecs/60%60)."m".(int)($diffsecs%60)."s");
 			output_notl(dhms($diffsecs));
 			rawoutput("</td><td valign='top'>");
 			if ($row1['uri']>"")
@@ -100,7 +100,7 @@ for ($i=0;$i<$number;$i++){
 		output_notl(sprintf($skipped,$skippedcount));
 		rawoutput("</td></tr>");
 	}
-	//output("</td></tr>",true);
+	//output::doOutput("</td></tr>",true);
 }
 rawoutput("</table>");
 page_footer();

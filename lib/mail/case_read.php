@@ -23,13 +23,13 @@ if (db_num_rows($result)>0){
 		}
 	}
 	if (!$row['seen']) {
-		output("`b`#NEW`b`n");
+		output::doOutput("`b`#NEW`b`n");
 	}else{
-		output("`n");
+		output::doOutput("`n");
 	}
-	output("`b`2From:`b `^%s`n",$row['name']);
-	output("`b`2Subject:`b `^%s`n",$row['subject']);
-	output("`b`2Sent:`b `^%s`n",$row['sent']);
+	output::doOutput("`b`2From:`b `^%s`n",$row['name']);
+	output::doOutput("`b`2Subject:`b `^%s`n",$row['subject']);
+	output::doOutput("`b`2Sent:`b `^%s`n",$row['sent']);
 	output_notl("<img src='images/uscroll.GIF' width='182px' height='11px' alt='' align='center'>`n",true);
 	output_notl(str_replace("\n","`n",$row['body']));
 	output_notl("`n<img src='images/lscroll.GIF' width='182px' height='11px' alt='' align='center'>`n",true);
@@ -90,5 +90,5 @@ if (db_num_rows($result)>0){
 	rawoutput("</td>");
 	rawoutput("</tr></table>");
 }else{
-	output("Eek, no such message was found!");
+	output::doOutput("Eek, no such message was found!");
 }

@@ -56,7 +56,7 @@ while ($row = db_fetch_assoc($result2)) {
 	}
 }
 output_notl("`n");
-output("`c`b`!News for %s %s`0`b`c", $date, $pagestr);
+output::doOutput("`c`b`!News for %s %s`0`b`c", $date, $pagestr);
 
 while ($row = db_fetch_assoc($result)) {
 	output_notl("`c`2-=-`@=-=`2-=-`@=-=`2-=-`@=-=`2-=-`0`c");
@@ -83,7 +83,7 @@ while ($row = db_fetch_assoc($result)) {
 }
 if (db_num_rows($result)==0){
 	output_notl("`c`2-=-`@=-=`2-=-`@=-=`2-=-`@=-=`2-=-`0`c");
-	output("`1`b`c Nothing of note happened this day.  All in all a boring day. `c`b`0");
+	output::doOutput("`1`b`c Nothing of note happened this day.  All in all a boring day. `c`b`0");
 }
 output_notl("`c`2-=-`@=-=`2-=-`@=-=`2-=-`@=-=`2-=-`0`c");
 if (!$session['user']['loggedin']) {

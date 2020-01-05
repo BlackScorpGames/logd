@@ -111,8 +111,8 @@ if (file_exists("dbconnect.php") && (
 	$stage==4 ||
 	$stage==5
 	)){
-		output("`%This stage was completed during a previous installation.");
-		output("`2If you wish to perform stages 4 through 6 again, please delete the file named \"dbconnect.php\" from your site.`n`n");
+		output::doOutput("`%This stage was completed during a previous installation.");
+		output::doOutput("`2If you wish to perform stages 4 through 6 again, please delete the file named \"dbconnect.php\" from your site.`n`n");
 		$stage=6;
 	}
 if ($stage > $session['stagecompleted']) $session['stagecompleted'] = $stage;

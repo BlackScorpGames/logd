@@ -102,7 +102,7 @@ function cedrikspotions_run(){
 	page_header($iname);
 	rawoutput("<span style='color: #9900FF'>");
 	output_notl("`c`b");
-	output($iname);
+	output::doOutput($iname);
 	output_notl("`b`c");
 	translator::tlschema();
 	$barkeep = getsetting("barkeep","`tCedrik");
@@ -168,30 +168,30 @@ function cedrikspotions_run(){
 	if($op=="gems"){
 		if ($gemcount==""){
 			if (get_module_setting("random") || $mincost == $maxcost) {
-				output("\"`%You have gems, do ya?`0\" %s`0 asks.  \"`%Well, I'll make you a magic elixir for `^ %s %s`%!`0\"",$barkeep,$cost, translator::translate_inline($cost == 1?"gem" : "gems"));
+				output::doOutput("\"`%You have gems, do ya?`0\" %s`0 asks.  \"`%Well, I'll make you a magic elixir for `^ %s %s`%!`0\"",$barkeep,$cost, translator::translate_inline($cost == 1?"gem" : "gems"));
 			} else {
-				output("\"`%You have gems, do ya?`0\" %s`0 asks.  \"`%Well, I'll make you a magic elixir for between `^%s and %s gems`%, depending on which one you want!`0\"",$barkeep,$mincost, $maxcost);
+				output::doOutput("\"`%You have gems, do ya?`0\" %s`0 asks.  \"`%Well, I'll make you a magic elixir for between `^%s and %s gems`%, depending on which one you want!`0\"",$barkeep,$mincost, $maxcost);
 			}
-			output("`n`nGive him how many gems?");
+			output::doOutput("`n`nGive him how many gems?");
 			$give = translator::translate_inline("Give");
 			$link = appendcount("runmodule.php?module=cedrikspotions&op=gems");
 			addnav("", $link);
 			rawoutput("<form action='$link' method='POST'>");
 			rawoutput("<input name='gemcount' value='0'>");
 			rawoutput("<input type='submit' class='button' value='$give'>");
-			output("`nAnd what do you wish for?`n");
+			output::doOutput("`nAnd what do you wish for?`n");
 			if (get_module_setting("ischarm") == 1) {
 				rawoutput("<input type='radio' name='wish' value='1' checked>");
-				output("Charm");
+				output::doOutput("Charm");
 				if ($mincost != $maxcost) {
 					$cm = get_module_setting("charmcost");
-					output("(%s %s for %s charm)", $cm, translator::translate_inline($cm==1?"gem":"gems"), get_module_setting("charmgain"));
+					output::doOutput("(%s %s for %s charm)", $cm, translator::translate_inline($cm==1?"gem":"gems"), get_module_setting("charmgain"));
 				}
 				output_notl("`n");
 			}
 			if (get_module_setting("ismax") == 1) {
 				rawoutput("<input type='radio' name='wish' value='2'>");
-				output("Vitality");
+				output::doOutput("Vitality");
 				if ($mincost != $maxcost) {
 					$cm = get_module_setting("maxcost");
 					$hm = get_module_setting("vitalgain");
@@ -202,7 +202,7 @@ function cedrikspotions_run(){
 						$hptype = "temporary";
 					$hptype = translator::translate_inline($hptype);
 
-					output("(%s %s for %s %s max %s)", $cm,
+					output::doOutput("(%s %s for %s %s max %s)", $cm,
 							translator::translate_inline($cm==1?"gem":"gems"), $hm,
 							$hptype,
 							translator::translate_inline($hm==1?"hitpoint":"hitpoints"));
@@ -211,17 +211,17 @@ function cedrikspotions_run(){
 			}
 			if (get_module_setting("istemp") == 1) {
 				rawoutput("<input type='radio' name='wish' value='3'>");
-				output("Health");
+				output::doOutput("Health");
 				if ($mincost != $maxcost) {
 					$cm = get_module_setting("tempcost");
 					$hm = get_module_setting("tempgain");
-					output("(%s %s for %s %s)", $cm, translator::translate_inline($cm==1?"gem":"gems"), $hm, translator::translate_inline($hm == 1? "hitpoint":"hitpoints"));
+					output::doOutput("(%s %s for %s %s)", $cm, translator::translate_inline($cm==1?"gem":"gems"), $hm, translator::translate_inline($hm == 1? "hitpoint":"hitpoints"));
 				}
 				output_notl("`n");
 			}
 			if (get_module_setting("isforget") == 1) {
 				rawoutput("<input type='radio' name='wish' value='4'>");
-				output("Forgetfulness");
+				output::doOutput("Forgetfulness");
 				if ($mincost != $maxcost) {
 					$cm = get_module_setting("forgcost");
 					output_notl("(%s %s)", $cm, translator::translate_inline($cm==1?"gem":"gems"));
@@ -230,7 +230,7 @@ function cedrikspotions_run(){
 			}
 			if (get_module_setting("istrans") == 1) {
 				rawoutput("<input type='radio' name='wish' value='5'>");
-				output("Transmutation");
+				output::doOutput("Transmutation");
 				if ($mincost != $maxcost) {
 					$cm = get_module_setting("transcost");
 					output_notl("(%s %s)", $cm, translator::translate_inline($cm==1?"gem":"gems"));
@@ -241,29 +241,29 @@ function cedrikspotions_run(){
 		}else{
 			$gemcount = abs((int)$gemcount);
 			if ($gemcount>$session['user']['gems']){
-				output("%s`0 stares at you blankly.",$barkeep);
-				output("\"`%You don't have that many gems, `bgo get some more gems!`b`0\" he says.");
+				output::doOutput("%s`0 stares at you blankly.",$barkeep);
+				output::doOutput("\"`%You don't have that many gems, `bgo get some more gems!`b`0\" he says.");
 			}else{
-				output("`#You place %s %s on the counter.", $gemcount, translator::translate_inline($gemcount==1?"gem":"gems"));
+				output::doOutput("`#You place %s %s on the counter.", $gemcount, translator::translate_inline($gemcount==1?"gem":"gems"));
 				if (($wish == 4 || $wish == 5) && $gemcount > $cost) {
-					output("%s`0, feeling sorry for you, prevents you from paying for multiple doses of a potion that only needs a single dose.",$barkeep);
+					output::doOutput("%s`0, feeling sorry for you, prevents you from paying for multiple doses of a potion that only needs a single dose.",$barkeep);
 					$gemcount = $cost;
 				}
 				$strength = ($gemcount/$cost);
 				if(!is_integer($strength)){
-					output("%s`0, knowing about your fundamental misunderstanding of math, hands some of them back to you.",$barkeep);
+					output::doOutput("%s`0, knowing about your fundamental misunderstanding of math, hands some of them back to you.",$barkeep);
 					$strength = floor($strength);
 					$gemcount=($strength * $cost);
 				}
 				if ($gemcount>0) {
-					output("You drink the potion %s`0 hands you in exchange for your %s, and.....`n`n",$barkeep, translator::translate_inline($gemcount==1?"gem":"gems"));
+					output::doOutput("You drink the potion %s`0 hands you in exchange for your %s, and.....`n`n",$barkeep, translator::translate_inline($gemcount==1?"gem":"gems"));
 					$session['user']['gems']-=$gemcount;
 					switch($wish){
 					case 1:
 						$session['user']['charm'] += ($strength *
 								get_module_setting("charmgain"));
-						output("`&You feel charming!");
-						output("`^(You gain %s charm %s.)",
+						output::doOutput("`&You feel charming!");
+						output::doOutput("`^(You gain %s charm %s.)",
 								$strength*get_module_setting("charmgain"),
 								translator::translate_inline($strength *
 									get_module_setting("charmgain")==1 ?
@@ -275,7 +275,7 @@ function cedrikspotions_run(){
 							($strength*get_module_setting("vitalgain"));
 						$session['user']['hitpoints'] +=
 							($strength*get_module_setting("vitalgain"));
-						output("`&You feel vigorous!");
+						output::doOutput("`&You feel vigorous!");
 						$hptype = "permanently";
 						if (!get_module_setting("carrydk") ||
 								(is_module_active("globalhp") &&
@@ -283,7 +283,7 @@ function cedrikspotions_run(){
 							$hptype = "temporarily";
 						$hptype = translator::translate_inline($hptype);
 
-						output("`^(You %s gain %s max %s.)", $hptype,
+						output::doOutput("`^(You %s gain %s max %s.)", $hptype,
 								$strength * get_module_setting("vitalgain"),
 								translator::translate_inline($strength *
 									get_module_setting("vitalgain") == 1 ?
@@ -300,8 +300,8 @@ function cedrikspotions_run(){
 								$session['user']['maxhitpoints'];
 						$session['user']['hitpoints'] +=
 							($strength * get_module_setting("tempgain"));
-						output("`&You feel healthy!");
-						output("`^(You gain %s temporary %s.)",
+						output::doOutput("`&You feel healthy!");
+						output::doOutput("`^(You gain %s temporary %s.)",
 								$strength * get_module_setting("tempgain"),
 								translator::translate_inline($strength *
 									get_module_setting("tempgain") == 1 ?
@@ -310,15 +310,15 @@ function cedrikspotions_run(){
 						break;
 					case 4:
 						$session['user']['specialty']="";
-						output("`&You feel completely directionless in life.");
-						output("You should rest and make some important decisions about your life!");
-						output("`^(Your specialty has been reset.)");
+						output::doOutput("`&You feel completely directionless in life.");
+						output::doOutput("You should rest and make some important decisions about your life!");
+						output::doOutput("`^(Your specialty has been reset.)");
 						$potiontype = "forgetfulness";
 						break;
 					case 5:
 						$session['user']['race']=RACE_UNKNOWN;
-						output("`@You double over retching from the effects of transformation potion as your bones turn to gelatin!`n");
-						output("`^(Your race has been reset and you will be able to chose a new one tomorrow.)");
+						output::doOutput("`@You double over retching from the effects of transformation potion as your bones turn to gelatin!`n");
+						output::doOutput("`^(Your race has been reset and you will be able to chose a new one tomorrow.)");
 						strip_buff('racialbenefit');
 						$potiontype = "transmutation";
 						if (isset($session['bufflist']['transmute'])) {
@@ -341,7 +341,7 @@ function cedrikspotions_run(){
 					}
 					debuglog("used $gemcount gems on $potiontype potions");
 				}else{
-					output("`n`nYou feel as though your gems would be better used elsewhere, not on some smelly potion.");
+					output::doOutput("`n`nYou feel as though your gems would be better used elsewhere, not on some smelly potion.");
 				}
 			}
 		}

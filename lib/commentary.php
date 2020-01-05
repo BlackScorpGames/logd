@@ -170,7 +170,7 @@ function commentdisplay($intro, $section, $message="Interject your own commentar
 	if (isset($args['block']) && ($args['block'] == "yes"))
 		return;
 
-	if ($intro) output($intro);
+	if ($intro)output::doOutput($intro);
 	viewcommentary($section, $message, $limit, $talkline, $schema);
 }
 
@@ -197,8 +197,8 @@ function viewcommentary($section,$message="Interject your own commentary?",$limi
 
 	if ($message=="X") $linkbios=true;
 
-	if ($doublepost) output("`\$`bDouble post?`b`0`n");
-	if ($emptypost) output("`\$`bWell, they say silence is a virtue.`b`0`n");
+	if ($doublepost)output::doOutput("`\$`bDouble post?`b`0`n");
+	if ($emptypost)output::doOutput("`\$`bWell, they say silence is a virtue.`b`0`n");
 
 	$clanrankcolors=array("`!","`#","`^","`&","`\$");
 
@@ -477,13 +477,13 @@ function viewcommentary($section,$message="Interject your own commentary?",$limi
 				|| !getsetting('postinglimit',1)){
 			if ($message!="X"){
 				$message="`n`@$message`n";
-				output($message);
+				output::doOutput($message);
 				talkform($section,$talkline,$limit,$schema);
 			}
 		}else{
 			$message="`n`@$message`n";
-			output($message);
-			output("Sorry, you've exhausted your posts in this section for now.`0`n");
+			output::doOutput($message);
+			output::doOutput("Sorry, you've exhausted your posts in this section for now.`0`n");
 		}
 	}
 
@@ -582,9 +582,9 @@ function talkform($section,$talkline,$limit=10,$schema=false){
 		}
 		if (round($limit/2,0)-$counttoday <= 0 && getsetting('postinglimit',1)){
 			if ($session['user']['superuser']&~SU_DOESNT_GIVE_GROTTO){
-				output("`n`)(You'd be out of posts if you weren't a superuser or moderator.)`n");
+				output::doOutput("`n`)(You'd be out of posts if you weren't a superuser or moderator.)`n");
 			}else{
-				output("`n`)(You are out of posts for the time being.  Once some of your existing posts have moved out of the comment area, you'll be allowed to post again.)`n");
+				output::doOutput("`n`)(You are out of posts for the time being.  Once some of your existing posts have moved out of the comment area, you'll be allowed to post again.)`n");
 				return false;
 			}
 		}
@@ -621,7 +621,7 @@ function talkform($section,$talkline,$limit=10,$schema=false){
 	$add = htmlentities(translator::translate_inline("Add"), ENT_QUOTES, getsetting("charset", "ISO-8859-1"));
 	output_notl("<input type='submit' class='button' value='$add'>`n",true);
 	if (round($limit/2,0)-$counttoday < 3 && getsetting('postinglimit',1)){
-		output("`)(You have %s posts left today)`n`0",(round($limit/2,0)-$counttoday));
+		output::doOutput("`)(You have %s posts left today)`n`0",(round($limit/2,0)-$counttoday));
 	}
 	rawoutput("<div id='previewtext'></div></form>");
 	translator::tlschema();

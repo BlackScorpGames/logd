@@ -4,8 +4,8 @@ function dag_run_private(){
 	global $session;
 	if (http::httpget('manage')!="true"){
 		page_header("Dag Durnick's Table");
-		output("<span style='color: #9900FF'>",true);
-		output("`c`bDag Durnick's Table`b`c");
+		output::doOutput("<span style='color: #9900FF'>",true);
+		output::doOutput("`c`bDag Durnick's Table`b`c");
 	}else{
 		dag_manage();
 	}
@@ -18,12 +18,12 @@ function dag_run_private(){
 		addnav("Talk to Dag Durnick", "runmodule.php?module=dag");
 
 	if ($op=="list"){
-		output("Dag fishes a small leather bound book out from under his cloak, flips through it to a certain page and holds it up for you to see.");
-		output("\"`7Deese ain't the most recent figgers, I ain't just had time to get th' other numbers put in.`0\"`n`n");
+		output::doOutput("Dag fishes a small leather bound book out from under his cloak, flips through it to a certain page and holds it up for you to see.");
+		output::doOutput("\"`7Deese ain't the most recent figgers, I ain't just had time to get th' other numbers put in.`0\"`n`n");
 		// ***ADDED***
 		// By Andrew Senger
 		// Added for new Bounty Code
-		output("`c`bThe Bounty List`b`c`n");
+		output::doOutput("`c`bThe Bounty List`b`c`n");
 		$sql = "SELECT bountyid,amount,target,setter,setdate FROM " . db_prefix("bounty") . " WHERE status=0 AND setdate<='".date("Y-m-d H:i:s")."' ORDER BY bountyid ASC";
 		$result = db_query($sql);
 		rawoutput("<table border=0 cellpadding=2 cellspacing=1 bgcolor='#999999'>");
@@ -79,11 +79,11 @@ function dag_run_private(){
 			rawoutput("</td><td>");
 			output_notl("`^%s`0", $listing[$i]['Name']);
 			rawoutput("</td><td>");
-			output($listing[$i]['LoggedIn']?"`#Online`0":$listing[$i]['Location']);
+			output::doOutput($listing[$i]['LoggedIn']?"`#Online`0":$listing[$i]['Location']);
 			rawoutput("</td><td>");
-			output($listing[$i]['Sex']?"`!Female`0":"`!Male`0");
+			output::doOutput($listing[$i]['Sex']?"`!Female`0":"`!Male`0");
 			rawoutput("</td><td>");
-			output($listing[$i]['Alive']?"`1Yes`0":"`4No`0");
+			output::doOutput($listing[$i]['Alive']?"`1Yes`0":"`4No`0");
 			rawoutput("</td><td>");
 			$laston = relativedate($listing[$i]['LastOn']);
 			output_notl("%s", $laston);
@@ -93,8 +93,8 @@ function dag_run_private(){
 		// ***END ADDING***
 	}else if ($op=="addbounty"){
 		if (get_module_pref("bounties") >= get_module_setting("maxbounties")) {
-			output("Dag gives you a piercing look.");
-			output("`7\"Ye be thinkin' I be an assassin or somewhat?  Ye already be placin' more than 'nuff bounties for t'day.  Now, be ye gone before I stick a bounty on yer head fer annoyin' me.\"`n`n");
+			output::doOutput("Dag gives you a piercing look.");
+			output::doOutput("`7\"Ye be thinkin' I be an assassin or somewhat?  Ye already be placin' more than 'nuff bounties for t'day.  Now, be ye gone before I stick a bounty on yer head fer annoyin' me.\"`n`n");
 		} else {
 			$fee = get_module_setting("bountyfee");
 			if ($fee < 0 || $fee > 100) {
@@ -103,13 +103,13 @@ function dag_run_private(){
 			}
 			$min = get_module_setting("bountymin");
 			$max = get_module_setting("bountymax");
-			output("Dag Durnick glances up at you and adjusts the pipe in his mouth with his teeth.`n");
-			output("`7\"So, who ye be wantin' to place a hit on? Just so ye be knowing, they got to be legal to be killin', they got to be at least level %s, and they can't be having too much outstandin' bounty nor be getting hit too frequent like, so if they ain't be listed, they can't be contracted on!  We don't run no slaughterhouse here, we run a.....business.  Also, there be a %s%% listin' fee fer any hit ye be placin'.\"`n`n", get_module_setting("bountylevel"), get_module_setting("bountyfee"));
+			output::doOutput("Dag Durnick glances up at you and adjusts the pipe in his mouth with his teeth.`n");
+			output::doOutput("`7\"So, who ye be wantin' to place a hit on? Just so ye be knowing, they got to be legal to be killin', they got to be at least level %s, and they can't be having too much outstandin' bounty nor be getting hit too frequent like, so if they ain't be listed, they can't be contracted on!  We don't run no slaughterhouse here, we run a.....business.  Also, there be a %s%% listin' fee fer any hit ye be placin'.\"`n`n", get_module_setting("bountylevel"), get_module_setting("bountyfee"));
 			rawoutput("<form action='runmodule.php?module=dag&op=finalize' method='POST'>");
-			output("`2Target: ");
+			output::doOutput("`2Target: ");
 			rawoutput("<input name='contractname'>");
 			output_notl("`n");
-			output("`2Amount to Place: ");
+			output::doOutput("`2Amount to Place: ");
 			rawoutput("<input name='amount' id='amount' width='5'>");
 			output_notl("`n`n");
 			$final = translator::translate_inline("Finalize Contract");
@@ -130,13 +130,13 @@ function dag_run_private(){
 		}
 		$result = db_query($sql);
 		if (db_num_rows($result) == 0) {
-			output("Dag Durnick sneers at you, `7\"There not be anyone I be knowin' of by that name.  Maybe ye should come back when ye got a real target in mind?\"");
+			output::doOutput("Dag Durnick sneers at you, `7\"There not be anyone I be knowin' of by that name.  Maybe ye should come back when ye got a real target in mind?\"");
 		} elseif(db_num_rows($result) > 100) {
-			output("Dag Durnick scratches his head in puzzlement, `7\"Ye be describing near half th' town, ye fool?  Why don't ye be giving me a better name now?\"");
+			output::doOutput("Dag Durnick scratches his head in puzzlement, `7\"Ye be describing near half th' town, ye fool?  Why don't ye be giving me a better name now?\"");
 		} elseif(db_num_rows($result) > 1) {
-			output("Dag Durnick searches through his list for a moment, `7\"There be a couple of 'em that ye could be talkin' about.  Which one ye be meaning?\"`n");
+			output::doOutput("Dag Durnick searches through his list for a moment, `7\"There be a couple of 'em that ye could be talkin' about.  Which one ye be meaning?\"`n");
 			rawoutput("<form action='runmodule.php?module=dag&op=finalize&subfinal=1' method='POST'>");
-			output("`2Target: ");
+			output::doOutput("`2Target: ");
 			rawoutput("<select name='contractname'>");
 			for ($i=0;$i<db_num_rows($result);$i++){
 				$row = db_fetch_assoc($result);
@@ -145,7 +145,7 @@ function dag_run_private(){
 			rawoutput("</select>");
 			output_notl("`n`n");
 			$amount = httppost('amount');
-			output("`2Amount to Place: ");
+			output::doOutput("`2Amount to Place: ");
 			rawoutput("<input name='amount' id='amount' width='5' value='$amount'>");
 			output_notl("`n`n");
 			$final = translator::translate_inline("Finalize Contract");
@@ -156,14 +156,14 @@ function dag_run_private(){
 			// Now, we have just the one, so check it.
 			$row  = db_fetch_assoc($result);
 			if ($row['locked']) {
-				output("Dag Durnick sneers at you, `7\"There not be anyone I be knowin' of by that name.  Maybe ye should come back when ye got a real target in mind?\"");
+				output::doOutput("Dag Durnick sneers at you, `7\"There not be anyone I be knowin' of by that name.  Maybe ye should come back when ye got a real target in mind?\"");
 			} elseif ($row['login'] == $session['user']['login']) {
-				output("Dag Durnick slaps his knee laughing uproariously, `7\"Ye be wanting to take out a contract on yerself?  I ain't be helping no suicider, now!\"");
+				output::doOutput("Dag Durnick slaps his knee laughing uproariously, `7\"Ye be wanting to take out a contract on yerself?  I ain't be helping no suicider, now!\"");
 			} elseif ($row['level'] < get_module_setting("bountylevel") ||
 						($row['age'] < getsetting("pvpimmunity",5) &&
 						 $row['dragonkills'] == 0 && $row['pk'] == 0 &&
 						 $row['experience'] < getsetting("pvpminexp",1500))) {
-				output("Dag Durnick stares at you angrily, `7\"I told ye that I not be an assassin.  That ain't a target worthy of a bounty.  Now get outta me sight!\"");
+				output::doOutput("Dag Durnick stares at you angrily, `7\"I told ye that I not be an assassin.  That ain't a target worthy of a bounty.  Now get outta me sight!\"");
 			} else {
 				// All good!
 				$amt = abs((int)httppost('amount'));
@@ -179,20 +179,20 @@ function dag_run_private(){
 					$curbounty = $nrow['total'];
 				}
 				if ($amt < $min) {
-					output("Dag Durnick scowls, `7\"Ye think I be workin' for that pittance?  Be thinkin' again an come back when ye willing to spend some real coin.  That mark be needin' at least %s gold to be worth me time.\"", $min);
+					output::doOutput("Dag Durnick scowls, `7\"Ye think I be workin' for that pittance?  Be thinkin' again an come back when ye willing to spend some real coin.  That mark be needin' at least %s gold to be worth me time.\"", $min);
 				} elseif ($session['user']['gold'] < $cost) {
-					output("Dag Durnick scowls, `7\"Ye don't be havin enough gold to be settin' that contract.  Wastin' my time like this, I aught to be puttin' a contract on YE instead!");
+					output::doOutput("Dag Durnick scowls, `7\"Ye don't be havin enough gold to be settin' that contract.  Wastin' my time like this, I aught to be puttin' a contract on YE instead!");
 				} elseif ($amt + $curbounty > $max) {
 					if ($curbounty) {
-						output("Dag looks down at the pile of coin and just leaves them there.");
-						output("`7\"I'll just be passin' on that contract.  That's way more'n `^%s`7 be worth and ye know it.  I ain't no durned assassin. A bounty o' %s already be on their head, what with the bounties I ain't figgered in to th' book already.  I might be willin' t'up it to %s, after me %s%% listin' fee of course\"`n`n",$row['name'], $curbounty, $max, $fee);
+						output::doOutput("Dag looks down at the pile of coin and just leaves them there.");
+						output::doOutput("`7\"I'll just be passin' on that contract.  That's way more'n `^%s`7 be worth and ye know it.  I ain't no durned assassin. A bounty o' %s already be on their head, what with the bounties I ain't figgered in to th' book already.  I might be willin' t'up it to %s, after me %s%% listin' fee of course\"`n`n",$row['name'], $curbounty, $max, $fee);
 					} else {
-						output("Dag looks down at the pile of coin and just leaves them there.");
-						output("`7\"I'll just be passin' on that contract.  That's way more'n `^%s`7 be worth and ye know it.  I ain't no durned assassin.  I might be willin' t'let y' set one of %s, after me %s%% listin' fee of course\"`n`n", $row['name'], $max, $fee);
+						output::doOutput("Dag looks down at the pile of coin and just leaves them there.");
+						output::doOutput("`7\"I'll just be passin' on that contract.  That's way more'n `^%s`7 be worth and ye know it.  I ain't no durned assassin.  I might be willin' t'let y' set one of %s, after me %s%% listin' fee of course\"`n`n", $row['name'], $max, $fee);
 					}
 				} else {
-					output("You slide the coins towards Dag Durnick, who deftly palms them from the table.");
-					output("`7\"I'll just be takin' me %s%% listin' fee offa the top.  The word be put out that ye be wantin' `^%s`7 taken care of. Be patient, and keep yer eyes on the news.\"`n`n", $fee, $row['name']);
+					output::doOutput("You slide the coins towards Dag Durnick, who deftly palms them from the table.");
+					output::doOutput("`7\"I'll just be takin' me %s%% listin' fee offa the top.  The word be put out that ye be wantin' `^%s`7 taken care of. Be patient, and keep yer eyes on the news.\"`n`n", $fee, $row['name']);
 					set_module_pref("bounties",get_module_pref("bounties")+1);
 					$session['user']['gold']-=$cost;
 					// ***ADDED***
@@ -209,9 +209,9 @@ function dag_run_private(){
 			}
 		}
 	}else{
-		output("You stroll over to Dag Durnick, who doesn't even bother to look up at you.");
-		output("He takes a long pull on his pipe.`n");
-		output("`7\"Ye probably be wantin' to know if there's a price on yer head, ain't ye.\"`n`n");
+		output::doOutput("You stroll over to Dag Durnick, who doesn't even bother to look up at you.");
+		output::doOutput("He takes a long pull on his pipe.`n");
+		output::doOutput("`7\"Ye probably be wantin' to know if there's a price on yer head, ain't ye.\"`n`n");
 		// ***ADDED***
 		// By Andrew Senger
 		// Adding for new Bounty Code
@@ -223,9 +223,9 @@ function dag_run_private(){
 			$curbounty = $row['total'];
 		}
 		if ($curbounty == 0) {
-			output("\"`3Ye don't have no bounty on ya.  I suggest ye be keepin' it that way.\"");
+			output::doOutput("\"`3Ye don't have no bounty on ya.  I suggest ye be keepin' it that way.\"");
 		} else {
-		 output("\"`3Well, it be lookin like ye have `^%s gold`3 on yer head currently. Ye might wanna be watchin yourself.\"", $curbounty);
+		output::doOutput("\"`3Well, it be lookin like ye have `^%s gold`3 on yer head currently. Ye might wanna be watchin yourself.\"", $curbounty);
 		}
 		// ***END ADD***
 		addnav("Bounties");

@@ -75,6 +75,7 @@ function output_notl($indata){
 	$output.="\n";
 }
 
+class output{
 /**
  * Outputs a translated, color/style encoded string to the browser.
  *
@@ -83,7 +84,7 @@ function output_notl($indata){
  * @see output_notl
  *
  */
-function output(){
+public static function doOutput(){
 	global $block_new_output;
 
 	if ($block_new_output) return;
@@ -97,7 +98,7 @@ function output(){
 	}
 	call_user_func_array("output_notl",$args);
 }
-
+}
 /**
  * Generate debug output for players who have the SU_DEBUG_OUTPUT flag set in the superuser mask
  *

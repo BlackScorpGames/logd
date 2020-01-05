@@ -27,21 +27,21 @@ if ($op=="edit"){
 		$badguy=array('creaturename'=>'Baron Munchausen', 'creatureweapon'=>'Bad Puns');
 		$taunt = substitute_array($row['taunt']);
 		$taunt = call_user_func_array("translator::sprintf_translate", $taunt);
-		output("Preview: %s`0`n`n", $taunt);
+		output::doOutput("Preview: %s`0`n`n", $taunt);
 	} else {
 		$row = array('tauntid'=>0, 'taunt'=>"");
 	}
-	output("Taunt: ");
+	output::doOutput("Taunt: ");
 	rawoutput("<input name='taunt' value=\"".HTMLEntities($row['taunt'], ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."\" size='70'><br>");
-	output("The following codes are supported (case matters):`n");
-	output("%w = The player's name (also can be specified as {goodguy}`n");
-	output("%x = The player's weapon (also can be specified as {weapon}`n");
-	output("%a = The player's armor (also can be specified as {armor}`n");
-	output("%s = Subjective pronoun for the player (him her)`n");
-	output("%p = Possessive pronoun for the player (his her)`n");
-	output("%o = Objective pronoun for the player (he she)`n");
-	output("%W = The monster's name (also can be specified as {badguy}`n");
-	output("%X = The monster's weapon (also can be specified as {creatureweapon}`n");
+	output::doOutput("The following codes are supported (case matters):`n");
+	output::doOutput("%w = The player's name (also can be specified as {goodguy}`n");
+	output::doOutput("%x = The player's weapon (also can be specified as {weapon}`n");
+	output::doOutput("%a = The player's armor (also can be specified as {armor}`n");
+	output::doOutput("%s = Subjective pronoun for the player (him her)`n");
+	output::doOutput("%p = Possessive pronoun for the player (his her)`n");
+	output::doOutput("%o = Objective pronoun for the player (he she)`n");
+	output::doOutput("%W = The monster's name (also can be specified as {badguy}`n");
+	output::doOutput("%X = The monster's weapon (also can be specified as {creatureweapon}`n");
 	$save = translator::translate_inline("Save");
 	rawoutput("<input type='submit' class='button' value='$save'>");
 	rawoutput("</form>");

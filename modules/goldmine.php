@@ -119,19 +119,19 @@ function goldmine_runevent($type)
 	$session['user']['specialinc']="module:goldmine";
 	$op = http::httpget('op');
 	if ($op == "" || $op == "search") {
-		output("`2You found an old abandoned mine in the depths of the forest.");
-		output("There is some old mining equipment nearby.`n`n");
-		output("`^As you look around you realize that this is going to be a lot of work.");
-		output("So much so in fact that you will lose a forest fight for the day if you attempt it.`n`n");
-		output("`^Looking around a bit more, you do notice what looks like evidence of occasional cave-ins in the mine.`n`n");
+		output::doOutput("`2You found an old abandoned mine in the depths of the forest.");
+		output::doOutput("There is some old mining equipment nearby.`n`n");
+		output::doOutput("`^As you look around you realize that this is going to be a lot of work.");
+		output::doOutput("So much so in fact that you will lose a forest fight for the day if you attempt it.`n`n");
+		output::doOutput("`^Looking around a bit more, you do notice what looks like evidence of occasional cave-ins in the mine.`n`n");
 		addnav("Mine for gold and gems", $from . "op=mine");
 		addnav("Return to the forest", $from . "op=no");
 	} elseif ($op == "no") {
-		output("`2You decide you don't have time for this slow way to gain gold and gems, and so leave the old mine behind and go on your way...`n");
+		output::doOutput("`2You decide you don't have time for this slow way to gain gold and gems, and so leave the old mine behind and go on your way...`n");
 		$session['user']['specialinc']="";
 	} elseif ($op=="mine") {
 		if ($session['user']['turns']<=0) {
-			output("`2You are too tired to mine anymore..`n");
+			output::doOutput("`2You are too tired to mine anymore..`n");
 			$session['user']['specialinc']="";
 	 	} else {
 			// Horsecanenter is a percent, so, if rand(1-100) > enterpercent,
@@ -141,57 +141,57 @@ function goldmine_runevent($type)
 				$msg = get_module_objpref('mounts',$hashorse, 'tethermsg');
 				if ($msg) output ($msg);
 				else {
-					output("`&Seeing that the mine entrance is too small for %s`&, you tether it off to the side of the entrance.`n", $lcmountname);
+					output::doOutput("`&Seeing that the mine entrance is too small for %s`&, you tether it off to the side of the entrance.`n", $lcmountname);
 				}
 				// The mount it tethered, so it cannot die nor save the player
 				$horsecanenter = 0;
 				$horsecandie = 0;
 				$horsecansave = 0;
 			}
-			output("`2You pick up the mining equipment and start mining for gold and gems...`n`n");
+			output::doOutput("`2You pick up the mining equipment and start mining for gold and gems...`n`n");
 			$rand = e_rand(1,20);
 			switch ($rand){
 			case 1:case 2:case 3:case 4: case 5:
-				output("`2After a few hours of hard work you have only found worthless stones and one skull...`n`n");
-				output("`^You lose one forest fight while digging.`n`n");
+				output::doOutput("`2After a few hours of hard work you have only found worthless stones and one skull...`n`n");
+				output::doOutput("`^You lose one forest fight while digging.`n`n");
 				if ($session['user']['turns']>0) $session['user']['turns']--;
 				$session['user']['specialinc']="";
 				break;
 			case 6: case 7: case 8:case 9: case 10:
 				$gold = e_rand($session['user']['level']*5, $session['user']['level']*20);
-				output("`^After a few hours of hard work, you find %s gold!`n`n", $gold);
+				output::doOutput("`^After a few hours of hard work, you find %s gold!`n`n", $gold);
 				$session['user']['gold'] += $gold;
 				debuglog("found $gold gold in the goldmine");
-				output("`^You lose one forest fight while digging.`n`n");
+				output::doOutput("`^You lose one forest fight while digging.`n`n");
 				if ($session['user']['turns']>0) $session['user']['turns']--;
 				$session['user']['specialinc']="";
 				break;
 			case 11: case 12: case 13: case 14: case 15:
 				$gems = e_rand(1, round($session['user']['level']/7)+1);
-				output("`^After a few hours of hard work, you find `%%s %s`^!`n`n", $gems, translator::translate_inline($gems == 1 ? "gem" : "gems"));
+				output::doOutput("`^After a few hours of hard work, you find `%%s %s`^!`n`n", $gems, translator::translate_inline($gems == 1 ? "gem" : "gems"));
 				$session['user']['gems'] += $gems;
 				debuglog("found $gems gems in the goldmine");
-				output("`^You lose one forest fight while digging.`n`n");
+				output::doOutput("`^You lose one forest fight while digging.`n`n");
 				if ($session['user']['turns']>0) $session['user']['turns']--;
 				$session['user']['specialinc']="";
 				break;
 			case 16: case 17: case 18:
 				$gold = e_rand($session['user']['level']*10, $session['user']['level']*40);
 				$gems = e_rand(1, round($session['user']['level']/3)+1);
-				output("`^You have found the mother lode!`n`n");
-				output("`^After a few hours of hard work, you find `%%s %s`^ and %s gold!`n`n", $gems, translator::translate_inline($gems==1?"gem":"gems"), $gold);
+				output::doOutput("`^You have found the mother lode!`n`n");
+				output::doOutput("`^After a few hours of hard work, you find `%%s %s`^ and %s gold!`n`n", $gems, translator::translate_inline($gems==1?"gem":"gems"), $gold);
 				$session['user']['gems'] += $gems;
 				$session['user']['gold'] += $gold;
 				debuglog("found $gold gold and $gems gems in the goldmine");
-				output("`^You lose one forest fight while digging.`n`n");
+				output::doOutput("`^You lose one forest fight while digging.`n`n");
 				if ($session['user']['turns']>0) $session['user']['turns']--;
 				$session['user']['specialinc']="";
 				break;
 			case 19: case 20:
-				output("`2After a lot of hard work you believe you have spotted a `&huge`2 `%gem`2 and some `6gold`2.`n");
-				output("`2Anxious to be rich, you rear back and slam the pick home, knowing that the harder you hit, the quicker you will be done....`n");
-				output("`7Unfortunately, you are quickly done in.`n");
-				output("Your over-exuberant hit caused a massive cave in.`n");
+				output::doOutput("`2After a lot of hard work you believe you have spotted a `&huge`2 `%gem`2 and some `6gold`2.`n");
+				output::doOutput("`2Anxious to be rich, you rear back and slam the pick home, knowing that the harder you hit, the quicker you will be done....`n");
+				output::doOutput("`7Unfortunately, you are quickly done in.`n");
+				output::doOutput("Your over-exuberant hit caused a massive cave in.`n");
 				// Find the chance of dying based on race
 				$vals = modulehook("raceminedeath");
 				$dead = 0;
@@ -218,12 +218,12 @@ function goldmine_runevent($type)
 				$session['user']['specialinc']="";
 				if ($dead) {
 					if (e_rand(1,100) <= $horsecandie) $horsedead = 1;
-					output("You have been crushed under a ton of rock.`n`nPerhaps the next adventurer will recover your body and bury it properly.`n");
+					output::doOutput("You have been crushed under a ton of rock.`n`nPerhaps the next adventurer will recover your body and bury it properly.`n");
 					if ($horsedead) {
 						$msg = get_module_objpref('mounts', $hashorse, 'deathmsg');
 						if ($msg) output ($msg);
 						else {
-							output("%s`7's bones were buried right alongside yours.", $mountname);
+							output::doOutput("%s`7's bones were buried right alongside yours.", $mountname);
 						}
 						global $playermount;
 						$debugmount = $playermount->getName();
@@ -233,23 +233,23 @@ function goldmine_runevent($type)
 							strip_buff("mount");
 					} elseif ($hashorse) {
 						if ($horsecanenter) {
-							output("%s`7 managed to escape being crushed.", $mountname);
-							output("You know that it is trained to return to the village.`n");
+							output::doOutput("%s`7 managed to escape being crushed.", $mountname);
+							output::doOutput("You know that it is trained to return to the village.`n");
 						} else {
-							output("Fortunately you left %s`7 tethered outside.", $lcmountname);
-							output("You know that it is trained to return to the village.`n");
+							output::doOutput("Fortunately you left %s`7 tethered outside.", $lcmountname);
+							output::doOutput("You know that it is trained to return to the village.`n");
 						}
 					}
 					$exp=round($session['user']['experience']*0.1, 0);
-					output("At least you learned something about mining from this experience and have gained %s experience.`n`n", $exp);
-					output("`3You may continue to play tomorrow`n");
+					output::doOutput("At least you learned something about mining from this experience and have gained %s experience.`n`n", $exp);
+					output::doOutput("`3You may continue to play tomorrow`n");
 					$session['user']['experience']+=$exp;
 					$session['user']['alive']=false;
 					$session['user']['hitpoints']=0;
 					$gemlost = round(get_module_setting("percentgemloss")/100 * $session['user']['gems'], 0);
 					$goldlost = round(get_module_setting("percentgoldloss")/100 * $session['user']['gold'], 0);
 					debuglog("lost $goldlost gold and $gemlost gems by dying in the goldmine");
-					output("`^%s gold `&and `%%s %s`& were lost when you were buried!", $goldlost, $gemlost, translator::translate_inline($gemlost == 1?"gem":"gems"));
+					output::doOutput("`^%s gold `&and `%%s %s`& were lost when you were buried!", $goldlost, $gemlost, translator::translate_inline($gemlost == 1?"gem":"gems"));
 					$session['user']['gold'] -= $goldlost;
 					$session['user']['gems'] -= $gemlost;
 					addnav("Daily News","news.php");
@@ -259,15 +259,15 @@ function goldmine_runevent($type)
 						$msg = get_module_objpref('mounts', $hashorse, 'savemsg');
 						if ($msg) output ($msg);
 						else {
-							output("%s`7 managed to drag you to safety in the nick of time!`n", $mountname);
+							output::doOutput("%s`7 managed to drag you to safety in the nick of time!`n", $mountname);
 						}
 					} elseif ($racesave) {
 						if (isset($racemsg) && $racemsg) output_notl($racemsg);
 						else {
-							output("Through sheer luck, you manage to escape the cave-in intact!`n");
+							output::doOutput("Through sheer luck, you manage to escape the cave-in intact!`n");
 						}
 					}
-					output("`n`&Your close call scared you so badly that you cannot face any more opponents today.`n");
+					output::doOutput("`n`&Your close call scared you so badly that you cannot face any more opponents today.`n");
 					debuglog("`&has lost all turns for the day due to a close call in the mine.");
 					$session['user']['turns']=0;
 				}

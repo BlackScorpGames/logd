@@ -38,7 +38,7 @@ function findgold_runevent($type,$link)
 	$min = $session['user']['level']*get_module_setting("mingold");
 	$max = $session['user']['level']*get_module_setting("maxgold");
 	$gold = e_rand($min, $max);
-	output("`^Fortune smiles on you and you find %s gold!`0", $gold);
+	output::doOutput("`^Fortune smiles on you and you find %s gold!`0", $gold);
 	$session['user']['gold']+=$gold;
 	debuglog("found $gold gold in the dirt");
 }

@@ -90,9 +90,9 @@ function display_table($title, $sql, $none=false, $foot=false,
 	$name = translator::translate_inline("Name");
 
 	if ($totalplayers > $playersperpage) {
-		output("`c`b`^%s`0`b `7(Page %s: %s-%s of %s)`0`c`n", $title, $page, $from, $to, $totalplayers);
+		output::doOutput("`c`b`^%s`0`b `7(Page %s: %s-%s of %s)`0`c`n", $title, $page, $from, $to, $totalplayers);
 	} else {
-		output("`c`b`^%s`0`b`c`n", $title);
+		output::doOutput("`c`b`^%s`0`b`c`n", $title);
 	}
 	rawoutput("<table cellspacing='0' cellpadding='2' align='center'>");
 	rawoutput("<tr class='trhead'>");
@@ -229,7 +229,7 @@ if (isset($table) && is_array($table)){
 		$row = db_fetch_assoc($meresult);
 		$pct = round(100*$row['count']/$totalplayers, 0);
 		if ($pct < 1) $pct = 1;
-		output("`c`7You rank within around the top `&%s`7%% in this listing.`0`c",$pct);
+		output::doOutput("`c`7You rank within around the top `&%s`7%% in this listing.`0`c",$pct);
 	}
 }
 

@@ -19,7 +19,7 @@ addnav("Armor Editor Home","armoreditor.php?level=$armorlevel");
 
 addnav("Add armor","armoreditor.php?op=add&level=$armorlevel");
 $values = array(1=>48,225,585,990,1575,2250,2790,3420,4230,5040,5850,6840,8010,9000,10350);
-output("`&<h3>Armor for %s Dragon Kills</h3>`0",$armorlevel,true);
+output::doOutput("`&<h3>Armor for %s Dragon Kills</h3>`0",$armorlevel,true);
 
 $armorarray=array(
 	"Armor,title",
@@ -45,7 +45,7 @@ if($op=="edit" || $op=="add"){
 }else if($op=="del"){
 	$sql = "DELETE FROM " . db_prefix("armor") . " WHERE armorid='$id'";
 	db_query($sql);
-	//output($sql);
+	//output::doOutput($sql);
 	$op = "";
 	httpset("op", $op);
 }else if($op=="save"){

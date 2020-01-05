@@ -14,7 +14,7 @@ function dag_dohook_private($hookname,$args){
 		break;
 	case "inn-desc":
 		if (getsetting("pvp",1)) {
-			output("`nDag Durnick sits, sulking in the corner with a pipe clamped firmly in his mouth.`n");
+			output::doOutput("`nDag Durnick sits, sulking in the corner with a pipe clamped firmly in his mouth.`n");
 		}
 		break;
 	case "inn":

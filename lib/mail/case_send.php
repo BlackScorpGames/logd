@@ -22,7 +22,7 @@ if(db_num_rows($result)>0){
 	$result = db_query($sql);
 	$row = db_fetch_assoc($result);
 	if ($row['count']>=getsetting("inboxlimit",50)) {
-		output("`\$You cannot send that person mail, their mailbox is full!`0`n`n");
+		output::doOutput("`\$You cannot send that person mail, their mailbox is full!`0`n`n");
 	}else{
 		$subject = str_replace("`n","",httppost('subject'));
 		$body = str_replace("`n","\n",httppost('body'));
@@ -32,10 +32,10 @@ if(db_num_rows($result)>0){
 		require_once("lib/systemmail.php");
 		systemmail($row1['acctid'],$subject,$body,$from);
 		invalidatedatacache("mail-{$row1['acctid']}");
-		output("Your message was sent!`n");
+		output::doOutput("Your message was sent!`n");
 	}
 }else{
-	output("Could not find the recipient, please try again.`n");
+	output::doOutput("Could not find the recipient, please try again.`n");
 }
 if(httppost("returnto")){
 	$op="read";

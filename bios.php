@@ -29,7 +29,7 @@ $sql = "SELECT name,acctid,bio,biotime FROM " . db_prefix("accounts") . " WHERE 
 $result = db_query($sql);
 page_header("User Bios");
 $block = translator::translate_inline("Block");
-output("`b`&Player Bios:`0`b`n");
+output::doOutput("`b`&Player Bios:`0`b`n");
 $number=db_num_rows($result);
 for ($i=0;$i<$number;$i++){
 	$row = db_fetch_assoc($result);
@@ -51,7 +51,7 @@ if ($session['user']['superuser'] & SU_EDIT_COMMENTS)
 addnav("Refresh","bios.php");
 $sql = "SELECT name,acctid,bio,biotime FROM " . db_prefix("accounts") . " WHERE biotime>'9000-01-01' AND bio>'' ORDER BY biotime DESC LIMIT 100";
 $result = db_query($sql);
-output("`n`n`b`&Blocked Bios:`0`b`n");
+output::doOutput("`n`n`b`&Blocked Bios:`0`b`n");
 $unblock = translator::translate_inline("Unblock");
 $number=db_num_rows($result);
 for ($i=0;$i<$number;$i++){

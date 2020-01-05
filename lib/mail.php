@@ -91,7 +91,7 @@ if($op=="send"){
 		$result = db_query($sql);
 		$row = db_fetch_assoc($result);
 		if ($row['count']>=getsetting("inboxlimit",50)) {
-			output("`\$You cannot send that person mail, their mailbox is full!`0`n`n");
+			output::doOutput("`\$You cannot send that person mail, their mailbox is full!`0`n`n");
 		}else{
 			$subject =  str_replace("`n","",httppost('subject'));
 			$body = str_replace("`n","\n",httppost('body'));
@@ -100,10 +100,10 @@ if($op=="send"){
 			$body = addslashes(substr(stripslashes($body),0,(int)getsetting("mailsizelimit",1024)));
 
 			systemmail($row1['acctid'],$subject,$body,$session['user']['acctid']);
-			output("Your message was sent!`n");
+			output::doOutput("Your message was sent!`n");
 		}
 	}else{
-		output("Could not find the recipient, please try again.`n");
+		output::doOutput("Could not find the recipient, please try again.`n");
 	}
 	if (httppost("returnto")>""){
 		$op="read";
@@ -117,9 +117,9 @@ if($op=="send"){
 }
 
 if ($op==""){
-	output("`b`iMail Box`i`b");
+	output::doOutput("`b`iMail Box`i`b");
 	if (isset($session['message'])) {
-		output($session['message']);
+		output::doOutput($session['message']);
 	}
 	$session['message']="";
 	$sql = "SELECT subject,messageid," . db_prefix("accounts") . ".name,msgfrom,seen,sent FROM " . db_prefix("mail") . " LEFT JOIN " . db_prefix("accounts") . " ON " . db_prefix("accounts") . ".acctid=" . db_prefix("mail") . ".msgfrom WHERE msgto=\"".$session['user']['acctid']."\" ORDER BY sent DESC";
@@ -143,7 +143,7 @@ if ($op==""){
 			output_notl("<td nowrap><input id='checkbox$i' type='checkbox' name='msg[]' value='{$row['messageid']}'><img src='images/".($row['seen']?"old":"new")."scroll.GIF' width='16' height='16' alt='".($row['seen']?"Old":"New")."'></td>",true);
 			output_notl("<td><a href='mail.php?op=read&id={$row['messageid']}'>",true);
 			if (trim($row['subject'])=="")
-				output("`i(No Subject)`i");
+				output::doOutput("`i(No Subject)`i");
 			else
 				output_notl($row['subject']);
 			output_notl("</a></td><td><a href='mail.php?op=read&id={$row['messageid']}'>",true);
@@ -163,9 +163,9 @@ if ($op==""){
 		output_notl("<input type='submit' class='button' value=\"$delchecked\">",true);
 		output_notl("</form>",true);
 	}else{
-		output("`iAww, you have no mail, how sad.`i");
+		output::doOutput("`iAww, you have no mail, how sad.`i");
 	}
-	output("`n`n`iYou currently have %s messages in your inbox.`nYou will no longer be able to receive messages from players if you have more than %s unread messages in your inbox.  `nMessages are automatically deleted (read or unread) after %s days.",db_num_rows($result),getsetting('inboxlimit',50),getsetting("oldmail",14));
+	output::doOutput("`n`n`iYou currently have %s messages in your inbox.`nYou will no longer be able to receive messages from players if you have more than %s unread messages in your inbox.  `nMessages are automatically deleted (read or unread) after %s days.",db_num_rows($result),getsetting('inboxlimit',50),getsetting("oldmail",14));
 }elseif ($op=="read"){
 	$sql = "SELECT " . db_prefix("mail") . ".*,". db_prefix("accounts"). ".name FROM " . db_prefix("mail") ." LEFT JOIN " . db_prefix("accounts") . " ON ". db_prefix("accounts") . ".acctid=" . db_prefix("mail"). ".msgfrom WHERE msgto=\"".$session['user']['acctid']."\" AND messageid=\"".$id."\"";
 	$result = db_query($sql);
@@ -186,11 +186,11 @@ if ($op==""){
 					call_user_func_array("translator::sprintf_translate", $row['body']);
 			}
 		}
-		if (!$row['seen']) output("`b`#NEW`b`n");
-		else output("`n");
-		output("`b`2From:`b `^%s`n",$row['name']);
-		output("`b`2Subject:`b `^%s`n",$row['subject']);
-		output("`b`2Sent:`b `^%s`n",$row['sent']);
+		if (!$row['seen'])output::doOutput("`b`#NEW`b`n");
+		elseoutput::doOutput("`n");
+		output::doOutput("`b`2From:`b `^%s`n",$row['name']);
+		output::doOutput("`b`2Subject:`b `^%s`n",$row['subject']);
+		output::doOutput("`b`2Sent:`b `^%s`n",$row['sent']);
 		output_notl("<img src='images/uscroll.GIF' width='182' height='11' alt='' align='center'>`n",true);
 		output_notl(str_replace("\n","`n",$row['body']));
 		output_notl("`n<img src='images/lscroll.GIF' width='182' height='11' alt='' align='center'>`n",true);
@@ -242,11 +242,11 @@ if ($op==""){
 		rawoutput("</td>");
 		rawoutput("</tr></table>");
 	}else{
-		output("Eek, no such message was found!");
+		output::doOutput("Eek, no such message was found!");
 	}
 }elseif($op=="address"){
 	output_notl("<form action='mail.php?op=write' method='POST'>",true);
-	output("`b`2Address:`b`n");
+	output::doOutput("`b`2Address:`b`n");
 	$to = translator::translate_inline("To: ");
 	$search = htmlentities(translator::translate_inline("Search"));
 	output_notl("`2$to <input name='to' value=\"".htmlentities(stripslashes(http::httpget('prepop')))."\"> <input type='submit' class='button' value=\"$search\"></form>",true);
@@ -262,11 +262,11 @@ if ($op==""){
 		if (db_num_rows($result)>0){
 			$row = db_fetch_assoc($result);
 			if ($row['login']=="") {
-				output("You cannot reply to a system message.`n");
+				output::doOutput("You cannot reply to a system message.`n");
 				$row=array();
 			}
 		}else{
-			output("Eek, no such message was found!`n");
+			output::doOutput("Eek, no such message was found!`n");
 		}
 	}
 	$to = http::httpget('to');
@@ -276,7 +276,7 @@ if ($op==""){
 		if (db_num_rows($result)>0){
 			$row = db_fetch_assoc($result);
 		}else{
-			output("Could not find that person.`n");
+			output::doOutput("Could not find that person.`n");
 		}
 	}
 	if (is_array($row)){
@@ -309,13 +309,13 @@ if ($op==""){
 	$superusers = array();
 	if (isset($row['login']) && $row['login']!=""){
 		output_notl("<input type='hidden' name='to' id='to' value=\"".htmlentities($row['login'])."\">",true);
-		output("`2To: `^%s`n",$row['name']);
+		output::doOutput("`2To: `^%s`n",$row['name']);
 		if (($row['superuser'] & SU_GIVES_YOM_WARNING) &&
                 !($row['superuser'] & SU_OVERRIDE_YOM_WARNING)) {
 			array_push($superusers,$row['login']);
         }
 	}else{
-		output("`2To: ");
+		output::doOutput("`2To: ");
 		$to = httppost('to');
 		$string="%";
 		for ($x=0;$x<strlen($to);$x++){
@@ -332,7 +332,7 @@ if ($op==""){
 				array_push($superusers,$row['login']);
             }
 		}elseif (db_num_rows($result)==0){
-			output("`@No one was found who matches \"%s\".  ",stripslashes($to));
+			output::doOutput("`@No one was found who matches \"%s\".  ",stripslashes($to));
 			$try = translator::translate_inline("Please try again");
 			output_notl("<a href=\"mail.php?op=address&prepop=".rawurlencode(stripslashes(htmlentities($to)))."\">$try</a>.",true);
 			popup_footer();
@@ -358,12 +358,12 @@ if ($op==""){
 		rawoutput("	superusers['".addslashes($val)."'] = true;");
 	}
 	rawoutput("</script>");
-	output("`2Subject:");
+	output::doOutput("`2Subject:");
 	rawoutput("<input name='subject' value=\"".HTMLEntities($subject).HTMLEntities(stripslashes(http::httpget('subject')))."\"><br>");
 	rawoutput("<div id='warning' style='visibility: hidden; display: none;'>");
-	output("`2Notice: `^$superusermessage`n");
+	output::doOutput("`2Notice: `^$superusermessage`n");
 	rawoutput("</div>");
-	output("`2Body:`n");
+	output::doOutput("`2Body:`n");
 	rawoutput("<textarea name='body' id='textarea' class='input' cols='60' rows='9' onKeyUp='sizeCount(this);'>".HTMLEntities($body).HTMLEntities(stripslashes(http::httpget('body')))."</textarea><br>");
 	$send = translator::translate_inline("Send");
 	rawoutput("<table border='0' cellpadding='0' cellspacing='0' width='100%'><tr><td><input type='submit' class='button' value='$send'></td><td align='right'><div id='sizemsg'></div></td></tr></table>");

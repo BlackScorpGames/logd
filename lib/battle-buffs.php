@@ -42,7 +42,7 @@ function activate_buffs($tag) {
 				output_notl($msg); //Here it's already translated
 			}else{
 				$msg = substitute_array("`5".$buff['startmsg']."`0`n");
-				output($msg);
+				output::doOutput($msg);
 			}
 			unset($session['bufflist'][$key]['startmsg']);
 		}
@@ -84,7 +84,7 @@ function activate_buffs($tag) {
 					output_notl($msg); //Here it's already translated
 				}else{
 					$msg = substitute_array("`5".$buff['roundmsg']."`0`n");
-					output($msg);
+					output::doOutput($msg);
 				}
 			}
 		}
@@ -144,7 +144,7 @@ function activate_buffs($tag) {
 				output_notl($msg); //Here it's already translated
 			}elseif ($msg!="") {
 				$msg = substitute_array("`)".$msg."`0`n", array("{damage}"), array($hptoregen));
-				output($msg);
+				output::doOutput($msg);
 			}
 			if (isset($buff['aura']) && $buff['aura'] == true) {
 				global $companions;
@@ -159,11 +159,11 @@ function activate_buffs($tag) {
 							$hptoregen = min($auraeffect, $companion['maxhitpoints']-$companion['hitpoints']);
 							$companion['hitpoints'] += $hptoregen;
 							$msg = substitute_array("`)".$buff['auramsg']."`0`n", array("{damage}","{companion}"),array($hptoregen,$companion['name']));
-							output($msg);
+							output::doOutput($msg);
 							if ($hptoregen < 0 && $companion['hitpoints'] <= 0) {
 								if (isset($companion['dyingtext'])) {
 									translator::tlschema("battle");
-									output($companion['dyingtext']);
+									output::doOutput($companion['dyingtext']);
 									translator::tlschema();
 								}
 								if (isset($companion['cannotdie']) && $companion['cannotdie'] == true) {
@@ -217,7 +217,7 @@ function activate_buffs($tag) {
 					output_notl($msg); //Here it's already translated
 				}else if ($msg>"") {
 					$msg = substitute_array("`)".$msg."`0`n", array("{damage}"), array(abs($damage)));
-					output($msg);
+					output::doOutput($msg);
 				}
 				if ($badguy['dead'] == true) break;
 				$minioncounter++;
@@ -261,7 +261,7 @@ function process_lifetaps($ltaps, $damage) {
 			output_notl($msg); //Here it's already translated
 		}else if ($msg>"") {
 			$msg = substitute_array("`)".$msg."`0`n", array("{damage}"), array($healhp));
-			output($msg);
+			output::doOutput($msg);
 		}
 		if ($buff['schema']) translator::tlschema();
 	}
@@ -304,7 +304,7 @@ function process_dmgshield($dshield, $damage) {
 			output_notl($msg); //Here it's already translated
 		}else if ($msg>"") {
 			$msg = substitute_array("`)".$msg."`0`n", array("{damage}"), array($realdamage));
-			output($msg);
+			output::doOutput($msg);
 		}
 		if ($buff['schema']) {
 			translator::tlschema();
@@ -333,7 +333,7 @@ function expire_buffs() {
 						output_notl($msg); //Here it's already translated
 					}else{
 						$msg = substitute_array("`5".$buff['wearoff']."`0`n");
-						output($msg);
+						output::doOutput($msg);
 					}
 				}
 				//unset($session['bufflist'][$key]);

@@ -88,7 +88,7 @@ function racehuman_dohook($hookname,$args){
 		}
 		break;
 	case "chooserace":
-		output("`0<a href='newday.php?setrace=$race$resline'>On the plains in the city of %s</a>, the city of `&men`0; always following your father and looking up to his every move, until he sought out the `@Green Dragon`0, never to be seen again.`n`n", $city, true);
+		output::doOutput("`0<a href='newday.php?setrace=$race$resline'>On the plains in the city of %s</a>, the city of `&men`0; always following your father and looking up to his every move, until he sought out the `@Green Dragon`0, never to be seen again.`n`n", $city, true);
 		addnav("`&Human`0","newday.php?setrace=$race$resline");
 		addnav("","newday.php?setrace=$race$resline");
 		break;
@@ -101,7 +101,7 @@ function racehuman_dohook($hookname,$args){
 			$word = $bonus==1?$one:$bonus==2?$two:$three;
 			$fight = translator::translate_inline("fight");
 			$fights = translator::translate_inline("fights");
-			output("`&As a human, your size and strength permit you the ability to effortlessly wield weapons, tiring much less quickly than other races.`n`^You gain %s extra forest %s each day!", $word, $bonus==1?$fight:$fights);
+			output::doOutput("`&As a human, your size and strength permit you the ability to effortlessly wield weapons, tiring much less quickly than other races.`n`^You gain %s extra forest %s each day!", $word, $bonus==1?$fight:$fights);
 			if (is_module_active("cities")) {
 				if ($session['user']['dragonkills']==0 &&
 						$session['user']['age']==0){
@@ -131,7 +131,7 @@ function racehuman_dohook($hookname,$args){
 			$session['user']['turns']+=$bonus;
 			$fight = translator::translate_inline("fight");
 			$fights = translator::translate_inline("fights");
-			output("`n`&Because you are human, you gain `^%s extra`& forest fights for today!`n`0", $word, $bonus==1?$fight:$fights);
+			output::doOutput("`n`&Because you are human, you gain `^%s extra`& forest fights for today!`n`0", $word, $bonus==1?$fight:$fights);
 		}
 		break;
 	case "validforestloc":

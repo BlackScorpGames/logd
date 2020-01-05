@@ -48,13 +48,13 @@ page_footer();
 function clanform(){
 	rawoutput("<form action='clan.php?op=new&apply=1' method='POST'>");
 	addnav("","clan.php?op=new&apply=1");
-	output("`b`cNew Clan Application Form`c`b");
-	output("Clan Name: ");
+	output::doOutput("`b`cNew Clan Application Form`c`b");
+	output::doOutput("Clan Name: ");
 	rawoutput("<input name='clanname' maxlength='50' value=\"".htmlentities(stripslashes(httppost('clanname')), ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."\">");
-	output("`nShort Name: ");
+	output::doOutput("`nShort Name: ");
 	rawoutput("<input name='clanshort' maxlength='5' size='5' value=\"".htmlentities(stripslashes(httppost('clanshort')), ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."\">");
-	output("`nNote, color codes are permitted in neither clan names nor short names.");
-	output("The clan name is shown on player bios and on clan overview pages while the short name is displayed next to players' names in comment areas and such.`n");
+	output::doOutput("`nNote, color codes are permitted in neither clan names nor short names.");
+	output::doOutput("The clan name is shown on player bios and on clan overview pages while the short name is displayed next to players' names in comment areas and such.`n");
 	$apply = translator::translate_inline("Apply");
 	rawoutput("<input type='submit' class='button' value='$apply'></form>");
 }

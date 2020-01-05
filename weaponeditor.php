@@ -22,9 +22,9 @@ addnav("Add a weapon","weaponeditor.php?op=add&level=$weaponlevel");
 $values = array(1=>48,225,585,990,1575,2250,2790,3420,4230,5040,5850,6840,8010,9000,10350);
 rawoutput("<h3>");
 if ($weaponlevel == 1) {
-	output("`&Weapons for 1 Dragon Kill`0");
+	output::doOutput("`&Weapons for 1 Dragon Kill`0");
 } else {
-	output("`&Weapons for %s Dragon Kills`0",$weaponlevel);
+	output::doOutput("`&Weapons for %s Dragon Kills`0",$weaponlevel);
 }
 rawoutput("<h3>");
 
@@ -64,7 +64,7 @@ if($op=="edit" || $op=="add"){
 		$sql = "INSERT INTO " . db_prefix("weapons") . " (level,damage,weaponname,value) VALUES ($weaponlevel,\"$damage\",\"$weaponname\",".$values[$damage].")";
 	}
 	db_query($sql);
-	//output($sql);
+	//output::doOutput($sql);
 	$op = "";
 	httpset("op", $op);
 }

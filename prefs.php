@@ -30,7 +30,7 @@ if ($op=="suicide" && getsetting("selfdelete",0)!=0) {
 	char_cleanup($userid, CHAR_DELETE_SUICIDE);
 	$sql = "DELETE FROM " . db_prefix("accounts") . " WHERE acctid='$userid'";
 	db_query($sql);
-	output("Your character has been deleted!");
+	output::doOutput("Your character has been deleted!");
 	addnews("`#%s quietly passed from this world.",$session['user']['name']);
 	addnav("Login Page", "index.php");
 	$session=array();
@@ -60,7 +60,7 @@ if ($op=="suicide" && getsetting("selfdelete",0)!=0) {
 		$pass1 = httppost('pass1');
 		$pass2 = httppost('pass2');
 		if ($pass1!=$pass2){
-			output("`#Your passwords do not match.`n");
+			output::doOutput("`#Your passwords do not match.`n");
 		}else{
 			if ($pass1!=""){
 				if (strlen($pass1)>3){
@@ -70,10 +70,10 @@ if ($op=="suicide" && getsetting("selfdelete",0)!=0) {
 						$pass1 = md5(substr($pass1,5));
 					}
 					$session['user']['password']=$pass1;
-					output("`#Your password has been changed.`n");
+					output::doOutput("`#Your password has been changed.`n");
 				}else{
-					output("`#Your password is too short.");
-					output("It must be at least 4 characters.`n");
+					output::doOutput("`#Your password is too short.");
+					output::doOutput("It must be at least 4 characters.`n");
 				}
 			}
 		}
@@ -113,8 +113,8 @@ if ($op=="suicide" && getsetting("selfdelete",0)!=0) {
 		$bio = comment_sanitize($bio);
 		if ($bio!=comment_sanitize($session['user']['bio'])){
 			if ($session['user']['biotime']>"9000-01-01") {
-				output("`\$You cannot modify your bio.");
-				output("It has been blocked by the administrators!`0`n");
+				output::doOutput("`\$You cannot modify your bio.");
+				output::doOutput("It has been blocked by the administrators!`0`n");
 			}else{
 				$session['user']['bio']=$bio;
 				$session['user']['biotime']=date("Y-m-d H:i:s");
@@ -124,23 +124,23 @@ if ($op=="suicide" && getsetting("selfdelete",0)!=0) {
 		if ($email!=$session['user']['emailaddress']){
 			if (is_email($email)){
 				if (getsetting("requirevalidemail",0)==1){
-					output("`#Your email cannot be changed, system settings prohibit it.");
-					output("(Emails may only be changed if the server allows more than one account per email.)");
-					output("Use the Petition link to ask the  server administrator to change your email address if this one is no longer valid.`n");
+					output::doOutput("`#Your email cannot be changed, system settings prohibit it.");
+					output::doOutput("(Emails may only be changed if the server allows more than one account per email.)");
+					output::doOutput("Use the Petition link to ask the  server administrator to change your email address if this one is no longer valid.`n");
 				}else{
-					output("`#Your email address has been changed.`n");
+					output::doOutput("`#Your email address has been changed.`n");
 					$session['user']['emailaddress']=$email;
 				}
 			}else{
 				if (getsetting("requireemail",0)==1){
-					output("`#That is not a valid email address.`n");
+					output::doOutput("`#That is not a valid email address.`n");
 				}else{
-					output("`#Your email address has been changed.`n");
+					output::doOutput("`#Your email address has been changed.`n");
 					$session['user']['emailaddress']=$email;
 				}
 			}
 		}
-		output("Settings Saved");
+		output::doOutput("Settings Saved");
 	}
 
 	if (!isset($session['user']['prefs']['timeformat'])) $session['user']['prefs']['timeformat'] = "[m/d h:ia]";

@@ -46,7 +46,7 @@ if ($op == "add" || $op == "addpoll" || $op == "del")  {
 				round($session['user']['experience']*0.9,0);
 			addnews("%s was penalized for attempting to defile the gods.",
 					$session['user']['name']);
-			output("You've attempted to defile the gods.  You are struck with a wand of forgetfulness.  Some of what you knew, you no longer know.");
+			output::doOutput("You've attempted to defile the gods.  You are struck with a wand of forgetfulness.  Some of what you knew, you no longer know.");
 			saveuser();
 		}
 	}
@@ -91,7 +91,7 @@ if ($op=="") {
 	$result = db_query("SELECT mid(motddate,1,7) AS d, count(*) AS c FROM ".db_prefix("motd")." GROUP BY d ORDER BY d DESC");
 	$row = db_fetch_assoc($result);
 	rawoutput("<form action='motd.php' method='GET'>");
-	output("MoTD Archives:");
+	output::doOutput("MoTD Archives:");
 	rawoutput("<select name='month' onChange='this.form.submit();' >");
 	rawoutput("<option value=''>--Current--</option>");
 	while ($row = db_fetch_assoc($result)){

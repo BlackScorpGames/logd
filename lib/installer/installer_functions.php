@@ -1,19 +1,19 @@
 <?php
 function create_db($dbname){
-	output("`n`2Attempting to create your database...`n");
+	output::doOutput("`n`2Attempting to create your database...`n");
 	$sql = "CREATE DATABASE $dbname";
 	mysql_query($sql);
 	$error = mysql_error();
 	if ($error == ""){
 		if (mysql_select_db($dbname)){
-			output("`@Success!`2  I was able to create the database and connect to it!`n");
+			output::doOutput("`@Success!`2  I was able to create the database and connect to it!`n");
 		}else{
-			output("`\$It seems I was not successful.`2  I didn't get any errors trying to create the database, but I was not able to connect to it.");
-			output("I'm not sure what would have caused this error, you might try asking around in <a href='http://lotgd.net/forum/' target='_blank'>the LotGD.net forums</a>.");
+			output::doOutput("`\$It seems I was not successful.`2  I didn't get any errors trying to create the database, but I was not able to connect to it.");
+			output::doOutput("I'm not sure what would have caused this error, you might try asking around in <a href='http://lotgd.net/forum/' target='_blank'>the LotGD.net forums</a>.");
 		}
 	}else{
-		output("`\$It seems I was not successful.`2 ");
-		output("The error returned by the database server was:");
+		output::doOutput("`\$It seems I was not successful.`2 ");
+		output::doOutput("The error returned by the database server was:");
 		rawoutput("<blockquote>$error</blockquote>");
 	}
 

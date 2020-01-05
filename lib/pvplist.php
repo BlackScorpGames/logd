@@ -96,9 +96,9 @@ function pvplist($location=false,$link=false,$extra=false,$sql=false){
 		rawoutput("</td>");
 		rawoutput("<td>[ <a href='$biolink'>$bio</a> | ");
 		if($row['pvpflag']>$pvptimeout){
-			output("`i(Attacked too recently)`i");
+			output::doOutput("`i(Attacked too recently)`i");
 		}elseif ($location!=$row['location']){
-			output("`i(Can't reach them from here)`i");
+			output::doOutput("`i(Can't reach them from here)`i");
 		}else{
 			rawoutput("<a href='$link$extra&name=".$row['acctid']."'>$att</a>");
 			addnav("","$link$extra&name=".$row['acctid']);
@@ -115,15 +115,15 @@ function pvplist($location=false,$link=false,$extra=false,$sql=false){
 
 	if ($num != 0 && (!isset($loc_counts[$location]) ||
 				$loc_counts[$location] != $num)) {
-		output("`n`n`&As you listen to different people around you talking, you glean the following additional information:`n");
+		output::doOutput("`n`n`&As you listen to different people around you talking, you glean the following additional information:`n");
 		foreach ($loc_counts as $loc=>$count) {
 			if ($loc == $location) continue;
 			$args = modulehook("pvpcount", array('count'=>$count,'loc'=>$loc));
 			if (isset($args['handled']) && $args['handled']) continue;
 			if ($count == 1) {
-			output("`&There is `^%s`& person sleeping in %s whom you might find interesting.`0`n", $count, $loc);
+			output::doOutput("`&There is `^%s`& person sleeping in %s whom you might find interesting.`0`n", $count, $loc);
 			} else {
-			output("`&There are `^%s`& people sleeping in %s whom you might find interesting.`0`n", $count, $loc);
+			output::doOutput("`&There are `^%s`& people sleeping in %s whom you might find interesting.`0`n", $count, $loc);
 			}
 		}
 	}

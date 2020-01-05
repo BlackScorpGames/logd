@@ -41,11 +41,11 @@ function forest($noshowmessage=false) {
 	addnav("Other");
 	villagenav();
 	if ($noshowmessage!=true){
-		output("`c`7`bThe Forest`b`0`c");
-		output("The Forest, home to evil creatures and evildoers of all sorts.`n`n");
-		output("The thick foliage of the forest restricts your view to only a few yards in most places.");
-		output("The paths would be imperceptible except for your trained eye.");
-		output("You move as silently as a soft breeze across the thick moss covering the ground, wary to avoid stepping on a twig or any of the numerous pieces of bleached bone that populate the forest floor, lest you betray your presence to one of the vile beasts that wander the forest.`n");
+		output::doOutput("`c`7`bThe Forest`b`0`c");
+		output::doOutput("The Forest, home to evil creatures and evildoers of all sorts.`n`n");
+		output::doOutput("The thick foliage of the forest restricts your view to only a few yards in most places.");
+		output::doOutput("The paths would be imperceptible except for your trained eye.");
+		output::doOutput("You move as silently as a soft breeze across the thick moss covering the ground, wary to avoid stepping on a twig or any of the numerous pieces of bleached bone that populate the forest floor, lest you betray your presence to one of the vile beasts that wander the forest.`n");
 		modulehook("forest-desc");
 	}
 	modulehook("forest", array());

@@ -23,18 +23,18 @@ function setup_target($name) {
 	if (db_num_rows($result)>0){
 		$row = db_fetch_assoc($result);
 		if (abs($session['user']['level']-$row['creaturelevel'])>2){
-			output("`\$Error:`4 That user is out of your level range!");
+			output::doOutput("`\$Error:`4 That user is out of your level range!");
 			return false;
 		}elseif ($row['pvpflag'] > $pvptimeout){
-			output("`\$Oops:`4 That user is currently engaged by someone else, you'll have to wait your turn!");
+			output::doOutput("`\$Oops:`4 That user is currently engaged by someone else, you'll have to wait your turn!");
 			return false;
 		}elseif (strtotime($row['laston']) >
 				strtotime("-".getsetting("LOGINTIMEOUT",900)." sec") &&
 				$row['loggedin']){
-			output("`\$Error:`4 That user is now online, and cannot be attacked until they log off again.");
+			output::doOutput("`\$Error:`4 That user is now online, and cannot be attacked until they log off again.");
 			return false;
 		} elseif((int)$row['alive']!=1){
-			output("`\$Error:`4 That user is not alive.");
+			output::doOutput("`\$Error:`4 That user is not alive.");
 			return false;
 		}elseif ($session['user']['playerfights']>0){
 			$sql = "UPDATE " . db_prefix("accounts") . " SET pvpflag='".date("Y-m-d H:i:s")."' WHERE acctid={$row['acctid']}";
@@ -46,11 +46,11 @@ function setup_target($name) {
 			pvpwarning(true);
 			return $row;
 		}else{
-			output("`4Judging by how tired you are, you think you had best not engage in battle against other players right now.");
+			output::doOutput("`4Judging by how tired you are, you think you had best not engage in battle against other players right now.");
 			return false;
 		}
 	} else {
-		output("`\$Error:`4 That user was not found!  It's likely that their account expired just now.");
+		output::doOutput("`\$Error:`4 That user was not found!  It's likely that their account expired just now.");
 		return false;
 	}
 	return false;
@@ -69,7 +69,7 @@ function pvpvictory($badguy, $killedloc, $options)
 		 (int)$badguy['creaturegold']:(int)$row['gold']);
 
 	if ($session['user']['level'] == 15) {
-		output('`#***At your level of fighting prowess, the mere reward of beating your foe is sufficient accolade.`n');
+		output::doOutput('`#***At your level of fighting prowess, the mere reward of beating your foe is sufficient accolade.`n');
 	}
 
 	// Winner of fight gets altered amount of gold based on badguy's level
@@ -78,9 +78,9 @@ function pvpvictory($badguy, $killedloc, $options)
 	// exhorbitant amounts of money from being transferred this way.
 	$winamount = round(10 * $badguy['creaturelevel'] *
 			log(max(1,$badguy['creaturegold'])),0);
-	output("`b`\$You have slain %s!`0`b`n", $badguy['creaturename']);
+	output::doOutput("`b`\$You have slain %s!`0`b`n", $badguy['creaturename']);
 	if ($session['user']['level'] == 15) $winamount = 0;
-	output("`#You receive `^%s`# gold!`n", $winamount);
+	output::doOutput("`#You receive `^%s`# gold!`n", $winamount);
 	$session['user']['gold']+=$winamount;
 
 	$exp = round(getsetting("pvpattgain",10)*$badguy['creatureexp']/100,0);
@@ -89,12 +89,12 @@ function pvpvictory($badguy, $killedloc, $options)
 				(1+.1*($badguy['creaturelevel']-
 					   $session['user']['level']))) - $exp,0);
 	if ($expbonus>0){
-		output("`#***Because of the difficult nature of this fight, you are awarded an additional `^%s`# experience!`n", $expbonus);
+		output::doOutput("`#***Because of the difficult nature of this fight, you are awarded an additional `^%s`# experience!`n", $expbonus);
 	}else if ($expbonus<0){
-		output("`#***Because of the simplistic nature of this fight, you are penalized `^%s`# experience!`n", abs($expbonus));
+		output::doOutput("`#***Because of the simplistic nature of this fight, you are penalized `^%s`# experience!`n", abs($expbonus));
 	}
 	$wonexp = $exp + $expbonus;
-	output("You receive `^%s`# experience!`n`0", $wonexp);
+	output::doOutput("You receive `^%s`# experience!`n`0", $wonexp);
 	$session['user']['experience']+=$wonexp;
 
 	$lostexp = round($badguy['creatureexp']*getsetting("pvpdeflose",5)/100,0);
@@ -166,7 +166,7 @@ function pvpdefeat($badguy, $killedloc, $taunt, $options)
 		// if the player has leveled DOWN some how from when we started
 		// attacking them, let's assume they DK'd, and these rewards are
 		// way too rich for them.
-		output("`cThis player has leveled down!!!`c");
+		output::doOutput("`cThis player has leveled down!!!`c");
 		$msg .= "You would have received `^%s`2 experience and `^%s`2 gold, `\$however it seems you lost it all while fighting the dragon";
 	} elseif ($badguy['creaturelevel'] == 15) {
 		$msg .= "At your level of fighting prowess, the mere reward of beating your foe is sufficient accolade.  You received `^%s`2 experience and `^%s`2 gold";
@@ -196,10 +196,10 @@ function pvpdefeat($badguy, $killedloc, $taunt, $options)
 	$session['user']['experience'] =
 		round($session['user']['experience']*
 				(100-getsetting("pvpattlose",15))/100,0);
-	output("`b`&You have been slain by `%%s`&!!!`n", $badguy['creaturename']);
-	output("`4All gold on hand has been lost!`n");
-	output("`4%s%% of experience has been lost!`n",
+	output::doOutput("`b`&You have been slain by `%%s`&!!!`n", $badguy['creaturename']);
+	output::doOutput("`4All gold on hand has been lost!`n");
+	output::doOutput("`4%s%% of experience has been lost!`n",
 			getsetting("pvpattlose", 15));
-	output("You may begin fighting again tomorrow.");
+	output::doOutput("You may begin fighting again tomorrow.");
 	return $args['handled'];
 }

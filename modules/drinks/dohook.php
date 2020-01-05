@@ -36,11 +36,11 @@ function drinks_dohook_private($hookname,$args) {
 			$remark = str_replace("{lover}",$partner."`0", $remark);
 			$remark = str_replace("{barkeep}", $drinktext['barkeep']."`0", $remark);
 			output_notl("%s`n", $remark);
-			output($drinktexts['toomany']);
+			output::doOutput($drinktexts['toomany']);
 			output_notl("`n");
 			$hard = "AND harddrink=0";
 		}
-		output("`n`n`7You now feel %s.`n`n", $drunklist[$drunk]);
+		output::doOutput("`n`n`7You now feel %s.`n`n", $drunklist[$drunk]);
 		$sql = "SELECT * FROM " . db_prefix("drinks") . " WHERE active=1 $hard ORDER BY costperlevel";
 		$result = db_query($sql);
 		while ($row = db_fetch_assoc($result)) {
@@ -59,7 +59,7 @@ function drinks_dohook_private($hookname,$args) {
 		set_module_pref("harddrinks", 0);
 		$drunk = get_module_pref("drunkeness");
 		if ($drunk > 66) {
-			output("`n`&Waking up in the gutter after your last little 'adventure with alcohol', you `\$lose 1`& turn crawling back to your normal lodging.`n");
+			output::doOutput("`n`&Waking up in the gutter after your last little 'adventure with alcohol', you `\$lose 1`& turn crawling back to your normal lodging.`n");
 			$args['turnstoday'] .= ", Hangover: -1";
 			$session['user']['turns']--;
 			// Sanity check
@@ -79,7 +79,7 @@ function drinks_dohook_private($hookname,$args) {
 			set_module_pref("drunkeness", $drunk);
 			if ($sobermsg) {
 				if ($args['schema']) translator::tlschema($args['schema']);
-				output($sobermsg);
+				output::doOutput($sobermsg);
 				if ($args['schema']) translator::tlschema();
 			}
 		}

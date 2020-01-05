@@ -17,18 +17,18 @@ if ($url) {
 	popup_header("Source code");
 }
 if (!($session['user']['loggedin'] && $session['user']['superuser'] & SU_VIEW_SOURCE) || !isset($session['user']['loggedin'])) {
-	output("Due to the behaviour of people in the past, access to the source code online has been restricted.");
-	output("You may download the entirety of the latest publically released stable version from <a href='http://www.dragonprime.net' target='_blank'>DragonPrime</a>.", true);
-	output("You may then work with that code within the restrictions of its license.");
-	output("`n`nHopefully this will help put an end to actions like the following:");
+	output::doOutput("Due to the behaviour of people in the past, access to the source code online has been restricted.");
+	output::doOutput("You may download the entirety of the latest publically released stable version from <a href='http://www.dragonprime.net' target='_blank'>DragonPrime</a>.", true);
+	output::doOutput("You may then work with that code within the restrictions of its license.");
+	output::doOutput("`n`nHopefully this will help put an end to actions like the following:");
 	rawoutput("<ul><li>");
-	output("Releasing code which they do not own without permission.");
+	output::doOutput("Releasing code which they do not own without permission.");
 	rawoutput("</li><li>");
-	output("Removing valid copyright information from code and replacing it.");
+	output::doOutput("Removing valid copyright information from code and replacing it.");
 	rawoutput("</li><li>");
-	output("Removing portions of the code required to be kept intact by licensing.");
+	output::doOutput("Removing portions of the code required to be kept intact by licensing.");
 	rawoutput("</li><li>");
-	output("Claiming copyright of items which they did not create.");
+	output::doOutput("Claiming copyright of items which they did not create.");
 	rawoutput("</li></ul>");
 	popup_footer();
 } else {
@@ -87,11 +87,11 @@ if (!($session['user']['loggedin'] && $session['user']['superuser'] & SU_VIEW_SO
 	$legal_files=array();
 
 	rawoutput("<h1>");
-	output("View Source: ");
+	output::doOutput("View Source: ");
 	output_notl("%s", htmlentities($url, ENT_COMPAT, getsetting("charset", "ISO-8859-1")));
 	rawoutput("</h1>");
-	if($url) output("<a href='#source'>Click here for the source,</a> OR`n", true);
-	output("`bOther files that you may wish to view the source of:`b");
+	if($url)output::doOutput("<a href='#source'>Click here for the source,</a> OR`n", true);
+	output::doOutput("`bOther files that you may wish to view the source of:`b");
 	rawoutput("<ul>");
 	// Gather all the legal dirs
 	$legal_dirs = array();
@@ -160,7 +160,7 @@ if (!($session['user']['loggedin'] && $session['user']['superuser'] & SU_VIEW_SO
 					}else{
 					rawoutput("<li>$key1$entry");
 					$reason = translator::translate_inline($illegal_files[$key2 . $entry]);
-					output("&#151; This file cannot be viewed: %s", $reason, true);
+					output::doOutput("&#151; This file cannot be viewed: %s", $reason, true);
 					rawoutput("</li>\n");
 					}
 			}else{
@@ -172,7 +172,7 @@ if (!($session['user']['loggedin'] && $session['user']['superuser'] & SU_VIEW_SO
 	rawoutput("</ul>");
 	if ($url) {
 		rawoutput("<h1><a name='source'>");
-		output("Source of: %s", htmlentities($url, ENT_COMPAT, getsetting("charset", "ISO-8859-1")));
+		output::doOutput("Source of: %s", htmlentities($url, ENT_COMPAT, getsetting("charset", "ISO-8859-1")));
 		rawoutput("</a></h1>");
 
 		$page_name = $url;
@@ -190,9 +190,9 @@ if (!($session['user']['loggedin'] && $session['user']['superuser'] & SU_VIEW_SO
 			rawoutput("</td></tr></table>", true);
 		}else if ($illegal_files[$url]!="" && $illegal_files[$url]!="X"){
 			$reason = translator::translate_inline($illegal_files[$url]);
-			output("`nCannot view this file: %s`n", $reason);
+			output::doOutput("`nCannot view this file: %s`n", $reason);
 		}else {
-			output("`nCannot view this file.`n");
+			output::doOutput("`nCannot view this file.`n");
 		}
 	}
 	popup_footer();

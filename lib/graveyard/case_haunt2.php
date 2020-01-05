@@ -7,19 +7,19 @@ for ($x=0;$x<strlen($name);$x++){
 $sql = "SELECT login,name,level FROM " . db_prefix("accounts") . " WHERE name LIKE '".addslashes($string)."' AND locked=0 ORDER BY level,login";
 $result = db_query($sql);
 if (db_num_rows($result)<=0){
-	output("`\$%s`) could find no one who matched the name you gave him.",$deathoverlord);
+	output::doOutput("`\$%s`) could find no one who matched the name you gave him.",$deathoverlord);
 }elseif(db_num_rows($result)>100){
-	output("`\$%s`) thinks you should narrow down the number of people you wish to haunt.",$deathoverlord);
+	output::doOutput("`\$%s`) thinks you should narrow down the number of people you wish to haunt.",$deathoverlord);
 	$search = translator::translate_inline("Search");
 	rawoutput("<form action='graveyard.php?op=haunt2' method='POST'>");
 	addnav("","graveyard.php?op=haunt2");
-	output("Who would you like to haunt? ");
+	output::doOutput("Who would you like to haunt? ");
 	rawoutput("<input name='name' id='name'>");
 	rawoutput("<input type='submit' class='button' value='$search'>");
 	rawoutput("</form>");
 	rawoutput("<script language='JavaScript'>document.getElementById('name').focus()</script>",true);
 }else{
-	output("`\$%s`) will allow you to try to haunt these people:`n",$deathoverlord);
+	output::doOutput("`\$%s`) will allow you to try to haunt these people:`n",$deathoverlord);
 	$name = translator::translate_inline("Name");
 	$lev = translator::translate_inline("Level");
 	rawoutput("<table cellpadding='3' cellspacing='0' border='0'>");

@@ -6,13 +6,13 @@
 function templatereplace($itemname,$vals=false){
 	global $template;
 	if (!isset($template[$itemname]))
-		output("`bWarning:`b The `i%s`i template part was not found!`n", $itemname);
+		output::doOutput("`bWarning:`b The `i%s`i template part was not found!`n", $itemname);
 	$out = $template[$itemname];
 	if (!is_array($vals)) return $out;
 	@reset($vals);
 	while (list($key,$val)=@each($vals)){
 		if (strpos($out,"{".$key."}")===false){
-			output("`bWarning:`b the `i%s`i piece was not found in the `i%s`i te".
+			output::doOutput("`bWarning:`b the `i%s`i piece was not found in the `i%s`i te".
 					"mplate part! (%s)`n", $key, $itemname, $out);
 			$out .= $val;
 		}else{

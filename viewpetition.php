@@ -214,25 +214,25 @@ if ($op==""){
 		rawoutput("</tr>");
 	}
 	rawoutput("</table>");
-	output("`i(Closed petitions will automatically delete themselves when they have been closed for 7 days)`i");
-	output("`n`bKey:`b`n");
+	output::doOutput("`i(Closed petitions will automatically delete themselves when they have been closed for 7 days)`i");
+	output::doOutput("`n`bKey:`b`n");
 	rawoutput("<ul><li>");
-	output("`\$T = Top Level`0 petitions are for petitions that only server operators can take care of.");
+	output::doOutput("`\$T = Top Level`0 petitions are for petitions that only server operators can take care of.");
 	rawoutput("</li><li>");
-	output("`^E = Escalated`0 petitions deal with an issue you can't handle for yourself.");
-	output("Mark it escalated so someone with more permissions than you can deal with it.");
+	output::doOutput("`^E = Escalated`0 petitions deal with an issue you can't handle for yourself.");
+	output::doOutput("Mark it escalated so someone with more permissions than you can deal with it.");
 	rawoutput("</li><li>");
-	output("`b`&U = Unhandled`0`b: No one is currently working on this problem, and it has not been dealt with yet.");
+	output::doOutput("`b`&U = Unhandled`0`b: No one is currently working on this problem, and it has not been dealt with yet.");
 	rawoutput("</li><li>");
-	output("P = In-Progress petitions are probably being worked on by someone else, so please leave them be unless they have been around for some time.");
+	output::doOutput("P = In-Progress petitions are probably being worked on by someone else, so please leave them be unless they have been around for some time.");
 	rawoutput("</li><li>");
-	output("`%B = Bug/Suggestion`0 petitions are petitions that detail mistakes, bugs, misspellings, or suggestions for the game.");
+	output::doOutput("`%B = Bug/Suggestion`0 petitions are petitions that detail mistakes, bugs, misspellings, or suggestions for the game.");
 	rawoutput("</li><li>");
-	output("`#A = Awaiting Points`0 stuff wot is dun and needz teh points added (this is mostly for lotgd.net).");
+	output::doOutput("`#A = Awaiting Points`0 stuff wot is dun and needz teh points added (this is mostly for lotgd.net).");
 	rawoutput("</li><li>");
-	output("`!I = Informational`0 petitions are just around for others to view, either nothing needed to be done with them, or their issue has been dealt with, but you feel other admins could benefit from reading it.");
+	output::doOutput("`!I = Informational`0 petitions are just around for others to view, either nothing needed to be done with them, or their issue has been dealt with, but you feel other admins could benefit from reading it.");
 	rawoutput("</li><li>");
-	output("`iClosed`i petitions are for you have dealt with an issue, these will auto delete when they have been closed for 7 days.");
+	output::doOutput("`iClosed`i petitions are for you have dealt with an issue, these will auto delete when they have been closed for 7 days.");
 	modulehook("petitions-descriptions", array());
 	rawoutput("</li></ul>");
 }elseif($op=="view"){
@@ -279,23 +279,23 @@ if ($op==""){
 	$row['body'] = str_replace("[description]",translator::translate_mail("[description]",0),$row['body']);
 	// For email replies, make sure we don't overflow the URI buffer.
 	$reppet = substr(stripslashes($row['body']), 0, 2000);
-	output("`@From: ");
+	output::doOutput("`@From: ");
 	if ($row['login']>"") {
 		rawoutput("<a href=\"mail.php?op=write&to=".rawurlencode($row['login'])."&body=".rawurlencode("\n\n----- $yourpeti -----\n$reppet")."&subject=RE:+$peti\" target=\"_blank\" onClick=\"".popup("mail.php?op=write&to=".rawurlencode($row['login'])."&body=".rawurlencode("\n\n----- $yourpeti -----\n$reppet")."&subject=RE:+$peti").";return false;\"><img src='images/newscroll.GIF' width='16' height='16' alt='$write' border='0'></a>");
 	}
 	output_notl("`^`b%s`b`n", $row['name']);
-	output("`@Date: `^`b%s`b (%s)`n", $row['date'], reltime(strtotime($row['date'])));
-	output("`@Status: %s`n", $statuses[$row['status']]);
-	if($row['closedate']) output("`@Last Update: `^%s`@ on `^%s (%s)`n", $row['closer'], $row['closedate'],  reltime(strtotime($row['closedate'])));
-	output("`@Body:`^`n");
-	output("`\$[ipaddress] `^= `#%s`^`n", $row['ip']);
+	output::doOutput("`@Date: `^`b%s`b (%s)`n", $row['date'], reltime(strtotime($row['date'])));
+	output::doOutput("`@Status: %s`n", $statuses[$row['status']]);
+	if($row['closedate'])output::doOutput("`@Last Update: `^%s`@ on `^%s (%s)`n", $row['closer'], $row['closedate'],  reltime(strtotime($row['closedate'])));
+	output::doOutput("`@Body:`^`n");
+	output::doOutput("`\$[ipaddress] `^= `#%s`^`n", $row['ip']);
 	$body = htmlentities(stripslashes($row['body']), ENT_COMPAT, getsetting("charset", "ISO-8859-1"));
 	$body = preg_replace("'([[:alnum:]_.-]+[@][[:alnum:]_.-]{2,}([.][[:alnum:]_.-]{2,})+)'i","<a href='mailto:\\1?subject=RE: $peti&body=".str_replace("+"," ",URLEncode("\n\n----- $yourpeti -----\n".$row['body']))."'>\\1</a>",$body);
 	$body = preg_replace("'([\\[][[:alnum:]_.-]+[\\]])'i","<span class='colLtRed'>\\1</span>",$body);
 	rawoutput("<span style='font-family: fixed-width'>".nl2br($body)."</span>");
 	commentdisplay("`n`@Commentary:`0`n", "pet-$id","Add information",200);
 	if ($viewpageinfo){
-		output("`n`n`@Page Info:`&`n");
+		output::doOutput("`n`n`@Page Info:`&`n");
 		$row['pageinfo']=stripslashes($row['pageinfo']);
 		$body = HTMLEntities($row['pageinfo'], ENT_COMPAT, getsetting("charset", "ISO-8859-1"));
 		$body = preg_replace("'([[:alnum:]_.-]+[@][[:alnum:]_.-]{2,}([.][[:alnum:]_.-]{2,})+)'i","<a href='mailto:\\1?subject=RE: $peti&body=".str_replace("+"," ",URLEncode("\n\n----- $yourpeti -----\n".$row['body']))."'>\\1</a>",$body);

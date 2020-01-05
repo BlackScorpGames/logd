@@ -1,7 +1,7 @@
 <?php
-output("`b`iMail Box`i`b");
+output::doOutput("`b`iMail Box`i`b");
 if (isset($session['message'])) {
-	output($session['message']);
+	output::doOutput($session['message']);
 }
 $session['message']="";
 $mail = db_prefix("mail");
@@ -50,10 +50,10 @@ if ($db_num_rows>0){
 	rawoutput("<input type='submit' class='button' value=\"$delchecked\">");
 	rawoutput("</form>");
 }else{
-	output("`iAww, you have no mail, how sad.`i");
+	output::doOutput("`iAww, you have no mail, how sad.`i");
 }
 if (db_num_rows($result) == 1) {
-	output("`n`n`iYou currently have 1 message in your inbox.`nYou will no longer be able to receive messages from players if you have more than %s unread messages in your inbox.  `nMessages are automatically deleted (read or unread) after %s days.",getsetting('inboxlimit',50),getsetting("oldmail",14));
+	output::doOutput("`n`n`iYou currently have 1 message in your inbox.`nYou will no longer be able to receive messages from players if you have more than %s unread messages in your inbox.  `nMessages are automatically deleted (read or unread) after %s days.",getsetting('inboxlimit',50),getsetting("oldmail",14));
 } else {
-	output("`n`n`iYou currently have %s messages in your inbox.`nYou will no longer be able to receive messages from players if you have more than %s unread messages in your inbox.  `nMessages are automatically deleted (read or unread) after %s days.",db_num_rows($result),getsetting('inboxlimit',50),getsetting("oldmail",14));
+	output::doOutput("`n`n`iYou currently have %s messages in your inbox.`nYou will no longer be able to receive messages from players if you have more than %s unread messages in your inbox.  `nMessages are automatically deleted (read or unread) after %s days.",db_num_rows($result),getsetting('inboxlimit',50),getsetting("oldmail",14));
 }

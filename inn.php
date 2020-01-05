@@ -33,7 +33,7 @@ if (!$skipinndesc) {
 	checkday();
 	rawoutput("<span style='color: #9900FF'>");
 	output_notl("`c`b");
-	output($iname);
+	output::doOutput($iname);
 	output_notl("`b`c");
 }
 

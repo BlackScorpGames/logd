@@ -34,10 +34,10 @@ function soap($input,$debug=false,$skiphook=false){
 						$x--;
 						$times--;
 						if ($debug)
-							output("This word is ok because it was caught by an exception: `b`^%s`7`b`n",$longword);
+							output::doOutput("This word is ok because it was caught by an exception: `b`^%s`7`b`n",$longword);
 					}else{
 						if ($debug)
-							output("`7This word is not ok: \"`%%s`7\"; it blocks on the pattern `i%s`i at \"`\$%s`7\".`n",$longword,$word,$shortword);
+							output::doOutput("`7This word is not ok: \"`%%s`7\"; it blocks on the pattern `i%s`i at \"`\$%s`7\".`n",$longword,$word,$shortword);
 						// if the word should be filtered, drop it from the
 						// search terms ($output), and mask its bytes out of
 						// the output mask.
@@ -71,7 +71,7 @@ function soap($input,$debug=false,$skiphook=false){
 		}
 		if ($session['user']['superuser'] & SU_EDIT_COMMENTS &&
 				$changed_content){
-			output("`0The filter would have tripped on \"`#%s`0\" but since you're a moderator, I'm going to be lenient on you.  The text would have read, \"`#%s`0\"`n`n",$input,$final_output);
+			output::doOutput("`0The filter would have tripped on \"`#%s`0\" but since you're a moderator, I'm going to be lenient on you.  The text would have read, \"`#%s`0\"`n`n",$input,$final_output);
 			return $input;
 		}else{
 			if ($changed_content && !$skiphook)

@@ -39,7 +39,7 @@ if ($op=="search" || $op== ""){
 	list($searchresult, $err) = lookup_user($query, $order);
 	$op = "";
 	if ($err) {
-		output($err);
+		output::doOutput($err);
 	} else {
 		$display = 1;
 	}
@@ -49,7 +49,7 @@ if ($op=="search" || $op== ""){
 $m = http::httpget("module");
 if ($m) $m = "&module=$m&subop=module";
 rawoutput("<form action='user.php?op=search$m' method='POST'>");
-output("Search by any field below: ");
+output::doOutput("Search by any field below: ");
 rawoutput("<input name='q' id='q'>");
 $se = translator::translate_inline("Search");
 rawoutput("<input type='submit' class='button' value='$se'>");
@@ -65,7 +65,7 @@ addnav("List/Remove bans","user.php?op=removeban");
 // This doesn't seem to be used, so I'm going to comment it out now
 //$msg =http::httpget('msg');
 //if ($msg>"") {
-//	output("Message: %s`n", $msg);
+//	output::doOutput("Message: %s`n", $msg);
 //}
 
 // Collect a list of the mounts

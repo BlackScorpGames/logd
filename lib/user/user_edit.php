@@ -36,9 +36,9 @@ if (http::httpget("subop")==""){
 	if ($row['loggedin']==1 && $row['laston']>date("Y-m-d H:i:s",strtotime("-".getsetting("LOGINTIMEOUT",900)." seconds"))){
 		output_notl("`\$");
 		rawoutput("<span style='font-size: 20px'>");
-		output("`\$Warning:`0");
+		output::doOutput("`\$Warning:`0");
 		rawoutput("</span>");
-		output("`\$This user is probably logged in at the moment!`0");
+		output::doOutput("`\$This user is probably logged in at the moment!`0");
 	}
 	// Okay, munge the display name down to just the players name sans
 	// title
@@ -53,10 +53,10 @@ if (http::httpget("subop")==""){
 	$info = showform($showformargs['userinfo'],$showformargs['user']);
 	rawoutput("<input type='hidden' value=\"".htmlentities(serialize($info), ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."\" name='oldvalues'>");
 	rawoutput("</form>");
-		output("`n`nLast Page Viewed:`n");
+		output::doOutput("`n`nLast Page Viewed:`n");
 	rawoutput("<iframe src='user.php?op=lasthit&userid=$userid' width='100%' height='400'>");
-	output("You need iframes to view the user's last hit here.");
-	output("Use the link in the nav instead.");
+	output::doOutput("You need iframes to view the user's last hit here.");
+	output::doOutput("Use the link in the nav instead.");
 	rawoutput("</iframe>");
 }elseif(http::httpget("subop")=="module"){
 	//Show a user's prefs for a given module.
@@ -93,7 +93,7 @@ if (http::httpget("subop")==""){
 		translator::tlschema();
 		rawoutput("</form>");
 	}else{
-		output("The $module module doesn't appear to define any user preferences.");
+		output::doOutput("The $module module doesn't appear to define any user preferences.");
 	}
 }
 module_editor_navs('prefs', "user.php?op=edit&subop=module&userid=$userid$returnpetition&module=");

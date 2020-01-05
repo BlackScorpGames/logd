@@ -20,7 +20,7 @@ $battle = false;
 $victory = false;
 $defeat = false;
 
-output("`b`cBluspring's Warrior Training`c`b");
+output::doOutput("`b`cBluspring's Warrior Training`c`b");
 
 $mid = http::httpget("master");
 if ($mid) {
@@ -54,8 +54,8 @@ if (db_num_rows($result) > 0 && $session['user']['level'] <= 14){
 	$op = http::httpget('op');
 	if ($op==""){
 		checkday();
-		output("The sound of conflict surrounds you.  The clang of weapons in grisly battle inspires your warrior heart. ");
-		output("`n`n`^%s stands ready to evaluate you.`0",
+		output::doOutput("The sound of conflict surrounds you.  The clang of weapons in grisly battle inspires your warrior heart. ");
+		output::doOutput("`n`n`^%s stands ready to evaluate you.`0",
 				$master['creaturename']);
 		addnav("Question Master","train.php?op=question&master=$mid");
 		addnav("M?Challenge Master","train.php?op=challenge&master=$mid");
@@ -72,7 +72,7 @@ if (db_num_rows($result) > 0 && $session['user']['level'] <= 14){
 			$session['user']['seenmaster'] = 0;
 		}
 		if ($session['user']['seenmaster']){
-			output("You think that, perhaps, you've seen enough of your master for today, the lessons you learned earlier prevent you from so willingly subjecting yourself to that sort of humiliation again.");
+			output::doOutput("You think that, perhaps, you've seen enough of your master for today, the lessons you learned earlier prevent you from so willingly subjecting yourself to that sort of humiliation again.");
 			villagenav();
 		}else{
 			/* OK, let's fix the multimaster thing */
@@ -113,24 +113,24 @@ if (db_num_rows($result) > 0 && $session['user']['level'] <= 14){
 				if ($victory) {
 					$badguy = unserialize($session['user']['badguy']);
 					$badguy = $badguy['enemies'][0];
-					output("With a flurry of blows you dispatch your master.`n");
+					output::doOutput("With a flurry of blows you dispatch your master.`n");
 				}
 			}else{
-				output("You ready your %s and %s and approach `^%s`0.`n`n",$session['user']['weapon'],$session['user']['armor'],$master['creaturename']);
-				output("A small crowd of onlookers has gathered, and you briefly notice the smiles on their faces, but you feel confident. ");
-				output("You bow before `^%s`0, and execute a perfect spin-attack, only to realize that you are holding NOTHING!", $master['creaturename']);
-				output("`^%s`0 stands before you holding your weapon.",$master['creaturename']);
-				output("Meekly you retrieve your %s, and slink out of the training grounds to the sound of boisterous guffaws.",$session['user']['weapon']);
+				output::doOutput("You ready your %s and %s and approach `^%s`0.`n`n",$session['user']['weapon'],$session['user']['armor'],$master['creaturename']);
+				output::doOutput("A small crowd of onlookers has gathered, and you briefly notice the smiles on their faces, but you feel confident. ");
+				output::doOutput("You bow before `^%s`0, and execute a perfect spin-attack, only to realize that you are holding NOTHING!", $master['creaturename']);
+				output::doOutput("`^%s`0 stands before you holding your weapon.",$master['creaturename']);
+				output::doOutput("Meekly you retrieve your %s, and slink out of the training grounds to the sound of boisterous guffaws.",$session['user']['weapon']);
 				villagenav();
 			}
 		}
 	}else if($op=="question"){
 		checkday();
-		output("You approach `^%s`0 timidly and inquire as to your standing in the class.",$master['creaturename']);
+		output::doOutput("You approach `^%s`0 timidly and inquire as to your standing in the class.",$master['creaturename']);
 		if($session['user']['experience']>=$exprequired){
-			output("`n`n`^%s`0 says, \"Gee, your muscles are getting bigger than mine...\"",$master['creaturename']);
+			output::doOutput("`n`n`^%s`0 says, \"Gee, your muscles are getting bigger than mine...\"",$master['creaturename']);
 		}else{
-			output("`n`n`^%s`0 states that you will need `%%s`0 more experience before you are ready to challenge him in battle.",$master['creaturename'],($exprequired-$session['user']['experience']));
+			output::doOutput("`n`n`^%s`0 states that you will need `%%s`0 more experience before you are ready to challenge him in battle.",$master['creaturename'],($exprequired-$session['user']['experience']));
 		}
 		addnav("Question Master","train.php?op=question&master=$mid");
 		addnav("M?Challenge Master","train.php?op=challenge&master=$mid");
@@ -140,11 +140,11 @@ if (db_num_rows($result) > 0 && $session['user']['level'] <= 14){
 		villagenav();
 	}else if($op=="autochallenge"){
 		addnav("Fight Your Master","train.php?op=challenge&master=$mid");
-		output("`^%s`0 has heard of your prowess as a warrior, and heard of rumors that you think you are so much more powerful than he that you don't even need to fight him to prove anything. ",$master['creaturename']);
-		output("His ego is understandably bruised, and so he has come to find you.");
-		output("`^%s`0 demands an immediate battle from you, and your own pride prevents you from refusing the demand.",$master['creaturename']);
+		output::doOutput("`^%s`0 has heard of your prowess as a warrior, and heard of rumors that you think you are so much more powerful than he that you don't even need to fight him to prove anything. ",$master['creaturename']);
+		output::doOutput("His ego is understandably bruised, and so he has come to find you.");
+		output::doOutput("`^%s`0 demands an immediate battle from you, and your own pride prevents you from refusing the demand.",$master['creaturename']);
 		if ($session['user']['hitpoints']<$session['user']['maxhitpoints']){
-			output("`n`nBeing a fair person, your master gives you a healing potion before the fight begins.");
+			output::doOutput("`n`nBeing a fair person, your master gives you a healing potion before the fight begins.");
 			$session['user']['hitpoints']=$session['user']['maxhitpoints'];
 		}
 		modulehook("master-autochallenge");
@@ -154,7 +154,7 @@ if (db_num_rows($result) > 0 && $session['user']['level'] <= 14){
 		$battle=true;
 	}
 	if ($op=="run"){
-		output("`\$Your pride prevents you from running from this conflict!`0");
+		output::doOutput("`\$Your pride prevents you from running from this conflict!`0");
 		$op="fight";
 		$battle=true;
 	}
@@ -170,9 +170,9 @@ if (db_num_rows($result) > 0 && $session['user']['level'] <= 14){
 		if ($victory){
 			$badguy['creaturelose']=substitute_array($badguy['creaturelose']);
 			output_notl("`b`&");
- 	 	 	output($badguy['creaturelose']);
+ 	 	 	output::doOutput($badguy['creaturelose']);
  	 	 	output_notl("`0`b`n");
- 	 	 	output("`b`\$You have defeated %s!`0`b`n",$badguy['creaturename']);
+ 	 	 	output::doOutput("`b`\$You have defeated %s!`0`b`n",$badguy['creaturename']);
 
 			$session['user']['level']++;
 			$session['user']['maxhitpoints']+=10;
@@ -184,14 +184,14 @@ if (db_num_rows($result) > 0 && $session['user']['level'] <= 14){
 				$session['user']['seenmaster']=0;
 				debuglog("Defeated master, setting seenmaster to 0");
 			}
-			output("`#You advance to level `^%s`#!`n",$session['user']['level']);
-			output("Your maximum hitpoints are now `^%s`#!`n",$session['user']['maxhitpoints']);
-			output("You gain an attack point!`n");
-			output("You gain a defense point!`n");
+			output::doOutput("`#You advance to level `^%s`#!`n",$session['user']['level']);
+			output::doOutput("Your maximum hitpoints are now `^%s`#!`n",$session['user']['maxhitpoints']);
+			output::doOutput("You gain an attack point!`n");
+			output::doOutput("You gain a defense point!`n");
 			if ($session['user']['level']<15){
-				output("You have a new master.`n");
+				output::doOutput("You have a new master.`n");
 			}else{
-				output("None in the land are mightier than you!`n");
+				output::doOutput("None in the land are mightier than you!`n");
 			}
 			if ($session['user']['referer']>0 && ($session['user']['level']>=getsetting("referminlevel",4) || $session['user']['dragonkills'] > 0) && $session['user']['refererawarded']<1){
 				$sql = "UPDATE " . db_prefix("accounts") . " SET donation=donation+".getsetting("refereraward",25)." WHERE acctid={$session['user']['referer']}";
@@ -239,11 +239,11 @@ if (db_num_rows($result) > 0 && $session['user']['level'] <= 14){
 
 			if (getsetting('displaymasternews',1)) addnews("`%%s`5 has challenged their master, %s and lost!`n%s",$session['user']['name'],$badguy['creaturename'],$taunt);
 			$session['user']['hitpoints']=$session['user']['maxhitpoints'];
-			output("`&`bYou have been defeated by `%%s`&!`b`n",$badguy['creaturename']);
-			output("`%%s`\$ halts just before delivering the final blow, and instead extends a hand to help you to your feet, and hands you a complementary healing potion.`n",$badguy['creaturename']);
+			output::doOutput("`&`bYou have been defeated by `%%s`&!`b`n",$badguy['creaturename']);
+			output::doOutput("`%%s`\$ halts just before delivering the final blow, and instead extends a hand to help you to your feet, and hands you a complementary healing potion.`n",$badguy['creaturename']);
 			$badguy['creaturewin']=substitute_array($badguy['creaturewin']);
 			output_notl("`^`b");
-			output($badguy['creaturewin']);
+			output::doOutput($badguy['creaturewin']);
 			output_notl("`b`0`n");
 			addnav("Question Master","train.php?op=question&master=$mid");
 			addnav("M?Challenge Master","train.php?op=challenge&master=$mid");
@@ -262,12 +262,12 @@ if (db_num_rows($result) > 0 && $session['user']['level'] <= 14){
 	}
 }else{
 	checkday();
-	output("You stroll into the battle grounds.");
-	output("Younger warriors huddle together and point as you pass by.");
-	output("You know this place well.");
-	output("Bluspring hails you, and you grasp her hand firmly.");
-	output("There is nothing left for you here but memories.");
-	output("You remain a moment longer, and look at the warriors in training before you turn to return to the village.");
+	output::doOutput("You stroll into the battle grounds.");
+	output::doOutput("Younger warriors huddle together and point as you pass by.");
+	output::doOutput("You know this place well.");
+	output::doOutput("Bluspring hails you, and you grasp her hand firmly.");
+	output::doOutput("There is nothing left for you here but memories.");
+	output::doOutput("You remain a moment longer, and look at the warriors in training before you turn to return to the village.");
 	villagenav();
 }
 page_footer();

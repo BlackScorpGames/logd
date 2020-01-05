@@ -37,7 +37,7 @@ function injectmodule($modulename,$force=false){
 			$row = db_fetch_assoc($result);
 			if ($row['active']){ } else {
 				translator::tlschema();
-			 	output("`n`3Module `#%s`3 is not active, but was attempted to be injected.`n",$modulename);
+			 	output::doOutput("`n`3Module `#%s`3 is not active, but was attempted to be injected.`n",$modulename);
 				$injected_modules[$force][$modulename]=false;
 				return false;
 			}
@@ -56,7 +56,7 @@ function injectmodule($modulename,$force=false){
 			if (!module_check_requirements($info['requires'])) {
 				$injected_modules[$force][$modulename]=false;
 				translator::tlschema();
-				output("`n`3Module `#%s`3 does not meet its prerequisites.`n",$modulename);
+				output::doOutput("`n`3Module `#%s`3 does not meet its prerequisites.`n",$modulename);
 				return false;
 			}
 		}
@@ -123,7 +123,7 @@ function injectmodule($modulename,$force=false){
 		$injected_modules[$force][$modulename]=true;
 		return true;
 	}else{
-	 	output("`n`\$Module `^%s`\$ was not found in the modules directory.`n",$modulename);
+	 	output::doOutput("`n`\$Module `^%s`\$ was not found in the modules directory.`n",$modulename);
 		$injected_modules[$force][$modulename]=false;
 		return false;
 	}
@@ -1087,7 +1087,7 @@ function module_events($eventtype, $basechance, $baseLink = false) {
 			if ($chance > $sum && $chance <= $sum + $event['normchance']) {
 				$_POST['i_am_a_hack'] = 'true';
 				translator::tlschema("events");
-				output("`^`c`bSomething Special!`c`b`0");
+				output::doOutput("`^`c`bSomething Special!`c`b`0");
 				translator::tlschema();
 				$op = http::httpget('op');
 				httpset('op', "");
@@ -1151,7 +1151,7 @@ function module_display_events($eventtype, $forcescript=false) {
 	usort($events, "event_sort");
 
 	translator::tlschema("events");
-	output("`n`nSpecial event triggers:`n");
+	output::doOutput("`n`nSpecial event triggers:`n");
 	$name = translator::translate_inline("Name");
 	$rchance = translator::translate_inline("Raw Chance");
 	$nchance = translator::translate_inline("Normalized Chance");
@@ -1283,31 +1283,31 @@ function deactivate_module($module){
 function uninstall_module($module){
 	if (injectmodule($module,true)) {
 		$fname = $module."_uninstall";
-		output("Running module uninstall script`n");
+		output::doOutput("Running module uninstall script`n");
 		translator::tlschema("module-{$module}");
 		$fname();
 		translator::tlschema();
 
-		output("Deleting module entry`n");
+		output::doOutput("Deleting module entry`n");
 		$sql = "DELETE FROM " . db_prefix("modules") .
 			" WHERE modulename='$module'";
 		db_query($sql);
 
-		output("Deleting module hooks`n");
+		output::doOutput("Deleting module hooks`n");
 		module_wipehooks();
 
-		output("Deleting module settings`n");
+		output::doOutput("Deleting module settings`n");
 		$sql = "DELETE FROM " . db_prefix("module_settings") .
 			" WHERE modulename='$module'";
 		db_query($sql);
 		invalidatedatacache("modulesettings-$module");
 
-		output("Deleting module user prefs`n");
+		output::doOutput("Deleting module user prefs`n");
 		$sql = "DELETE FROM " . db_prefix("module_userprefs") .
 			" WHERE modulename='$module'";
 		db_query($sql);
 
-		output("Deleting module object prefs`n");
+		output::doOutput("Deleting module object prefs`n");
 		$sql = "DELETE FROM " . db_prefix("module_objprefs") .
 			" WHERE modulename='$module'";
 		db_query($sql);
@@ -1326,7 +1326,7 @@ function install_module($module, $force=true){
 
 	require_once("lib/sanitize.php");
 	if (modulename_sanitize($module)!=$module){
-		output("Error, module file names can only contain alpha numeric characters and underscores before the trailing .php`n`nGood module names include 'testmodule.php', 'joesmodule2.php', while bad module names include, 'test.module.php' or 'joes module.php'`n");
+		output::doOutput("Error, module file names can only contain alpha numeric characters and underscores before the trailing .php`n`nGood module names include 'testmodule.php', 'joesmodule2.php', while bad module names include, 'test.module.php' or 'joes module.php'`n");
 		return false;
 	}else{
 		// If we are forcing an install, then whack the old version.
@@ -1343,7 +1343,7 @@ function install_module($module, $force=true){
 			$info = get_module_info($module);
 			//check installation requirements
 			if (!module_check_requirements($info['requires'])){
-				output("`\$Module could not installed -- it did not meet its prerequisites.`n");
+				output::doOutput("`\$Module could not installed -- it did not meet its prerequisites.`n");
 				return false;
 			}else{
 				$keys = "|".join(array_keys($info), "|")."|";
@@ -1366,15 +1366,15 @@ function install_module($module, $force=true){
 				if ($fname() === false) {
 					return false;
 				}
-				output("`^Module installed.  It is not yet active.`n");
+				output::doOutput("`^Module installed.  It is not yet active.`n");
 				invalidatedatacache("inject-$mostrecentmodule");
 				massinvalidate("moduleprepare");
 				return true;
 			}
 		} else {
-			output("`\$Module could not be injected.");
-			output("Module not installed.");
-			output("This is probably due to the module file having a parse error or not existing in the filesystem.`n");
+			output::doOutput("`\$Module could not be injected.");
+			output::doOutput("Module not installed.");
+			output::doOutput("This is probably due to the module file having a parse error or not existing in the filesystem.`n");
 			return false;
 		}
 	}

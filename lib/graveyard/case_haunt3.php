@@ -1,18 +1,18 @@
 <?php
-output("`)`c`bThe Mausoleum`b`c");
+output::doOutput("`)`c`bThe Mausoleum`b`c");
 $name = http::httpget('name');
 $sql = "SELECT name,level,hauntedby,acctid FROM " . db_prefix("accounts") . " WHERE login='$name'";
 $result = db_query($sql);
 if (db_num_rows($result)>0){
 	$row = db_fetch_assoc($result);
 	if ($row['hauntedby']!=""){
-		output("That person has already been haunted, please select another target");
+		output::doOutput("That person has already been haunted, please select another target");
 	}else{
 		$session['user']['deathpower']-=25;
 		$roll1 = e_rand(0,$row['level']);
 		$roll2 = e_rand(0,$session['user']['level']);
 		if ($roll2>$roll1){
-			output("You have successfully haunted `7%s`)!", $row['name']);
+			output::doOutput("You have successfully haunted `7%s`)!", $row['name']);
 			$sql = "UPDATE " . db_prefix("accounts") . " SET hauntedby='".addslashes($session['user']['name'])."' WHERE login='$name'";
 			db_query($sql);
 			addnews("`7%s`) haunted `7%s`)!",$session['user']['name'],$row['name']);
@@ -42,11 +42,11 @@ if (db_num_rows($result)>0){
 				$msg = "You go to scare `7%s`), but catch a glimpse of yourself in the mirror and panic at the sight of a ghost!";
 				break;
 			}
-			output($msg, $row['name']);
+			output::doOutput($msg, $row['name']);
 		}
 	}
 }else{
-	output("`\$%s`) has lost their concentration on this person, you cannot haunt them now.",$deathoverlord);
+	output::doOutput("`\$%s`) has lost their concentration on this person, you cannot haunt them now.",$deathoverlord);
 }
 addnav(array("Question `\$%s`0 about the worth of your soul",$deathoverlord),"graveyard.php?op=question");
 $max = $session['user']['level'] * 5 + 50;

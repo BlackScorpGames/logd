@@ -107,7 +107,7 @@ function report_power_move($crit, $dmg) {
 		}
 		if ($power) {
 			translator::tlschema("battle");
-			output($msg);
+			output::doOutput($msg);
 			translator::tlschema();
 
 			$dmg += e_rand($crit/4, $crit/2);
@@ -141,7 +141,7 @@ function suspend_buffs($susp=false, $msg=false){
 			$msg = "`&The gods have suspended some of your enhancements!`n";
 		}
 		if ($schema) translator::tlschema($schema);
-		output($msg);
+		output::doOutput($msg);
 		if ($schema) translator::tlschema();
 	}
 }
@@ -160,7 +160,7 @@ function suspend_buff_by_name($name, $msg=false) {
 			$msg = "`&The gods have suspended some of your enhancements!`n";
 		}
 		if ($schema) translator::tlschema($schema);
-		output($msg);
+		output::doOutput($msg);
 		if ($schema) translator::tlschema();
 	}
 }
@@ -179,7 +179,7 @@ function unsuspend_buff_by_name($name, $msg=false) {
 			$msg = "`&The gods have restored all suspended enhancements.`n`n";
 		}
 		if ($schema) translator::tlschema($schema);
-		output($msg);
+		output::doOutput($msg);
 		if ($schema) translator::tlschema();
 	}
 }
@@ -210,7 +210,7 @@ function unsuspend_buffs($susp=false,$msg=false) {
 			$msg = "`&The gods have restored all suspended enhancements.`n`n";
 		}
 		if ($schema) translator::tlschema($schema);
-		output($msg);
+		output::doOutput($msg);
 		if ($schema) translator::tlschema();
 	}
 }

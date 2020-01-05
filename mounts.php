@@ -102,9 +102,9 @@ if ($op=="deactivate"){
 			db_query($sql);
 			invalidatedatacache("mountdata-$id");
 			if (db_affected_rows()>0){
-				output("`^Mount saved!`0`n");
+				output::doOutput("`^Mount saved!`0`n");
 			}else{
-				output("`^Mount `\$not`^ saved: `\$%s`0`n", $sql);
+				output::doOutput("`^Mount `\$not`^ saved: `\$%s`0`n", $sql);
 			}
 		}
 	} elseif ($subop=="module") {
@@ -115,7 +115,7 @@ if ($op=="deactivate"){
 		while(list($key, $val) = each($post)) {
 			set_module_objpref("mounts", $id, $key, $val, $module);
 		}
-		output("`^Saved!`0`n");
+		output::doOutput("`^Saved!`0`n");
 	}
 	if ($id) {
 		$op="edit";
@@ -179,7 +179,7 @@ if ($op==""){
 		$row = db_fetch_assoc($result);
 		if ($cat!=$row['mountcategory']){
 			rawoutput("<tr class='trlight'><td colspan='5'>");
-			output("Category: %s", $row['mountcategory']);
+			output::doOutput("Category: %s", $row['mountcategory']);
 			rawoutput("</td></tr>");
 			$cat = $row['mountcategory'];
 			$count=0;
@@ -211,7 +211,7 @@ if ($op==""){
 		rawoutput("<td>");
 		output_notl("`&%s`0", $row['mountname']);
 		rawoutput("</td><td>");
-		output("`%%s gems`0, `^%s gold`0",$row['mountcostgems'], $row['mountcostgold']);
+		output::doOutput("`%%s gems`0, `^%s gold`0",$row['mountcostgems'], $row['mountcostgold']);
 		rawoutput("</td><td>");
 		$features = array("FF"=>$row['mountforestfights']);
 		$args = array("id"=>$row['mountid'],"features"=>&$features);
@@ -234,10 +234,10 @@ if ($op==""){
 		$count++;
 	}
 	rawoutput("</table>");
-	output("`nIf you wish to delete a mount, you have to deactivate it first.");
-	output("If there are any owners of the mount when it is deleted, they will no longer have a mount, but they will get a FULL refund of the price of the mount at the time of deletion.");
+	output::doOutput("`nIf you wish to delete a mount, you have to deactivate it first.");
+	output::doOutput("If there are any owners of the mount when it is deleted, they will no longer have a mount, but they will get a FULL refund of the price of the mount at the time of deletion.");
 }elseif ($op=="add"){
-	output("Add a mount:`n");
+	output::doOutput("Add a mount:`n");
 	addnav("Mount Editor Home","mounts.php");
 	mountform(array());
 }elseif ($op=="edit"){
@@ -245,7 +245,7 @@ if ($op==""){
 	$sql = "SELECT * FROM " . db_prefix("mounts") . " WHERE mountid='$id'";
 	$result = db_query_cached($sql, "mountdata-$id", 3600);
 	if (db_num_rows($result)<=0){
-		output("`iThis mount was not found.`i");
+		output::doOutput("`iThis mount was not found.`i");
 	}else{
 		addnav("Mount properties", "mounts.php?op=edit&id=$id");
 		module_editor_navs("prefs-mounts", "mounts.php?op=edit&subop=module&id=$id&module=");
@@ -257,7 +257,7 @@ if ($op==""){
 			rawoutput("</form>");
 			addnav("", "mounts.php?op=save&subop=module&id=$id&module=$module");
 		} else {
-			output("Mount Editor:`n");
+			output::doOutput("Mount Editor:`n");
 			$row = db_fetch_assoc($result);
 			$row['mountbuff']=unserialize($row['mountbuff']);
 			mountform($row);
@@ -331,16 +331,16 @@ function mountform($mount){
 	addnav("","mounts.php?op=save&id={$mount['mountid']}");
 	rawoutput("<table>");
 	rawoutput("<tr><td nowrap>");
-	output("Mount Name:");
+	output::doOutput("Mount Name:");
 	rawoutput("</td><td><input name='mount[mountname]' value=\"".htmlentities($mount['mountname'], ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."\"></td></tr>");
 	rawoutput("<tr><td nowrap>");
-	output("Mount Description:");
+	output::doOutput("Mount Description:");
 	rawoutput("</td><td><input name='mount[mountdesc]' value=\"".htmlentities($mount['mountdesc'], ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."\"></td></tr>");
 	rawoutput("<tr><td nowrap>");
-	output("Mount Category:");
+	output::doOutput("Mount Category:");
 	rawoutput("</td><td><input name='mount[mountcategory]' value=\"".htmlentities($mount['mountcategory'], ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."\"></td></tr>");
 	rawoutput("<tr><td nowrap>");
-	output("Mount Availability:");
+	output::doOutput("Mount Availability:");
 	rawoutput("</td><td nowrap>");
 	// Run a modulehook to find out where stables are located.  By default
 	// they are located in 'Degolburg' (ie, getgamesetting('villagename'));
@@ -357,95 +357,95 @@ function mountform($mount){
 	}
 
 	rawoutput("<tr><td nowrap>");
-	output("Mount Cost (DKs):");
+	output::doOutput("Mount Cost (DKs):");
 	rawoutput("</td><td><input name='mount[mountdkcost]' value=\"".htmlentities((int)$mount['mountdkcost'], ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."\"></td></tr>");
 	rawoutput("<tr><td nowrap>");
-	output("Mount Cost (Gems):");
+	output::doOutput("Mount Cost (Gems):");
 	rawoutput("</td><td><input name='mount[mountcostgems]' value=\"".htmlentities((int)$mount['mountcostgems'], ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."\"></td></tr>");
 	rawoutput("<tr><td nowrap>");
-	output("Mount Cost (Gold):");
+	output::doOutput("Mount Cost (Gold):");
 	rawoutput("</td><td><input name='mount[mountcostgold]' value=\"".htmlentities((int)$mount['mountcostgold'], ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."\"></td></tr>");
 	rawoutput("<tr><td nowrap>");
-	output("Mount Feed Cost`n(Gold per level):");
+	output::doOutput("Mount Feed Cost`n(Gold per level):");
 	rawoutput("</td><td><input name='mount[mountfeedcost]' value=\"".htmlentities((int)$mount['mountfeedcost'], ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."\"></td></tr>");
 	rawoutput("<tr><td nowrap>");
-	output("Delta Forest Fights:");
+	output::doOutput("Delta Forest Fights:");
 	rawoutput("</td><td><input name='mount[mountforestfights]' value=\"".htmlentities((int)$mount['mountforestfights'], ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."\" size='5'></td></tr>");
 	rawoutput("<tr><td nowrap>");
-	output("`bMount Messages:`b");
+	output::doOutput("`bMount Messages:`b");
 	rawoutput("</td><td></td></tr><tr><td nowrap>");
-	output("New Day:");
+	output::doOutput("New Day:");
 	rawoutput("</td><td><input name='mount[newday]' value=\"".htmlentities($mount['newday'], ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."\" size='40'></td></tr>");
 	rawoutput("<tr><td nowrap>");
-	output("Full Recharge:");
+	output::doOutput("Full Recharge:");
 	rawoutput("</td><td><input name='mount[recharge]' value=\"".htmlentities($mount['recharge'], ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."\" size='40'></td></tr>");
 	rawoutput("<tr><td nowrap>");
-	output("Partial Recharge:");
+	output::doOutput("Partial Recharge:");
 	rawoutput("</td><td><input name='mount[partrecharge]' value=\"".htmlentities($mount['partrecharge'], ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."\" size='40'></td></tr>");
 	rawoutput("<tr><td valign='top' nowrap>");
-	output("Mount Buff:");
+	output::doOutput("Mount Buff:");
 	rawoutput("</td><td>");
-	output("Buff name:");
+	output::doOutput("Buff name:");
 	rawoutput("<input name='mount[mountbuff][name]' value=\"".htmlentities($mount['mountbuff']['name'], ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."\" size='50'><br/>");
-	output("`bBuff Messages:`b`n");
-	output("Each round:");
+	output::doOutput("`bBuff Messages:`b`n");
+	output::doOutput("Each round:");
 	rawoutput("<input name='mount[mountbuff][roundmsg]' value=\"".htmlentities($mount['mountbuff']['roundmsg'], ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."\" size='50'><br/>");
-	output("Wear off:");
+	output::doOutput("Wear off:");
 	rawoutput("<input name='mount[mountbuff][wearoff]' value=\"".htmlentities($mount['mountbuff']['wearoff'], ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."\" size='50'><br/>");
-	output("Effect:");
+	output::doOutput("Effect:");
 	rawoutput("<input name='mount[mountbuff][effectmsg]' value=\"".htmlentities($mount['mountbuff']['effectmsg'], ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."\" size='50'><br/>");
-	output("Effect No Damage:");
+	output::doOutput("Effect No Damage:");
 	rawoutput("<input name='mount[mountbuff][effectnodmgmsg]' value=\"".htmlentities($mount['mountbuff']['effectnodmgmsg'], ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."\" size='50'><br/>");
-	output("Effect Fail:");
+	output::doOutput("Effect Fail:");
 	rawoutput("<input name='mount[mountbuff][effectfailmsg]' value=\"".htmlentities($mount['mountbuff']['effectfailmsg'], ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."\" size='50'><br/>");
-	output("(message replacements: {badguy}, {goodguy}, {weapon}, {armor}, {creatureweapon}, and where applicable {damage}.)`n");
-	output("`n`bEffects:`b`n");
-	output("Rounds to last (from new day):");
+	output::doOutput("(message replacements: {badguy}, {goodguy}, {weapon}, {armor}, {creatureweapon}, and where applicable {damage}.)`n");
+	output::doOutput("`n`bEffects:`b`n");
+	output::doOutput("Rounds to last (from new day):");
 	rawoutput("<input name='mount[mountbuff][rounds]' value=\"".htmlentities((int)$mount['mountbuff']['rounds'], ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."\" size='50'><br/>");
-	output("Player Atk mod:");
+	output::doOutput("Player Atk mod:");
 	rawoutput("<input name='mount[mountbuff][atkmod]' value=\"".htmlentities($mount['mountbuff']['atkmod'], ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."\" size='50'>");
-	output("(multiplier)`n");
-	output("Player Def mod:");
+	output::doOutput("(multiplier)`n");
+	output::doOutput("Player Def mod:");
 	rawoutput("<input name='mount[mountbuff][defmod]' value=\"".htmlentities($mount['mountbuff']['defmod'], ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."\" size='50'>");
-	output("(multiplier)`n");
-	output("Player is invulnerable (1 = yes, 0 = no):");
+	output::doOutput("(multiplier)`n");
+	output::doOutput("Player is invulnerable (1 = yes, 0 = no):");
 	rawoutput("<input name='mount[mountbuff][invulnerable]' value=\"".htmlentities($mount['mountbuff']['invulnerable'], ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."\" size=50><br/>");
-	output("Regen:");
+	output::doOutput("Regen:");
 	rawoutput("<input name='mount[mountbuff][regen]' value=\"".htmlentities($mount['mountbuff']['regen'], ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."\" size='50'><br/>");
-	output("Minion Count:");
+	output::doOutput("Minion Count:");
 	rawoutput("<input name='mount[mountbuff][minioncount]' value=\"".htmlentities($mount['mountbuff']['minioncount'], ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."\" size='50'><br/>");
 
-	output("Min Badguy Damage:");
+	output::doOutput("Min Badguy Damage:");
 	rawoutput("<input name='mount[mountbuff][minbadguydamage]' value=\"".htmlentities($mount['mountbuff']['minbadguydamage'], ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."\" size='50'><br/>");
-	output("Max Badguy Damage:");
+	output::doOutput("Max Badguy Damage:");
 	rawoutput("<input name='mount[mountbuff][maxbadguydamage]' value=\"".htmlentities($mount['mountbuff']['maxbadguydamage'], ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."\" size='50'><br/>");
-	output("Min Goodguy Damage:");
+	output::doOutput("Min Goodguy Damage:");
 	rawoutput("<input name='mount[mountbuff][mingoodguydamage]' value=\"".htmlentities($mount['mountbuff']['mingoodguydamage'], ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."\" size='50'><br/>");
-	output("Max Goodguy Damage:");
+	output::doOutput("Max Goodguy Damage:");
 	rawoutput("<input name='mount[mountbuff][maxgoodguydamage]' value=\"".htmlentities($mount['mountbuff']['maxgoodguydamage'], ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."\" size='50'><br/>");
 
-	output("Lifetap:");
+	output::doOutput("Lifetap:");
 	rawoutput("<input name='mount[mountbuff][lifetap]' value=\"".htmlentities($mount['mountbuff']['lifetap'], ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."\" size='50'>");
-	output("(multiplier)`n");
-	output("Damage shield:");
+	output::doOutput("(multiplier)`n");
+	output::doOutput("Damage shield:");
 	rawoutput("<input name='mount[mountbuff][damageshield]' value=\"".htmlentities($mount['mountbuff']['damageshield'], ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."\" size='50'>");
-	output("(multiplier)`n");
-	output("Badguy Damage mod:");
+	output::doOutput("(multiplier)`n");
+	output::doOutput("Badguy Damage mod:");
 	rawoutput("<input name='mount[mountbuff][badguydmgmod]' value=\"".htmlentities($mount['mountbuff']['badguydmgmod'], ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."\" size='50'>");
-	output("(multiplier)`n");
-	output("Badguy Atk mod:");
+	output::doOutput("(multiplier)`n");
+	output::doOutput("Badguy Atk mod:");
 	rawoutput("<input name='mount[mountbuff][badguyatkmod]' value=\"".htmlentities($mount['mountbuff']['badguyatkmod'], ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."\" size='50'>");
-	output("(multiplier)`n");
-	output("Badguy Def mod:");
+	output::doOutput("(multiplier)`n");
+	output::doOutput("Badguy Def mod:");
 	rawoutput("<input name='mount[mountbuff][badguydefmod]' value=\"".htmlentities($mount['mountbuff']['badguydefmod'], ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."\" size='50'>");
-	output("(multiplier)`n");
-	output("`bOn Dynamic Buffs`b`n");
-	output("`@In the above, for most fields, you can choose to enter valid PHP code, substituting <fieldname> for fields in the user's account table.`n");
-	output("Examples of code you might enter:`n");
-	output("`^<charm>`n");
-	output("round(<maxhitpoints>/10)`n");
-	output("round(<level>/max(<gems>,1))`n");
-	output("`@Fields you might be interested in for this: `n");
+	output::doOutput("(multiplier)`n");
+	output::doOutput("`bOn Dynamic Buffs`b`n");
+	output::doOutput("`@In the above, for most fields, you can choose to enter valid PHP code, substituting <fieldname> for fields in the user's account table.`n");
+	output::doOutput("Examples of code you might enter:`n");
+	output::doOutput("`^<charm>`n");
+	output::doOutput("round(<maxhitpoints>/10)`n");
+	output::doOutput("round(<level>/max(<gems>,1))`n");
+	output::doOutput("`@Fields you might be interested in for this: `n");
 	output_notl("`3name, sex `7(0=male 1=female)`3, specialty `7(DA=darkarts MP=mystical TS=thief)`3,`n");
 	output_notl("experience, gold, weapon `7(name)`3, armor `7(name)`3, level,`n");
 	output_notl("defense, attack, alive, goldinbank,`n");
@@ -454,9 +454,9 @@ function mountform($mount){
 	output_notl("age `7(days since last DK)`3, charm, playerfights, dragonkills, resurrections `7(times died since last DK)`3,`n");
 	output_notl("soulpoints, gravefights, deathpower `7(%s favor)`3,`n", getsetting("deathoverlord", '`$Ramius'));
 	output_notl("race, dragonage, bestdragonage`n`n");
-	output("You can also use module preferences by using <modulename|preference> (for instance '<specialtymystic|uses>' or '<drinks|drunkeness>'`n`n");
-	output("`@Finally, starting a field with 'debug:' will enable debug output for that field to help you locate errors in your implementation.");
-	output("While testing new buffs, you should be sure to debug fields before you release them on the world, as the PHP script will otherwise throw errors to the user if you have any, and this can break the site at various spots (as in places that redirects should happen).");
+	output::doOutput("You can also use module preferences by using <modulename|preference> (for instance '<specialtymystic|uses>' or '<drinks|drunkeness>'`n`n");
+	output::doOutput("`@Finally, starting a field with 'debug:' will enable debug output for that field to help you locate errors in your implementation.");
+	output::doOutput("While testing new buffs, you should be sure to debug fields before you release them on the world, as the PHP script will otherwise throw errors to the user if you have any, and this can break the site at various spots (as in places that redirects should happen).");
 	rawoutput("</td></tr></table>");
 	$save = translator::translate_inline("Save");
 	rawoutput("<input type='submit' class='button' value='$save'></form>");

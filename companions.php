@@ -54,7 +54,7 @@ if ($op=="deactivate"){
 		$row['abilities'] = @unserialize($row['abilities']);
 		require_once("lib/buffs.php");
 		apply_companion($row['name'], $row);
-		output("`\$Succesfully taken `^%s`\$ as companion.", $row['name']);
+		output::doOutput("`\$Succesfully taken `^%s`\$ as companion.", $row['name']);
 	}
 	$op = "";
 	httpset("op", "");
@@ -105,10 +105,10 @@ if ($op=="deactivate"){
 			db_query($sql);
 			invalidatedatacache("companiondata-$id");
 			if (db_affected_rows()>0){
-				output("`^Companion saved!`0`n`n");
+				output::doOutput("`^Companion saved!`0`n`n");
 			}else{
 //				if (strlen($sql) > 400) $sql = substr($sql,0,200)." ... ".substr($sql,strlen($sql)-200);
-				output("`^Companion `\$not`^ saved: `\$%s`0`n`n", $sql);
+				output::doOutput("`^Companion `\$not`^ saved: `\$%s`0`n`n", $sql);
 			}
 		}
 	} elseif ($subop=="module") {
@@ -119,7 +119,7 @@ if ($op=="deactivate"){
 		while(list($key, $val) = each($post)) {
 			set_module_objpref("companions", $id, $key, $val, $module);
 		}
-		output("`^Saved!`0`n");
+		output::doOutput("`^Saved!`0`n");
 	}
 	if ($id) {
 		$op="edit";
@@ -151,7 +151,7 @@ if ($op==""){
 	while ($row=db_fetch_assoc($result)) {
 		if ($cat!=$row['category']){
 			rawoutput("<tr class='trlight'><td colspan='5'>");
-			output("Category: %s", $row['category']);
+			output::doOutput("Category: %s", $row['category']);
 			rawoutput("</td></tr>");
 			$cat = $row['category'];
 			$count=0;
@@ -183,14 +183,14 @@ if ($op==""){
 		rawoutput("<td>");
 		output_notl("`&%s`0", $row['name']);
 		rawoutput("</td><td>");
-		output("`%%s gems`0, `^%s gold`0",$row['companioncostgems'], $row['companioncostgold']);
+		output::doOutput("`%%s gems`0, `^%s gold`0",$row['companioncostgems'], $row['companioncostgold']);
 		rawoutput("</td></tr>");
 		$count++;
 	}
 	rawoutput("</table>");
-	output("`nIf you wish to delete a companion, you have to deactivate it first.");
+	output::doOutput("`nIf you wish to delete a companion, you have to deactivate it first.");
 }elseif ($op=="add"){
-	output("Add a companion:`n");
+	output::doOutput("Add a companion:`n");
 	addnav("Companion Editor Home","companions.php");
 	companionform(array());
 }elseif ($op=="edit"){
@@ -198,7 +198,7 @@ if ($op==""){
 	$sql = "SELECT * FROM " . db_prefix("companions") . " WHERE companionid='$id'";
 	$result = db_query_cached($sql, "companiondata-$id", 3600);
 	if (db_num_rows($result)<=0){
-		output("`iThis companion was not found.`i");
+		output::doOutput("`iThis companion was not found.`i");
 	}else{
 		addnav("Companion properties", "companions.php?op=edit&id=$id");
 		module_editor_navs("prefs-companions", "companions.php?op=edit&subop=module&id=$id&module=");
@@ -210,7 +210,7 @@ if ($op==""){
 			rawoutput("</form>");
 			addnav("", "companions.php?op=save&subop=module&id=$id&module=$module");
 		} else {
-			output("Companion Editor:`n");
+			output::doOutput("Companion Editor:`n");
 			$row = db_fetch_assoc($result);
 			$row['abilities'] = @unserialize($row['abilities']);
 			companionform($row);
@@ -257,22 +257,22 @@ function companionform($companion){
 	addnav("","companions.php?op=save&id={$companion['companionid']}");
 	rawoutput("<table width='100%'>");
 	rawoutput("<tr><td nowrap>");
-	output("Companion Name:");
+	output::doOutput("Companion Name:");
 	rawoutput("</td><td><input name='companion[name]' value=\"".htmlentities($companion['name'], ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."\" maxlength='50'></td></tr>");
 	rawoutput("<tr><td nowrap>");
-	output("Companion Dyingtext:");
+	output::doOutput("Companion Dyingtext:");
 	rawoutput("</td><td><input name='companion[dyingtext]' value=\"".htmlentities($companion['dyingtext'], ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."\"></td></tr>");
 	rawoutput("<tr><td nowrap>");
-	output("Companion Description:");
+	output::doOutput("Companion Description:");
 	rawoutput("</td><td><textarea cols='25' rows='5' name='companion[description]'>".htmlentities($companion['description'], ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."</textarea></td></tr>");
 	rawoutput("<tr><td nowrap>");
-	output("Companion join text:");
+	output::doOutput("Companion join text:");
 	rawoutput("</td><td><textarea cols='25' rows='5' name='companion[jointext]'>".htmlentities($companion['jointext'], ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."</textarea></td></tr>");
 	rawoutput("<tr><td nowrap>");
-	output("Companion Category:");
+	output::doOutput("Companion Category:");
 	rawoutput("</td><td><input name='companion[category]' value=\"".htmlentities($companion['category'], ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."\" maxlength='50'></td></tr>");
 	rawoutput("<tr><td nowrap>");
-	output("Companion Availability:");
+	output::doOutput("Companion Availability:");
 	rawoutput("</td><td nowrap>");
 	// Run a modulehook to find out where camps are located.  By default
 	// they are located in 'Degolburg' (ie, getgamesetting('villagename'));
@@ -289,66 +289,66 @@ function companionform($companion){
 	}
 
 	rawoutput("<tr><td nowrap>");
-	output("Maxhitpoints / Bonus per level:");
+	output::doOutput("Maxhitpoints / Bonus per level:");
 	rawoutput("</td><td><input name='companion[maxhitpoints]' value=\"".htmlentities($companion['maxhitpoints'], ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."\"> / <input name='companion[maxhitpointsperlevel]' value=\"".htmlentities($companion['maxhitpointsperlevel'], ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."\"></td></tr>");
 	rawoutput("<tr><td nowrap>");
-	output("Attack / Bonus per level:");
+	output::doOutput("Attack / Bonus per level:");
 	rawoutput("</td><td><input name='companion[attack]' value=\"".htmlentities($companion['attack'], ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."\"> / <input name='companion[attackperlevel]' value=\"".htmlentities($companion['attackperlevel'], ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."\"></td></tr>");
 	rawoutput("<tr><td nowrap>");
-	output("Defense / Bonus per level:");
+	output::doOutput("Defense / Bonus per level:");
 	rawoutput("</td><td><input name='companion[defense]' value=\"".htmlentities($companion['defense'], ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."\"> / <input name='companion[defenseperlevel]' value=\"".htmlentities($companion['defenseperlevel'], ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."\"></td></tr>");
 
 	rawoutput("<tr><td nowrap>");
-	output("Fighter?:");
+	output::doOutput("Fighter?:");
 	rawoutput("</td><td><input id='fighter' type='checkbox' name='companion[abilities][fight]' value='1'".($companion['abilities']['fight']==true?" checked":"")." onClick='document.getElementById(\"defender\").disabled=document.getElementById(\"fighter\").checked; if(document.getElementById(\"defender\").disabled==true) document.getElementById(\"defender\").checked=false;'></td></tr>");
 	rawoutput("<tr><td nowrap>");
-	output("Defender?:");
+	output::doOutput("Defender?:");
 	rawoutput("</td><td><input id='defender' type='checkbox' name='companion[abilities][defend]' value='1'".($companion['abilities']['defend']==true?" checked":"")." onClick='document.getElementById(\"fighter\").disabled=document.getElementById(\"defender\").checked; if(document.getElementById(\"fighter\").disabled==true) document.getElementById(\"fighter\").checked=false;'></td></tr>");
 	rawoutput("<tr><td nowrap>");
-	output("Healer level:");
+	output::doOutput("Healer level:");
 	rawoutput("</td><td valign='top'><select name='companion[abilities][heal]'>");
 	for($i=0;$i<=30;$i++) {
 		rawoutput("<option value='$i'".($companion['abilities']['heal']==$i?" selected":"").">$i</option>");
 	}
 	rawoutput("</select></td></tr>");
 	rawoutput("<tr><td colspan='2'>");
-	output("`iThis value determines the maximum amount of HP healed per round`i");
+	output::doOutput("`iThis value determines the maximum amount of HP healed per round`i");
 	rawoutput("</td></tr>");
 	rawoutput("<tr><td nowrap>");
-	output("Magician?:");
+	output::doOutput("Magician?:");
 	rawoutput("</td><td valign='top'><select name='companion[abilities][magic]'>");
 	for($i=0;$i<=30;$i++) {
 		rawoutput("<option value='$i'".($companion['abilities']['magic']==$i?" selected":"").">$i</option>");
 	}
 	rawoutput("</select></td></tr>");
 	rawoutput("<tr><td colspan='2'>");
-	output("`iThis value determines the maximum amount of damage caused per round`i");
+	output::doOutput("`iThis value determines the maximum amount of damage caused per round`i");
 	rawoutput("</td></tr>");
 
 	rawoutput("<tr><td nowrap>");
-	output("Companion cannot die:");
+	output::doOutput("Companion cannot die:");
 	rawoutput("</td><td><input type='checkbox' name='companion[cannotdie]' value='1'".($companion['cannotdie']==true?" checked":"")."></td></tr>");
 	rawoutput("<tr><td nowrap>");
-	output("Companion cannot be healed:");
+	output::doOutput("Companion cannot be healed:");
 	rawoutput("</td><td><input type='checkbox' name='companion[cannotbehealed]' value='1'".($companion['cannotbehealed']==true?" checked":"")."></td></tr>");
 	rawoutput("<tr><td nowrap>");
 
-	output("Companion Cost (DKs):");
+	output::doOutput("Companion Cost (DKs):");
 	rawoutput("</td><td><input name='companion[companioncostdks]' value=\"".htmlentities((int)$companion['companioncostdks'], ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."\"></td></tr>");
 	rawoutput("<tr><td nowrap>");
-	output("Companion Cost (Gems):");
+	output::doOutput("Companion Cost (Gems):");
 	rawoutput("</td><td><input name='companion[companioncostgems]' value=\"".htmlentities((int)$companion['companioncostgems'], ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."\"></td></tr>");
 	rawoutput("<tr><td nowrap>");
-	output("Companion Cost (Gold):");
+	output::doOutput("Companion Cost (Gold):");
 	rawoutput("</td><td><input name='companion[companioncostgold]' value=\"".htmlentities((int)$companion['companioncostgold'], ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."\"></td></tr>");
 	rawoutput("<tr><td nowrap>");
-	output("Allow in shades:");
+	output::doOutput("Allow in shades:");
 	rawoutput("</td><td><input type='checkbox' name='companion[allowinshades]' value='1'".($companion['allowinshades']==true?" checked":"")."></td></tr>");
 	rawoutput("<tr><td nowrap>");
-	output("Allow in PvP:");
+	output::doOutput("Allow in PvP:");
 	rawoutput("</td><td><input type='checkbox' name='companion[allowinpvp]' value='1'".($companion['allowinpvp']==true?" checked":"")."></td></tr>");
 	rawoutput("<tr><td nowrap>");
-	output("Allow in train:");
+	output::doOutput("Allow in train:");
 	rawoutput("</td><td><input type='checkbox' name='companion[allowintrain]' value='1'".($companion['allowintrain']==true?" checked":"")."></td></tr>");
 	rawoutput("</table>");
 	$save = translator::translate_inline("Save");

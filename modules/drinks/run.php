@@ -16,7 +16,7 @@ function drinks_run_private(){
 		page_header($drinktext['title']);
 		rawoutput("<span style='color: #9900FF'>");
 		output_notl("`c`b");
-		output($drinktext['title']);
+		output::doOutput($drinktext['title']);
 		output_notl("`b`c");
 		translator::tlschema();
 		$drunk = get_module_pref("drunkeness");
@@ -36,7 +36,7 @@ function drinks_run_private(){
  			translator::tlschema();
 			$remark = str_replace("{lover}",$partner."`0", $remark);
 			$remark = str_replace("{barkeep}", $drinktext['barkeep']."`0", $remark);
-			output($remark);
+			output::doOutput($remark);
 			translator::tlschema();
 		} else {
 			$sql = "SELECT * FROM " . db_prefix("drinks") . " WHERE drinkid='".httpget('id')."'";
@@ -56,7 +56,7 @@ function drinks_run_private(){
 					$vals = array_values($drinktext['drinksubs']);
 					$remark = preg_replace($keys, $vals, $remark);
 				}
-				output($remark);
+				output::doOutput($remark);
 				output_notl("`n`n");
 				if ($row['harddrink']) {
 					$drinks = get_module_pref("harddrinks");
@@ -83,9 +83,9 @@ function drinks_run_private(){
 						$session['user']['turns'] = 0;
 
 					if ($oldturns < $session['user']['turns']) {
-						output("`&You feel vigorous!`n");
+						output::doOutput("`&You feel vigorous!`n");
 					} else if ($oldturns > $session['user']['turns']) {
-						output("`&You feel lethargic!`n");
+						output::doOutput("`&You feel lethargic!`n");
 					}
 				}
 				if ($givehp) {
@@ -104,9 +104,9 @@ function drinks_run_private(){
 						$session['user']['hitpoints'] = 1;
 
 					if ($oldhp < $session['user']['hitpoints']) {
-						output("`&You feel healthy!`n");
+						output::doOutput("`&You feel healthy!`n");
 					} else if ($oldhp > $session['user']['hitpoints']) {
-						output("`&You feel sick!`n");
+						output::doOutput("`&You feel sick!`n");
 					}
 				}
 				$buff = array();
@@ -133,7 +133,7 @@ function drinks_run_private(){
 				$buff['schema'] = "module-drinks";
 				apply_buff('buzz',$buff);
 			} else {
-				output("You don't have enough money.  How can you buy %s if you don't have any money!?!", $row['name']);
+				output::doOutput("You don't have enough money.  How can you buy %s if you don't have any money!?!", $row['name']);
 			}
 		}
 		rawoutput("</span>");

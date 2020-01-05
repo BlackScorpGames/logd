@@ -46,7 +46,7 @@ if ($op == "save"){
 			$sql.=" forest='$forest', ";
 			$sql.=" graveyard='$grave' ";
 			$sql="UPDATE " . db_prefix("creatures") . " SET " . $sql . " WHERE creatureid='$id'";
-			db_query($sql) or output("`\$".db_error(LINK)."`0`n`#$sql`0`n");
+			db_query($sql) oroutput::doOutput("`\$".db_error(LINK)."`0`n`#$sql`0`n");
 		}else{
 			$cols = array();
 			$vals = array();
@@ -74,9 +74,9 @@ if ($op == "save"){
 			$id = db_insert_id();
 		}
 		if (db_affected_rows()) {
-			output("`^Creature saved!`0`n");
+			output::doOutput("`^Creature saved!`0`n");
 		} else {
-			output("`^Creature `\$not`^ saved!`0`n");
+			output::doOutput("`^Creature `\$not`^ saved!`0`n");
 		}
 	} elseif ($subop == "module") {
 		// Save module settings
@@ -86,7 +86,7 @@ if ($op == "save"){
 		while(list($key, $val) = each($post)) {
 			set_module_objpref("creatures", $id, $key, $val, $module);
 		}
-		output("`^Saved!`0`n");
+		output::doOutput("`^Saved!`0`n");
 	}
 	// Set the httpget id so that we can do the editor once we save
 	httpset("creatureid", $id, true);
@@ -100,9 +100,9 @@ if ($op=="del"){
 	$sql = "DELETE FROM " . db_prefix("creatures") . " WHERE creatureid = '$id'";
 	db_query($sql);
 	if (db_affected_rows()>0){
-		output("Creature deleted`n`n");
+		output::doOutput("Creature deleted`n`n");
 	}else{
-		output("Creature not deleted: %s", db_error(LINK));
+		output::doOutput("Creature not deleted: %s", db_error(LINK));
 	}
 	$op="";
 	httpset('op', "");
@@ -121,7 +121,7 @@ if ($op=="" || $op=="search"){
 	// Search form
 	$search = translator::translate_inline("Search");
 	rawoutput("<form action='creatures.php?op=search' method='POST'>");
-	output("Search by field: ");
+	output::doOutput("Search by field: ");
 	rawoutput("<input name='q' id='q'>");
 	rawoutput("<input type='submit' class='button' value='$search'>");
 	rawoutput("</form>");
@@ -205,7 +205,7 @@ if ($op=="" || $op=="search"){
 				$sql = "SELECT * FROM " . db_prefix("creatures") . " WHERE creatureid=$id";
 				$result = db_query($sql);
 				if (db_num_rows($result)<>1){
-					output("`4Error`0, that creature was not found!");
+					output::doOutput("`4Error`0, that creature was not found!");
 				}else{
 					$row = db_fetch_assoc($result);
 				}

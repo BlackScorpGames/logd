@@ -98,7 +98,7 @@ if ($op==""){
   			output_notl(translator::sprintf_translate($description));
   		}
   	} else {
-  		output($texts['desc']);
+  		output::doOutput($texts['desc']);
   	}
 	translator::tlschema();
 	modulehook("stables-desc");
@@ -107,25 +107,25 @@ if ($op==""){
 	$result = db_query_cached($sql, "mountdata-$id", 3600);
 	if (db_num_rows($result)<=0){
 		translator::tlschema($schemas['nosuchbeast']);
-		output($texts['nosuchbeast']);
+		output::doOutput($texts['nosuchbeast']);
 		translator::tlschema();
 	}else{
 		// Idea taken from Robert of dragonprime.cawsquad.net
 		$t = e_rand(0,count($texts['finebeast'])-1);
 		translator::tlschema($schemas['finebeast']);
-		output($texts['finebeast'][$t]);
+		output::doOutput($texts['finebeast'][$t]);
 		translator::tlschema();
 		$mount = db_fetch_assoc($result);
-		output("`7Creature: `&%s`0`n", $mount['mountname']);
-		output("`7Description: `&%s`0`n", $mount['mountdesc']);
-		output("`7Cost: `^%s`& gold, `%%s`& gems`n`n", $mount['mountcostgold'], $mount['mountcostgems']);
+		output::doOutput("`7Creature: `&%s`0`n", $mount['mountname']);
+		output::doOutput("`7Description: `&%s`0`n", $mount['mountdesc']);
+		output::doOutput("`7Cost: `^%s`& gold, `%%s`& gems`n`n", $mount['mountcostgold'], $mount['mountcostgems']);
 		addnav(array("New %s", $mount['mountname']));
 		addnav("Buy this creature","stables.php?op=buymount&id={$mount['mountid']}");
 	}
 }elseif($op=='buymount'){
 	if ($session['user']['hashorse']) {
 		translator::tlschema($schemas['confirmsale']);
-		output($texts['confirmsale'],
+		output::doOutput($texts['confirmsale'],
 				($session['user']['sex']?$texts["lass"]:$texts["lad"]));
 		translator::tlschema();
 		addnav("Confirm trade");
@@ -142,23 +142,23 @@ if ($op == 'confirmbuy') {
 	$result = db_query_cached($sql, "mountdata-$id", 3600);
 	if (db_num_rows($result)<=0){
 		translator::tlschema($schemas['nosuchbeast']);
-		output($texts['nosuchbeast']);
+		output::doOutput($texts['nosuchbeast']);
 		translator::tlschema();
 	}else{
 		$mount = db_fetch_assoc($result);
 		if (($session['user']['gold']+$repaygold) < $mount['mountcostgold'] ||
 			($session['user']['gems']+$repaygems) < $mount['mountcostgems']){
 			translator::tlschema($schemas['toolittle']);
-			output($texts['toolittle'], $mount['mountname'], $mount['mountcostgold'], $mount['mountcostgems']);
+			output::doOutput($texts['toolittle'], $mount['mountname'], $mount['mountcostgold'], $mount['mountcostgems']);
 			translator::tlschema();
 		}else{
 			if ($session['user']['hashorse']>0){
 				translator::tlschema($schemas['replacemount']);
-				output($texts['replacemount'], $lcname, $mount['mountname']);
+				output::doOutput($texts['replacemount'], $lcname, $mount['mountname']);
 				translator::tlschema();
 			}else{
 				translator::tlschema($schemas['newmount']);
-				output($texts['newmount'], $mount['mountname']);
+				output::doOutput($texts['newmount'], $mount['mountname']);
 				translator::tlschema();
 			}
                         if ($playermount->getName() !== '')
@@ -193,7 +193,7 @@ if ($op == 'confirmbuy') {
 }elseif($op=='feed'){
 	if (getsetting("allowfeed", 0) == 0) {
 		translator::tlschema($schemas['nofeed']);
-		output($texts['nofeed'],
+		output::doOutput($texts['nofeed'],
 				($session['user']['sex']?$texts["lass"]:$texts["lad"]));
 		translator::tlschema();
 	} elseif($session['user']['gold']>=$grubprice) {
@@ -201,38 +201,38 @@ if ($op == 'confirmbuy') {
 		if (!isset($buff['schema']) || $buff['schema'] == "") $buff['schema'] = "mounts";
 		if (isset($session['bufflist']['mount']) && $session['bufflist']['mount']['rounds'] == $buff['rounds']) {
 			translator::tlschema($schemas['nothungry']);
-			output($texts['nothungry'],$name);
+			output::doOutput($texts['nothungry'],$name);
 			translator::tlschema();
 		} else {
 			if (isset($session['bufflist']['mount']) && $session['bufflist']['mount']['rounds'] > $buff['rounds']*.5) {
 				$grubprice=round($grubprice/2,0);
 				translator::tlschema($schemas['halfhungry']);
-				output($texts['halfhungry'], $name, $name, $grubprice);
+				output::doOutput($texts['halfhungry'], $name, $name, $grubprice);
 				translator::tlschema();
 				$session['user']['gold']-=$grubprice;
 			}else{
 				$session['user']['gold']-=$grubprice;
 				translator::tlschema($schemas['hungry']);
-				output($texts['hungry'], $name, $name, $grubprice);
+				output::doOutput($texts['hungry'], $name, $name, $grubprice);
 				translator::tlschema();
 			}
 			debuglog("spent $grubprice feeding their mount");
 			apply_buff('mount',$buff);
 			$session['user']['fedmount'] = 1;
 			translator::tlschema($schemas['mountfull']);
-			output($texts['mountfull'],
+			output::doOutput($texts['mountfull'],
 				($session['user']['sex']?$texts["lass"]:$texts["lad"]),
 				($playermount->getName()));
 			translator::tlschema();
 		}
 	} else {
 		translator::tlschema($schemas['nofeedgold']);
-		output($texts['nofeedgold'], $lcname);
+		output::doOutput($texts['nofeedgold'], $lcname);
 		translator::tlschema();
 	}
 }elseif($op=='sellmount'){
 	translator::tlschema($schemas['confirmsale']);
-	output($texts['confirmsale'],
+	output::doOutput($texts['confirmsale'],
 			($session['user']['sex']?$texts["lass"]:$texts["lad"]));
 	translator::tlschema();
 	addnav("Confirm sale");
@@ -265,7 +265,7 @@ if ($op == 'confirmbuy') {
 	}
 
 	translator::tlschema($schemas['mountsold']);
-	output($texts['mountsold'],
+	output::doOutput($texts['mountsold'],
 			($playermount->getName()),
 			$amtstr);
 	translator::tlschema();
@@ -275,7 +275,7 @@ if ($confirm == 0) {
 	if ($session['user']['hashorse']>0){
 		addnav(array("%s", color_sanitize($name)));
 		translator::tlschema($schemas['offer']);
-		output($texts['offer'], $repaygold, $repaygems, $lcname);
+		output::doOutput($texts['offer'], $repaygold, $repaygems, $lcname);
 		translator::tlschema();
 		addnav(array("Sell %s`0", $lcname),"stables.php?op=sellmount");
 		if (getsetting("allowfeed", 0) && $session['user']['fedmount']==0) {

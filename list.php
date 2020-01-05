@@ -98,7 +98,7 @@ if ($session['user']['loggedin']){
 
 $max = db_num_rows($result);
 if ($max>getsetting("maxlistsize", 100)) {
-	output("`\$Too many names match that search.  Showing only the first %s.`0`n", getsetting("maxlistsize", 100));
+	output::doOutput("`\$Too many names match that search.  Showing only the first %s.`0`n", getsetting("maxlistsize", 100));
 	$max = getsetting("maxlistsize", 100);
 }
 
@@ -155,7 +155,7 @@ for($i=0;$i<$max;$i++){
 	rawoutput("</td><td>");
 	if (!$row['race']) $row['race'] = RACE_UNKNOWN;
 	translator::tlschema("race");
-	output($row['race']);
+	output::doOutput($row['race']);
 	translator::tlschema();
 	rawoutput("</td><td>");
 	$sex = translator::translate_inline($row['sex']?"`%Female`0":"`!Male`0");

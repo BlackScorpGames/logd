@@ -97,7 +97,7 @@ if ($op==""){
 	$result = db_query($sql);
 	rawoutput("<form action='translatortool.php' method='GET'>");
 	rawoutput("<input type='hidden' name='op' value='list'>");
-	output("Known Namespaces:");
+	output::doOutput("Known Namespaces:");
 	rawoutput("<select name='u'>");
 	while ($row = db_fetch_assoc($result)){
 		rawoutput("<option value=\"".rawurlencode(htmlentities($row['uri'], ENT_COMPAT, getsetting("charset", "ISO-8859-1")))."\">".htmlentities($row['uri'], ENT_COMPAT, getsetting("charset", "ISO-8859-1"))." ({$row['c']})</option>",true);

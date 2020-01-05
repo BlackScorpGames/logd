@@ -1,8 +1,8 @@
 <?php
 		$to = (int)http::httpget('to');
 		if ($to>0){
-			output("`%%s`7 accepts your application, files it in her out box, and folds her hands on the desk, staring at you.",$registrar);
-			output("You stand there staring blankly back at her for a few minutes before she suggests that perhaps you'd like to take a seat in the waiting area.");
+			output::doOutput("`%%s`7 accepts your application, files it in her out box, and folds her hands on the desk, staring at you.",$registrar);
+			output::doOutput("You stand there staring blankly back at her for a few minutes before she suggests that perhaps you'd like to take a seat in the waiting area.");
 
 			addnav("Return to the Lobby","clan.php");
 			addnav("Waiting Area","clan.php?op=waiting");
@@ -35,10 +35,10 @@
 			$sql = "SELECT MAX(" . db_prefix("clans") . ".clanid) AS clanid,MAX(clanname) AS clanname,count(" . db_prefix("accounts") . ".acctid) AS c FROM " . db_prefix("clans") . " INNER JOIN " . db_prefix("accounts") . " ON " . db_prefix("clans") . ".clanid=" . db_prefix("accounts") . ".clanid WHERE " . db_prefix("accounts") . ".clanrank > ".CLAN_APPLICANT." GROUP BY " . db_prefix("clans") . ".clanid ORDER BY c DESC";
 			$result = db_query($sql);
 			if (db_num_rows($result)>0){
-				output("`7You ask %s`7 for a clan membership application form.",$registrar);
-				output("She opens a drawer in her desk and pulls out a form.  It contains only two lines: Name and Clan Name.");
-				output("You furrow your brow, not sure if you really like having to deal with all this red tape, and get set to concentrate really hard in order to complete the form.");
-				output("Noticing your attempt to write on the form with your %s, %s`7 claims the form back from you, writes %s`7 on the first line, and asks you the name of the clan that you'd like to join:`n`n",$session['user']['weapon'],$registrar,$session['user']['name']);
+				output::doOutput("`7You ask %s`7 for a clan membership application form.",$registrar);
+				output::doOutput("She opens a drawer in her desk and pulls out a form.  It contains only two lines: Name and Clan Name.");
+				output::doOutput("You furrow your brow, not sure if you really like having to deal with all this red tape, and get set to concentrate really hard in order to complete the form.");
+				output::doOutput("Noticing your attempt to write on the form with your %s, %s`7 claims the form back from you, writes %s`7 on the first line, and asks you the name of the clan that you'd like to join:`n`n",$session['user']['weapon'],$registrar,$session['user']['name']);
 				for ($i=0;$i<db_num_rows($result);$i++){
 					$row = db_fetch_assoc($result);
 					if ($row['c']==0){
@@ -63,8 +63,8 @@
 				}
 				addnav("Return to the Lobby","clan.php");
 			}else{
-				output("`7You ask %s`7 for a clan membership application form.",$registrar);
-				output("She stares at you blankly for a few moments, then says, \"`5Sorry pal, no one has had enough gumption to start up a clan yet.  Maybe that should be you, eh?`7\"");
+				output::doOutput("`7You ask %s`7 for a clan membership application form.",$registrar);
+				output::doOutput("She stares at you blankly for a few moments, then says, \"`5Sorry pal, no one has had enough gumption to start up a clan yet.  Maybe that should be you, eh?`7\"");
 				addnav("Apply for a New Clan","clan.php?op=new");
 				addnav("Return to the Lobby","clan.php");
 			}

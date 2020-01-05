@@ -24,15 +24,15 @@ if ($op=="stats" || $op==""){
 	$sql = "SELECT sum(gentimecount) AS c, sum(gentime) AS t, sum(gensize) AS s, count(acctid) AS a FROM " . db_prefix("accounts");
 	$result = db_query($sql);
 	$row = db_fetch_assoc($result);
-	output("`b`%For existing accounts:`b`n");
-	output("`@Total Accounts: `^%s`n",number_format($row['a']));
-	output("`@Total Hits: `^%s`n",number_format($row['c']));
-	output("`@Total Page Gen Time: `^%s`n",dhms($row['t']));
-	output("`@Total Page Gen Size: `^%sb`n",number_format($row['s']));
-	output("`@Average Page Gen Time: `^%s`n",dhms($row['t']/$row['c'],true));
-	output("`@Average Page Gen Size: `^%s`n",number_format($row['s']/$row['c']));
+	output::doOutput("`b`%For existing accounts:`b`n");
+	output::doOutput("`@Total Accounts: `^%s`n",number_format($row['a']));
+	output::doOutput("`@Total Hits: `^%s`n",number_format($row['c']));
+	output::doOutput("`@Total Page Gen Time: `^%s`n",dhms($row['t']));
+	output::doOutput("`@Total Page Gen Size: `^%sb`n",number_format($row['s']));
+	output::doOutput("`@Average Page Gen Time: `^%s`n",dhms($row['t']/$row['c'],true));
+	output::doOutput("`@Average Page Gen Size: `^%s`n",number_format($row['s']/$row['c']));
 }elseif ($op=="referers"){
-	output("`n`%`bTop Referers:`b`0`n");
+	output::doOutput("`n`%`bTop Referers:`b`0`n");
 	rawoutput("<table border='0' cellpadding='2' cellspacing='1' bgcolor='#999999'>");
 	$name = translator::translate_inline("Name");
 	$refs = translator::translate_inline("Referrals");
@@ -60,7 +60,7 @@ if ($op=="stats" || $op==""){
 }elseif($op=="graph"){
 	$sql = "SELECT count(acctid) AS c, substring(laston,1,10) AS d FROM " . db_prefix("accounts") . " GROUP BY d DESC ORDER BY d DESC";
 	$result = db_query($sql);
-	output("`n`%`bDate accounts last logged on:`b");
+	output::doOutput("`n`%`bDate accounts last logged on:`b");
 	rawoutput("<table border='0' cellpadding='0' cellspacing='0'>");
 	$class="trlight";
 	$odate=date("Y-m-d");

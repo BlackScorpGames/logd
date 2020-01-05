@@ -43,7 +43,7 @@ if ($target = db_fetch_assoc($result)) {
 
   modulehook("biotop", $target);
 
-  output("`^Biography for %s`^.",$target['name']);
+ output::doOutput("`^Biography for %s`^.",$target['name']);
   $write = translator::translate_inline("Write Mail");
   if ($session['user']['loggedin'])
 	  rawoutput("<a href=\"mail.php?op=write&to={$target['login']}\" target=\"_blank\" onClick=\"".popup("mail.php?op=write&to={$target['login']}").";return false;\"><img src='images/newscroll.GIF' width='16' height='16' alt='$write' border='0'></a>");
@@ -56,11 +56,11 @@ if ($target = db_fetch_assoc($result)) {
 	  array_push($ranks['ranks'],"`\$Founder");
 	  $ranks = translator::translate_inline($ranks['ranks']);
 	  translator::tlschema();
-	  output("`@%s`2 is a %s`2 to `%%s`2`n", $target['name'], $ranks[$target['clanrank']], $target['clanname']);
+	 output::doOutput("`@%s`2 is a %s`2 to `%%s`2`n", $target['name'], $ranks[$target['clanrank']], $target['clanname']);
   }
 
-  output("`^Title: `@%s`n",$target['title']);
-  output("`^Level: `@%s`n",$target['level']);
+ output::doOutput("`^Title: `@%s`n",$target['title']);
+ output::doOutput("`^Level: `@%s`n",$target['level']);
   $loggedin = false;
   if ($target['loggedin'] &&
 		  (date("U") - strtotime($target['laston']) <
@@ -68,25 +68,25 @@ if ($target = db_fetch_assoc($result)) {
 	  $loggedin = true;
   }
   $status = translator::translate_inline($loggedin?"`#Online`0":"`\$Offline`0");
-  output("`^Status: %s`n",$status);
+ output::doOutput("`^Status: %s`n",$status);
 
-  output("`^Resurrections: `@%s`n",$target['resurrections']);
+ output::doOutput("`^Resurrections: `@%s`n",$target['resurrections']);
 
   $race = $target['race'];
   if (!$race) $race = RACE_UNKNOWN;
   translator::tlschema("race");
   $race = translator::translate_inline($race);
   translator::tlschema();
-  output("`^Race: `@%s`n",$race);
+ output::doOutput("`^Race: `@%s`n",$race);
 
   $genders = array("Male","Female");
   $genders = translator::translate_inline($genders);
-  output("`^Gender: `@%s`n",$genders[$target['sex']]);
+ output::doOutput("`^Gender: `@%s`n",$genders[$target['sex']]);
 
   $specialties = modulehook("specialtynames",
 		  array(""=>translator::translate_inline("Unspecified")));
   if (isset($specialties[$target['specialty']])) {
-		output("`^Specialty: `@%s`n",$specialties[$target['specialty']]);
+		output::doOutput("`^Specialty: `@%s`n",$specialties[$target['specialty']]);
   }
   $sql = "SELECT * FROM " . db_prefix("mounts") . " WHERE mountid='{$target['hashorse']}'";
   $result = db_query_cached($sql, "mountdata-{$target['hashorse']}", 3600);
@@ -97,19 +97,19 @@ if ($target = db_fetch_assoc($result)) {
   $none = translator::translate_inline("`iNone`i");
   if (!isset($mount['mountname']) || $mount['mountname']=="")
 		  $mount['mountname'] = $none;
-  output("`^Creature: `@%s`0`n",$mount['mountname']);
+ output::doOutput("`^Creature: `@%s`0`n",$mount['mountname']);
 
   modulehook("biostat", $target);
 
   if ($target['dragonkills']>0)
-	  output("`^Dragon Kills: `@%s`n",$target['dragonkills']);
+	 output::doOutput("`^Dragon Kills: `@%s`n",$target['dragonkills']);
 
   if ($target['bio']>"")
-	  output("`^Bio: `@`n%s`n",soap($target['bio']));
+	 output::doOutput("`^Bio: `@`n%s`n",soap($target['bio']));
 
   modulehook("bioinfo", $target);
 
-  output("`n`^Recent accomplishments (and defeats) of %s`^",$target['name']);
+ output::doOutput("`n`^Recent accomplishments (and defeats) of %s`^",$target['name']);
   $result = db_query("SELECT * FROM " . db_prefix("news") . " WHERE accountid={$target['acctid']} ORDER BY newsdate DESC,newsid ASC LIMIT 100");
 
   $odate="";
@@ -161,7 +161,7 @@ if ($target = db_fetch_assoc($result)) {
   page_footer();
 } else {
 	page_header("Character has been deleted");
-	output("This character is already deleted.");
+	output::doOutput("This character is already deleted.");
   if ($ret==""){
 	  $return = substr($return,strrpos($return,"/")+1);
 	  translator::tlschema("nav");

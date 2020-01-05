@@ -36,7 +36,7 @@ function dag_install(){
 }
 
 function dag_uninstall(){
-	output("Dropping bounty table");
+	output::doOutput("Dropping bounty table");
 	$sql = "DROP TABLE IF EXISTS " . db_prefix("bounty");
 	db_query($sql);
 	return true;

@@ -91,9 +91,9 @@ function specialtydarkarts_dohook($hookname,$args){
 	case "set-specialty":
 		if($session['user']['specialty'] == $spec) {
 			page_header($name);
-			output("`5Growing up, you recall killing many small woodland creatures, insisting that they were plotting against you.");
-			output("Your parents, concerned that you had taken to killing the creatures barehanded, bought you your very first pointy twig.");
-			output("It wasn't until your teenage years that you began performing dark rituals with the creatures, disappearing into the forest for days on end, no one quite knowing where those sounds came from.");
+			output::doOutput("`5Growing up, you recall killing many small woodland creatures, insisting that they were plotting against you.");
+			output::doOutput("Your parents, concerned that you had taken to killing the creatures barehanded, bought you your very first pointy twig.");
+			output::doOutput("It wasn't until your teenage years that you began performing dark rituals with the creatures, disappearing into the forest for days on end, no one quite knowing where those sounds came from.");
 		}
 		break;
 	case "specialtycolor":
@@ -111,17 +111,17 @@ function specialtydarkarts_dohook($hookname,$args){
 			set_module_pref("skill", $new);
 			$c = $args['color'];
 			$name = translator::translate_inline($name);
-			output("`n%sYou gain a level in `&%s%s to `#%s%s!",
+			output::doOutput("`n%sYou gain a level in `&%s%s to `#%s%s!",
 					$c, $name, $c, $new, $c);
 			$x = $new % 3;
 			if ($x == 0){
-				output("`n`^You gain an extra use point!`n");
+				output::doOutput("`n`^You gain an extra use point!`n");
 				set_module_pref("uses", get_module_pref("uses") + 1);
 			}else{
 				if (3-$x == 1) {
-					output("`n`^Only 1 more skill level until you gain an extra use point!`n");
+					output::doOutput("`n`^Only 1 more skill level until you gain an extra use point!`n");
 				} else {
-					output("`n`^Only %s more skill levels until you gain an extra use point!`n", (3-$x));
+					output::doOutput("`n`^Only %s more skill levels until you gain an extra use point!`n", (3-$x));
 				}
 			}
 			output_notl("`0");
@@ -132,9 +132,9 @@ function specialtydarkarts_dohook($hookname,$args){
 		if($session['user']['specialty'] == $spec) {
 			$name = translator::translate_inline($name);
 			if ($bonus == 1) {
-				output("`n`2For being interested in %s%s`2, you receive `^1`2 extra `&%s%s`2 use for today.`n",$ccode, $name, $ccode, $name);
+				output::doOutput("`n`2For being interested in %s%s`2, you receive `^1`2 extra `&%s%s`2 use for today.`n",$ccode, $name, $ccode, $name);
 			} else {
-				output("`n`2For being interested in %s%s`2, you receive `^%s`2 extra `&%s%s`2 uses for today.`n",$ccode, $name,$bonus, $ccode,$name);
+				output::doOutput("`n`2For being interested in %s%s`2, you receive `^%s`2 extra `&%s%s`2 uses for today.`n",$ccode, $name,$bonus, $ccode,$name);
 			}
 		}
 		$amt = (int)(get_module_pref("skill") / 3);

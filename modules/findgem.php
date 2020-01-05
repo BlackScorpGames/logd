@@ -30,7 +30,7 @@ function findgem_dohook($hookname,$args){
 function findgem_runevent($type,$link)
 {
 	global $session;
-	output("`^Fortune smiles on you and you find a `%gem`^!`0");
+	output::doOutput("`^Fortune smiles on you and you find a `%gem`^!`0");
 	$session['user']['gems']++;
 	debuglog("found a gem in the dirt");
 }

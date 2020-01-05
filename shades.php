@@ -13,12 +13,12 @@ addcommentary();
 checkday();
 
 if ($session['user']['alive']) redirect("village.php");
-output("`\$You walk among the dead now, you are a shade. ");
-output("Everywhere around you are the souls of those who have fallen in battle, in old age, and in grievous accidents. ");
-output("Each bears telltale signs of the means by which they met their end.`n`n");
-output("Their souls whisper their torments, haunting your mind with their despair:`n");
+output::doOutput("`\$You walk among the dead now, you are a shade. ");
+output::doOutput("Everywhere around you are the souls of those who have fallen in battle, in old age, and in grievous accidents. ");
+output::doOutput("Each bears telltale signs of the means by which they met their end.`n`n");
+output::doOutput("Their souls whisper their torments, haunting your mind with their despair:`n");
 
-output("`nA sepulchral voice intones, \"`QIt is now %s in the world above.`\$\"`n`n",getgametime());
+output::doOutput("`nA sepulchral voice intones, \"`QIt is now %s in the world above.`\$\"`n`n",getgametime());
 modulehook("shades", array());
 commentdisplay("`n`QNearby, some lost souls lament:`n", "shade","Despair",25,"despairs");
 

@@ -26,15 +26,15 @@ translator::tlschema("home");
 $op = http::httpget('op');
 
 pageparts::page_header();
-output("`cWelcome to Legend of the Green Dragon, a browser based role playing game, based on Seth Able's Legend of the Red Dragon.`n");
+output::doOutput("`cWelcome to Legend of the Green Dragon, a browser based role playing game, based on Seth Able's Legend of the Red Dragon.`n");
 
 if (getsetting("homecurtime", 1)) {
-	output("`@The current time in %s is `%%s`@.`0`n", getsetting("villagename", LOCATION_FIELDS), getgametime());
+	output::doOutput("`@The current time in %s is `%%s`@.`0`n", getsetting("villagename", LOCATION_FIELDS), getgametime());
 }
 
 if (getsetting("homenewdaytime", 1)) {
 	$secstonewday = secondstonextgameday();
-	output("`@Next new game day in: `\$%s (real time)`0`n`n",
+	output::doOutput("`@Next new game day in: `\$%s (real time)`0`n`n",
 			date("G\\".translator::translate_inline("h","datetime").", i\\".translator::translate_inline("m","datetime").", s\\".translator::translate_inline("s","datetime"),
 				$secstonewday));
 }
@@ -51,7 +51,7 @@ if (getsetting("homenewestplayer", 1)) {
 		$name = $newplayer;
 	}
 	if ($name != "") {
-		output("`QThe newest resident of the realm is: `&%s`0`n`n", $name);
+		output::doOutput("`QThe newest resident of the realm is: `&%s`0`n`n", $name);
 	}
 }
 
@@ -80,7 +80,7 @@ if (abs(getsetting("OnlineCountLast",0) - strtotime("now")) > 60){
 	$onlinecount = getsetting("OnlineCount",0);
 }
 if ($onlinecount<getsetting("maxonline",0) || getsetting("maxonline",0)==0){
-	output("Enter your name and password to enter the realm.`n");
+	output::doOutput("Enter your name and password to enter the realm.`n");
 	if ($op=="timeout"){
 		$session['message'].= translator::translate_inline(" Your session has timed out, you must log in again.`n");
 	}
@@ -109,7 +109,7 @@ if ($onlinecount<getsetting("maxonline",0) || getsetting("maxonline",0)==0){
 	output_notl("`c");
 	addnav("","login.php");
 } else {
-	output("`\$`bServer full!`b`n`^Please wait until some users have logged out.`n`n`0");
+	output::doOutput("`\$`bServer full!`b`n`^Please wait until some users have logged out.`n`n`0");
 	if ($op=="timeout"){
 		$session['message'].= translator::translate_inline(" Your session has timed out, you must log in again.`n");
 	}
@@ -117,7 +117,7 @@ if ($onlinecount<getsetting("maxonline",0) || getsetting("maxonline",0)==0){
 		$session['message'].=translator::translate_inline("It appears that you may be blocking cookies from this site. At least session cookies must be enabled in order to use this site.`n");
 		$session['message'].=translator::translate_inline("`b`#If you are not sure what cookies are, please <a href='http://en.wikipedia.org/wiki/WWW_browser_cookie'>read this article</a> about them, and how to enable them.`b`n");
 	}
-	if ($session['message']>"") output("`b`\$%s`b`n", $session['message'],true);
+	if ($session['message']>"")output::doOutput("`b`\$%s`b`n", $session['message'],true);
 	rawoutput(templatereplace("loginfull",array()));
 	output_notl("`c");
 }
@@ -125,7 +125,7 @@ if ($onlinecount<getsetting("maxonline",0) || getsetting("maxonline",0)==0){
 $msg = getsetting("loginbanner","*BETA* This is a BETA of this website, things are likely to change now and again, as it is under active development *BETA*");
 output_notl("`n`c`b`&%s`0`b`c`n", $msg);
 $session['message']="";
-output("`c`2Game server running version: `@%s`0`c", $logd_version);
+output::doOutput("`c`2Game server running version: `@%s`0`c", $logd_version);
 
 if (getsetting("homeskinselect", 1)) {
 	rawoutput("<form action='home.php' method='POST'>");

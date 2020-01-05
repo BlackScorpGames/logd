@@ -10,27 +10,27 @@ if (array_key_exists('modules',$_POST)){
 }else{
 	$session['stagecompleted'] = $stage - 1;
 }
-output("`@`c`bManage Modules`b`c");
-output("Legend of the Green Dragon supports an extensive module system.");
-output("Modules are small self-contained files that perform a specific function or event within the game.");
-output("For the most part, modules are independant of each other, meaning that one module can be installed, uninstalled, activated, and deactivated without negative impact on the rest of the game.");
-output("Not all modules are ideal for all sites, for example, there's a module called 'Multiple Cities,' which is intended only for large sites with many users online at the same time.");
-output("`n`n`^If you are not familiar with Legend of the Green Dragon, and how the game is played, it is probably wisest to choose the default set of modules to be installed.");
-output("`n`n`@There is an extensive community of users who write modules for LoGD at <a href='http://dragonprime.net/'>http://dragonprime.net/</a>.",true);
+output::doOutput("`@`c`bManage Modules`b`c");
+output::doOutput("Legend of the Green Dragon supports an extensive module system.");
+output::doOutput("Modules are small self-contained files that perform a specific function or event within the game.");
+output::doOutput("For the most part, modules are independant of each other, meaning that one module can be installed, uninstalled, activated, and deactivated without negative impact on the rest of the game.");
+output::doOutput("Not all modules are ideal for all sites, for example, there's a module called 'Multiple Cities,' which is intended only for large sites with many users online at the same time.");
+output::doOutput("`n`n`^If you are not familiar with Legend of the Green Dragon, and how the game is played, it is probably wisest to choose the default set of modules to be installed.");
+output::doOutput("`n`n`@There is an extensive community of users who write modules for LoGD at <a href='http://dragonprime.net/'>http://dragonprime.net/</a>.",true);
 $phpram = ini_get("memory_limit");
 if (return_bytes($phpram) < 12582912 && $phpram!=-1 && !$session['overridememorylimit'] && !$session['dbinfo']['upgrade']) {// 12 MBytes
 	// enter this ONLY if it's not an upgrade and if the limit is really too low
-	output("`n`n`\$Warning: Your PHP memory limit is set to a very low level.");
-	output("Smaller servers should not be affected by this during normal gameplay but for this installation step you should assign at least 12 Megabytes of RAM for your PHP process.");
-	output("For now we will skip this step, but before installing any module, make sure to increase you memory limit.");
-	output("`nYou can proceed at your own risk. Be aware that a blank screen indicates you *must* increase the memory limit.");
-	output("`n`nTo override click again on \"Set Up Modules\".");
+	output::doOutput("`n`n`\$Warning: Your PHP memory limit is set to a very low level.");
+	output::doOutput("Smaller servers should not be affected by this during normal gameplay but for this installation step you should assign at least 12 Megabytes of RAM for your PHP process.");
+	output::doOutput("For now we will skip this step, but before installing any module, make sure to increase you memory limit.");
+	output::doOutput("`nYou can proceed at your own risk. Be aware that a blank screen indicates you *must* increase the memory limit.");
+	output::doOutput("`n`nTo override click again on \"Set Up Modules\".");
 	$session['stagecompleted'] = "8";
 	$session['overridememorylimit'] = true;
 	$session['skipmodules'] = true;
 } else {
 	if (isset($session['overridememorylimit']) && $session['overridememorylimit']) {
-		output("`4`n`nYou have been warned... you are now working on your own risk.`n`n");
+		output::doOutput("`4`n`nYou have been warned... you are now working on your own risk.`n`n");
 		$session['skipmodules'] = false;
 	}
 	$submit = translator::translate_inline("Save Module Settings");
@@ -184,7 +184,7 @@ if (return_bytes($phpram) < 12582912 && $phpram!=-1 && !$session['overridememory
 			if (isset($moduleinfo['invalid']) && $moduleinfo['invalid'] == true) {
 				rawoutput($moduleinfo['formalname']);
 			} else {
-				output($moduleinfo['formalname']);
+				output::doOutput($moduleinfo['formalname']);
 			}
 			output_notl(" [`%$modulename`@]`0");
 			rawoutput("</span></td><td>");

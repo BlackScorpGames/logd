@@ -6,19 +6,19 @@
 		if ($clanshort) $clanshort = full_sanitize($clanshort);
 		if ($clanname>"" && $clanshort>""){
 			$sql = "UPDATE " . db_prefix("clans") . " SET clanname='$clanname',clanshort='$clanshort' WHERE clanid='$detail'";
-			output("Updating clan names`n");
+			output::doOutput("Updating clan names`n");
 			db_query($sql);
 			invalidatedatacache("clandata-$detail");
 		}
 		if (httppost('block')>""){
 			$blockdesc = translator::translate_inline("Description blocked for inappropriate usage.");
 			$sql = "UPDATE " . db_prefix("clans") . " SET descauthor=4294967295, clandesc='$blockdesc' where clanid='$detail'";
-			output("Blocking public description`n");
+			output::doOutput("Blocking public description`n");
 			db_query($sql);
 			invalidatedatacache("clandata-$detail");
 		}elseif (httppost('unblock')>""){
 			$sql = "UPDATE " . db_prefix("clans") . " SET descauthor=0, clandesc='' where clanid='$detail'";
-			output("UNblocking public description`n");
+			output::doOutput("UNblocking public description`n");
 			db_query($sql);
 			invalidatedatacache("clandata-$detail");
 		}
@@ -30,10 +30,10 @@
 		rawoutput("<div id='hidearea'>");
 		rawoutput("<form action='clan.php?detail=$detail' method='POST'>");
 		addnav("","clan.php?detail=$detail");
-		output("Superuser / Moderator renaming:`n");
-		output("Long Name: ");
+		output::doOutput("Superuser / Moderator renaming:`n");
+		output::doOutput("Long Name: ");
 		rawoutput("<input name='clanname' value=\"".htmlentities($row1['clanname'], ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."\" maxlength=50 size=50>");
-		output("`nShort Name: ");
+		output::doOutput("`nShort Name: ");
 		rawoutput("<input name='clanshort' value=\"".htmlentities($row1['clanshort'], ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."\" maxlength=5 size=5>");
 		output_notl("`n");
 		$save = translator::translate_inline("Save");
@@ -54,7 +54,7 @@
 
 	output_notl(nltoappon($row1['clandesc']));
 	if ( nltoappon($row1['clandesc']) != "" ) output ("`n`n");
-	output("`0This is the current clan membership of %s < %s >:`n",$row1['clanname'],$row1['clanshort']);
+	output::doOutput("`0This is the current clan membership of %s < %s >:`n",$row1['clanname'],$row1['clanshort']);
 	page_header("Clan Membership for %s &lt;%s&gt;", full_sanitize($row1['clanname']), full_sanitize($row1['clanshort']));
 	addnav("Clan Options");
 	$rank = translator::translate_inline("Rank");
@@ -91,4 +91,4 @@
 		rawoutput("</td></tr>");
 	}
 	rawoutput("</table>");
-	output("`n`n`^This clan has a total of `\$%s`^ dragon kills.",$tot);
+	output::doOutput("`n`n`^This clan has a total of `\$%s`^ dragon kills.",$tot);

@@ -52,39 +52,39 @@ if (count($post)>0){
 				mail(getsetting("gameadminemail","postmaster@localhost.com"),$tl_subject, $msg);
 			}
 			$session['user']['password']=$p;
-			output("Your petition has been sent to the server admin.");
-			output("Please be patient, most server admins have jobs and obligations beyond their game, so sometimes responses will take a while to be received.");
+			output::doOutput("Your petition has been sent to the server admin.");
+			output::doOutput("Please be patient, most server admins have jobs and obligations beyond their game, so sometimes responses will take a while to be received.");
 		} else {
-			output("`\$There was a problem with your petition!`n");
-			output("`@Please read the information below carefully; there was a problem with your petition, and it was not submitted.\n");
+			output::doOutput("`\$There was a problem with your petition!`n");
+			output::doOutput("`@Please read the information below carefully; there was a problem with your petition, and it was not submitted.\n");
 			rawoutput("<blockquote>");
-			output($post['cancelreason']);
+			output::doOutput($post['cancelreason']);
 			rawoutput("</blockquote>");
 		}
 	}else{
-		output("`\$`bError:`b There have already been %s petitions filed from your network in the last day; to prevent abuse of the petition system, you must wait until there have been 5 or fewer within the last 24 hours.",$row['c']);
-		output("If you have multiple issues to bring up with the staff of this server, you might think about consolidating those issues to reduce the overall number of petitions you file.");
+		output::doOutput("`\$`bError:`b There have already been %s petitions filed from your network in the last day; to prevent abuse of the petition system, you must wait until there have been 5 or fewer within the last 24 hours.",$row['c']);
+		output::doOutput("If you have multiple issues to bring up with the staff of this server, you might think about consolidating those issues to reduce the overall number of petitions you file.");
 	}
 }else{
-	output("`c`b`\$Before sending a petition, please make sure you have read the motd.`n");
-	output("Petitions about problems we already know about just take up time we could be using to fix those problems.`b`c`n");
+	output::doOutput("`c`b`\$Before sending a petition, please make sure you have read the motd.`n");
+	output::doOutput("Petitions about problems we already know about just take up time we could be using to fix those problems.`b`c`n");
 	rawoutput("<form action='petition.php?op=submit' method='POST'>");
 	if ($session['user']['loggedin']) {
-		output("Your Character's Name: ");
+		output::doOutput("Your Character's Name: ");
 		output_notl("%s", $session['user']['name']);
 		rawoutput("<input type='hidden' name='charname' value=\"".htmlentities($session['user']['name'], ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."\">");
-		output("`nYour email address: ");
+		output::doOutput("`nYour email address: ");
 		output_notl("%s", htmlentities($session['user']['emailaddress']));
 		rawoutput("<input type='hidden' name='email' value=\"".htmlentities($session['user']['emailaddress'], ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."\">");
 	} else {
-		output("Your Character's Name: ");
+		output::doOutput("Your Character's Name: ");
 		rawoutput("<input name='charname' value=\"".htmlentities($session['user']['name'], ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."\" size='46'>");
-		output("`nYour email address: ");
+		output::doOutput("`nYour email address: ");
 		rawoutput("<input name='email' value=\"".htmlentities($session['user']['emailaddress'], ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."\" size='50'>");
 		$nolog = translator::translate_inline("Character is not logged in!!");
 		rawoutput("<input name='unverified' type='hidden' value='$nolog'>");
 	}
-	output("`nDescription of the problem:`n");
+	output::doOutput("`nDescription of the problem:`n");
 	$abuse = http::httpget("abuse");
 	if ($abuse == "yes") {
 		rawoutput("<textarea name='description' cols='55' rows='7' class='input'></textarea>");
@@ -95,9 +95,9 @@ if (count($post)>0){
 	modulehook("petitionform",array());
 	$submit = translator::translate_inline("Submit");
 	rawoutput("<br/><input type='submit' class='button' value='$submit'><br/>");
-	output("Please be as descriptive as possible in your petition.");
-	output("If you have questions about how the game works, please check out the <a href='petition.php?op=faq'>FAQ</a>.", true);
-	output("Petitions about game mechanics will more than likely not be answered unless they have something to do with a bug.");
-	output("Remember, if you are not signed in, and do not provide an email address, we have no way to contact you.");
+	output::doOutput("Please be as descriptive as possible in your petition.");
+	output::doOutput("If you have questions about how the game works, please check out the <a href='petition.php?op=faq'>FAQ</a>.", true);
+	output::doOutput("Petitions about game mechanics will more than likely not be answered unless they have something to do with a bug.");
+	output::doOutput("Remember, if you are not signed in, and do not provide an email address, we have no way to contact you.");
 	rawoutput("</form>");
 }
