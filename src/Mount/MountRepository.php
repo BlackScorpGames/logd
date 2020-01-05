@@ -6,7 +6,7 @@ use PDO;
 use blackscorp\logd\Mount\{MountEntity, MountRepositoryInteface};
 use translator;
 
-class MountRepository implements MountRepositoryInteface
+class MountRepository
 {
 
     private $pdo        =   null;

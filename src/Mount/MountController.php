@@ -17,8 +17,8 @@ class MountController
     }
 
 
-    private function mountform(MountEntity $mount){	
-
+    private function mountform(MountEntity $mount)
+    {	
 	rawoutput("<form action='mounts.php?op=save&id={$mount->getID()}' method='POST'>");
 	rawoutput("<input type='hidden' name='mount[mountactive]' value=\"".$mount->getActive()."\">");
 	addnav("","mounts.php?op=save&id={$mount->getID()}");
@@ -153,7 +153,7 @@ class MountController
 	rawoutput("</td></tr></table>");
 	$save = translator::translate_inline("Save");
 	rawoutput("<input type='submit' class='button' value='$save'></form>");
-}
+    }
 
     public function deactivateMount(MountEntity $mount)
     {
