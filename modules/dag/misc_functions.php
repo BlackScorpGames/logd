@@ -25,7 +25,7 @@ function dag_manage(){
 	superusernav();
 
 	// Add some bounty expiration for closed bounties
-	$sql = "DELETE FROM " . db_prefix("bounty") . " WHERE status=1 AND windate <'".date("Y-m-d H:i:s",strtotime("-".(getsetting("expirecontent",180)/10)." days"))."'";
+	$sql = "DELETE FROM " . db_prefix("bounty") . " WHERE status=1 AND windate <'".date("Y-m-d H:i:s",strtotime("-".(settings::getsetting("expirecontent",180)/10)." days"))."'";
 	db_query($sql);
 
 	addnav("Actions");

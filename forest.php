@@ -65,7 +65,7 @@ if ($op=="search"){
 			'sobermsg'=>"`&Faced with the prospect of death, you sober up a little.`n",
 			'schema'=>'forest');
 		modulehook("soberup", $args);
-		if (module_events("forest", getsetting("forestchance", 15)) != 0) {
+		if (module_events("forest", settings::getsetting("forestchance", 15)) != 0) {
 			if (!checknavs()) {
 				// If we're showing the forest, make sure to reset the special
 				// and the specialmisc
@@ -113,18 +113,18 @@ if ($op=="search"){
 			$multi = 1;
 			$targetlevel = ($session['user']['level'] + $plev - $nlev );
 			$mintargetlevel = $targetlevel;
-			if (getsetting("multifightdk", 10) <= $session['user']['dragonkills']) {
-				if (e_rand(1,100) <= getsetting("multichance", 25)) {
-					$multi = e_rand(getsetting("multibasemin", 2),getsetting("multibasemax", 3));
+			if (settings::getsetting("multifightdk", 10) <= $session['user']['dragonkills']) {
+				if (e_rand(1,100) <= settings::getsetting("multichance", 25)) {
+					$multi = e_rand(settings::getsetting("multibasemin", 2),settings::getsetting("multibasemax", 3));
 					if ($type=="slum") {
-						$multi -= e_rand(getsetting("multislummin", 0),getsetting("multislummax", 1));
+						$multi -= e_rand(settings::getsetting("multislummin", 0),settings::getsetting("multislummax", 1));
 						if (e_rand(0,1)) {
 							$mintargetlevel = $targetlevel - 1;
 						} else {
 							$mintargetlevel = $targetlevel - 2;
 						}
 					} else if ($type == "thrill") {
-						$multi += e_rand(getsetting("multithrillmin", 1),getsetting("multithrillmax", 2));
+						$multi += e_rand(settings::getsetting("multithrillmin", 1),settings::getsetting("multithrillmax", 2));
 						if (e_rand(0,1)) {
 							$targetlevel++;
 							$mintargetlevel = $targetlevel - 1;
@@ -132,7 +132,7 @@ if ($op=="search"){
 							$mintargetlevel = $targetlevel-1;
 						}
 					} else if ($type == "suicide") {
-						$multi += e_rand(getsetting("multisuimin", 2),getsetting("multisuimax", 4));
+						$multi += e_rand(settings::getsetting("multisuimin", 2),settings::getsetting("multisuimax", 4));
 						if (e_rand(0,1)) {
 							$mintargetlevel = $targetlevel - 1;
 						} else {
@@ -155,7 +155,7 @@ if ($op=="search"){
 			}
 			debug("Creatures: $multi Targetlevel: $targetlevel Mintargetlevel: $mintargetlevel");
 			if ($multi > 1) {
-				$packofmonsters = (bool)(e_rand(0,5) == 0 && getsetting("allowpackofmonsters", true)); // true or false
+				$packofmonsters = (bool)(e_rand(0,5) == 0 && settings::getsetting("allowpackofmonsters", true)); // true or false
 				switch($packofmonsters) {
 					case false:
 						$sql = "SELECT * FROM " . db_prefix("creatures") . " WHERE creaturelevel <= $targetlevel AND creaturelevel >= $mintargetlevel AND forest=1 ORDER BY rand(".e_rand().") LIMIT $multi";

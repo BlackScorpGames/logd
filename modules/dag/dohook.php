@@ -13,12 +13,12 @@ function dag_dohook_private($hookname,$args){
 		db_query($sql);
 		break;
 	case "inn-desc":
-		if (getsetting("pvp",1)) {
+		if (settings::getsetting("pvp",1)) {
 			output::doOutput("`nDag Durnick sits, sulking in the corner with a pipe clamped firmly in his mouth.`n");
 		}
 		break;
 	case "inn":
-		if (getsetting("pvp",1)) {
+		if (settings::getsetting("pvp",1)) {
 			addnav("Things to do");
 			addnav("D?Talk to Dag Durnick","runmodule.php?module=dag");
 		}

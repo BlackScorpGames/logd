@@ -55,8 +55,8 @@ function calculate_buff_fields(){
 								debug("Buffs[$buffname][$property] evaluates successfully to $val");
 							}else{
 								debug("Buffs[$buffname][$property] has an evaluation error<br>"
-								.htmlentities($origstring, ENT_COMPAT, getsetting("charset", "ISO-8859-1"))." becomes <br>"
-								.htmlentities($value, ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."<br>"
+								.htmlentities($origstring, ENT_COMPAT, settings::getsetting("charset", "ISO-8859-1"))." becomes <br>"
+								.htmlentities($value, ENT_COMPAT, settings::getsetting("charset", "ISO-8859-1"))."<br>"
 								.$errors);
 								$val="";
 							}
@@ -156,7 +156,7 @@ function apply_companion($name,$companion,$ignorelimit=false){
 	if (!is_array($companions)) {
 		$companions = @unserialize($session['user']['companions']);
 	}
-	$companionsallowed = getsetting("companionsallowed", 1);
+	$companionsallowed = settings::getsetting("companionsallowed", 1);
 	$args = modulehook("companionsallowed", array("maxallowed"=>$companionsallowed));
 	$companionsallowed = $args['maxallowed'];
 	$current = 0;

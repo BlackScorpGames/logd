@@ -49,7 +49,7 @@ if ($target = db_fetch_assoc($result)) {
 	  rawoutput("<a href=\"mail.php?op=write&to={$target['login']}\" target=\"_blank\" onClick=\"".popup("mail.php?op=write&to={$target['login']}").";return false;\"><img src='images/newscroll.GIF' width='16' height='16' alt='$write' border='0'></a>");
   output_notl("`n`n");
 
-  if ($target['clanname']>"" && getsetting("allowclans",false)){
+  if ($target['clanname']>"" && settings::getsetting("allowclans",false)){
 	  $ranks = array(CLAN_APPLICANT=>"`!Applicant`0",CLAN_MEMBER=>"`#Member`0",CLAN_OFFICER=>"`^Officer`0",CLAN_LEADER=>"`&Leader`0", CLAN_FOUNDER=>"`\$Founder");
 	  $ranks = modulehook("clanranks", array("ranks"=>$ranks, "clanid"=>$target['clanid']));
 	  translator::tlschema("clans"); //just to be in the right schema
@@ -64,7 +64,7 @@ if ($target = db_fetch_assoc($result)) {
   $loggedin = false;
   if ($target['loggedin'] &&
 		  (date("U") - strtotime($target['laston']) <
-			getsetting("LOGINTIMEOUT", 900))) {
+			settings::getsetting("LOGINTIMEOUT", 900))) {
 	  $loggedin = true;
   }
   $status = translator::translate_inline($loggedin?"`#Online`0":"`\$Offline`0");

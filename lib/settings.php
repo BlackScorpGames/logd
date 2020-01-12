@@ -35,6 +35,7 @@ function loadsettings(){
 	// we need it too often and the for/while construct necessary is just too much for it.
 	if (!is_array($settings)){
 		$settings=datacache("game-settings");
+                
 		if (!is_array($settings)){
 			$settings=array();
 			$sql = "SELECT * FROM " . db_prefix("settings");             
@@ -53,8 +54,8 @@ function clearsettings(){
 	global $settings;
 	unset($settings);
 }
-
-function getsetting($settingname,$default){
+class settings{
+    public static function getsetting($settingname,$default){
 	global $settings;
 	global $DB_USEDATACACHE,$DB_DATACACHEPATH;
 	if ($settingname=="usedatacache") return $DB_USEDATACACHE;
@@ -70,4 +71,5 @@ function getsetting($settingname,$default){
 	}else{
 		return $settings[$settingname];
 	}
+}
 }

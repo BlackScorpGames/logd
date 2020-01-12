@@ -47,7 +47,7 @@ while (list($key,$val)=each($post)){
 			}
 		} elseif ($key=="name" && stripslashes($val)!=$oldvalues[$key]) {
 			$updates++;
-			$tmp = sanitize_colorname(getsetting("spaceinname", 0),
+			$tmp = sanitize_colorname(settings::getsetting("spaceinname", 0),
 					stripslashes($val), true);
 			$tmp = preg_replace("/[`][cHw]/", "", $tmp);
 			$tmp = sanitize_html($tmp);

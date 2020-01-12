@@ -15,9 +15,9 @@ require_once("lib/villagenav.php");
 translator::tlschema("inn");
 
 addcommentary();
-$iname = getsetting("innname", LOCATION_INN);
-$vname = getsetting("villagename", LOCATION_FIELDS);
-$barkeep = getsetting('barkeep','`tCedrik');
+$iname = settings::getsetting("innname", LOCATION_INN);
+$vname = settings::getsetting("villagename", LOCATION_FIELDS);
+$barkeep = settings::getsetting('barkeep','`tCedrik');
 
 $op = http::httpget('op');
 // Correctly reset the location if they fleeing the dragon

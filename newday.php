@@ -14,10 +14,10 @@ modulehook("newday-intercept",array());
 /***************
  **  SETTINGS **
  ***************/
-$turnsperday = getsetting("turns",10);
-$maxinterest = ((float)getsetting("maxinterest",10)/100) + 1; //1.1;
-$mininterest = ((float)getsetting("mininterest",1)/100) + 1; //1.1;
-$dailypvpfights = getsetting("pvpday",3);
+$turnsperday = settings::getsetting("turns",10);
+$maxinterest = ((float)settings::getsetting("maxinterest",10)/100) + 1; //1.1;
+$mininterest = ((float)settings::getsetting("mininterest",1)/100) + 1; //1.1;
+$dailypvpfights = settings::getsetting("pvpday",3);
 
 $resline = (http::httpget('resurrection')=="true") ? "&resurrection=true" : "" ;
 /******************
@@ -127,12 +127,12 @@ if ($dp < $dkills) {
 	$turnstoday = $args['turnstoday'];
 
 	$interestrate = e_rand($mininterest*100,$maxinterest*100)/(float)100;
-	if ($session['user']['turns']>getsetting("fightsforinterest",4) && $session['user']['goldinbank']>=0) {
+	if ($session['user']['turns']>settings::getsetting("fightsforinterest",4) && $session['user']['goldinbank']>=0) {
 		$interestrate=1;
 		output::doOutput("`2Today's interest rate: `^0% (Bankers in this village only give interest to those who work for it)`2.`n");
-	} elseif (getsetting("maxgoldforinterest", 100000) && $session['user']['goldinbank']>=getsetting("maxgoldforinterest", 100000)) {
+	} elseif (settings::getsetting("maxgoldforinterest", 100000) && $session['user']['goldinbank']>=settings::getsetting("maxgoldforinterest", 100000)) {
 		$interestrate=1;
-		output::doOutput("`2Today's interest rate: `^0%% (The bank will not pay interest on accounts equal or greater than %s to retain solvency)`2.`n", getsetting("maxgoldforinterest", 100000));
+		output::doOutput("`2Today's interest rate: `^0%% (The bank will not pay interest on accounts equal or greater than %s to retain solvency)`2.`n", settings::getsetting("maxgoldforinterest", 100000));
 	}else{
 		output::doOutput("`2Today's interest rate: `^%s%% `n",($interestrate-1)*100);
 		if ($session['user']['goldinbank']>=0){
@@ -189,9 +189,9 @@ if ($dp < $dkills) {
 	$spirits = $r1+$r2;
 	$resurrectionturns=$spirits;
 	if ($resurrection=="true"){
-		addnews("`&%s`& has been resurrected by %s`&.",$session['user']['name'],getsetting('deathoverlord','`$Ramius'));
+		addnews("`&%s`& has been resurrected by %s`&.",$session['user']['name'],settings::getsetting('deathoverlord','`$Ramius'));
 		$spirits=-6;
-		$resurrectionturns=getsetting('resurrectionturns',-6);
+		$resurrectionturns=settings::getsetting('resurrectionturns',-6);
 		if (strstr($resurrectionturns,'%')) {
 			$resurrectionturns=strtok($resurrectionturns,'%');
 			$resurrectionturns=(int)$resurrectionturns;
@@ -248,7 +248,7 @@ if ($dp < $dkills) {
 	$session['user']['fedmount'] = 0;
 	if ($resurrection!="true"){
 		$session['user']['soulpoints']=50 + 5 * $session['user']['level'];
-		$session['user']['gravefights']=getsetting("gravefightsperday",10);
+		$session['user']['gravefights']=settings::getsetting("gravefightsperday",10);
 	}
 	$session['user']['boughtroomtoday'] = 0;
 	$session['user']['recentcomments']=$session['user']['lasthit'];
@@ -288,9 +288,9 @@ if ($dp < $dkills) {
 	require_once("lib/extended-battle.php");
 	unsuspend_companions("allowinshades");
 
-	if (!getsetting("newdaycron",0)) {
+	if (!settings::getsetting("newdaycron",0)) {
 		//check last time we did this vs now to see if it was a different game day.
-		$lastnewdaysemaphore = convertgametime(strtotime(getsetting("newdaySemaphore","0000-00-00 00:00:00") . " +0000"));
+		$lastnewdaysemaphore = convertgametime(strtotime(settings::getsetting("newdaySemaphore","0000-00-00 00:00:00") . " +0000"));
 		$gametoday = gametime();
 		if (gmdate("Ymd",$gametoday)!=gmdate("Ymd",$lastnewdaysemaphore)){
 				// it appears to be a different game day, acquire semaphore and
@@ -298,7 +298,7 @@ if ($dp < $dkills) {
             $sql = "LOCK TABLES " . db_prefix("settings") . " WRITE";
             db_query($sql);
             clearsettings();
-            $lastnewdaysemaphore = convertgametime(strtotime(getsetting("newdaySemaphore","0000-00-00 00:00:00") . " +0000"));
+            $lastnewdaysemaphore = convertgametime(strtotime(settings::getsetting("newdaySemaphore","0000-00-00 00:00:00") . " +0000"));
                 $gametoday = gametime();
             if (gmdate("Ymd",$gametoday)!=gmdate("Ymd",$lastnewdaysemaphore)){
                 //we need to run the hook, update the setting, and unlock.

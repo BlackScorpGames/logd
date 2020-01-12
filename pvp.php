@@ -13,7 +13,7 @@ require_once("lib/villagenav.php");
 
 translator::tlschema("pvp");
 
-$iname = getsetting("innname", LOCATION_INN);
+$iname = settings::getsetting("innname", LOCATION_INN);
 $battle = false;
 
 page_header("PvP Combat!");

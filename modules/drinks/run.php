@@ -144,7 +144,7 @@ function drinks_run_private(){
 		}else{
 			translator::tlschema($drinktext['schemas']['return']);
 			addnav("I?Return to the Inn","inn.php");
-			addnav(array("Go back to talking to %s`0", getsetting("barkeep", "`tCedrik")),"inn.php?op=bartender");
+			addnav(array("Go back to talking to %s`0", settings::getsetting("barkeep", "`tCedrik")),"inn.php?op=bartender");
 			translator::tlschema();
 		}
 		require_once("lib/villagenav.php");

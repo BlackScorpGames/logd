@@ -202,7 +202,7 @@ function page_footer($saveuser=true){
 	//NOTICE | which I have made freely available to you, that you leave it in.
 	//NOTICE |
 	$paypalstr = '<table align="center"><tr><td>';
-	$currency = getsetting("paypalcurrency", "USD");
+	$currency = settings::getsetting("paypalcurrency", "USD");
 
 	if (!isset($_SESSION['logdnet']) || !isset($_SESSION['logdnet']['']) || $_SESSION['logdnet']['']=="" || !isset($session['user']['laston']) || date("Y-m-d H:i:s",strtotime("-1 hour"))>$session['user']['laston']){
 		$already_registered_logdnet = false;
@@ -210,22 +210,22 @@ function page_footer($saveuser=true){
 		$already_registered_logdnet = true;
 	}
 
-	if (getsetting("logdnet",0) && $session['user']['loggedin'] && !$already_registered_logdnet){
+	if (settings::getsetting("logdnet",0) && $session['user']['loggedin'] && !$already_registered_logdnet){
 		//account counting, just for my own records, I don't use this in the calculation for server order.
 		$sql = "SELECT count(*) AS c FROM " . db_prefix("accounts");
 		$result = db_query_cached($sql,"acctcount",600);
 		$row = db_fetch_assoc($result);
 		$c = $row['c'];
-		$a = getsetting("serverurl","http://".$_SERVER['SERVER_NAME'].($_SERVER['SERVER_PORT'] == 80?"":":".$_SERVER['SERVER_PORT']).dirname($_SERVER['REQUEST_URI']));
+		$a = settings::getsetting("serverurl","http://".$_SERVER['SERVER_NAME'].($_SERVER['SERVER_PORT'] == 80?"":":".$_SERVER['SERVER_PORT']).dirname($_SERVER['REQUEST_URI']));
 		if (!preg_match("/\\/$/", $a)) {
 			$a = $a . "/";
 			savesetting("serverurl", $a);
 		}
 
-		$l = getsetting("defaultlanguage","en");
-		$d = getsetting("serverdesc","Another LoGD Server");
-		$e = getsetting("gameadminemail", "postmaster@localhost.com");
-		$u = getsetting("logdnetserver","http://logdnet.logd.com/");
+		$l = settings::getsetting("defaultlanguage","en");
+		$d = settings::getsetting("serverdesc","Another LoGD Server");
+		$e = settings::getsetting("gameadminemail", "postmaster@localhost.com");
+		$u = settings::getsetting("logdnetserver","http://logdnet.logd.com/");
 		if (!preg_match("/\\/$/", $u)) {
 			$u = $u . "/";
 			savesetting("logdnetserver", $u);
@@ -247,7 +247,7 @@ function page_footer($saveuser=true){
 <input type="hidden" name="cmd" value="_xclick">
 <input type="hidden" name="business" value="logd@mightye.org">
 <input type="hidden" name="item_name" value="Legend of the Green Dragon Author Donation from '.full_sanitize($session['user']['name']).'">
-<input type="hidden" name="item_number" value="'.htmlentities($session['user']['login'].":".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'], ENT_COMPAT, getsetting("charset", "ISO-8859-1")).'">
+<input type="hidden" name="item_number" value="'.htmlentities($session['user']['login'].":".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'], ENT_COMPAT, settings::getsetting("charset", "ISO-8859-1")).'">
 <input type="hidden" name="no_shipping" value="1">
 <input type="hidden" name="notify_url" value="http://lotgd.net/payment.php">
 <input type="hidden" name="cn" value="Your Character Name">
@@ -263,7 +263,7 @@ function page_footer($saveuser=true){
 <input type="hidden" name="cmd" value="_xclick">
 <input type="hidden" name="business" value="derbugmeister@shaw.ca">
 <input type="hidden" name="item_name" value="Legend of the Green Dragon DP Donation from '.full_sanitize($session['user']['name']).'">
-<input type="hidden" name="item_number" value="'.htmlentities($session['user']['login'].":".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'], ENT_COMPAT, getsetting("charset", "ISO-8859-1")).'">
+<input type="hidden" name="item_number" value="'.htmlentities($session['user']['login'].":".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'], ENT_COMPAT, settings::getsetting("charset", "ISO-8859-1")).'">
 <input type="hidden" name="no_shipping" value="1">
 <input type="hidden" name="notify_url" value="http://dragonprimelogd.net/payment.php">
 <input type="hidden" name="cn" value="Your Character Name">
@@ -272,14 +272,14 @@ function page_footer($saveuser=true){
 <input type="hidden" name="tax" value="0">
 <input type="image" src="images/paypal3.gif" border="0" name="submit" alt="Donate!">
 </form>';
-	$paysite = getsetting("paypalemail", "");
+	$paysite = settings::getsetting("paypalemail", "");
 	if ($paysite != "") {
 		$paypalstr .= '</td></tr><tr><td colspan=\'2\' align=\'center\'>';
 		$paypalstr .= '<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
 <input type="hidden" name="cmd" value="_xclick">
 <input type="hidden" name="business" value="'.$paysite.'">
-<input type="hidden" name="item_name" value="'.getsetting("paypaltext","Legend of the Green Dragon Site Donation from").' '.full_sanitize($session['user']['name']).'">
-<input type="hidden" name="item_number" value="'.htmlentities($session['user']['login'].":".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'], ENT_COMPAT, getsetting("charset", "ISO-8859-1")).'">
+<input type="hidden" name="item_name" value="'.settings::getsetting("paypaltext","Legend of the Green Dragon Site Donation from").' '.full_sanitize($session['user']['name']).'">
+<input type="hidden" name="item_number" value="'.htmlentities($session['user']['login'].":".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'], ENT_COMPAT, settings::getsetting("charset", "ISO-8859-1")).'">
 <input type="hidden" name="no_shipping" value="1">';
 		if (file_exists("payment.php")) {
 			$paypalstr .= '<input type="hidden" name="notify_url" value="http://'.$_SERVER["HTTP_HOST"].dirname($_SERVER['REQUEST_URI']).'/payment.php">';
@@ -287,7 +287,7 @@ function page_footer($saveuser=true){
 		$paypalstr .= '<input type="hidden" name="cn" value="Your Character Name">
 <input type="hidden" name="cs" value="1">
 <input type="hidden" name="currency_code" value="'.$currency.'">
-<input type="hidden" name="lc" value="'.getsetting("paypalcountry-code","US").'">
+<input type="hidden" name="lc" value="'.settings::getsetting("paypalcountry-code","US").'">
 <input type="hidden" name="bn" value="PP-DonationsBF">
 <input type="hidden" name="tax" value="0">
 <input type="image" src="images/paypal2.gif" border="0" name="submit" alt="Donate!">
@@ -725,7 +725,7 @@ function charstats(){
 				$onlinecount = $list['count'];
 				$ret = $list['list'];
 			} else {
-				$sql="SELECT name,alive,location,sex,level,laston,loggedin,lastip,uniqueid FROM " . db_prefix("accounts") . " WHERE locked=0 AND loggedin=1 AND laston>'".date("Y-m-d H:i:s",strtotime("-".getsetting("LOGINTIMEOUT",900)." seconds"))."' ORDER BY level DESC";
+				$sql="SELECT name,alive,location,sex,level,laston,loggedin,lastip,uniqueid FROM " . db_prefix("accounts") . " WHERE locked=0 AND loggedin=1 AND laston>'".date("Y-m-d H:i:s",strtotime("-".settings::getsetting("LOGINTIMEOUT",900)." seconds"))."' ORDER BY level DESC";
 				$result = db_query($sql);
 				$ret.=appoencode(sprintf(translator::translate_inline("`bOnline Characters (%s players):`b`n"),db_num_rows($result)));
 				while ($row = db_fetch_assoc($result)) {
@@ -755,7 +755,7 @@ function charstats(){
  */
 function loadtemplate($templatename){
 	if ($templatename=="" || !file_exists("templates/$templatename") || substr($templatename, -4) != '.htm')
-		$templatename=getsetting("defaultskin", "jade.htm");
+		$templatename=settings::getsetting("defaultskin", "jade.htm");
 	if ($templatename=="" || !file_exists("templates/$templatename"))
 		$templatename="jade.htm";
 	$fulltemplate = file_get_contents("templates/$templatename");

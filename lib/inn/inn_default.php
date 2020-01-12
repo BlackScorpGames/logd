@@ -1,6 +1,6 @@
 <?php
 if ($com=="" && !$comment && $op!="fleedragon") {
-	if (module_events("inn", getsetting("innchance", 0)) != 0) {
+	if (module_events("inn", settings::getsetting("innchance", 0)) != 0) {
 		if (checknavs()) {
 			page_footer();
 		} else {
@@ -47,8 +47,8 @@ if (!$skipinndesc) {
 
 	$chats = array(
 		translator::translate_inline("dragons"),
-		translator::translate_inline(getsetting("bard", "`^Seth")),
-		translator::translate_inline(getsetting("barmaid", "`%Violet")),
+		translator::translate_inline(settings::getsetting("bard", "`^Seth")),
+		translator::translate_inline(settings::getsetting("barmaid", "`%Violet")),
 		translator::translate_inline("`#MightyE"),
 		translator::translate_inline("fine drinks"),
 		$partner,

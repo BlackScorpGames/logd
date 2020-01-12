@@ -146,7 +146,7 @@ if ($op==""){
 	//Now, if we're using version 2 of LoGDnet, we'll return the appropriate code.
 	$v = http::httpget("v");
 	if ((int)$v>=2){
-		$currency = getsetting("paypalcurrency", "USD");
+		$currency = settings::getsetting("paypalcurrency", "USD");
 		$info = array();
 		$info[''] = '<!--data from '.$_SERVER['HTTP_HOST'].'-->
 <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
@@ -210,7 +210,7 @@ if ($op==""){
 	output::doOutput("Version");
 	rawoutput("</td>");
 	require_once("lib/pullurl.php");
-	$u = getsetting("logdnetserver", "http://logdnet.logd.com/");
+	$u = settings::getsetting("logdnetserver", "http://logdnet.logd.com/");
 	if (!preg_match("/\\/$/", $u)) {
 		$u = $u . "/";
 		savesetting("logdnetserver", $u);
@@ -242,7 +242,7 @@ if ($op==""){
 		if (strlen($row['description']) > 75)
 			$row['description'] = substr($row['description'], 0, 75);
 
-		$row['description'] = htmlentities(stripslashes($row['description']), ENT_COMPAT, getsetting("charset", "ISO-8859-1"));
+		$row['description'] = htmlentities(stripslashes($row['description']), ENT_COMPAT, settings::getsetting("charset", "ISO-8859-1"));
 		$row['description'] = str_replace("`&amp;", "`&", $row['description']);
 
 		// Correct for old logdnet servers
@@ -250,7 +250,7 @@ if ($op==""){
 
 		// Output the information we have.
 		rawoutput("<tr class='" . ($i%2==0?"trlight":"trdark") . "'>");
-		rawoutput("<td><a href=\"".HTMLEntities($row['address'], ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."\" target='_blank'>");
+		rawoutput("<td><a href=\"".HTMLEntities($row['address'], ENT_COMPAT, settings::getsetting("charset", "ISO-8859-1"))."\" target='_blank'>");
 		output_notl("`&%s`0",$row['description'], true);
 		rawoutput("</a></td><td>");
 		output_notl("`^%s`0", $row['version']); // so we are able to translate "`^Unknown`0"

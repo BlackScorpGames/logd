@@ -117,14 +117,14 @@ function gametime(){
 function convertgametime($intime,$debug=false){
 
 	//adjust the requested time by the game offset
-	$intime -= getsetting("gameoffsetseconds",0);
+	$intime -= settings::getsetting("gameoffsetseconds",0);
 
 	// we know that strtotime gives us an identical timestamp for
 	// everywhere in the world at the same time, if it is provided with
 	// the GMT offset:
-	$epoch = strtotime(getsetting("game_epoch",gmdate("Y-m-d 00:00:00 O",strtotime("-30 days"))));
+	$epoch = strtotime(settings::getsetting("game_epoch",gmdate("Y-m-d 00:00:00 O",strtotime("-30 days"))));
 	$now = strtotime(gmdate("Y-m-d H:i:s O",$intime));
-	$logd_timestamp = ($now - $epoch) * getsetting("daysperday",4);
+	$logd_timestamp = ($now - $epoch) * settings::getsetting("daysperday",4);
 	if ($debug){
 		echo "Game Timestamp: ".$logd_timestamp.", which makes it ".gmdate("Y-m-d H:i:s",$logd_timestamp)."<br>";
 	}
@@ -135,7 +135,7 @@ function gametimedetails(){
 	$ret = array();
 	$ret['now'] = date("Y-m-d 00:00:00");
 	$ret['gametime'] = gametime();
-	$ret['daysperday'] = getsetting("daysperday", 4);
+	$ret['daysperday'] = settings::getsetting("daysperday", 4);
 	$ret['secsperday'] = 86400/$ret['daysperday'];
 	$ret['today'] = strtotime(gmdate("Y-m-d 00:00:00 O", $ret['gametime']));
 	$ret['tomorrow'] =

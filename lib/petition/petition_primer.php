@@ -26,7 +26,7 @@ output::doOutput("So if you're trying to save up some money, and you're barely h
 output::doOutput("After you've killed a few creatures, you should head back to the village, into Bluspring's Warrior Training, and talk to your master.");
 output::doOutput("Your master will tell you when you are ready to challenge him, and when you are ready, you should give him a shot (make sure you're healed up first though!).");
 output::doOutput("Your master won't kill you if you lose, instead he'll give you a complimentary healing potion and send you on your way.");
-if (getsetting("multimaster",1) == 0) {
+if (settings::getsetting("multimaster",1) == 0) {
 	output::doOutput(" You can only challenge your master once a day.");
 }
 output::doOutput("`n`n`^`bDeath`b`n");
@@ -34,32 +34,32 @@ output::doOutput("`@Death is a natural part of any game that contains some kind 
 output::doOutput("In Legend of the Green Dragon, being dead is only a temporary condition.");
 output::doOutput("When you die, you'll lose any money that you had on hand (money in the bank is safe!), and some of the experience you've accumulated.");
 output::doOutput("While you're dead, you can explore the land of the shades and the graveyard.");
-output::doOutput("In the graveyard, you'll find %s`@ the Overlord of Death.",getsetting('deathoverlord','`$Ramius'));
+output::doOutput("In the graveyard, you'll find %s`@ the Overlord of Death.",settings::getsetting('deathoverlord','`$Ramius'));
 output::doOutput("He has certain things that he would like you to do for him, and in return, he may grant you special powers or favors.");
 output::doOutput("The graveyard is one of those areas that you can't get to from the main Square.");
 output::doOutput("In fact, while you're dead, you can't go to the village square at all!`n`n");
-output::doOutput("Unless you can convince %s`@ to resurrect you, you'll remain dead until the next game day.",getsetting('deathoverlord','`$Ramius'));
-output::doOutput("There are %s game days each real day.", getsetting("daysperday", 2));
+output::doOutput("Unless you can convince %s`@ to resurrect you, you'll remain dead until the next game day.",settings::getsetting('deathoverlord','`$Ramius'));
+output::doOutput("There are %s game days each real day.", settings::getsetting("daysperday", 2));
 output::doOutput("These occur when the clock in the village square reaches midnight.`n`n");
 output::doOutput("`^`bNew Days`b`n");
-output::doOutput("`@As stated just above, there are %s game days each real day.", getsetting("daysperday", 2));
+output::doOutput("`@As stated just above, there are %s game days each real day.", settings::getsetting("daysperday", 2));
 output::doOutput("These occur when the clock in the village square reaches midnight.");
 output::doOutput("When you get a new day, you'll be granted new forest fights, interest on gold you have in the bank (if the bankers are pleased with your performance!), and a lot of your other statistics will be refreshed.");
 output::doOutput("You'll also be resurrected if you were dead, and get another chance to take on the world.");
 output::doOutput("If you don't log on over the course of an entire game day, you'll miss your opportunity to partake in that game day (this means that new game days are only assigned when you actually log on, being away from the game for a few days won't grant you a whole bunch of new days).");
 output::doOutput("Forest fights, PvP battles, special power usages and other things that get refreshed on a daily basis do NOT get carried over from one day to the next (you can't build up a whole bunch of them).`n`n");
-if (getsetting("pvp",1)){
+if (settings::getsetting("pvp",1)){
 	output::doOutput("`^`bPvP (Player versus Player)`b`n");
 	output::doOutput("`@Legend of the Green Dragon contains a PvP element, where players can attack each other.");
-	output::doOutput("As a new player, you are protected from PvP for your first %s game days or until you accumulate %s experience, unless you choose to attack another player.", getsetting("pvpimmunity", 5), getsetting("pvpminexp", 1500));
+	output::doOutput("As a new player, you are protected from PvP for your first %s game days or until you accumulate %s experience, unless you choose to attack another player.", settings::getsetting("pvpimmunity", 5), settings::getsetting("pvpminexp", 1500));
 	output::doOutput("Some servers might have the PvP aspect turned off, in which case there is no chance that you'll be attacked by any other players.");
 	output::doOutput("You can tell if the server you play on has PvP turned off by looking in the village square for \"Slay Other Players.\"");
 	output::doOutput("If it's not there, you can't engage (or be engaged) in PvP.`n`n");
-	output::doOutput("When you are attacked and die in PvP, you only lose gold you had on hand, and %s%% of your experience.", getsetting("pvpdeflose", 5));
+	output::doOutput("When you are attacked and die in PvP, you only lose gold you had on hand, and %s%% of your experience.", settings::getsetting("pvpdeflose", 5));
 	output::doOutput("You won't lose any turns in the forest, or any other stats.");
-	output::doOutput("If you attack someone else in PvP, you'll get %s%% of the experience they had, and any gold they had on hand.", getsetting("pvpattgain", 10));
-	output::doOutput("If you attack someone else and lose, however, you'll lose %s%% of your experience, and you'll lose any gold that you had on hand.", getsetting("pvpattlose", 15));
-	output::doOutput("If someone else attacks you and they lose, you'll gain the gold they had on hand, and %s%% of their experience.", getsetting("pvpdefgain", 10));
+	output::doOutput("If you attack someone else in PvP, you'll get %s%% of the experience they had, and any gold they had on hand.", settings::getsetting("pvpattgain", 10));
+	output::doOutput("If you attack someone else and lose, however, you'll lose %s%% of your experience, and you'll lose any gold that you had on hand.", settings::getsetting("pvpattlose", 15));
+	output::doOutput("If someone else attacks you and they lose, you'll gain the gold they had on hand, and %s%% of their experience.", settings::getsetting("pvpdefgain", 10));
 	output::doOutput("You can only attack someone who is close to your level, so don't worry that as a level 1, some big level 15 player is going to come along and beat on you.`n`n");
 	output::doOutput("If you buy a room in the inn when you decide to quit the game, you'll protect yourself somewhat from casual attacking.");
 	output::doOutput("The only way for someone to attack you when you're in the inn is for them to bribe the bartender, which can be a costly procedure.");

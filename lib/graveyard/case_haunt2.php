@@ -26,12 +26,12 @@ if (db_num_rows($result)<=0){
 	rawoutput("<tr class='trhead'><td>$name</td><td>$lev</td></tr>");
 	for ($i=0;$i<db_num_rows($result);$i++){
 		$row = db_fetch_assoc($result);
-		rawoutput("<tr class='".($i%2?"trlight":"trdark")."'><td><a href='graveyard.php?op=haunt3&name=".HTMLEntities($row['login'], ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."'>");
+		rawoutput("<tr class='".($i%2?"trlight":"trdark")."'><td><a href='graveyard.php?op=haunt3&name=".HTMLEntities($row['login'], ENT_COMPAT, settings::getsetting("charset", "ISO-8859-1"))."'>");
 		output_notl("%s", $row['name']);
 		rawoutput("</a></td><td>");
 		output_notl("%s", $row['level']);
 		rawoutput("</td></tr>",true);
-		addnav("","graveyard.php?op=haunt3&name=".HTMLEntities($row['login'], ENT_COMPAT, getsetting("charset", "ISO-8859-1")));
+		addnav("","graveyard.php?op=haunt3&name=".HTMLEntities($row['login'], ENT_COMPAT, settings::getsetting("charset", "ISO-8859-1")));
 	}
 	rawoutput("</table>",true);
 }

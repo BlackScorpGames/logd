@@ -23,7 +23,7 @@ function do_forced_nav($anonymous,$overrideforced){
 			}else{
 				$session['allowednavs']=array($session['user']['allowednavs']);
 			}
-			if (!$session['user']['loggedin'] || ( (date("U") - strtotime($session['user']['laston'])) > getsetting("LOGINTIMEOUT",900)) ){
+			if (!$session['user']['loggedin'] || ( (date("U") - strtotime($session['user']['laston'])) > settings::getsetting("LOGINTIMEOUT",900)) ){
 				$session=array();
 				redirect("index.php?op=timeout","Account not logged in but session thinks they are.");
 			}

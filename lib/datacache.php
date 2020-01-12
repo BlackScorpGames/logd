@@ -18,7 +18,7 @@ define("DATACACHE_FILENAME_PREFIX","datacache_");
 
 function datacache($name,$duration=60){
 	global $datacache;
-	if (getsetting("usedatacache",0)){
+	if (settings::getsetting("usedatacache",0)){
 		if (isset($datacache[$name])){
 			// we've already loaded this data cache this page hit and we
 			// can simply return it.
@@ -47,7 +47,7 @@ function datacache($name,$duration=60){
 //thinking that no data is cached or we are outside of the cache period.
 function updatedatacache($name,$data){
 	global $datacache;
-	if (getsetting("usedatacache",0)){
+	if (settings::getsetting("usedatacache",0)){
 		$fullname = makecachetempname($name);
 		$datacache[$name] = $data; //serialize($array);
 		$fp = fopen($fullname,"w");
@@ -68,7 +68,7 @@ function updatedatacache($name,$data){
 //something which would change the data.
 function invalidatedatacache($name,$full=false){
 	global $datacache;
-	if (getsetting("usedatacache",0)){
+	if (settings::getsetting("usedatacache",0)){
 		if(!$full) $fullname = makecachetempname($name);
 		else $fullname = $name;
 		if (file_exists($fullname)) @unlink($fullname);
@@ -79,11 +79,11 @@ function invalidatedatacache($name,$full=false){
 
 //Invalidates *all* caches, which contain $name at the beginning of their filename.
 function massinvalidate($name) {
-	if (getsetting("usedatacache",0)){
+	if (settings::getsetting("usedatacache",0)){
 		$name = DATACACHE_FILENAME_PREFIX.$name;
 		global $datacachefilepath;
 		if ($datacachefilepath=="")
-			$datacachefilepath = getsetting("datacachepath","/tmp");
+			$datacachefilepath = settings::getsetting("datacachepath","/tmp");
 		$dir = @dir($datacachefilepath);
 		if(is_object($dir)) {
 			while(false !== ($file = $dir->read())) {
@@ -101,7 +101,7 @@ function makecachetempname($name){
 	//one place to sanitize names for data caches.
 	global $datacache, $datacachefilepath,$checkedforolddatacaches;
 	if ($datacachefilepath=="")
-		$datacachefilepath = getsetting("datacachepath","/tmp");
+		$datacachefilepath = settings::getsetting("datacachepath","/tmp");
 	//let's make sure that someone can't trick us in to
 	$name = DATACACHE_FILENAME_PREFIX.preg_replace("'[^A-Za-z0-9.-]'","",$name);
 	$fullname = $datacachefilepath."/".$name;

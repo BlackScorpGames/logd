@@ -168,32 +168,32 @@ if ($op==""){
 		if (array_key_exists($row['Field'],$nochange) &&
 				$nochange[$row['Field']]){
 		}elseif($row['Field'] == "location"){
-			$session['user'][$row['Field']] = getsetting("villagename", LOCATION_FIELDS);
+			$session['user'][$row['Field']] = settings::getsetting("villagename", LOCATION_FIELDS);
 		}else{
 			$session['user'][$row['Field']] = $row["Default"];
 		}
 	}
-	$session['user']['gold'] = getsetting("newplayerstartgold",50);
+	$session['user']['gold'] = settings::getsetting("newplayerstartgold",50);
 
 	$newtitle = get_dk_title($session['user']['dragonkills'], $session['user']['sex']);
 
 	$restartgold = $session['user']['gold'] +
-		getsetting("newplayerstartgold", 50)*$session['user']['dragonkills'];
+		settings::getsetting("newplayerstartgold", 50)*$session['user']['dragonkills'];
 	$restartgems = 0;
-	if ($restartgold > getsetting("maxrestartgold", 300)) {
-		$restartgold = getsetting("maxrestartgold", 300);
+	if ($restartgold > settings::getsetting("maxrestartgold", 300)) {
+		$restartgold = settings::getsetting("maxrestartgold", 300);
 		$restartgems = max(0,($session['user']['dragonkills'] -
-				(getsetting("maxrestartgold", 300)/
-				 getsetting("newplayerstartgold", 50)) - 1));
-		if ($restartgems > getsetting("maxrestartgems", 10)) {
-			$restartgems = getsetting("maxrestartgems", 10);
+				(settings::getsetting("maxrestartgold", 300)/
+				 settings::getsetting("newplayerstartgold", 50)) - 1));
+		if ($restartgems > settings::getsetting("maxrestartgems", 10)) {
+			$restartgems = settings::getsetting("maxrestartgems", 10);
 		}
 	}
 	$session['user']['gold'] = $restartgold;
 	$session['user']['gems'] += $restartgems;
 
 	if ($flawless) {
-		$session['user']['gold'] += 3*getsetting("newplayerstartgold",50);
+		$session['user']['gold'] += 3*settings::getsetting("newplayerstartgold",50);
 		$session['user']['gems'] += 1;
 	}
 

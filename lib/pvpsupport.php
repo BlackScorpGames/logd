@@ -29,7 +29,7 @@ function setup_target($name) {
 			output::doOutput("`\$Oops:`4 That user is currently engaged by someone else, you'll have to wait your turn!");
 			return false;
 		}elseif (strtotime($row['laston']) >
-				strtotime("-".getsetting("LOGINTIMEOUT",900)." sec") &&
+				strtotime("-".settings::getsetting("LOGINTIMEOUT",900)." sec") &&
 				$row['loggedin']){
 			output::doOutput("`\$Error:`4 That user is now online, and cannot be attacked until they log off again.");
 			return false;
@@ -83,7 +83,7 @@ function pvpvictory($badguy, $killedloc, $options)
 	output::doOutput("`#You receive `^%s`# gold!`n", $winamount);
 	$session['user']['gold']+=$winamount;
 
-	$exp = round(getsetting("pvpattgain",10)*$badguy['creatureexp']/100,0);
+	$exp = round(settings::getsetting("pvpattgain",10)*$badguy['creatureexp']/100,0);
 	if ($session['user']['level'] == 15) $exp = 0;
 	$expbonus = round(($exp *
 				(1+.1*($badguy['creaturelevel']-
@@ -97,7 +97,7 @@ function pvpvictory($badguy, $killedloc, $options)
 	output::doOutput("You receive `^%s`# experience!`n`0", $wonexp);
 	$session['user']['experience']+=$wonexp;
 
-	$lostexp = round($badguy['creatureexp']*getsetting("pvpdeflose",5)/100,0);
+	$lostexp = round($badguy['creatureexp']*settings::getsetting("pvpdeflose",5)/100,0);
 
 //	debuglog("gained $winamount ({$badguy['creaturegold']} base) gold and $wonexp exp (loser lost $lostexp) for killing ", $badguy['acctid']);
 	//player wins gold and exp from badguy
@@ -116,7 +116,7 @@ function pvpvictory($badguy, $killedloc, $options)
 	$mailmessage = array($msg,
 			$killedloc, $session['user']['name'],
 			$session['user']['weapon'], $badguy['playerstarthp'],
-			$session['user']['hitpoints'], getsetting("pvpdeflose", 5),
+			$session['user']['hitpoints'], settings::getsetting("pvpdeflose", 5),
 			$lostexp, $badguy['creaturegold'], $args['pvpmessageadd'],
 			$killedloc, $killedloc,
 			date("D, M d h:i a", (int)$badguy['fightstartdate']),
@@ -153,10 +153,10 @@ function pvpdefeat($badguy, $killedloc, $taunt, $options)
 	$result = db_query($sql);
 	$row = db_fetch_assoc($result);
 
-	$wonexp = round($session['user']['experience']*getsetting("pvpdefgain",10)/100,0);
+	$wonexp = round($session['user']['experience']*settings::getsetting("pvpdefgain",10)/100,0);
 	if ($badguy['creaturelevel'] == 15)	$wonexp = 0;
 
-	$lostexp = round($session['user']['experience'] * getsetting("pvpattlose",15) / 100,0);
+	$lostexp = round($session['user']['experience'] * settings::getsetting("pvpattlose",15) / 100,0);
 
 	$args=array('pvpmessageadd'=>"", 'taunt'=>$taunt, 'handled'=>false, 'badguy'=>$badguy, 'options'=>$options);
 	$args = modulehook("pvploss", $args);
@@ -195,11 +195,11 @@ function pvpdefeat($badguy, $killedloc, $taunt, $options)
 	$session['user']['hitpoints']=0;
 	$session['user']['experience'] =
 		round($session['user']['experience']*
-				(100-getsetting("pvpattlose",15))/100,0);
+				(100-settings::getsetting("pvpattlose",15))/100,0);
 	output::doOutput("`b`&You have been slain by `%%s`&!!!`n", $badguy['creaturename']);
 	output::doOutput("`4All gold on hand has been lost!`n");
 	output::doOutput("`4%s%% of experience has been lost!`n",
-			getsetting("pvpattlose", 15));
+			settings::getsetting("pvpattlose", 15));
 	output::doOutput("You may begin fighting again tomorrow.");
 	return $args['handled'];
 }

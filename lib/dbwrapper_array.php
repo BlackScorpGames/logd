@@ -27,7 +27,7 @@ function db_query($sql, $die=true){
 			if ($session['user']['superuser'] & SU_DEVELOPER || 1){
 				require_once("lib/show_backtrace.php");
 				die(
-					"<pre>".HTMLEntities($sql, ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."</pre>"
+					"<pre>".HTMLEntities($sql, ENT_COMPAT, settings::getsetting("charset", "ISO-8859-1"))."</pre>"
 					.db_error(LINK)
 					.show_backtrace()
 					);
@@ -40,7 +40,7 @@ function db_query($sql, $die=true){
 	if ($endtime - $starttime >= 1.00 && ($session['user']['superuser'] & SU_DEBUG_OUTPUT)){
 		$s = trim($sql);
 		if (strlen($s) > 800) $s = substr($s,0,400)." ... ".substr($s,strlen($s)-400);
-		debug("Slow Query (".round($endtime-$starttime,2)."s): ".(HTMLEntities($s, ENT_COMPAT, getsetting("charset", "ISO-8859-1")))."`n");
+		debug("Slow Query (".round($endtime-$starttime,2)."s): ".(HTMLEntities($s, ENT_COMPAT, settings::getsetting("charset", "ISO-8859-1")))."`n");
 	}
 	unset($dbinfo['affected_rows']);
 	$dbinfo['affected_rows']=db_affected_rows();
@@ -56,7 +56,7 @@ function &db_query_cached($sql,$name,$duration=900){
 	//this function takes advantage of the data caching library to make
 	//all of the other db_functions act just like MySQL queries but rely
 	//instead on disk cached data.
-	//if (getsetting("usedatacache", 0) == 1) debug("DataCache: $name");
+	//if (settings::getsetting("usedatacache", 0) == 1) debug("DataCache: $name");
 	//standard is 15 minutes, als hooks don't need to be cached *that* often, normally you invalidate the cache properly
 	global $dbinfo;
 	$data = datacache($name,$duration);

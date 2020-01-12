@@ -77,15 +77,15 @@ if (db_num_rows($result)>0){
 	$next = translator::translate_inline("Next >");
 	rawoutput("<td nowrap='true'>");
 	if ($pid > 0) {
-		rawoutput("<a href='mail.php?op=read&id=$pid' class='motd'>".htmlentities($prev, ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."</a>");
+		rawoutput("<a href='mail.php?op=read&id=$pid' class='motd'>".htmlentities($prev, ENT_COMPAT, settings::getsetting("charset", "ISO-8859-1"))."</a>");
 	}else{
-		rawoutput(htmlentities($prev), ENT_COMPAT, getsetting("charset", "ISO-8859-1"));
+		rawoutput(htmlentities($prev), ENT_COMPAT, settings::getsetting("charset", "ISO-8859-1"));
 	}
 	rawoutput("</td><td nowrap='true'>");
 	if ($nid > 0){
-		rawoutput("<a href='mail.php?op=read&id=$nid' class='motd'>".htmlentities($next, ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."</a>");
+		rawoutput("<a href='mail.php?op=read&id=$nid' class='motd'>".htmlentities($next, ENT_COMPAT, settings::getsetting("charset", "ISO-8859-1"))."</a>");
 	}else{
-		rawoutput(htmlentities($next), ENT_COMPAT, getsetting("charset", "ISO-8859-1"));
+		rawoutput(htmlentities($next), ENT_COMPAT, settings::getsetting("charset", "ISO-8859-1"));
 	}
 	rawoutput("</td>");
 	rawoutput("</tr></table>");

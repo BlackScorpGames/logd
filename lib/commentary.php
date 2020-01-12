@@ -11,8 +11,8 @@ function commentarylocs() {
 	global $comsecs, $session;
 	if (is_array($comsecs) && count($comsecs)) return $comsecs;
 
-	$vname = getsetting("villagename", LOCATION_FIELDS);
-	$iname = getsetting("innname", LOCATION_INN);
+	$vname = settings::getsetting("villagename", LOCATION_FIELDS);
+	$iname = settings::getsetting("innname", LOCATION_INN);
 	translator::tlschema("commentary");
 	$comsecs['village'] = translator::sprintf_translate("%s Square", $vname);
 	if ($session['user']['superuser'] & ~SU_DOESNT_GIVE_GROTTO) {
@@ -26,7 +26,7 @@ function commentarylocs() {
 	$comsecs['hunterlodge']=translator::translate_inline("Hunter's Lodge");
 	$comsecs['gardens']=translator::translate_inline("Gardens");
 	$comsecs['waiting']=translator::translate_inline("Clan Hall Waiting Area");
-	if (getsetting("betaperplayer", 1) == 1 && @file_exists("pavilion.php")) {
+	if (settings::getsetting("betaperplayer", 1) == 1 && @file_exists("pavilion.php")) {
 		$comsecs['beta']=translator::translate_inline("Pavilion");
 	}
 	translator::tlschema();
@@ -117,7 +117,7 @@ function injectcommentary($section, $talkline, $comment, $schema=false) {
 		for ($x=0;$x<$y;$x++){
 			if (substr($commentary,$x,1)=="`"){
 				$colorcount++;
-				if ($colorcount>=getsetting("maxcolors",10)){
+				if ($colorcount>=settings::getsetting("maxcolors",10)){
 					$commentary = substr($commentary,0,$x).color_sanitize(substr($commentary,$x));
 					$x=$y;
 				}
@@ -314,27 +314,27 @@ function viewcommentary($section,$message="Interject your own commentary?",$limi
 			$x = strpos($row['comment'],$ft);
 			if ($x!==false){
 				if ($linkbios)
-					$op[$i] = str_replace("&amp;","&",HTMLEntities(substr($row['comment'],0,$x), ENT_COMPAT, getsetting("charset", "ISO-8859-1")))."`0<a href='$link' style='text-decoration: none'>\n`&{$row['name']}`0</a>\n`& ".str_replace("&amp;","&",HTMLEntities(substr($row['comment'],$x+strlen($ft)), ENT_COMPAT, getsetting("charset", "ISO-8859-1")))."`0`n";
+					$op[$i] = str_replace("&amp;","&",HTMLEntities(substr($row['comment'],0,$x), ENT_COMPAT, settings::getsetting("charset", "ISO-8859-1")))."`0<a href='$link' style='text-decoration: none'>\n`&{$row['name']}`0</a>\n`& ".str_replace("&amp;","&",HTMLEntities(substr($row['comment'],$x+strlen($ft)), ENT_COMPAT, settings::getsetting("charset", "ISO-8859-1")))."`0`n";
 				else
-					$op[$i] = str_replace("&amp;","&",HTMLEntities(substr($row['comment'],0,$x), ENT_COMPAT, getsetting("charset", "ISO-8859-1")))."`0`&{$row['name']}`0`& ".str_replace("&amp;","&",HTMLEntities(substr($row['comment'],$x+strlen($ft)), ENT_COMPAT, getsetting("charset", "ISO-8859-1")))."`0`n";
-				$rawc[$i] = str_replace("&amp;","&",HTMLEntities(substr($row['comment'],0,$x), ENT_COMPAT, getsetting("charset", "ISO-8859-1")))."`0`&{$row['name']}`0`& ".str_replace("&amp;","&",HTMLEntities(substr($row['comment'],$x+strlen($ft)), ENT_COMPAT, getsetting("charset", "ISO-8859-1")))."`0`n";
+					$op[$i] = str_replace("&amp;","&",HTMLEntities(substr($row['comment'],0,$x), ENT_COMPAT, settings::getsetting("charset", "ISO-8859-1")))."`0`&{$row['name']}`0`& ".str_replace("&amp;","&",HTMLEntities(substr($row['comment'],$x+strlen($ft)), ENT_COMPAT, settings::getsetting("charset", "ISO-8859-1")))."`0`n";
+				$rawc[$i] = str_replace("&amp;","&",HTMLEntities(substr($row['comment'],0,$x), ENT_COMPAT, settings::getsetting("charset", "ISO-8859-1")))."`0`&{$row['name']}`0`& ".str_replace("&amp;","&",HTMLEntities(substr($row['comment'],$x+strlen($ft)), ENT_COMPAT, settings::getsetting("charset", "ISO-8859-1")))."`0`n";
 			}
 		}
 		if ($ft=="/game" && !$row['name']) {
 			$x = strpos($row['comment'],$ft);
 			if ($x!==false){
-			 $op[$i] = str_replace("&amp;","&",HTMLEntities(substr($row['comment'],0,$x), ENT_COMPAT, getsetting("charset", "ISO-8859-1")))."`0`&".str_replace("&amp;","&",HTMLEntities(substr($row['comment'],$x+strlen($ft)), ENT_COMPAT, getsetting("charset", "ISO-8859-1")))."`0`n";
+			 $op[$i] = str_replace("&amp;","&",HTMLEntities(substr($row['comment'],0,$x), ENT_COMPAT, settings::getsetting("charset", "ISO-8859-1")))."`0`&".str_replace("&amp;","&",HTMLEntities(substr($row['comment'],$x+strlen($ft)), ENT_COMPAT, settings::getsetting("charset", "ISO-8859-1")))."`0`n";
 			}
 		}
 		if (!isset($op) || !is_array($op)) $op = array();
 		if (!array_key_exists($i,$op) || $op[$i] == "")  {
 			if ($linkbios)
-				$op[$i] = "`0<a href='$link' style='text-decoration: none'>`&{$row['name']}`0</a>`3 says, \"`#".str_replace("&amp;","&",HTMLEntities($row['comment'], ENT_COMPAT, getsetting("charset", "ISO-8859-1")))."`3\"`0`n";
+				$op[$i] = "`0<a href='$link' style='text-decoration: none'>`&{$row['name']}`0</a>`3 says, \"`#".str_replace("&amp;","&",HTMLEntities($row['comment'], ENT_COMPAT, settings::getsetting("charset", "ISO-8859-1")))."`3\"`0`n";
 			elseif (substr($ft,0,5)=='/game' && !$row['name'])
-				$op[$i] = str_replace("&amp;","&",HTMLEntities($row['comment'], ENT_COMPAT, getsetting("charset", "ISO-8859-1")));
+				$op[$i] = str_replace("&amp;","&",HTMLEntities($row['comment'], ENT_COMPAT, settings::getsetting("charset", "ISO-8859-1")));
 			else
-				$op[$i] = "`&{$row['name']}`3 says, \"`#".str_replace("&amp;","&",HTMLEntities($row['comment'], ENT_COMPAT, getsetting("charset", "ISO-8859-1")))."`3\"`0`n";
-			$rawc[$i] = "`&{$row['name']}`3 says, \"`#".str_replace("&amp;","&",HTMLEntities($row['comment'], ENT_COMPAT, getsetting("charset", "ISO-8859-1")))."`3\"`0`n";
+				$op[$i] = "`&{$row['name']}`3 says, \"`#".str_replace("&amp;","&",HTMLEntities($row['comment'], ENT_COMPAT, settings::getsetting("charset", "ISO-8859-1")))."`3\"`0`n";
+			$rawc[$i] = "`&{$row['name']}`3 says, \"`#".str_replace("&amp;","&",HTMLEntities($row['comment'], ENT_COMPAT, settings::getsetting("charset", "ISO-8859-1")))."`3\"`0`n";
 		}
 		
 		if (!array_key_exists('timestamp', $session['user']['prefs']))
@@ -359,7 +359,7 @@ function viewcommentary($section,$message="Interject your own commentary?",$limi
 		$auth[$i] = $row['author'];
 		if (isset($rawc[$i])) {
 			$rawc[$i] = full_sanitize($rawc[$i]);
-			$rawc[$i] = htmlentities($rawc[$i], ENT_QUOTES, getsetting("charset", "ISO-8859-1"));
+			$rawc[$i] = htmlentities($rawc[$i], ENT_QUOTES, settings::getsetting("charset", "ISO-8859-1"));
 		}
 	}
 	$i--;
@@ -412,11 +412,11 @@ function viewcommentary($section,$message="Interject your own commentary?",$limi
 	if ($moderating){
 		$scriptname=substr($_SERVER['SCRIPT_NAME'],strrpos($_SERVER['SCRIPT_NAME'],"/")+1);
 		addnav("","$scriptname?op=commentdelete&return=".URLEncode($_SERVER['REQUEST_URI']));
-		$mod_Del1 = htmlentities(translator::translate_inline("Delete Checked Comments"), ENT_COMPAT, getsetting("charset", "ISO-8859-1"));
-		$mod_Del2 = htmlentities(translator::translate_inline("Delete Checked & Ban (3 days)"), ENT_COMPAT, getsetting("charset", "ISO-8859-1"));
-		$mod_Del_confirm = addslashes(htmlentities(translator::translate_inline("Are you sure you wish to ban this user and have you specified the exact reason for the ban, i.e. cut/pasted their offensive comments?"), ENT_COMPAT, getsetting("charset", "ISO-8859-1")));
+		$mod_Del1 = htmlentities(translator::translate_inline("Delete Checked Comments"), ENT_COMPAT, settings::getsetting("charset", "ISO-8859-1"));
+		$mod_Del2 = htmlentities(translator::translate_inline("Delete Checked & Ban (3 days)"), ENT_COMPAT, settings::getsetting("charset", "ISO-8859-1"));
+		$mod_Del_confirm = addslashes(htmlentities(translator::translate_inline("Are you sure you wish to ban this user and have you specified the exact reason for the ban, i.e. cut/pasted their offensive comments?"), ENT_COMPAT, settings::getsetting("charset", "ISO-8859-1")));
 		$mod_reason = translator::translate_inline("Reason:");
-		$mod_reason_desc = htmlentities(translator::translate_inline("Banned for comments you posted."), ENT_COMPAT, getsetting("charset", "ISO-8859-1"));
+		$mod_reason_desc = htmlentities(translator::translate_inline("Banned for comments you posted."), ENT_COMPAT, settings::getsetting("charset", "ISO-8859-1"));
 
 		output_notl("<form action='$scriptname?op=commentdelete&return=".URLEncode($_SERVER['REQUEST_URI'])."' method='POST'>",true);
 		output_notl("<input type='submit' class='button' value=\"$mod_Del1\">",true);
@@ -474,7 +474,7 @@ function viewcommentary($section,$message="Interject your own commentary?",$limi
 			output_notl("%s", $args['mutemsg']);
 		} elseif ($counttoday<($limit/2) ||
 				($session['user']['superuser']&~SU_DOESNT_GIVE_GROTTO)
-				|| !getsetting('postinglimit',1)){
+				|| !settings::getsetting('postinglimit',1)){
 			if ($message!="X"){
 				$message="`n`@$message`n";
 				output::doOutput($message);
@@ -580,7 +580,7 @@ function talkform($section,$talkline,$limit=10,$schema=false){
 		while ($row=db_fetch_assoc($result)){
 			if ($row['author']==$session['user']['acctid']) $counttoday++;
 		}
-		if (round($limit/2,0)-$counttoday <= 0 && getsetting('postinglimit',1)){
+		if (round($limit/2,0)-$counttoday <= 0 && settings::getsetting('postinglimit',1)){
 			if ($session['user']['superuser']&~SU_DOESNT_GIVE_GROTTO){
 				output::doOutput("`n`)(You'd be out of posts if you weren't a superuser or moderator.)`n");
 			}else{
@@ -606,8 +606,8 @@ function talkform($section,$talkline,$limit=10,$schema=false){
 	rawoutput("<input type='hidden' name='counter' value='{$session['counter']}'>");
 	$session['commentcounter'] = $session['counter'];
 	if ($section=="X"){
-		$vname = getsetting("villagename", LOCATION_FIELDS);
-		$iname = getsetting("innname", LOCATION_INN);
+		$vname = settings::getsetting("villagename", LOCATION_FIELDS);
+		$iname = settings::getsetting("innname", LOCATION_INN);
 		$sections = commentarylocs();
 		reset ($sections);
 		output_notl("<select name='section'>",true);
@@ -618,9 +618,9 @@ function talkform($section,$talkline,$limit=10,$schema=false){
 	}else{
 		output_notl("<input type='hidden' name='section' value='$section'>",true);
 	}
-	$add = htmlentities(translator::translate_inline("Add"), ENT_QUOTES, getsetting("charset", "ISO-8859-1"));
+	$add = htmlentities(translator::translate_inline("Add"), ENT_QUOTES, settings::getsetting("charset", "ISO-8859-1"));
 	output_notl("<input type='submit' class='button' value='$add'>`n",true);
-	if (round($limit/2,0)-$counttoday < 3 && getsetting('postinglimit',1)){
+	if (round($limit/2,0)-$counttoday < 3 && settings::getsetting('postinglimit',1)){
 		output::doOutput("`)(You have %s posts left today)`n`0",(round($limit/2,0)-$counttoday));
 	}
 	rawoutput("<div id='previewtext'></div></form>");

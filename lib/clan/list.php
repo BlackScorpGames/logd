@@ -1,6 +1,6 @@
 <?php
 	page_header("Clan Listing");
-	$registrar=getsetting('clanregistrar','`%Karissa');
+	$registrar=settings::getsetting('clanregistrar','`%Karissa');
 	addnav("Clan Options");
 	$sql = "SELECT MAX(" . db_prefix("clans") . ".clanid) AS clanid, MAX(clanshort) AS clanshort, MAX(clanname) AS clanname,count(" . db_prefix("accounts") . ".acctid) AS c FROM " . db_prefix("clans") . " LEFT JOIN " . db_prefix("accounts") . " ON " . db_prefix("clans") . ".clanid=" . db_prefix("accounts") . ".clanid AND clanrank>".CLAN_APPLICANT." GROUP BY " . db_prefix("clans") . ".clanid ORDER BY c DESC";
 	$result = db_query($sql);
@@ -24,7 +24,7 @@
 				output_notl("&#149; &#60;%s&#62; <a href='clan.php?detail=%s'>%s</a> %s`n",
 						$row['clanshort'],
 						$row['clanid'],
-						full_sanitize(htmlentities($row['clanname']), ENT_COMPAT, getsetting("charset", "ISO-8859-1")),
+						full_sanitize(htmlentities($row['clanname']), ENT_COMPAT, settings::getsetting("charset", "ISO-8859-1")),
 						$memb, true);
 				rawoutput('</td></tr>');
 				addnav("","clan.php?detail={$row['clanid']}");

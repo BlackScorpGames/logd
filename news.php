@@ -11,8 +11,8 @@ translator::tlschema("news");
 
 modulehook("news-intercept",array());
 
-if ((int)getsetting("expirecontent",180)>0){
-	$sql = "DELETE FROM " . db_prefix("news") . " WHERE newsdate<'".date("Y-m-d H:i:s",strtotime("-".getsetting("expirecontent",180)." days"))."'";
+if ((int)settings::getsetting("expirecontent",180)>0){
+	$sql = "DELETE FROM " . db_prefix("news") . " WHERE newsdate<'".date("Y-m-d H:i:s",strtotime("-".settings::getsetting("expirecontent",180)." days"))."'";
 	//echo $sql;
 	db_query($sql);
 }

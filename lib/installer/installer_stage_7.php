@@ -17,7 +17,7 @@ if (!isset($session['fromversion']) || $session['fromversion']==""){
 	rawoutput("<table border='0' cellpadding='0' cellspacing='0'><tr><td valign='top'>");
 	output::doOutput("`2I should:`0");
 	rawoutput("</td><td>");
-	$version = getsetting("installer_version","-1");
+	$version = settings::getsetting("installer_version","-1");
 	if ($version != "-1") $session['dbinfo']['upgrade']=true;
 	rawoutput("<input type='radio' value='upgrade' name='type'".($session['dbinfo']['upgrade']?" checked":"").">");
 	output::doOutput(" `2Perform an upgrade from ");

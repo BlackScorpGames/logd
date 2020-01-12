@@ -12,8 +12,8 @@ translator::tlschema("login");
 translator::translator_setup();
 $op = http::httpget('op');
 $name = httppost('name');
-$iname = getsetting("innname", LOCATION_INN);
-$vname = getsetting("villagename", LOCATION_FIELDS);
+$iname = settings::getsetting("innname", LOCATION_INN);
+$vname = settings::getsetting("villagename", LOCATION_FIELDS);
 
 if ($name!=""){
 	if ($session['loggedin']){
@@ -106,7 +106,7 @@ if ($name!=""){
 			$session['message']=translator::translate_inline("`4Error, your login was incorrect`0");
 			//now we'll log the failed attempt and begin to issue bans if
 			//there are too many, plus notify the admins.
-			$sql = "DELETE FROM " . db_prefix("faillog") . " WHERE date<'".date("Y-m-d H:i:s",strtotime("-".(getsetting("expirecontent",180)/4)." days"))."'";
+			$sql = "DELETE FROM " . db_prefix("faillog") . " WHERE date<'".date("Y-m-d H:i:s",strtotime("-".(settings::getsetting("expirecontent",180)/4)." days"))."'";
 			checkban();
 			db_query($sql);
 			$sql = "SELECT acctid FROM " . db_prefix("accounts") . " WHERE login='$name'";

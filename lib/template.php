@@ -35,7 +35,7 @@ function prepare_template($force=false){
 	if ($_COOKIE['template']!="")
 		$templatename=$_COOKIE['template'];
 	if ($templatename=="" || !file_exists("templates/$templatename"))
-		$templatename=getsetting("defaultskin", "jade.htm");
+		$templatename=settings::getsetting("defaultskin", "jade.htm");
 	if ($templatename=="" || !file_exists("templates/$templatename"))
 		$templatename="jade.htm";
 	$template = loadtemplate($templatename);

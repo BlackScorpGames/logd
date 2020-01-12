@@ -14,7 +14,7 @@ if (DB_CHOSEN){
 	}
 	if (httppost("username")>""){
 		debug(md5(md5(stripslashes(httppost("password")))), true);
-		$version = getsetting("installer_version","-1");
+		$version = settings::getsetting("installer_version","-1");
 		if ($version == "-1") {
 			// Passwords weren't encrypted in these versions
 			$sql = "SELECT * FROM ".db_prefix("accounts")." WHERE login='".mysql_real_escape_string(httppost("username"))."' AND password='".mysql_real_escape_string(httppost("password"))."' AND superuser & ".SU_MEGAUSER;
@@ -32,7 +32,7 @@ if (DB_CHOSEN){
 			$p2 = md5($p1);
 			debug($p2, true);
 
-			if (getsetting("installer_version", "-1") == "-1") {
+			if (settings::getsetting("installer_version", "-1") == "-1") {
 				debug("HERE I AM", true);
 				// Okay, they are upgrading from 0.9.7  they will have
 				// either a non-encrypted password, or an encrypted singly

@@ -148,7 +148,7 @@ function racedwarf_dohook($hookname,$args){
 		}
 		break;
 	case "travel":
-		$capital = getsetting("villagename", LOCATION_FIELDS);
+		$capital = settings::getsetting("villagename", LOCATION_FIELDS);
 		$hotkey = substr($city, 0, 1);
 		$ccity = urlencode($city);
 		translator::tlschema("module-cities");

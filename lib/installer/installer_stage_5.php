@@ -60,7 +60,7 @@ $session['dbinfo']['upgrade']=$upgrade;
 rawoutput("<form action='installer.php?stage=5' method='POST'>");
 output::doOutput("`nTo provide a table prefix, enter it here.");
 output::doOutput("If you don't know what this means, you should either leave it blank, or enter an intuitive value such as \"logd\".`n");
-rawoutput("<input name='DB_PREFIX' value=\"".htmlentities($session['dbinfo']['DB_PREFIX'], ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."\"><br>");
+rawoutput("<input name='DB_PREFIX' value=\"".htmlentities($session['dbinfo']['DB_PREFIX'], ENT_COMPAT, settings::getsetting("charset", "ISO-8859-1"))."\"><br>");
 $submit = translator::translate_inline("Submit your prefix.");
 rawoutput("<input type='submit' value='$submit' class='button'>");
 rawoutput("</form>");

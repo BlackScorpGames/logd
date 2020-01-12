@@ -60,7 +60,7 @@ rawoutput("</div>");
 output::doOutput("Now I'm going to insert default settings that you don't have.");
 rawoutput("<div style='width: 100%; height: 150px; max-height: 150px; overflow: auto;'>");
 foreach ($default_settings as $setting_name=>$setting_value) {
-	if(!isset($settings[$setting_name]) && getsetting($setting_name, $setting_value) == $setting_value) {
+	if(!isset($settings[$setting_name]) && settings::getsetting($setting_name, $setting_value) == $setting_value) {
 		if ($setting_value === true) {
 			$setting_value = "true";
 		}elseif ($setting_value === false) {

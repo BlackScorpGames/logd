@@ -57,7 +57,7 @@ if ($op=="" || $op=="sql"){
 	$ret = modulehook("rawsql-modsql",array("sql"=>$sql));
 	$sql = $ret['sql'];
 	rawoutput("<form action='rawsql.php' method='post'>");
-	rawoutput("<textarea name='sql' class='input' cols='60' rows='10'>".htmlentities($sql, ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."</textarea><br>");
+	rawoutput("<textarea name='sql' class='input' cols='60' rows='10'>".htmlentities($sql, ENT_COMPAT, settings::getsetting("charset", "ISO-8859-1"))."</textarea><br>");
 	rawoutput("<input type='submit' class='button' value='$execute'>");
 	rawoutput("</form>");
 	addnav("", "rawsql.php");
@@ -81,7 +81,7 @@ if ($op=="" || $op=="sql"){
 	$ret = modulehook("rawsql-modphp",array("php"=>$php));
 	$php = $ret['php'];
 	rawoutput("<form action='rawsql.php?op=php' method='post'>");
-	rawoutput("&lt;?php<br><textarea name='php' class='input' cols='60' rows='10'>".htmlentities($php, ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."</textarea><br>?&gt;<br>");
+	rawoutput("&lt;?php<br><textarea name='php' class='input' cols='60' rows='10'>".htmlentities($php, ENT_COMPAT, settings::getsetting("charset", "ISO-8859-1"))."</textarea><br>?&gt;<br>");
 	rawoutput("<input type='submit' class='button' value='$execute'>");
 	rawoutput("</form>");
 	addnav("", "rawsql.php?op=php");

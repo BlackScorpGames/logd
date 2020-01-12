@@ -56,9 +56,9 @@ function backtrace_getType($in){
 	if (is_string($in)){
 		$return.="<span class='string'>\"";
 		if (strlen($in) > 25){
-			$return.=htmlentities(substr($in,0,25)."...", ENT_COMPAT, getsetting("charset", "ISO-8859-1"));
+			$return.=htmlentities(substr($in,0,25)."...", ENT_COMPAT, settings::getsetting("charset", "ISO-8859-1"));
 		}else{
-			$return.=htmlentities($in, ENT_COMPAT, getsetting("charset", "ISO-8859-1"));
+			$return.=htmlentities($in, ENT_COMPAT, settings::getsetting("charset", "ISO-8859-1"));
 		}
 		$return.="\"</span>";
 	}elseif (is_bool($in)){

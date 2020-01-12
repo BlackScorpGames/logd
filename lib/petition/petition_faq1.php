@@ -36,7 +36,7 @@ output::doOutput("When the clock strikes midnight, expect a new day to begin.");
 output::doOutput("The number of times a clock in LotGD strikes midnight per calendar day may vary by server.");
 output::doOutput("Beta server has 4 play days per calendar day, main server at LotGD.net has 2.");
 output::doOutput("Other servers depend on the admin.`n");
-output::doOutput("This server has %s days per calendar day.`n`n", getsetting("daysperday", 2));
+output::doOutput("This server has %s days per calendar day.`n`n", settings::getsetting("daysperday", 2));
 output::doOutput("`^8. Something's gone wrong!!!  How do I let you know?`n");
 output::doOutput("`@Send money.");
 output::doOutput("Better yet, send a petition.");

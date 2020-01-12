@@ -41,7 +41,7 @@ if ($op==""){
 	$result = db_query($sql);
 	addnav("Months");
 	while ($row = db_fetch_assoc($result)){
-		addnav(array("%s %s %s", date("M Y",strtotime($row['month']."-01")), getsetting("paypalcurrency", "USD"), $row['profit']),"paylog.php?month={$row['month']}");
+		addnav(array("%s %s %s", date("M Y",strtotime($row['month']."-01")), settings::getsetting("paypalcurrency", "USD"), $row['profit']),"paylog.php?month={$row['month']}");
 	}
 	$month = http::httpget('month');
 	if ($month=="") $month = date("Y-m");
@@ -90,7 +90,7 @@ if ($op==""){
 				$memo = $info['memo'];
 			}
 			$link = "donators.php?op=add1&name=".rawurlencode($memo)."&amt=$amt&txnid={$row['txnid']}";
-			rawoutput("-=( <a href='$link' title=\"".htmlentities($info['item_number'], ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."\" alt=\"".htmlentities($info['item_number'], ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."\">[".htmlentities($memo, ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."]</a> )=-");
+			rawoutput("-=( <a href='$link' title=\"".htmlentities($info['item_number'], ENT_COMPAT, settings::getsetting("charset", "ISO-8859-1"))."\" alt=\"".htmlentities($info['item_number'], ENT_COMPAT, settings::getsetting("charset", "ISO-8859-1"))."\">[".htmlentities($memo, ENT_COMPAT, settings::getsetting("charset", "ISO-8859-1"))."]</a> )=-");
 			addnav("",$link);
 		}
 		rawoutput("</td></tr>");

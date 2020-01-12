@@ -210,7 +210,7 @@ if ($op==""){
 
 addnav("Sections");
 translator::tlschema("commentary");
-$vname = getsetting("villagename", LOCATION_FIELDS);
+$vname = settings::getsetting("villagename", LOCATION_FIELDS);
 addnav(array("%s Square", $vname), "moderate.php?area=village");
 
 if ($session['user']['superuser'] & ~SU_DOESNT_GIVE_GROTTO) {
@@ -220,7 +220,7 @@ if ($session['user']['superuser'] & ~SU_DOESNT_GIVE_GROTTO) {
 addnav("Land of the Shades","moderate.php?area=shade");
 addnav("Grassy Field","moderate.php?area=grassyfield");
 
-$iname = getsetting("innname", LOCATION_INN);
+$iname = settings::getsetting("innname", LOCATION_INN);
 // the inn name is a proper name and shouldn't be translated.
 translator::tlschema("notranslate");
 addnav($iname,"moderate.php?area=inn");
@@ -232,7 +232,7 @@ addnav("Hunter's Lodge","moderate.php?area=hunterlodge");
 addnav("Gardens","moderate.php?area=gardens");
 addnav("Clan Hall Waiting Area","moderate.php?area=waiting");
 
-if (getsetting("betaperplayer", 1) == 1 && @file_exists("pavilion.php")) {
+if (settings::getsetting("betaperplayer", 1) == 1 && @file_exists("pavilion.php")) {
 	addnav("Beta Pavilion","moderate.php?area=beta");
 }
 translator::tlschema();
@@ -249,7 +249,7 @@ if ($session['user']['superuser'] & SU_MODERATE_CLANS){
 	}
 	translator::tlschema();
 } elseif ($session['user']['superuser'] & SU_EDIT_COMMENTS &&
-		getsetting("officermoderate", 0)) {
+		settings::getsetting("officermoderate", 0)) {
 	// the CLAN_OFFICER requirement was chosen so that moderators couldn't
 	// just get accepted as a member to any random clan and then proceed to
 	// wreak havoc.

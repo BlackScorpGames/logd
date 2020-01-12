@@ -4,8 +4,8 @@
 // mail ready
 function pvpwarning($dokill=false) {
 	global $session;
-	$days = getsetting("pvpimmunity", 5);
-	$exp = getsetting("pvpminexp", 1500);
+	$days = settings::getsetting("pvpimmunity", 5);
+	$exp = settings::getsetting("pvpminexp", 1500);
 	if ($session['user']['age'] <= $days &&
 		$session['user']['dragonkills'] == 0 &&
 		$session['user']['pk'] == 0 &&

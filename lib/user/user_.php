@@ -37,7 +37,7 @@ if ($display == 1){
 		$laston = relativedate($row['laston']);
 		$loggedin =
 			(date("U") - strtotime($row['laston']) <
-			 getsetting("LOGINTIMEOUT",900) && $row['loggedin']);
+			 settings::getsetting("LOGINTIMEOUT",900) && $row['loggedin']);
 		if ($loggedin)
 			$laston=translator::translate_inline("`#Online`0");
 		$row['laston']=$laston;

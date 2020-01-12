@@ -30,7 +30,7 @@ function drinks_getmoduleinfo(){
 		"settings"=>array(
 			"Drink Module Settings,title",
 			"hardlimit"=>"How many hard drinks can a user buy in a day?,int|3",
-			"maxdrunk"=>array("How drunk before %s`0 won't serve you?,range,0,100,1|66", getsetting("barkeep", "`)Cedrik")),
+			"maxdrunk"=>array("How drunk before %s`0 won't serve you?,range,0,100,1|66", settings::getsetting("barkeep", "`)Cedrik")),
 		),
 		"prefs"=>array(
 			"Drink Module User Preferences,title",

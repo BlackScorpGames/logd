@@ -186,7 +186,7 @@ function appoencode($data,$priv=false){
 		do {
 			++$pos;
 			if ($priv === false){
-				$out .= HTMLEntities(substr($data, $start, $pos - $start - 1), ENT_COMPAT, getsetting("charset", "ISO-8859-1"));
+				$out .= HTMLEntities(substr($data, $start, $pos - $start - 1), ENT_COMPAT, settings::getsetting("charset", "ISO-8859-1"));
 			} else {
 				$out .= substr($data, $start, $pos - $start - 1);
 			}
@@ -284,7 +284,7 @@ function appoencode($data,$priv=false){
 		} while( ($pos = strpos($data, "`", $pos)) !== false);
 	}
 	if ($priv === false){
-		$out .= HTMLEntities(substr($data, $start), ENT_COMPAT, getsetting("charset", "ISO-8859-1"));
+		$out .= HTMLEntities(substr($data, $start), ENT_COMPAT, settings::getsetting("charset", "ISO-8859-1"));
 	} else {
 		$out .= substr($data, $start);
 	}
@@ -839,7 +839,7 @@ function private_addnav($text,$link=false,$priv=false,$pop=false,$popsize="500x3
 			}
 			$n= templatereplace("navitem",array(
 				"text"=>appoencode($text,$priv),
-				"link"=>HTMLEntities($link.($pop!=true?$extra:""), ENT_COMPAT, getsetting("charset", "ISO-8859-1")),
+				"link"=>HTMLEntities($link.($pop!=true?$extra:""), ENT_COMPAT, settings::getsetting("charset", "ISO-8859-1")),
 				"accesskey"=>$keyrep,
 				"popup"=>($pop==true ? "target='_blank'".($popsize>""?" onClick=\"".popup($link,$popsize)."; return false;\"":"") : "")
 				));

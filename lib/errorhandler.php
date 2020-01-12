@@ -18,7 +18,7 @@ function logd_error_handler($errno, $errstr, $errfile, $errline){
 	switch($errno){
 	case E_NOTICE:
 	case E_USER_NOTICE:
-		if (getsetting('show_notices', 0) &&
+		if (settings::getsetting('show_notices', 0) &&
 				$session['user']['superuser'] & SU_SHOW_PHPNOTICE) {
 			debug("PHP Notice: \"$errstr\"<br>in <b>$errfile</b> at <b>$errline</b>.");
 		}
@@ -31,7 +31,7 @@ function logd_error_handler($errno, $errstr, $errfile, $errline){
 		translator::tlschema();
 		$backtrace = show_backtrace();
 		rawoutput($backtrace);
-		if (getsetting("notify_on_warn",0) > ""){
+		if (settings::getsetting("notify_on_warn",0) > ""){
 			//$args = func_get_args();
 			//call_user_func_array("logd_error_notify",$args);
 			logd_error_notify($errno, $errstr, $errfile, $errline, $backtrace);
@@ -43,7 +43,7 @@ function logd_error_handler($errno, $errstr, $errfile, $errline){
 		echo sprintf("PHP ERROR: \"%s\"<br>in <b>%s</b> at <b>%s</b>.<br>",$errstr,$errfile,$errline);
 		$backtrace = show_backtrace();
 		echo $backtrace;
-		if (getsetting("notify_on_error",0) > ""){
+		if (settings::getsetting("notify_on_error",0) > ""){
 			//$args = func_get_args();
 			//call_user_func_array("logd_error_notify",$args);
 			logd_error_notify($errno, $errstr, $errfile, $errline, $backtrace);
@@ -56,8 +56,8 @@ function logd_error_handler($errno, $errstr, $errfile, $errline){
 
 function logd_error_notify($errno, $errstr, $errfile, $errline, $backtrace){
 	global $session;
-	$sendto = explode(";",getsetting("notify_address",""));
-	$howoften = getsetting("notify_every",30);
+	$sendto = explode(";",settings::getsetting("notify_address",""));
+	$howoften = settings::getsetting("notify_every",30);
 	reset($sendto);
 	$data = datacache("error_notify",86400);
 	if (!is_array($data)){

@@ -107,7 +107,7 @@ $userinfo = array(
 
 	"Basic user info,title",
 	"name"=>"Character Name (Do NOT include ANY title information)",
-	"title"=>"Dragonkill Title (prepended to name if Custom Title unset)" . (getsetting("edittitles",1) ? "" : ",hidden"),
+	"title"=>"Dragonkill Title (prepended to name if Custom Title unset)" . (settings::getsetting("edittitles",1) ? "" : ",hidden"),
 	"ctitle"=>"Custom Title (prepended to name if set)",
 	"sex"=>"Sex,enum,0,Male,1,Female",
 	"age"=>"Days since level 1,int",
@@ -135,7 +135,7 @@ $userinfo = array(
 	"specialty"=>"Specialty,enumpretrans,". $enum,
 
 	"Grave Fights,title",
-	"deathpower"=>array("Favor with %s`0,int", getsetting("deathoverlord", '`$Ramius')),
+	"deathpower"=>array("Favor with %s`0,int", settings::getsetting("deathoverlord", '`$Ramius')),
 	"gravefights"=>"Grave fights left,int",
 	"soulpoints"=>"Soulpoints (HP while dead),int",
 

@@ -59,7 +59,7 @@ function dag_run_private(){
 			}
 
 			if ($yesno==0) {
-				$loggedin = (date("U")-strtotime($row2['laston'])<getsetting("LOGINTIMEOUT",900) && $row2['loggedin']);
+				$loggedin = (date("U")-strtotime($row2['laston'])<settings::getsetting("LOGINTIMEOUT",900) && $row2['loggedin']);
 				$listing[] = array('Amount'=>$amount,'Level'=>$row2['level'],'Name'=>$row2['name'],'Location'=>$row2['location'],'Sex'=>$row2['sex'],'Alive'=>$row2['alive'],'LastOn'=>$row2['laston'], 'LoggedIn'=>$loggedin);
 				$totlist = $totlist + 1;
 			}
@@ -160,9 +160,9 @@ function dag_run_private(){
 			} elseif ($row['login'] == $session['user']['login']) {
 				output::doOutput("Dag Durnick slaps his knee laughing uproariously, `7\"Ye be wanting to take out a contract on yerself?  I ain't be helping no suicider, now!\"");
 			} elseif ($row['level'] < get_module_setting("bountylevel") ||
-						($row['age'] < getsetting("pvpimmunity",5) &&
+						($row['age'] < settings::getsetting("pvpimmunity",5) &&
 						 $row['dragonkills'] == 0 && $row['pk'] == 0 &&
-						 $row['experience'] < getsetting("pvpminexp",1500))) {
+						 $row['experience'] < settings::getsetting("pvpminexp",1500))) {
 				output::doOutput("Dag Durnick stares at you angrily, `7\"I told ye that I not be an assassin.  That ain't a target worthy of a bounty.  Now get outta me sight!\"");
 			} else {
 				// All good!

@@ -29,11 +29,11 @@ function fightnav($allowspecial=true, $allowflee=true,$script=false){
 		addnav("Abort", $script);
 	}
 
-	if (getsetting("autofight",0)) {
+	if (settings::getsetting("autofight",0)) {
 		addnav("Automatic Fighting");
 		addnav("5?For 5 Rounds", $script."op=fight&auto=five");
 		addnav("1?For 10 Rounds", $script."op=fight&auto=ten");
-		$auto = getsetting("autofightfull",0);
+		$auto = settings::getsetting("autofightfull",0);
 		if (($auto == 1 || ($auto == 2 && !$allowflee)) && count($newenemies)==1) {
 			addnav("U?Until End", $script."op=fight&auto=full");
 		} elseif ($auto == 1 || ($auto == 2 && !$allowflee)) {

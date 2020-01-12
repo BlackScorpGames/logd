@@ -71,7 +71,7 @@ function cedrikspotions_dohook($hookname,$args){
 		$op = http::httpget("op");
 		$act = http::httpget("act");
 		if($op=="bartender" && $act == "") {
-			addnav_notl(sanitize(getsetting("barkeep","`tCedrik")));
+			addnav_notl(sanitize(settings::getsetting("barkeep","`tCedrik")));
 			addnav("Gems","runmodule.php?module=cedrikspotions&op=gems");
 		}
 		break;
@@ -97,7 +97,7 @@ function cedrikspotions_run(){
 	global $session;
 	$wish = httppost('wish');
 	$op = http::httpget("op");
-	$iname = getsetting("innname", LOCATION_INN);
+	$iname = settings::getsetting("innname", LOCATION_INN);
 	translator::tlschema("inn");
 	page_header($iname);
 	rawoutput("<span style='color: #9900FF'>");
@@ -105,7 +105,7 @@ function cedrikspotions_run(){
 	output::doOutput($iname);
 	output_notl("`b`c");
 	translator::tlschema();
-	$barkeep = getsetting("barkeep","`tCedrik");
+	$barkeep = settings::getsetting("barkeep","`tCedrik");
 	$mincost = 0;
 	$maxcost = 0;
 	$cost = 0;

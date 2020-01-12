@@ -102,7 +102,7 @@ function sanitize_name($spaceallowed, $inname)
 // Handle spaces and color in character names
 function sanitize_colorname($spaceallowed, $inname, $admin = false)
 {
-	if ($admin && getsetting("allowoddadminrenames", 0)) return $inname;
+	if ($admin && settings::getsetting("allowoddadminrenames", 0)) return $inname;
 	if ($spaceallowed)
 		$expr = "([^[:alpha:]`!@#$%^&\\)12345670 _-])";
 	else

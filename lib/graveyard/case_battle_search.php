@@ -6,7 +6,7 @@ if ($session['user']['gravefights']<=0){
 }else{
 	require_once("lib/extended-battle.php");
 	suspend_companions("allowinshades", true);
-	if (module_events("graveyard", getsetting("gravechance", 0)) != 0) {
+	if (module_events("graveyard", settings::getsetting("gravechance", 0)) != 0) {
 		if (!checknavs()) {
 			// If we're going back to the graveyard, make sure to reset
 			// the special and the specialmisc

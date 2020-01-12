@@ -15,8 +15,8 @@ function forest($noshowmessage=false) {
 	if ($session['user']['level']>1)
 		addnav("S?Go Slumming","forest.php?op=search&type=slum");
 	addnav("T?Go Thrillseeking","forest.php?op=search&type=thrill");
-	if (getsetting("suicide", 0)) {
-		if (getsetting("suicidedk", 10) <= $session['user']['dragonkills']) {
+	if (settings::getsetting("suicide", 0)) {
+		if (settings::getsetting("suicidedk", 10) <= $session['user']['dragonkills']) {
 			addnav("*?Search `\$Suicidally`0", "forest.php?op=search&type=suicide");
 		}
 	}

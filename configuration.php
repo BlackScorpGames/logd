@@ -172,7 +172,7 @@ if ($op=="save"){
 			}
 		}
 	}else{
-		output::doOutput("I was not able to inject the module %s. Sorry it didn't work out.", htmlentities($module, ENT_COMPAT, getsetting("charset", "ISO-8859-1")));
+		output::doOutput("I was not able to inject the module %s. Sorry it didn't work out.", htmlentities($module, ENT_COMPAT, settings::getsetting("charset", "ISO-8859-1")));
 	}
 }
 
@@ -195,8 +195,8 @@ if ($op == "") {
 	$enum="enumpretrans";
 	require_once("lib/datetime.php");
 	$details = gametimedetails();
-	$offset = getsetting("gameoffsetseconds",0);
-	for ($i=0;$i<=86400 / getsetting("daysperday",4);$i+=300){
+	$offset = settings::getsetting("gameoffsetseconds",0);
+	for ($i=0;$i<=86400 / settings::getsetting("daysperday",4);$i+=300){
 		$off = ($details['realsecstotomorrow'] - ($offset - $i));
 		if ($off < 0) $off += 86400;
 		$x = strtotime("+".$off." secs");
@@ -214,7 +214,7 @@ if ($op == "") {
 		"emailpetitions"=>"Should submitted petitions be emailed to Admin Email address?,bool",
 		"Enter languages here like this: `i(shortname 2 chars) comma (readable name of the language)`i and continue as long as you wish,note",
 		"serverlanguages"=>"Languages available on this server",
-		"defaultlanguage"=>"Default Language,enum,".getsetting("serverlanguages","en,English,fr,Fran�ais,dk,Danish,de,Deutsch,es,Espa�ol,it,Italian"),
+		"defaultlanguage"=>"Default Language,enum,".settings::getsetting("serverlanguages","en,English,fr,Fran�ais,dk,Danish,de,Deutsch,es,Espa�ol,it,Italian"),
 		"edittitles"=>"Should DK titles be editable in user editor,bool",
 		"motditems"=>"How many items should be shown on the motdlist,int",
 

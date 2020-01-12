@@ -128,7 +128,7 @@ function specialtydarkarts_dohook($hookname,$args){
 		}
 		break;
 	case "newday":
-		$bonus = getsetting("specialtybonus", 1);
+		$bonus = settings::getsetting("specialtybonus", 1);
 		if($session['user']['specialty'] == $spec) {
 			$name = translator::translate_inline($name);
 			if ($bonus == 1) {
@@ -169,7 +169,7 @@ function specialtydarkarts_dohook($hookname,$args){
 			if (get_module_pref("uses") >= $l){
 				switch($l){
 				case 1:
-					if (getsetting("enablecompanions", true)) {
+					if (settings::getsetting("enablecompanions", true)) {
 						apply_companion('skeleton_warrior', array(
 							"name"=>"`4Skeleton Warrior",
 							"hitpoints"=>round($session['user']['level']*3.33,0)+10,

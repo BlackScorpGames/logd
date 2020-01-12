@@ -11,7 +11,7 @@ translator::tlschema("graveyard");
 
 page_header("The Graveyard");
 $skipgraveyardtext = handle_event("graveyard");
-$deathoverlord=getsetting('deathoverlord','`$Ramius');
+$deathoverlord=settings::getsetting('deathoverlord','`$Ramius');
 if (!$skipgraveyardtext) {
 	if ($session['user']['alive']) {
 		redirect("village.php");

@@ -39,7 +39,7 @@ function racehuman_install(){
 
 function racehuman_uninstall(){
 	global $session;
-	$vname = getsetting("villagename", LOCATION_FIELDS);
+	$vname = settings::getsetting("villagename", LOCATION_FIELDS);
 	$gname = get_module_setting("villagename");
 	$sql = "UPDATE " . db_prefix("accounts") . " SET location='$vname' WHERE location = '$gname'";
 	db_query($sql);
@@ -147,7 +147,7 @@ function racehuman_dohook($hookname,$args){
 		}
 		break;
 	case "travel":
-		$capital = getsetting("villagename", LOCATION_FIELDS);
+		$capital = settings::getsetting("villagename", LOCATION_FIELDS);
 		$hotkey = substr($city, 0, 1);
 		$ccity = urlencode($city);
 		translator::tlschema("module-cities");

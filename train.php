@@ -148,7 +148,7 @@ if (db_num_rows($result) > 0 && $session['user']['level'] <= 14){
 			$session['user']['hitpoints']=$session['user']['maxhitpoints'];
 		}
 		modulehook("master-autochallenge");
-		if (getsetting('displaymasternews',1)) addnews("`3%s`3 was hunted down by their master, `^%s`3, for being truant.",$session['user']['name'],$master['creaturename']);
+		if (settings::getsetting('displaymasternews',1)) addnews("`3%s`3 was hunted down by their master, `^%s`3, for being truant.",$session['user']['name'],$master['creaturename']);
 	}
 	if ($op=="fight"){
 		$battle=true;
@@ -180,7 +180,7 @@ if (db_num_rows($result) > 0 && $session['user']['level'] <= 14){
 			$session['user']['attack']++;
 			$session['user']['defense']++;
 			// Fix the multimaster bug
-			if (getsetting("multimaster", 1) == 1) {
+			if (settings::getsetting("multimaster", 1) == 1) {
 				$session['user']['seenmaster']=0;
 				debuglog("Defeated master, setting seenmaster to 0");
 			}
@@ -193,12 +193,12 @@ if (db_num_rows($result) > 0 && $session['user']['level'] <= 14){
 			}else{
 				output::doOutput("None in the land are mightier than you!`n");
 			}
-			if ($session['user']['referer']>0 && ($session['user']['level']>=getsetting("referminlevel",4) || $session['user']['dragonkills'] > 0) && $session['user']['refererawarded']<1){
-				$sql = "UPDATE " . db_prefix("accounts") . " SET donation=donation+".getsetting("refereraward",25)." WHERE acctid={$session['user']['referer']}";
+			if ($session['user']['referer']>0 && ($session['user']['level']>=settings::getsetting("referminlevel",4) || $session['user']['dragonkills'] > 0) && $session['user']['refererawarded']<1){
+				$sql = "UPDATE " . db_prefix("accounts") . " SET donation=donation+".settings::getsetting("refereraward",25)." WHERE acctid={$session['user']['referer']}";
 				db_query($sql);
 				$session['user']['refererawarded']=1;
 				$subj=array("`%One of your referrals advanced!`0");
-				$body=array("`&%s`# has advanced to level `^%s`#, and so you have earned `^%s`# points!", $session['user']['name'], $session['user']['level'], getsetting("refereraward", 25));
+				$body=array("`&%s`# has advanced to level `^%s`#, and so you have earned `^%s`# points!", $session['user']['name'], $session['user']['level'], settings::getsetting("refereraward", 25));
 				systemmail($session['user']['referer'],$subj,$body);
 			}
 			increment_specialty("`^");
@@ -206,7 +206,7 @@ if (db_num_rows($result) > 0 && $session['user']['level'] <= 14){
 			// Level-Up companions
 			// We only get one level per pageload. So we just add the per-level-values.
 			// No need to multiply and/or substract anything.
-			if (getsetting("companionslevelup", 1) == true) {
+			if (settings::getsetting("companionslevelup", 1) == true) {
 				$newcompanions = $companions;
 				foreach ($companions as $name => $companion) {
 					$companion['attack'] = $companion['attack'] + $companion['attackperlevel'];
@@ -227,9 +227,9 @@ if (db_num_rows($result) > 0 && $session['user']['level'] <= 14){
 			}
 			villagenav();
 			if ($session['user']['age'] == 1) {
- 	 	 	 	if (getsetting('displaymasternews',1)) addnews("`%%s`3 has defeated ".($session['user']['sex']?"her":"his")." master, `%%s`3 to advance to level `^%s`3 after `^1`3 day!!", $session['user']['name'],$badguy['creaturename'],$session['user']['level']);
+ 	 	 	 	if (settings::getsetting('displaymasternews',1)) addnews("`%%s`3 has defeated ".($session['user']['sex']?"her":"his")." master, `%%s`3 to advance to level `^%s`3 after `^1`3 day!!", $session['user']['name'],$badguy['creaturename'],$session['user']['level']);
  	 	 	} else {
- 	 	 	 	if (getsetting('displaymasternews',1)) addnews("`%%s`3 has defeated ".($session['user']['sex']?"her":"his")." master, `%%s`3 to advance to level `^%s`3 after `^%s`3 days!!", $session['user']['name'],$badguy['creaturename'],$session['user']['level'],$session['user']['age']);
+ 	 	 	 	if (settings::getsetting('displaymasternews',1)) addnews("`%%s`3 has defeated ".($session['user']['sex']?"her":"his")." master, `%%s`3 to advance to level `^%s`3 after `^%s`3 days!!", $session['user']['name'],$badguy['creaturename'],$session['user']['level'],$session['user']['age']);
  	 	 	}
 			if ($session['user']['hitpoints'] < $session['user']['maxhitpoints'])
 				$session['user']['hitpoints'] = $session['user']['maxhitpoints'];
@@ -237,7 +237,7 @@ if (db_num_rows($result) > 0 && $session['user']['level'] <= 14){
 		}elseif($defeat){
 			$taunt = select_taunt_array();
 
-			if (getsetting('displaymasternews',1)) addnews("`%%s`5 has challenged their master, %s and lost!`n%s",$session['user']['name'],$badguy['creaturename'],$taunt);
+			if (settings::getsetting('displaymasternews',1)) addnews("`%%s`5 has challenged their master, %s and lost!`n%s",$session['user']['name'],$badguy['creaturename'],$taunt);
 			$session['user']['hitpoints']=$session['user']['maxhitpoints'];
 			output::doOutput("`&`bYou have been defeated by `%%s`&!`b`n",$badguy['creaturename']);
 			output::doOutput("`%%s`\$ halts just before delivering the final blow, and instead extends a hand to help you to your feet, and hands you a complementary healing potion.`n",$badguy['creaturename']);

@@ -24,7 +24,7 @@ page_header("Preferences");
 
 $op = http::httpget('op');
 
-if ($op=="suicide" && getsetting("selfdelete",0)!=0) {
+if ($op=="suicide" && settings::getsetting("selfdelete",0)!=0) {
 	$userid = http::httpget('userid');
 	require_once("lib/charcleanup.php");
 	char_cleanup($userid, CHAR_DELETE_SUICIDE);
@@ -123,7 +123,7 @@ if ($op=="suicide" && getsetting("selfdelete",0)!=0) {
 		$email = httppost('email');
 		if ($email!=$session['user']['emailaddress']){
 			if (is_email($email)){
-				if (getsetting("requirevalidemail",0)==1){
+				if (settings::getsetting("requirevalidemail",0)==1){
 					output::doOutput("`#Your email cannot be changed, system settings prohibit it.");
 					output::doOutput("(Emails may only be changed if the server allows more than one account per email.)");
 					output::doOutput("Use the Petition link to ask the  server administrator to change your email address if this one is no longer valid.`n");
@@ -132,7 +132,7 @@ if ($op=="suicide" && getsetting("selfdelete",0)!=0) {
 					$session['user']['emailaddress']=$email;
 				}
 			}else{
-				if (getsetting("requireemail",0)==1){
+				if (settings::getsetting("requireemail",0)==1){
 					output::doOutput("`#That is not a valid email address.`n");
 				}else{
 					output::doOutput("`#Your email address has been changed.`n");
@@ -152,7 +152,7 @@ if ($op=="suicide" && getsetting("selfdelete",0)!=0) {
 		"email"=>"Email Address",
 		"Display Preferences,title",
 		"template"=>"Skin,theme",
-		"language"=>"Language,enum,".getsetting("serverlanguages","en,English,de,Deutsch,fr,Fran�ais,dk,Danish,es,Espa�ol,it,Italian"),
+		"language"=>"Language,enum,".settings::getsetting("serverlanguages","en,English,de,Deutsch,fr,Fran�ais,dk,Danish,es,Espa�ol,it,Italian"),
 		"tabconfig"=>"Show config sections in tabs,bool",
 		"Game Behavior Preferences,title",
 		"emailonmail"=>"Send email when you get new Ye Olde Mail?,bool",
@@ -198,7 +198,7 @@ if ($op=="suicide" && getsetting("selfdelete",0)!=0) {
 	$prefs['bio'] = $session['user']['bio'];
 	$prefs['template'] = $_COOKIE['template'];
 	if ($prefs['template'] == "")
-		$prefs['template'] = getsetting("defaultskin", "jade.htm");
+		$prefs['template'] = settings::getsetting("defaultskin", "jade.htm");
 	$prefs['email'] = $session['user']['emailaddress'];
 	// Default tabbed config to true
 	if (!isset($prefs['tabconfig'])) $prefs['tabconfig'] = 1;
@@ -300,14 +300,14 @@ if ($op=="suicide" && getsetting("selfdelete",0)!=0) {
 	rawoutput("<form action='prefs.php?op=save' method='POST' onSubmit='return(md5pass)'>");
 	$info = showform($form,$prefs);
 	rawoutput("<input type='hidden' value=\"" .
-			htmlentities(serialize($info), ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."\" name='oldvalues'>");
+			htmlentities(serialize($info), ENT_COMPAT, settings::getsetting("charset", "ISO-8859-1"))."\" name='oldvalues'>");
 
 	rawoutput("</form><br />");
 	addnav("","prefs.php?op=save");
 
 	// Stop clueless lusers from deleting their character just because a
 	// monster killed them.
-	if ($session['user']['alive'] && getsetting("selfdelete",0)!=0) {
+	if ($session['user']['alive'] && settings::getsetting("selfdelete",0)!=0) {
 		rawoutput("<form action='prefs.php?op=suicide&userid={$session['user']['acctid']}' method='POST'>");
 		$deltext = translator::translate_inline("Delete Character");
 		$conf = translator::translate_inline("Are you sure you wish to delete your character?");

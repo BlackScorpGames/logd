@@ -43,7 +43,7 @@ function show_enemies($enemies) {
 function prepare_fight($options=false) {
 	global $companions;
 	$basicoptions = array(
-		"maxattacks"=>getsetting("maxattacks", 4),
+		"maxattacks"=>settings::getsetting("maxattacks", 4),
 	);
 	if (!is_array($options)) {
 		$options = array();

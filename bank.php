@@ -32,8 +32,8 @@ if ($op==""){
 }elseif($op=="transfer"){
 	output::doOutput("`6`bTransfer Money`b:`n");
 	if ($session['user']['goldinbank']>=0){
-		output::doOutput("`@Elessa`6 tells you, \"`@Just so that you are fully aware of our policies, you may only transfer `^%s`@ gold per the recipient's level.",getsetting("transferperlevel",25));
-		$maxout = $session['user']['level']*getsetting("maxtransferout",25);
+		output::doOutput("`@Elessa`6 tells you, \"`@Just so that you are fully aware of our policies, you may only transfer `^%s`@ gold per the recipient's level.",settings::getsetting("transferperlevel",25));
+		$maxout = $session['user']['level']*settings::getsetting("maxtransferout",25);
 		output::doOutput("Similarly, you may transfer no more than `^%s`@ gold total during the day.`6\"`n",$maxout);
 		if ($session['user']['amountouttoday'] > 0) {
 			output::doOutput("`6She scans her ledgers briefly, \"`@For your knowledge, you have already transferred `^%s`@ gold today.`6\"`n",$session['user']['amountouttoday']);
@@ -68,7 +68,7 @@ if ($op==""){
 		$msg = translator::translate_inline("Complete Transfer");
 		rawoutput("<form action='bank.php?op=transfer3' method='POST'>");
 		output::doOutput("`6Transfer `^%s`6 to `&%s`6.",$amt,$row['name']);
-		rawoutput("<input type='hidden' name='to' value='".HTMLEntities($row['login'], ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."'><input type='hidden' name='amount' value='$amt'><input type='submit' class='button' value='$msg'></form>",true);
+		rawoutput("<input type='hidden' name='to' value='".HTMLEntities($row['login'], ENT_COMPAT, settings::getsetting("charset", "ISO-8859-1"))."'><input type='hidden' name='amount' value='$amt'><input type='submit' class='button' value='$msg'></form>",true);
 		addnav("","bank.php?op=transfer3");
 	}elseif(db_num_rows($result)>100){
 		output::doOutput("`@Elessa`6 looks at you disdainfully and coldly, but politely, suggests you try narrowing down the field of who you want to send money to just a little bit!`n`n");
@@ -89,7 +89,7 @@ if ($op==""){
 		$number=db_num_rows($result);
 		for ($i=0;$i<$number;$i++){
 			$row = db_fetch_assoc($result);
-			rawoutput("<option value=\"".HTMLEntities($row['login'], ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."\">".full_sanitize($row['name'])."</option>");
+			rawoutput("<option value=\"".HTMLEntities($row['login'], ENT_COMPAT, settings::getsetting("charset", "ISO-8859-1"))."\">".full_sanitize($row['name'])."</option>");
 		}
 		$msg = translator::translate_inline("Complete Transfer");
 		rawoutput("</select><input type='hidden' name='amount' value='$amt'><input type='submit' class='button' value='$msg'></form>",true);
@@ -108,13 +108,13 @@ if ($op==""){
 		$result = db_query($sql);
 		if (db_num_rows($result)==1){
 			$row = db_fetch_assoc($result);
-			$maxout = $session['user']['level']*getsetting("maxtransferout",25);
-			$maxtfer = $row['level']*getsetting("transferperlevel",25);
+			$maxout = $session['user']['level']*settings::getsetting("maxtransferout",25);
+			$maxtfer = $row['level']*settings::getsetting("transferperlevel",25);
 			if ($session['user']['amountouttoday']+$amt > $maxout) {
 				output::doOutput("`@Elessa`6 shakes her head, \"`@I'm sorry, but I cannot complete that transfer; you are not allowed to transfer more than `^%s`@ gold total per day.`6\"",$maxout);
 			}else if ($maxtfer<$amt){
 				output::doOutput("`@Elessa`6 shakes her head, \"`@I'm sorry, but I cannot complete that transfer; `&%s`@ may only receive up to `^%s`@ gold per day.`6\"",$row['name'],$maxtfer);
-			}else if($row['transferredtoday']>=getsetting("transferreceive",3)){
+			}else if($row['transferredtoday']>=settings::getsetting("transferreceive",3)){
 				output::doOutput("`@Elessa`6 shakes her head, \"`@I'm sorry, but I cannot complete that transfer; `&%s`@ has received too many transfers today, you will have to wait until tomorrow.`6\"",$row['name']);
 			}else if($amt<(int)$session['user']['level']){
 				output::doOutput("`@Elessa`6 shakes her head, \"`@I'm sorry, but I cannot complete that transfer; you might want to send a worthwhile transfer, at least as much as your level.`6\"");
@@ -173,7 +173,7 @@ if ($op==""){
 		output_notl($session['user']['goldinbank']>=0?$depositbalance:$depositdebt,$amount,$session['user']['name'], abs($session['user']['goldinbank']),$session['user']['gold']);
 	}
 }elseif($op=="borrow"){
-	$maxborrow = $session['user']['level']*getsetting("borrowperlevel",20);
+	$maxborrow = $session['user']['level']*settings::getsetting("borrowperlevel",20);
 	$borrow = translator::translate_inline("Borrow");
 	$balance = translator::translate_inline("`@Elessa`6 scans through her ledger, \"`@You have a balance of `^%s`@ gold in the bank.`6\"`n");
 	$debt = translator::translate_inline("`@Elessa`6 scans through her ledger, \"`@You have a `\$debt`@ of `^%s`@ gold to the bank.`6\"`n");
@@ -209,7 +209,7 @@ if ($op==""){
 	}else if($amount>$session['user']['goldinbank']){
 		$lefttoborrow = $amount;
 		$didwithdraw = 0;
-		$maxborrow = $session['user']['level']*getsetting("borrowperlevel",20);
+		$maxborrow = $session['user']['level']*settings::getsetting("borrowperlevel",20);
 		if ($lefttoborrow<=$session['user']['goldinbank']+$maxborrow){
 			if ($session['user']['goldinbank']>0){
 				output::doOutput("`6You withdraw your remaining `^%s`6 gold.", $session['user']['goldinbank']);
@@ -252,13 +252,13 @@ addnav("Money");
 if ($session['user']['goldinbank']>=0){
 	addnav("W?Withdraw","bank.php?op=withdraw");
 	addnav("D?Deposit","bank.php?op=deposit");
-	if (getsetting("borrowperlevel",20)) addnav("L?Take out a Loan","bank.php?op=borrow");
+	if (settings::getsetting("borrowperlevel",20)) addnav("L?Take out a Loan","bank.php?op=borrow");
 }else{
 	addnav("D?Pay off Debt","bank.php?op=deposit");
-	if (getsetting("borrowperlevel",20)) addnav("L?Borrow More","bank.php?op=borrow");
+	if (settings::getsetting("borrowperlevel",20)) addnav("L?Borrow More","bank.php?op=borrow");
 }
-if (getsetting("allowgoldtransfer",1)){
-	if ($session['user']['level']>=getsetting("mintransferlev",3) || $session['user']['dragonkills']>0){
+if (settings::getsetting("allowgoldtransfer",1)){
+	if ($session['user']['level']>=settings::getsetting("mintransferlev",3) || $session['user']['dragonkills']>0){
 		addnav("M?Transfer Money","bank.php?op=transfer");
 	}
 }

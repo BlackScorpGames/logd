@@ -192,13 +192,13 @@ if (!DB_CONNECTED || !db_select_db($DB_NAME)){
 	define("LINK",$link);
 	define("DB_CHOSEN",true);
 }
-if ($logd_version == getsetting("installer_version","-1")) {
+if ($logd_version == settings::getsetting("installer_version","-1")) {
 	define("IS_INSTALLER", false);
 }
 
-header("Content-Type: text/html; charset=".getsetting('charset','ISO-8859-1'));
+header("Content-Type: text/html; charset=".settings::getsetting('charset','ISO-8859-1'));
 
-if (strtotime("-".getsetting("LOGINTIMEOUT",900)." seconds") > $session['lasthit'] && $session['lasthit']>0 && $session['loggedin']){
+if (strtotime("-".settings::getsetting("LOGINTIMEOUT",900)." seconds") > $session['lasthit'] && $session['lasthit']>0 && $session['loggedin']){
 	// force the abandoning of the session when the user should have been
 	// sent to the fields.
 	$session=array();
@@ -247,7 +247,7 @@ if (!isset($nokeeprestore[$SCRIPT_NAME]) || !$nokeeprestore[$SCRIPT_NAME]) {
 }else{
 
 }
-if ($logd_version != getsetting("installer_version","-1") && !defined("IS_INSTALLER")){
+if ($logd_version != settings::getsetting("installer_version","-1") && !defined("IS_INSTALLER")){
 	page_header("Upgrade Needed");
 	output::doOutput("`#The game is temporarily unavailable while a game upgrade is applied, please be patient, the upgrade will be completed soon.");
 	output::doOutput("In order to perform the upgrade, an admin will have to run through the installer.");
@@ -367,8 +367,8 @@ if(is_array($temp_comp)) {
 }
 unset($temp_comp);
 
-$beta = getsetting("beta", 0);
-if (!$beta && getsetting("betaperplayer", 1) == 1)
+$beta = settings::getsetting("beta", 0);
+if (!$beta && settings::getsetting("betaperplayer", 1) == 1)
 	$beta = $session['user']['beta'];
 
 $sql = "SELECT * FROM " . db_prefix("clans") . " WHERE clanid='{$session['user']['clanid']}'";

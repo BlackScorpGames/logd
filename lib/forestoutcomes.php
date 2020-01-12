@@ -17,7 +17,7 @@ function forestvictory($enemies,$denyflawless=false){
 	$count = 0;
 	$totalbackup = 0;
 	foreach ($enemies as $index=>$badguy) {
-		if (getsetting("dropmingold",0)){
+		if (settings::getsetting("dropmingold",0)){
 			$badguy['creaturegold']= e_rand(round($badguy['creaturegold']/4), round(3*$badguy['creaturegold']/4));
 		}else{
 			$badguy['creaturegold']=e_rand(0,$badguy['creaturegold']);
@@ -56,14 +56,14 @@ function forestvictory($enemies,$denyflawless=false){
 		debuglog("received gold for slaying a monster.",false,false,"forestwin",$badguy['creaturegold']);
 	}
 	// No gem hunters allowed!
-	$args = modulehook("alter-gemchance", array("chance"=>getsetting("forestgemchance", 25)));
+	$args = modulehook("alter-gemchance", array("chance"=>settings::getsetting("forestgemchance", 25)));
 	$gemchances = $args['chance'];
 	if ($session['user']['level'] < 15 && e_rand(1,$gemchances) == 1) {
 		output::doOutput("`&You find A GEM!`n`#");
 		$session['user']['gems']++;
 		debuglog("found gem when slaying a monster.",false,false,"forestwingem",1);
 	}
-	if (getsetting("instantexp",false) == true) {
+	if (settings::getsetting("instantexp",false) == true) {
 		$expgained = 0;
 		foreach ($options['experiencegained'] as $index=>$experience) {
 			$expgained += $experience;
@@ -75,7 +75,7 @@ function forestvictory($enemies,$denyflawless=false){
 			$expbonus = -$exp+1;
 		}
 		if ($expbonus>0){
-			$expbonus = round($expbonus * pow(1+(getsetting("addexp", 5)/100), $count-1),0);
+			$expbonus = round($expbonus * pow(1+(settings::getsetting("addexp", 5)/100), $count-1),0);
 			output::doOutput("`#***Because of the difficult nature of this fight, you are awarded an additional `^%s`# experience! `n",$expbonus);
 		} elseif ($expbonus<0){
 			output::doOutput("`#***Because of the simplistic nature of this fight, you are penalized `^%s`# experience! `n",abs($expbonus));
@@ -89,7 +89,7 @@ function forestvictory($enemies,$denyflawless=false){
 			$expbonus = -$exp+1;
 		}
 		if ($expbonus>0){
-			$expbonus = round($expbonus * pow(1+(getsetting("addexp", 5)/100), $count-1),0);
+			$expbonus = round($expbonus * pow(1+(settings::getsetting("addexp", 5)/100), $count-1),0);
 			output::doOutput("`#***Because of the difficult nature of this fight, you are awarded an additional `^%s`# experience! `n(%s + %s = %s) ",$expbonus,$exp,abs($expbonus),$exp+$expbonus);
 		} elseif ($expbonus<0){
 			output::doOutput("`#***Because of the simplistic nature of this fight, you are penalized `^%s`# experience! `n(%s - %s = %s) ",abs($expbonus),$exp,abs($expbonus),$exp+$expbonus);
@@ -126,7 +126,7 @@ function forestvictory($enemies,$denyflawless=false){
 
 function forestdefeat($enemies,$where="in the forest"){
 	global $session;
-	$percent=getsetting('forestexploss',10);
+	$percent=settings::getsetting('forestexploss',10);
 	addnav("Daily news","news.php");
 	$names = array();
 	$killer = false;
@@ -191,7 +191,7 @@ function buffbadguy($badguy){
 	$badguy['creaturedefense']+=$defflux;
 	$badguy['creaturehealth']+=$hpflux;
 
-	if (getsetting("disablebonuses", 1)) {
+	if (settings::getsetting("disablebonuses", 1)) {
 		$bonus = 1 + .03*($atkflux+$defflux) + .001*$hpflux;
 		$badguy['creaturegold'] = round($badguy['creaturegold']*$bonus, 0);
 		$badguy['creatureexp'] = round($badguy['creatureexp']*$bonus, 0);

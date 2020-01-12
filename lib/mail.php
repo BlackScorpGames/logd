@@ -10,9 +10,9 @@ require_once("lib/http.php");
 
 translator::tlschema("mail");
 
-$superusermessage = getsetting("superuseryommessage","Asking an admin for gems, gold, weapons, armor, or anything else which you have not earned will not be honored.  If you are experiencing problems with the game, please use the 'Petition for Help' link instead of contacting an admin directly.");
+$superusermessage = settings::getsetting("superuseryommessage","Asking an admin for gems, gold, weapons, armor, or anything else which you have not earned will not be honored.  If you are experiencing problems with the game, please use the 'Petition for Help' link instead of contacting an admin directly.");
 
-$sql = "DELETE FROM " . db_prefix("mail") . " WHERE sent<'".date("Y-m-d H:i:s",strtotime("-".getsetting("oldmail",14)."days"))."'";
+$sql = "DELETE FROM " . db_prefix("mail") . " WHERE sent<'".date("Y-m-d H:i:s",strtotime("-".settings::getsetting("oldmail",14)."days"))."'";
 db_query($sql);
 // really needs to relocated. Performancekiller.
 // Ndro with global mail-* invalidation
@@ -90,14 +90,14 @@ if($op=="send"){
 		$sql = "SELECT count(messageid) AS count FROM " . db_prefix("mail") . " WHERE msgto='".$row1['acctid']."' AND seen=0";
 		$result = db_query($sql);
 		$row = db_fetch_assoc($result);
-		if ($row['count']>=getsetting("inboxlimit",50)) {
+		if ($row['count']>=settings::getsetting("inboxlimit",50)) {
 			output::doOutput("`\$You cannot send that person mail, their mailbox is full!`0`n`n");
 		}else{
 			$subject =  str_replace("`n","",httppost('subject'));
 			$body = str_replace("`n","\n",httppost('body'));
 			$body = str_replace("\r\n","\n",$body);
 			$body = str_replace("\r","\n",$body);
-			$body = addslashes(substr(stripslashes($body),0,(int)getsetting("mailsizelimit",1024)));
+			$body = addslashes(substr(stripslashes($body),0,(int)settings::getsetting("mailsizelimit",1024)));
 
 			systemmail($row1['acctid'],$subject,$body,$session['user']['acctid']);
 			output::doOutput("Your message was sent!`n");
@@ -165,7 +165,7 @@ if ($op==""){
 	}else{
 		output::doOutput("`iAww, you have no mail, how sad.`i");
 	}
-	output::doOutput("`n`n`iYou currently have %s messages in your inbox.`nYou will no longer be able to receive messages from players if you have more than %s unread messages in your inbox.  `nMessages are automatically deleted (read or unread) after %s days.",db_num_rows($result),getsetting('inboxlimit',50),getsetting("oldmail",14));
+	output::doOutput("`n`n`iYou currently have %s messages in your inbox.`nYou will no longer be able to receive messages from players if you have more than %s unread messages in your inbox.  `nMessages are automatically deleted (read or unread) after %s days.",db_num_rows($result),settings::getsetting('inboxlimit',50),settings::getsetting("oldmail",14));
 }elseif ($op=="read"){
 	$sql = "SELECT " . db_prefix("mail") . ".*,". db_prefix("accounts"). ".name FROM " . db_prefix("mail") ." LEFT JOIN " . db_prefix("accounts") . " ON ". db_prefix("accounts") . ".acctid=" . db_prefix("mail"). ".msgfrom WHERE msgto=\"".$session['user']['acctid']."\" AND messageid=\"".$id."\"";
 	$result = db_query($sql);
@@ -370,10 +370,10 @@ if ($op==""){
 	output_notl("</form>",true);
 	$sizemsg = "`#Max message size is `@%s`#, you have `^XX`# characters left.";
 	$sizemsg = translator::translate_inline($sizemsg);
-	$sizemsg = sprintf($sizemsg,getsetting("mailsizelimit",1024));
+	$sizemsg = sprintf($sizemsg,settings::getsetting("mailsizelimit",1024));
 	$sizemsgover = "`\$Max message size is `@%s`\$, you are over by `^XX`\$ characters!";
 	$sizemsgover = translator::translate_inline($sizemsgover);
-	$sizemsgover = sprintf($sizemsgover,getsetting("mailsizelimit",1024));
+	$sizemsgover = sprintf($sizemsgover,settings::getsetting("mailsizelimit",1024));
 	$sizemsg = explode("XX",$sizemsg);
 	$sizemsgover = explode("XX",$sizemsgover);
 	$usize1 = addslashes("<span>".appoencode($sizemsg[0])."</span>");
@@ -383,7 +383,7 @@ if ($op==""){
 
 	rawoutput("
 	<script language='JavaScript'>
-		var maxlen = ".getsetting("mailsizelimit",1024).";
+		var maxlen = ".settings::getsetting("mailsizelimit",1024).";
 		function sizeCount(box){
 			var len = box.value.length;
 			var msg = '';

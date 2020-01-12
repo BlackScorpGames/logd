@@ -88,7 +88,7 @@ if (!($session['user']['loggedin'] && $session['user']['superuser'] & SU_VIEW_SO
 
 	rawoutput("<h1>");
 	output::doOutput("View Source: ");
-	output_notl("%s", htmlentities($url, ENT_COMPAT, getsetting("charset", "ISO-8859-1")));
+	output_notl("%s", htmlentities($url, ENT_COMPAT, settings::getsetting("charset", "ISO-8859-1")));
 	rawoutput("</h1>");
 	if($url)output::doOutput("<a href='#source'>Click here for the source,</a> OR`n", true);
 	output::doOutput("`bOther files that you may wish to view the source of:`b");
@@ -172,7 +172,7 @@ if (!($session['user']['loggedin'] && $session['user']['superuser'] & SU_VIEW_SO
 	rawoutput("</ul>");
 	if ($url) {
 		rawoutput("<h1><a name='source'>");
-		output::doOutput("Source of: %s", htmlentities($url, ENT_COMPAT, getsetting("charset", "ISO-8859-1")));
+		output::doOutput("Source of: %s", htmlentities($url, ENT_COMPAT, settings::getsetting("charset", "ISO-8859-1")));
 		rawoutput("</a></h1>");
 
 		$page_name = $url;

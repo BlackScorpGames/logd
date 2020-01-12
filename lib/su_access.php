@@ -47,7 +47,7 @@ function check_su_access($level){
 //				)
 //		);
 		output::doOutput("For attempting to defile the gods, you have been smitten down!`n`n");
-		output::doOutput("%s`\$, Overlord of Death`) appears before you in a vision, seizing your mind with his, and wordlessly telling you that he finds no favor with you.`n`n",getsetting('deathoverlord','`$Ramius'));
+		output::doOutput("%s`\$, Overlord of Death`) appears before you in a vision, seizing your mind with his, and wordlessly telling you that he finds no favor with you.`n`n",settings::getsetting('deathoverlord','`$Ramius'));
 		addnews("`&%s was smitten down for attempting to defile the gods (they tried to hack superuser pages).",$session['user']['name']);
 		debuglog("Lost {$session['user']['gold']} and ".($session['user']['experience']*0.25)." experience trying to hack superuser pages.");
 		$session['user']['hitpoints']=0;

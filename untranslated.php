@@ -50,7 +50,7 @@ if ($op == "list") {
 	output::doOutput("Known Namespaces:");
 	rawoutput("<select name='ns'>");
 	while ($row = db_fetch_assoc($result)){
-		rawoutput("<option value=\"".htmlentities($row['namespace'], ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."\"".((htmlentities($row['namespace'], ENT_COMPAT, getsetting("charset", "ISO-8859-1")) == $namespace) ? "selected" : "").">".htmlentities($row['namespace'], ENT_COMPAT, getsetting("charset", "ISO-8859-1"))." ({$row['c']})</option>");
+		rawoutput("<option value=\"".htmlentities($row['namespace'], ENT_COMPAT, settings::getsetting("charset", "ISO-8859-1"))."\"".((htmlentities($row['namespace'], ENT_COMPAT, settings::getsetting("charset", "ISO-8859-1")) == $namespace) ? "selected" : "").">".htmlentities($row['namespace'], ENT_COMPAT, settings::getsetting("charset", "ISO-8859-1"))." ({$row['c']})</option>");
 	}
 	rawoutput("</select>");
 	rawoutput("<input type='submit' class='button' value='". translator::translate_inline("Show") ."'>");
@@ -58,7 +58,7 @@ if ($op == "list") {
 
 	if ($mode == "edit") {
 		rawoutput(translator::translate_inline("Text:"). "<br>");
-		rawoutput("<textarea name='intext' cols='60' rows='5' readonly>".htmlentities(stripslashes(http::httpget('intext')), ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."</textarea><br/>");
+		rawoutput("<textarea name='intext' cols='60' rows='5' readonly>".htmlentities(stripslashes(http::httpget('intext')), ENT_COMPAT, settings::getsetting("charset", "ISO-8859-1"))."</textarea><br/>");
 		rawoutput(translator::translate_inline("Translation:"). "<br>");
 		rawoutput("<textarea name='outtext' cols='60' rows='5'></textarea><br/>");
 		rawoutput("<input type='submit' value='". translator::translate_inline("Save") ."' class='button'>");
@@ -75,7 +75,7 @@ if ($op == "list") {
 				rawoutput("<a href='untranslated.php?op=list&mode=edit&ns=". rawurlencode($row['namespace']) ."&intext=". rawurlencode($row['intext']) ."'>". translator::translate_inline("Edit") ."</a>");
 				addnav("", "untranslated.php?op=list&mode=edit&ns=". rawurlencode($row['namespace']) ."&intext=". rawurlencode($row['intext']));
 				rawoutput("</td><td>");
-				rawoutput(htmlentities($row['intext'], ENT_COMPAT, getsetting("charset", "ISO-8859-1")));
+				rawoutput(htmlentities($row['intext'], ENT_COMPAT, settings::getsetting("charset", "ISO-8859-1")));
 				rawoutput("</td></tr>");
 			}
 		}else{

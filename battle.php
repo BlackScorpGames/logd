@@ -383,7 +383,7 @@ if ($op != "newtarget") {
 					// experience would stay the same
 					// We'll also check if the user is actually alive. If we didn't, we would hand out
 					// experience for graveyard fights.
-					if (getsetting("instantexp",false) == true && $session['user']['alive'] && $options['type'] != "pvp" && $options['type'] != "train") {
+					if (settings::getsetting("instantexp",false) == true && $session['user']['alive'] && $options['type'] != "pvp" && $options['type'] != "train") {
 						if (!isset($badguy['expgained']) || $badguy['expgained'] == false) {
 							if (!isset($badguy['creatureexp'])) $badguy['creatureexp'] = 0;
 							$session['user']['experience'] += round($badguy['creatureexp']/count($newenemies));
@@ -416,7 +416,7 @@ if ($op != "newtarget") {
 				$enemiesflown=true;
 				$needtostopfighting=true;
 			}
-			if (getsetting("instantexp",false) == true) {
+			if (settings::getsetting("instantexp",false) == true) {
 				$newenemies = $verynewenemies;
 			}
 		}

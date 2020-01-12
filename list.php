@@ -72,11 +72,11 @@ for ($i=0;$i<$totalplayers;$i+=$playersperpage){
 // wouldn't show up
 if ($page=="" && $op==""){
 	$title = translator::translate_inline("Warriors Currently Online");
-	$sql = "SELECT acctid,name,login,alive,location,race,sex,level,laston,loggedin,lastip,uniqueid FROM " . db_prefix("accounts") . " WHERE locked=0 AND loggedin=1 AND laston>'".date("Y-m-d H:i:s",strtotime("-".getsetting("LOGINTIMEOUT",900)." seconds"))."' ORDER BY level DESC, dragonkills DESC, login ASC";
+	$sql = "SELECT acctid,name,login,alive,location,race,sex,level,laston,loggedin,lastip,uniqueid FROM " . db_prefix("accounts") . " WHERE locked=0 AND loggedin=1 AND laston>'".date("Y-m-d H:i:s",strtotime("-".settings::getsetting("LOGINTIMEOUT",900)." seconds"))."' ORDER BY level DESC, dragonkills DESC, login ASC";
 	$result = db_query_cached($sql,"list.php-warsonline");
 }elseif($op=='clan'){
 	$title = translator::translate_inline("Clan Members Online");
-	$sql = "SELECT acctid,name,login,alive,location,race,sex,level,laston,loggedin,lastip,uniqueid FROM " . db_prefix("accounts") . " WHERE locked=0 AND loggedin=1 AND laston>'".date("Y-m-d H:i:s",strtotime("-".getsetting("LOGINTIMEOUT",900)." seconds"))."' AND clanid='{$session['user']['clanid']}' ORDER BY level DESC, dragonkills DESC, login ASC";
+	$sql = "SELECT acctid,name,login,alive,location,race,sex,level,laston,loggedin,lastip,uniqueid FROM " . db_prefix("accounts") . " WHERE locked=0 AND loggedin=1 AND laston>'".date("Y-m-d H:i:s",strtotime("-".settings::getsetting("LOGINTIMEOUT",900)." seconds"))."' AND clanid='{$session['user']['clanid']}' ORDER BY level DESC, dragonkills DESC, login ASC";
 	$result = db_query($sql);
 }else{
 	if ($totalplayers > $playersperpage && $op != "search") {
@@ -97,9 +97,9 @@ if ($session['user']['loggedin']){
 }
 
 $max = db_num_rows($result);
-if ($max>getsetting("maxlistsize", 100)) {
-	output::doOutput("`\$Too many names match that search.  Showing only the first %s.`0`n", getsetting("maxlistsize", 100));
-	$max = getsetting("maxlistsize", 100);
+if ($max>settings::getsetting("maxlistsize", 100)) {
+	output::doOutput("`\$Too many names match that search.  Showing only the first %s.`0`n", settings::getsetting("maxlistsize", 100));
+	$max = settings::getsetting("maxlistsize", 100);
 }
 
 if ($page=="" && $op==""){
@@ -146,7 +146,7 @@ for($i=0;$i<$max;$i++){
 	if ($session['user']['loggedin'])
 		rawoutput("</a>");
 	rawoutput("</td><td>");
-	$loggedin=(date("U") - strtotime($row['laston']) < getsetting("LOGINTIMEOUT",900) && $row['loggedin']);
+	$loggedin=(date("U") - strtotime($row['laston']) < settings::getsetting("LOGINTIMEOUT",900) && $row['loggedin']);
 	output_notl("`&%s`0", $row['location']);
 	if ($loggedin) {
 		$online = translator::translate_inline("`#(Online)");

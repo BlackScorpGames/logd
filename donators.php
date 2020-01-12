@@ -44,12 +44,12 @@ if ($reason == "")
 
 output::doOutput("`bAdd Donation Points:`b`n");
 output::doOutput("Character: ");
-rawoutput("<input name='name' value=\"" . htmlentities($name, ENT_COMPAT, getsetting("charset", "ISO-8859-1")) . "\">");
+rawoutput("<input name='name' value=\"" . htmlentities($name, ENT_COMPAT, settings::getsetting("charset", "ISO-8859-1")) . "\">");
 output::doOutput("`nPoints: ");
-rawoutput("<input name='amt' size='3' value=\"" . htmlentities($amt, ENT_COMPAT, getsetting("charset", "ISO-8859-1")) . "\">");
+rawoutput("<input name='amt' size='3' value=\"" . htmlentities($amt, ENT_COMPAT, settings::getsetting("charset", "ISO-8859-1")) . "\">");
 output::doOutput("`nReason: ");
-rawoutput("<input name='reason' size='30' value=\"" . htmlentities($reason, ENT_COMPAT, getsetting("charset", "ISO-8859-1")) . "\">");
-rawoutput("<input type='hidden' name='txnid' value=\"" . htmlentities($txnid, ENT_COMPAT, getsetting("charset", "ISO-8859-1")) . "\">");
+rawoutput("<input name='reason' size='30' value=\"" . htmlentities($reason, ENT_COMPAT, settings::getsetting("charset", "ISO-8859-1")) . "\">");
+rawoutput("<input type='hidden' name='txnid' value=\"" . htmlentities($txnid, ENT_COMPAT, settings::getsetting("charset", "ISO-8859-1")) . "\">");
 output_notl("`n");
 if ($txnid > "")
    output::doOutput("For transaction: %s`n", $txnid);
