@@ -63,7 +63,7 @@ while ($row = db_fetch_assoc($result)) {
 	if ($session['user']['superuser'] & SU_EDIT_COMMENTS){
 		$del = translator::translate_inline("Del");
 		rawoutput("[ <a href='superuser.php?op=newsdelete&newsid=".$row['newsid']."&return=".URLEncode($_SERVER['REQUEST_URI'])."'>$del</a> ]&nbsp;");
-		addnav("","superuser.php?op=newsdelete&newsid={$row['newsid']}&return=".URLEncode($_SERVER['REQUEST_URI']));
+		output::addnav("","superuser.php?op=newsdelete&newsid={$row['newsid']}&return=".URLEncode($_SERVER['REQUEST_URI']));
 	}
 	translator::tlschema($row['tlschema']);
 	if ($row['arguments']>""){
@@ -87,56 +87,56 @@ if (db_num_rows($result)==0){
 }
 output_notl("`c`2-=-`@=-=`2-=-`@=-=`2-=-`@=-=`2-=-`0`c");
 if (!$session['user']['loggedin']) {
-	addnav("Login Screen", "index.php");
+	output::addnav("Login Screen", "index.php");
 } else if ($session['user']['alive']){
 	villagenav();
 }else{
 	translator::tlschema("nav");
 	if($session['user']['sex'] == 1) {
-		addnav("`!`bYou're dead, Jane!`b`0");
+		output::addnav("`!`bYou're dead, Jane!`b`0");
 	} else {
-		addnav("`!`bYou're dead, Jim!`b`0");
+		output::addnav("`!`bYou're dead, Jim!`b`0");
 	}
-	addnav("S?Land of Shades","shades.php");
-	addnav("G?The Graveyard","graveyard.php");
+	output::addnav("S?Land of Shades","shades.php");
+	output::addnav("G?The Graveyard","graveyard.php");
 	require_once("lib/extended-battle.php");
 	suspend_companions("allowinshades", true);
-	addnav("Log out","login.php?op=logout");
+	output::addnav("Log out","login.php?op=logout");
 	translator::tlschema();
 }
-addnav("News");
-addnav("Previous News","news.php?offset=".($offset+1));
+output::addnav("News");
+output::addnav("Previous News","news.php?offset=".($offset+1));
 if ($offset>0){
-	addnav("Next News","news.php?offset=".($offset-1));
+	output::addnav("Next News","news.php?offset=".($offset-1));
 }
 if ($session['user']['loggedin'])
-	addnav("Preferences","prefs.php");
-addnav("About this game","about.php");
+	output::addnav("Preferences","prefs.php");
+output::addnav("About this game","about.php");
 
 translator::tlschema("nav");
 if ($session['user']['superuser'] & SU_EDIT_COMMENTS){
-	addnav("Superuser");
-	addnav(",?Comment Moderation","moderate.php");
+	output::addnav("Superuser");
+	output::addnav(",?Comment Moderation","moderate.php");
 }
 if ($session['user']['superuser']&~SU_DOESNT_GIVE_GROTTO){
-	addnav("Superuser");
-	addnav("X?Superuser Grotto","superuser.php");
+	output::addnav("Superuser");
+	output::addnav("X?Superuser Grotto","superuser.php");
 }
 if ($session['user']['superuser'] & SU_INFINITE_DAYS){
-	addnav("Superuser");
-	addnav("/?New Day","newday.php");
+	output::addnav("Superuser");
+	output::addnav("/?New Day","newday.php");
 }
 translator::tlschema();
 
-addnav("","news.php");
+output::addnav("","news.php");
 if ($totaltoday>$newsperpage){
-	addnav("Today's news");
+	output::addnav("Today's news");
 	for ($i=0;$i<$totaltoday;$i+=$newsperpage){
 		$pnum = $i/$newsperpage+1;
 		if ($pnum == $page) {
-			addnav(array("`b`#Page %s`0`b", $pnum),"news.php?offset=$offset&page=$pnum");
+			output::addnav(array("`b`#Page %s`0`b", $pnum),"news.php?offset=$offset&page=$pnum");
 		} else {
-			addnav(array("Page %s", $pnum),"news.php?offset=$offset&page=$pnum");
+			output::addnav(array("Page %s", $pnum),"news.php?offset=$offset&page=$pnum");
 		}
 	}
 }

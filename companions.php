@@ -17,8 +17,8 @@ page_header("Companion Editor");
 require_once("lib/superusernav.php");
 superusernav();
 
-addnav("Companion Editor");
-addnav("Add a companion","companions.php?op=add");
+output::addnav("Companion Editor");
+output::addnav("Add a companion","companions.php?op=add");
 
 $op = http::httpget('op');
 $id = http::httpget('id');
@@ -163,23 +163,23 @@ if ($op==""){
 		}
 		rawoutput("<tr class='".($count%2?"trlight":"trdark")."'>");
 		rawoutput("<td nowrap>[ <a href='companions.php?op=edit&id={$row['companionid']}'>$edit</a> |");
-		addnav("","companions.php?op=edit&id={$row['companionid']}");
+		output::addnav("","companions.php?op=edit&id={$row['companionid']}");
 		if ($row['companionactive']){
 			rawoutput("$del |");
 		}else{
 			$mconf = sprintf($conf, $companions[$row['companionid']]);
 			rawoutput("<a href='companions.php?op=del&id={$row['companionid']}'>$del</a> |");
-			addnav("","companions.php?op=del&id={$row['companionid']}");
+			output::addnav("","companions.php?op=del&id={$row['companionid']}");
 		}
 		if ($row['companionactive']) {
 			rawoutput("<a href='companions.php?op=deactivate&id={$row['companionid']}'>$deac</a> | ");
-			addnav("","companions.php?op=deactivate&id={$row['companionid']}");
+			output::addnav("","companions.php?op=deactivate&id={$row['companionid']}");
 		}else{
 			rawoutput("<a href='companions.php?op=activate&id={$row['companionid']}'>$act</a> | ");
-			addnav("","companions.php?op=activate&id={$row['companionid']}");
+			output::addnav("","companions.php?op=activate&id={$row['companionid']}");
 		}
 		rawoutput("<a href='companions.php?op=take&id={$row['companionid']}'>$take</a> ]</td>");
-		addnav("", "companions.php?op=take&id={$row['companionid']}");
+		output::addnav("", "companions.php?op=take&id={$row['companionid']}");
 		rawoutput("<td>");
 		output_notl("`&%s`0", $row['name']);
 		rawoutput("</td><td>");
@@ -191,16 +191,16 @@ if ($op==""){
 	output::doOutput("`nIf you wish to delete a companion, you have to deactivate it first.");
 }elseif ($op=="add"){
 	output::doOutput("Add a companion:`n");
-	addnav("Companion Editor Home","companions.php");
+	output::addnav("Companion Editor Home","companions.php");
 	companionform(array());
 }elseif ($op=="edit"){
-	addnav("Companion Editor Home","companions.php");
+	output::addnav("Companion Editor Home","companions.php");
 	$sql = "SELECT * FROM " . db_prefix("companions") . " WHERE companionid='$id'";
 	$result = db_query_cached($sql, "companiondata-$id", 3600);
 	if (db_num_rows($result)<=0){
 		output::doOutput("`iThis companion was not found.`i");
 	}else{
-		addnav("Companion properties", "companions.php?op=edit&id=$id");
+		output::addnav("Companion properties", "companions.php?op=edit&id=$id");
 		module_editor_navs("prefs-companions", "companions.php?op=edit&subop=module&id=$id&module=");
 		$subop=http::httpget("subop");
 		if ($subop=="module") {
@@ -208,7 +208,7 @@ if ($op==""){
 			rawoutput("<form action='companions.php?op=save&subop=module&id=$id&module=$module' method='POST'>");
 			module_objpref_edit("companions", $module, $id);
 			rawoutput("</form>");
-			addnav("", "companions.php?op=save&subop=module&id=$id&module=$module");
+			output::addnav("", "companions.php?op=save&subop=module&id=$id&module=$module");
 		} else {
 			output::doOutput("Companion Editor:`n");
 			$row = db_fetch_assoc($result);
@@ -254,7 +254,7 @@ function companionform($companion){
 
 	rawoutput("<form action='companions.php?op=save&id={$companion['companionid']}' method='POST'>");
 	rawoutput("<input type='hidden' name='companion[companionactive]' value=\"".$companion['companionactive']."\">");
-	addnav("","companions.php?op=save&id={$companion['companionid']}");
+	output::addnav("","companions.php?op=save&id={$companion['companionid']}");
 	rawoutput("<table width='100%'>");
 	rawoutput("<tr><td nowrap>");
 	output::doOutput("Companion Name:");

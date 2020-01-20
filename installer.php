@@ -129,12 +129,12 @@ switch($stage) {
 
 
 if (!$noinstallnavs){
-	if ($session['user']['loggedin']) addnav("Back to the game",$session['user']['restorepage']);
-	addnav("Install Stages");
+	if ($session['user']['loggedin']) output::addnav("Back to the game",$session['user']['restorepage']);
+	output::addnav("Install Stages");
 
 	for ($x=0; $x<=min(count($stages)-1,$session['stagecompleted']+1); $x++){
 		if ($x == $stage) $stages[$x]="`^{$stages[$x]} <----";
-		addnav($stages[$x],"installer.php?stage=$x");
+		output::addnav($stages[$x],"installer.php?stage=$x");
 	}
 }
 page_footer(false);

@@ -27,7 +27,7 @@ if ($op=="pay"){
 }elseif ($op=="talk"){
 	page_header("In a deep trance, you talk with the shades");
 	commentdisplay("`5While in a deep trance, you are able to talk with the dead:`n", "shade","Project",25,"projects");
-	addnav("Snap out of your trance","gypsy.php");
+	output::addnav("Snap out of your trance","gypsy.php");
 }else{
 	checkday();
 	page_header("Gypsy Seer's tent");
@@ -36,12 +36,12 @@ if ($op=="pay"){
 	output::doOutput("There are also rumors that the gypsy have the power to speak over distances other than just those of the afterlife.");
 	output::doOutput("In typical gypsy style, the old woman sitting behind a somewhat smudgy crystal ball informs you that the dead only speak with the paying.");
 	output::doOutput("\"`!For you, %s, the price is a trifling `^%s`! gold.`5\", she rasps.", translator::translate_inline($session['user']['sex']?"my pretty":"my handsome"), $cost);
-	addnav("Seance");
-	addnav(array("Pay to talk to the dead (%s gold)", $cost),"gypsy.php?op=pay");
+	output::addnav("Seance");
+	output::addnav(array("Pay to talk to the dead (%s gold)", $cost),"gypsy.php?op=pay");
 	if ($session['user']['superuser'] & SU_EDIT_COMMENTS)
-		addnav("Superuser Entry","gypsy.php?op=talk");
-	addnav("Other");
-	addnav("Forget it","village.php");
+		output::addnav("Superuser Entry","gypsy.php?op=talk");
+	output::addnav("Other");
+	output::addnav("Forget it","village.php");
 	modulehook("gypsy");
 }
 page_footer();

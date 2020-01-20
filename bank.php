@@ -49,7 +49,7 @@ if ($op==""){
 		output::doOutput(" (partial names are ok, you will be asked to confirm the transaction before it occurs).`n");
 		rawoutput("<input type='submit' class='button' value='$preview'></form>");
 		rawoutput("<script language='javascript'>document.getElementById('amount').focus();</script>");
-		addnav("","bank.php?op=transfer2");
+		output::addnav("","bank.php?op=transfer2");
 	}else{
 		output::doOutput("`@Elessa`6 tells you that she refuses to transfer money for someone who is in debt.");
 	}
@@ -69,7 +69,7 @@ if ($op==""){
 		rawoutput("<form action='bank.php?op=transfer3' method='POST'>");
 		output::doOutput("`6Transfer `^%s`6 to `&%s`6.",$amt,$row['name']);
 		rawoutput("<input type='hidden' name='to' value='".HTMLEntities($row['login'], ENT_COMPAT, settings::getsetting("charset", "ISO-8859-1"))."'><input type='hidden' name='amount' value='$amt'><input type='submit' class='button' value='$msg'></form>",true);
-		addnav("","bank.php?op=transfer3");
+		output::addnav("","bank.php?op=transfer3");
 	}elseif(db_num_rows($result)>100){
 		output::doOutput("`@Elessa`6 looks at you disdainfully and coldly, but politely, suggests you try narrowing down the field of who you want to send money to just a little bit!`n`n");
 		$msg = translator::translate_inline("Preview Transfer");
@@ -81,7 +81,7 @@ if ($op==""){
 		output::doOutput(" (partial names are ok, you will be asked to confirm the transaction before it occurs).`n");
 		rawoutput("<input type='submit' class='button' value='$msg'></form>");
 		rawoutput("<script language='javascript'>document.getElementById('amount').focus();</script>",true);
-		addnav("","bank.php?op=transfer2");
+		output::addnav("","bank.php?op=transfer2");
 	}elseif(db_num_rows($result)>1){
 		rawoutput("<form action='bank.php?op=transfer3' method='POST'>");
 		output::doOutput("`6Transfer `^%s`6 to ",$amt);
@@ -93,7 +93,7 @@ if ($op==""){
 		}
 		$msg = translator::translate_inline("Complete Transfer");
 		rawoutput("</select><input type='hidden' name='amount' value='$amt'><input type='submit' class='button' value='$msg'></form>",true);
-		addnav("","bank.php?op=transfer3");
+		output::addnav("","bank.php?op=transfer3");
 	}else{
 		output::doOutput("`@Elessa`6 blinks at you from behind her spectacles, \"`@I'm sorry, but I can find no one matching that name who does business with our bank!  Please try again.`6\"");
 	}
@@ -155,7 +155,7 @@ if ($op==""){
 	output::doOutput("`n`iEnter 0 or nothing to deposit it all`i");
 	rawoutput("</form>");
 	rawoutput("<script language='javascript'>document.getElementById('input').focus();</script>",true);
-  addnav("","bank.php?op=depositfinish");
+  output::addnav("","bank.php?op=depositfinish");
 }elseif($op=="depositfinish"){
 	$amount = abs((int)httppost('amount'));
 	if ($amount==0){
@@ -184,7 +184,7 @@ if ($op==""){
 	output::doOutput("`n(Money will be withdrawn until you have none left, the remainder will be borrowed)");
 	rawoutput("</form>");
 	rawoutput("<script language='javascript'>document.getElementById('input').focus();</script>");
-	addnav("","bank.php?op=withdrawfinish");
+	output::addnav("","bank.php?op=withdrawfinish");
 }elseif($op=="withdraw"){
 	$withdraw = translator::translate_inline("Withdraw");
 	$balance = translator::translate_inline("`@Elessa`6 scans through her ledger, \"`@You have a balance of `^%s`@ gold in the bank.`6\"`n");
@@ -196,7 +196,7 @@ if ($op==""){
 	output::doOutput("`n`iEnter 0 or nothing to withdraw it all`i");
 	rawoutput("</form>");
 	rawoutput("<script language='javascript'>document.getElementById('input').focus();</script>");
-	addnav("","bank.php?op=withdrawfinish");
+	output::addnav("","bank.php?op=withdrawfinish");
 }elseif($op=="withdrawfinish"){
 	$amount=abs((int)httppost('amount'));
 	if ($amount==0){
@@ -248,18 +248,18 @@ if ($op==""){
 	}
 }
 villagenav();
-addnav("Money");
+output::addnav("Money");
 if ($session['user']['goldinbank']>=0){
-	addnav("W?Withdraw","bank.php?op=withdraw");
-	addnav("D?Deposit","bank.php?op=deposit");
-	if (settings::getsetting("borrowperlevel",20)) addnav("L?Take out a Loan","bank.php?op=borrow");
+	output::addnav("W?Withdraw","bank.php?op=withdraw");
+	output::addnav("D?Deposit","bank.php?op=deposit");
+	if (settings::getsetting("borrowperlevel",20)) output::addnav("L?Take out a Loan","bank.php?op=borrow");
 }else{
-	addnav("D?Pay off Debt","bank.php?op=deposit");
-	if (settings::getsetting("borrowperlevel",20)) addnav("L?Borrow More","bank.php?op=borrow");
+	output::addnav("D?Pay off Debt","bank.php?op=deposit");
+	if (settings::getsetting("borrowperlevel",20)) output::addnav("L?Borrow More","bank.php?op=borrow");
 }
 if (settings::getsetting("allowgoldtransfer",1)){
 	if ($session['user']['level']>=settings::getsetting("mintransferlev",3) || $session['user']['dragonkills']>0){
-		addnav("M?Transfer Money","bank.php?op=transfer");
+		output::addnav("M?Transfer Money","bank.php?op=transfer");
 	}
 }
 

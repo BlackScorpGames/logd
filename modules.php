@@ -13,9 +13,9 @@ page_header("Module Manager");
 require_once("lib/superusernav.php");
 superusernav();
 
-addnav("Module Categories");
+output::addnav("Module Categories");
 
-addnav("",$REQUEST_URI);
+output::addnav("",$REQUEST_URI);
 $op = http::httpget('op');
 $module = http::httpget('module');
 
@@ -80,10 +80,10 @@ $seencats = $install_status['installedcategories'];
 $ucount = $install_status['uninstcount'];
 
 ksort($seencats);
-addnav(array(" ?Uninstalled - (%s modules)", $ucount), "modules.php");
+output::addnav(array(" ?Uninstalled - (%s modules)", $ucount), "modules.php");
 reset($seencats);
 foreach ($seencats as $cat=>$count) {
-	addnav(array(" ?%s - (%s modules)", $cat, $count), "modules.php?cat=$cat");
+	output::addnav(array(" ?%s - (%s modules)", $cat, $count), "modules.php?cat=$cat");
 }
 
 $cat = http::httpget('cat');
@@ -111,13 +111,13 @@ if ($op==""){
 		$active = translator::translate_inline("`@Active`0");
 		$inactive = translator::translate_inline("`\$Inactive`0");
 		rawoutput("<form action='modules.php?op=mass&cat=$cat' method='POST'>");
-		addnav("","modules.php?op=mass&cat=$cat");
+		output::addnav("","modules.php?op=mass&cat=$cat");
 		rawoutput("<table border='0' cellpadding='2' cellspacing='1' bgcolor='#999999'>",true);
 		rawoutput("<tr class='trhead'><td>&nbsp;</td><td>$ops</td><td><a href='modules.php?cat=$cat&sortby=active&order=".($sortby=="active"?!$order:1)."'>$status</a></td><td><a href='modules.php?cat=$cat&sortby=formalname&order=".($sortby=="formalname"?!$order:1)."'>$mname</a></td><td><a href='modules.php?cat=$cat&sortby=moduleauthor&order=".($sortby=="moduleauthor"?!$order:1)."'>$mauth</a></td><td><a href='modules.php?cat=$cat&sortby=installdate&order=".($sortby=="installdate"?!$order:0)."'>$inon</a></td></tr>");
-		addnav("","modules.php?cat=$cat&sortby=active&order=".($sortby=="active"?!$order:1));
-		addnav("","modules.php?cat=$cat&sortby=formalname&order=".($sortby=="formalname"?!$order:1));
-		addnav("","modules.php?cat=$cat&sortby=moduleauthor&order=".($sortby=="moduleauthor"?!$order:1));
-		addnav("","modules.php?cat=$cat&sortby=installdate&order=".($sortby=="installdate"?$order:0));
+		output::addnav("","modules.php?cat=$cat&sortby=active&order=".($sortby=="active"?!$order:1));
+		output::addnav("","modules.php?cat=$cat&sortby=formalname&order=".($sortby=="formalname"?!$order:1));
+		output::addnav("","modules.php?cat=$cat&sortby=moduleauthor&order=".($sortby=="moduleauthor"?!$order:1));
+		output::addnav("","modules.php?cat=$cat&sortby=installdate&order=".($sortby=="installdate"?$order:0));
 		$sql = "SELECT * FROM " . db_prefix("modules") . " WHERE category='$cat' ORDER BY ".$sortby." ".($order?"ASC":"DESC");
 		$result = db_query($sql);
 		if (db_num_rows($result)==0){
@@ -136,28 +136,28 @@ if ($op==""){
 				rawoutput("<a href='modules.php?op=deactivate&module={$row['modulename']}&cat=$cat'>");
 				output_notl($deactivate);
 				rawoutput("</a>");
-				addnav("","modules.php?op=deactivate&module={$row['modulename']}&cat=$cat");
+				output::addnav("","modules.php?op=deactivate&module={$row['modulename']}&cat=$cat");
 			}else{
 				rawoutput("<a href='modules.php?op=activate&module={$row['modulename']}&cat=$cat'>");
 				output_notl($activate);
 				rawoutput("</a>");
-				addnav("","modules.php?op=activate&module={$row['modulename']}&cat=$cat");
+				output::addnav("","modules.php?op=activate&module={$row['modulename']}&cat=$cat");
 			}
 			rawoutput(" |<a href='modules.php?op=uninstall&module={$row['modulename']}&cat=$cat' onClick='return confirm(\"$uninstallconfirm\");'>");
 			output_notl($uninstall);
 			rawoutput("</a>");
-			addnav("","modules.php?op=uninstall&module={$row['modulename']}&cat=$cat");
+			output::addnav("","modules.php?op=uninstall&module={$row['modulename']}&cat=$cat");
 			rawoutput(" | <a href='modules.php?op=reinstall&module={$row['modulename']}&cat=$cat'>");
 			output_notl($reinstall);
 			rawoutput("</a>");
-			addnav("","modules.php?op=reinstall&module={$row['modulename']}&cat=$cat");
+			output::addnav("","modules.php?op=reinstall&module={$row['modulename']}&cat=$cat");
 
 			if ($session['user']['superuser'] & SU_EDIT_CONFIG) {
 				if (strstr($row['infokeys'], "|settings|")) {
 					rawoutput(" | <a href='configuration.php?op=modulesettings&module={$row['modulename']}'>");
 					output_notl($strsettings);
 					rawoutput("</a>");
-					addnav("","configuration.php?op=modulesettings&module={$row['modulename']}");
+					output::addnav("","configuration.php?op=modulesettings&module={$row['modulename']}");
 				} else {
 					output_notl(" | %s", $strnosettings);
 				}
@@ -203,13 +203,13 @@ if ($op==""){
 		$categ = translator::translate_inline("Category");
 		$fname = translator::translate_inline("Filename");
 		rawoutput("<form action='modules.php?op=mass&cat=$cat' method='POST'>");
-		addnav("","modules.php?op=mass&cat=$cat");
+		output::addnav("","modules.php?op=mass&cat=$cat");
 		rawoutput("<table border='0' cellpadding='2' cellspacing='1' bgcolor='#999999'>",true);
 		rawoutput("<tr class='trhead'><td>&nbsp;</td><td>$ops</td><td><a href='modules.php?sorting=name&order=".($sorting=="name"?!$order:0)."'>$mname</a></td><td><a href='modules.php?sorting=author&order=".($sorting=="author"?!$order:0)."'>$mauth</a></td><td><a href='modules.php?sorting=category&order=".($sorting=="category"?!$order:0)."'>$categ</a></td><td><a href='modules.php?sorting=shortname&order=".($sorting=="shortname"?!$order:0)."'>$fname</a></td></tr>");
-		addnav("","modules.php?sorting=name&order=".($sorting=="name"?!$order:0));
-		addnav("","modules.php?sorting=author&order=".($sorting=="author"?!$order:0));
-		addnav("","modules.php?sorting=category&order=".($sorting=="category"?!$order:0));
-		addnav("","modules.php?sorting=shortname&order=".($sorting=="shortname"?!$order:0));
+		output::addnav("","modules.php?sorting=name&order=".($sorting=="name"?!$order:0));
+		output::addnav("","modules.php?sorting=author&order=".($sorting=="author"?!$order:0));
+		output::addnav("","modules.php?sorting=category&order=".($sorting=="category"?!$order:0));
+		output::addnav("","modules.php?sorting=shortname&order=".($sorting=="shortname"?!$order:0));
 		if (count($uninstmodules) > 0) {
 			$count = 0;
 			$moduleinfo=array();
@@ -258,7 +258,7 @@ if ($op==""){
 					rawoutput("[ <a href='modules.php?op=install&module={$moduleinfo[$i]['shortname']}&cat={$moduleinfo[$i]['category']}'>");
 					output_notl($install);
 					rawoutput("</a>]</td>");
-					addnav("","modules.php?op=install&module={$moduleinfo[$i]['shortname']}&cat={$moduleinfo[$i]['category']}");
+					output::addnav("","modules.php?op=install&module={$moduleinfo[$i]['shortname']}&cat={$moduleinfo[$i]['category']}");
 				}
 			    rawoutput("<td nowrap valign='top'><span title=\"".
 					(isset($moduleinfo[$i]['description'])&&

@@ -81,7 +81,7 @@ function checkday() {
 				$session=$revertsession;
 				$session['user']['restorepage']=$REQUEST_URI;
 				$session['allowednavs']=array();
-				addnav("","newday.php");
+				output::addnav("","newday.php");
 				redirect("newday.php");
 			}
 		}

@@ -19,8 +19,8 @@ function dag_dohook_private($hookname,$args){
 		break;
 	case "inn":
 		if (settings::getsetting("pvp",1)) {
-			addnav("Things to do");
-			addnav("D?Talk to Dag Durnick","runmodule.php?module=dag");
+			output::addnav("Things to do");
+			output::addnav("D?Talk to Dag Durnick","runmodule.php?module=dag");
 		}
 		break;
 	case "delete_character":
@@ -31,10 +31,10 @@ function dag_dohook_private($hookname,$args){
 		break;
 	case "superuser":
 		if ($session['user']['superuser'] & SU_EDIT_USERS) {
-			addnav("Module Configurations");
+			output::addnav("Module Configurations");
 			// Stick the admin=true on so that runmodule will let us run
 			// even if the module is deactivated
-			addnav("Dag's Bounties", "runmodule.php?module=dag&manage=true&admin=true");
+			output::addnav("Dag's Bounties", "runmodule.php?module=dag&manage=true&admin=true");
 		}
 		break;
 	case "newday":

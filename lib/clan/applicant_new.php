@@ -26,40 +26,40 @@
 			if ($clanname!=$ocn || $clanshort!=$ocs){
 				output_notl($e[0],$registrar);
 				clanform();
-				addnav("Return to the Lobby","clan.php");
+				output::addnav("Return to the Lobby","clan.php");
 			}elseif (strlen($clanname)<5 || strlen($clanname)>50){
 				output_notl($e[1],$registrar);
 				clanform();
-				addnav("Return to the Lobby","clan.php");
+				output::addnav("Return to the Lobby","clan.php");
 			}elseif (strlen($clanshort)<2 || strlen($clanshort)>5){
 				output_notl($e[2],$registrar);
 				clanform();
-				addnav("Return to the Lobby","clan.php");
+				output::addnav("Return to the Lobby","clan.php");
 			}elseif (db_num_rows($result)>0){
 				output_notl($e[3],$registrar,stripslashes($clanname));
 				clanform();
-				addnav("Return to the Lobby","clan.php");
+				output::addnav("Return to the Lobby","clan.php");
 			}else{
 				$sql = "SELECT * FROM " . db_prefix("clans") . " WHERE clanshort='$clanshort'";
 				$result = db_query($sql);
 				if (db_num_rows($result)>0){
 					output_notl($e[4],$registrar,stripslashes($clanshort));
 					clanform();
-					addnav("Return to the Lobby","clan.php");
+					output::addnav("Return to the Lobby","clan.php");
 				}else{
 					if ($session['user']['gold']<$gold || $session['user']['gems']<$gems){
 						if ($gold>0 && $gems<=0) output_notl($e[5],$registrar,$gold);
 						elseif ($gems>0 && $gold<=0) output_notl($e[7],$registrar,$gems);
 						else output_notl($e[6],$registrar,$gold,$gems);
 						output_notl($e[8],$registrar);
-						addnav("Return to the Lobby","clan.php");
+						output::addnav("Return to the Lobby","clan.php");
 					}else{
 /*//*/						$args = array("ocn"=>$ocn, "ocs"=>$ocs, "clanname"=>$clanname, "clanshort"=>$clanshort);
 /*//*/						$args = modulehook("process-createclan", $args);
 /*//*/						if (isset($args['blocked']) && $args['blocked']){
 /*//*/							output_notl(translator::sprintf_translate($args['blockmsg']));
 /*//*/							clanform();
-/*//*/							addnav("Return to the Lobby","clan.php");
+/*//*/							output::addnav("Return to the Lobby","clan.php");
 /*//*/						} else {
 							$sql = "INSERT INTO " . db_prefix("clans") . " (clanname,clanshort) VALUES ('$clanname','$clanshort')";
 							db_query($sql);
@@ -72,7 +72,7 @@
 							debuglog("has started a new clan (<$clanshort> $clanname) for $gold gold and $gems gems.");
 							output::doOutput("%s`7 looks over your form, and finding that everything seems to be in order, she takes your fees, stamps the form \"`\$APPROVED`7\" and files it in a drawer.`n`n",$registrar);
 							output::doOutput("Congratulations, you've created a new clan named %s!",stripslashes($clanname));
-							addnav("Enter your clan hall","clan.php");
+							output::addnav("Enter your clan hall","clan.php");
 /*//*/						}
 					}
 				}
@@ -85,7 +85,7 @@
 			output::doOutput("Third you have to decide on whether or not you're willing to give up the fees that are required to start the clan.");
 			output::doOutput("This fee is used to tailor the locks on your clan door to you and your members.`n");
 			output::doOutput("The fees are as follows:`nGold: `^%s`7`nGems: `%%s`7",$gold,$gems);
-			addnav("Return to the Lobby","clan.php");
+			output::addnav("Return to the Lobby","clan.php");
 			$e1 = translator::translate_inline("`n`n\"`5Since you do not have enough gold with you, I cannot allow you to apply for a clan,`7\" she says.");
 			$e2 = translator::translate_inline("`n`n\"`5Since you do not have enough gems with you, I cannot allow you to apply for a clan,`7\" she says.");
 			$e3 = translator::translate_inline("`n`n\"`5If you're ok with these three requirements, please fill out the following form,`7\" she says, handing you a sheet of paper.");

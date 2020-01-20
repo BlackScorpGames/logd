@@ -136,7 +136,7 @@ function pvpdefeat($badguy, $killedloc, $taunt, $options)
 {
 	global $session;
 
-	addnav("Daily news","news.php");
+	output::addnav("Daily news","news.php");
 	$killedin = $badguy['location'];
 	$badguy['acctid']=(int)$badguy['acctid'];
 	$badguy['creaturegold']=(int)$badguy['creaturegold'];

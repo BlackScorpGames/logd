@@ -34,7 +34,7 @@ if ($pay){
 }else{
 	if ($session['user']['boughtroomtoday']){
 		output::doOutput("You already paid for a room for the day.");
-		addnav("Go to room","inn.php?op=room&pay=1");
+		output::addnav("Go to room","inn.php?op=room&pay=1");
 	}else{
 		modulehook("innrooms");
 		output::doOutput("You stroll over to the bartender and request a room.");
@@ -65,9 +65,9 @@ if ($pay){
 		output::doOutput("It is far harder for vagabonds to get you in your room while you sleep.");
 		output::doOutput("Also, those bodyguards sound pretty safe to you.");
 		//output::doOutput("`n`bNote, bodyguard levels not yet implemented`b`n");
-		addnav(array("Give him %s gold", $expense),"inn.php?op=room&pay=1");
+		output::addnav(array("Give him %s gold", $expense),"inn.php?op=room&pay=1");
 		if ($session['user']['goldinbank'] >= $bankexpense) {
-			addnav(array("Pay %s gold from bank", $bankexpense),"inn.php?op=room&pay=2");
+			output::addnav(array("Pay %s gold from bank", $bankexpense),"inn.php?op=room&pay=2");
 		}
 	}
 }

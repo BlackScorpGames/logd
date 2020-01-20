@@ -19,10 +19,10 @@ $editarray=array(
 	"male"=>"Male Title,text|",
 	"female"=>"Female Title,text|",
 );
-addnav("Other");
+output::addnav("Other");
 require_once("lib/superusernav.php");
 superusernav();
-addnav("Functions");
+output::addnav("Functions");
 
 if ($op=="save") {
 	$male = httppost('male');
@@ -84,8 +84,8 @@ if ($op == ""){
 		$id = $row['titleid'];
 		rawoutput("<tr class='".($i%2?"trlight":"trdark")."'>");
 		rawoutput("<td>[<a href='titleedit.php?op=edit&id=$id'>$edit</a>|<a href='titleedit.php?op=delete&id=$id' onClick='return confirm(\"$delconfirm\");'>$del</a>]</td>");
-		addnav("","titleedit.php?op=edit&id=$id");
-		addnav("","titleedit.php?op=delete&id=$id");
+		output::addnav("","titleedit.php?op=edit&id=$id");
+		output::addnav("","titleedit.php?op=delete&id=$id");
 		rawoutput("<td>");
 		output_notl("`&%s`0",$row['dk']);
 		rawoutput("</td><td>");
@@ -100,10 +100,10 @@ if ($op == ""){
 	}
 	rawoutput("</table>");
 	//modulehook("titleedit", array());
-	addnav("Functions");
-	addnav("Add a Title", "titleedit.php?op=add");
-	addnav("Refresh List", "titleedit.php");
-	addnav("Reset Users Titles", "titleedit.php?op=reset");
+	output::addnav("Functions");
+	output::addnav("Add a Title", "titleedit.php?op=add");
+	output::addnav("Refresh List", "titleedit.php");
+	output::addnav("Reset Users Titles", "titleedit.php?op=reset");
 	title_help();
 } elseif ($op=="edit" || $op=="add") {
 	require_once("lib/showform.php");
@@ -116,11 +116,11 @@ if ($op == ""){
 		$id = 0;
 	}
 	rawoutput("<form action='titleedit.php?op=save&id=$id' method='POST'>");
-	addnav("","titleedit.php?op=save&id=$id");
+	output::addnav("","titleedit.php?op=save&id=$id");
 	showform($editarray,$row);
 	rawoutput("</form>");
-	addnav("Functions");
-	addnav("Main Title Editor", "titleedit.php");
+	output::addnav("Functions");
+	output::addnav("Main Title Editor", "titleedit.php");
 	title_help();
 } elseif ($op == "reset") {
 	require_once("lib/titles.php");
@@ -168,7 +168,7 @@ if ($op == ""){
 		}
 	}
 	output::doOutput("`n`n`^Done.`0");
-	addnav("Main Title Editor", "titleedit.php");
+	output::addnav("Main Title Editor", "titleedit.php");
 }
 
 function title_help()

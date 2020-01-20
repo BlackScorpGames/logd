@@ -72,7 +72,7 @@ for($i=0;$i<count($mailfunctions);$i++) {
 			$page = $mailfunctions[$i][0];
 			$name = $mailfunctions[$i][1]; // already translated
 			rawoutput("<td><a href='$page' class='motd'>$name</a></td>");
-			// addnav("", $page);
+			// output::addnav("", $page);
 			// No need for addnav since mail function pages are (or should
 			// be) outside the page nav system.
 		}

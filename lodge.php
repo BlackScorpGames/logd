@@ -22,10 +22,10 @@ $entry = ($session['user']['donation'] > 0) || ($session['user']['superuser'] & 
 if ($pointsavailable < 0) $pointsavailable = 0; // something weird.
 
 page_header("Hunter's Lodge");
-addnav("Referrals", "referral.php");
+output::addnav("Referrals", "referral.php");
 if ($op != "" && $entry)
-	addnav("L?Back to the Lodge", "lodge.php");
-addnav("Describe Points","lodge.php?op=points");
+	output::addnav("L?Back to the Lodge", "lodge.php");
+output::addnav("Describe Points","lodge.php?op=points");
 villagenav();
 
 
@@ -44,7 +44,7 @@ if ($op==""){
 		output::doOutput("As you approach, a large hunting dog at his feet raises her head and looks at you.");
 		output::doOutput("Sensing that you belong, she lays down and goes back to sleep.`n`n");
 		commentdisplay("Nearby some other rugged hunters talk:`n", "hunterlodge","Talk quietly",25);
-		addnav("Use Points");
+		output::addnav("Use Points");
 		modulehook("lodge");
 	}else{
 		$iname = settings::getsetting("innname", LOCATION_INN);

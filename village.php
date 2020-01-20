@@ -159,101 +159,101 @@ if (!$op && $com=="" && !$comment && !$refresh && !$commenting) {
 }
 
 translator::tlschema($schemas['gatenav']);
-addnav($texts['gatenav']);
+output::addnav($texts['gatenav']);
 translator::tlschema();
 
-addnav("F?Forest","forest.php");
+output::addnav("F?Forest","forest.php");
 if (settings::getsetting("pvp",1)){
-	addnav("S?Slay Other Players","pvp.php");
+	output::addnav("S?Slay Other Players","pvp.php");
 }
-addnav("Q?`%Quit`0 to the fields","login.php?op=logout",true);
+output::addnav("Q?`%Quit`0 to the fields","login.php?op=logout",true);
 if (settings::getsetting("enablecompanions",true)) {
 	translator::tlschema($schemas['mercenarycamp']);
-	addnav($texts['mercenarycamp'], "mercenarycamp.php");
+	output::addnav($texts['mercenarycamp'], "mercenarycamp.php");
 	translator::tlschema();
 }
 
 translator::tlschema($schemas['fightnav']);
-addnav($texts['fightnav']);
+output::addnav($texts['fightnav']);
 translator::tlschema();
-addnav("u?Bluspring's Warrior Training","train.php");
+output::addnav("u?Bluspring's Warrior Training","train.php");
 if (@file_exists("lodge.php")) {
-	addnav("J?JCP's Hunter Lodge","lodge.php");
+	output::addnav("J?JCP's Hunter Lodge","lodge.php");
 }
 
 translator::tlschema($schemas['marketnav']);
-addnav($texts['marketnav']);
+output::addnav($texts['marketnav']);
 translator::tlschema();
 translator::tlschema($schemas['weaponshop']);
-addnav("W?".$texts['weaponshop'],"weapons.php");
+output::addnav("W?".$texts['weaponshop'],"weapons.php");
 translator::tlschema();
 translator::tlschema($schemas['armorshop']);
-addnav("A?".$texts['armorshop'],"armor.php");
+output::addnav("A?".$texts['armorshop'],"armor.php");
 translator::tlschema();
-addnav("B?Ye Olde Bank","bank.php");
-addnav("Z?Ze Gypsy Tent","gypsy.php");
+output::addnav("B?Ye Olde Bank","bank.php");
+output::addnav("Z?Ze Gypsy Tent","gypsy.php");
 if (settings::getsetting("betaperplayer", 1) == 1 && @file_exists("pavilion.php")) {
-	addnav("E?Eye-catching Pavilion","pavilion.php");
+	output::addnav("E?Eye-catching Pavilion","pavilion.php");
 }
 
 translator::tlschema($schemas['tavernnav']);
-addnav($texts['tavernnav']);
+output::addnav($texts['tavernnav']);
 translator::tlschema();
 translator::tlschema($schemas['innname']);
-addnav("I?".$texts['innname']."`0","inn.php",true);
+output::addnav("I?".$texts['innname']."`0","inn.php",true);
 translator::tlschema();
 translator::tlschema($schemas['stablename']);
-addnav("M?".$texts['stablename']."`0","stables.php");
+output::addnav("M?".$texts['stablename']."`0","stables.php");
 translator::tlschema();
 
-addnav("G?The Gardens", "gardens.php");
-addnav("R?Curious Looking Rock", "rock.php");
-if (settings::getsetting("allowclans",1)) addnav("C?Clan Halls","clan.php");
+output::addnav("G?The Gardens", "gardens.php");
+output::addnav("R?Curious Looking Rock", "rock.php");
+if (settings::getsetting("allowclans",1)) output::addnav("C?Clan Halls","clan.php");
 
 translator::tlschema($schemas['infonav']);
-addnav($texts['infonav']);
+output::addnav($texts['infonav']);
 translator::tlschema();
-addnav("??F.A.Q. (newbies start here)", "petition.php?op=faq",false,true);
-addnav("N?Daily News","news.php");
-addnav("L?List Warriors","list.php");
-addnav("o?Hall o' Fame","hof.php");
+output::addnav("??F.A.Q. (newbies start here)", "petition.php?op=faq",false,true);
+output::addnav("N?Daily News","news.php");
+output::addnav("L?List Warriors","list.php");
+output::addnav("o?Hall o' Fame","hof.php");
 
 translator::tlschema($schemas['othernav']);
-addnav($texts['othernav']);
+output::addnav($texts['othernav']);
 translator::tlschema();
-addnav("P?Preferences","prefs.php");
+output::addnav("P?Preferences","prefs.php");
 if (!file_exists("lodge.php")) {
-	addnav("Refer a Friend", "referral.php");
+	output::addnav("Refer a Friend", "referral.php");
 }
 
 translator::tlschema('nav');
-addnav("Superuser");
+output::addnav("Superuser");
 if ($session['user']['superuser'] & SU_EDIT_COMMENTS){
-	addnav(",?Comment Moderation","moderate.php");
+	output::addnav(",?Comment Moderation","moderate.php");
 }
 if ($session['user']['superuser']&~SU_DOESNT_GIVE_GROTTO){
-  addnav("X?`bSuperuser Grotto`b","superuser.php");
+  output::addnav("X?`bSuperuser Grotto`b","superuser.php");
 }
 if ($session['user']['superuser'] & SU_INFINITE_DAYS){
-  addnav("/?New Day","newday.php");
+  output::addnav("/?New Day","newday.php");
 }
 translator::tlschema();
 //let users try to cheat, we protect against this and will know if they try.
-addnav("","superuser.php");
-addnav("","user.php");
-addnav("","taunt.php");
-addnav("","creatures.php");
-addnav("","configuration.php");
-addnav("","badword.php");
-addnav("","armoreditor.php");
-addnav("","bios.php");
-addnav("","badword.php");
-addnav("","donators.php");
-addnav("","referers.php");
-addnav("","retitle.php");
-addnav("","stats.php");
-addnav("","viewpetition.php");
-addnav("","weaponeditor.php");
+output::addnav("","superuser.php");
+output::addnav("","user.php");
+output::addnav("","taunt.php");
+output::addnav("","creatures.php");
+output::addnav("","configuration.php");
+output::addnav("","badword.php");
+output::addnav("","armoreditor.php");
+output::addnav("","bios.php");
+output::addnav("","badword.php");
+output::addnav("","donators.php");
+output::addnav("","referers.php");
+output::addnav("","retitle.php");
+output::addnav("","stats.php");
+output::addnav("","viewpetition.php");
+output::addnav("","weaponeditor.php");
 
 if (!$skipvillagedesc) {
 	modulehook("collapse{", array("name"=>"villagedesc-".$session['user']['location']));
@@ -278,7 +278,7 @@ if (!$skipvillagedesc) {
 		if ($session['user']['superuser'] & SU_EDIT_USERS && $id) {
 			$edit = translator::translate_inline("Edit");
 			rawoutput(" [<a href='user.php?op=edit&userid=$id'>$edit</a>]");
-			addnav("","user.php?op=edit&userid=$id");
+			output::addnav("","user.php?op=edit&userid=$id");
 		}
 		output_notl("`n");
 		modulehook("}collapse");

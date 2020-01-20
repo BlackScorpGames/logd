@@ -44,9 +44,9 @@ $comment = httppost('insertcommentary');
 
 require_once("lib/partner.php");
 $partner = get_partner();
-addnav("Other");
+output::addnav("Other");
 villagenav();
-addnav("I?Return to the Inn","inn.php");
+output::addnav("I?Return to the Inn","inn.php");
 
 switch ($op) {
 	case "": case "strolldown": case "fleedragon":

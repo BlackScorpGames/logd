@@ -31,7 +31,7 @@ if ($op=="" && $act!="attack"){
 	translator::tlschema($args['schemas']['atkmsg']);
 	output::doOutput($args['atkmsg'], $session['user']['playerfights']);
 	translator::tlschema();
-	addnav("L?Refresh List of Warriors","pvp.php");
+	output::addnav("L?Refresh List of Warriors","pvp.php");
 	pvplist();
 	villagenav();
 } else if ($act == "attack") {
@@ -55,9 +55,9 @@ if ($op=="" && $act!="attack"){
 
 	if ($failedattack){
 		if (http::httpget('inn') > ""){
-			addnav("Return to Listing","inn.php?op=bartender&act=listupstairs");
+			output::addnav("Return to Listing","inn.php?op=bartender&act=listupstairs");
 		}else{
-			addnav("Return to Listing","pvp.php");
+			output::addnav("Return to Listing","pvp.php");
 		}
 	}
 }
@@ -98,7 +98,7 @@ if ($battle){
 		$op = "";
 		httpset('op', $op);
 		if ($killedin==$iname){
-			addnav("Return to the inn","inn.php");
+			output::addnav("Return to the inn","inn.php");
 		} else {
 			villagenav();
 		}

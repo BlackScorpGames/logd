@@ -7,8 +7,8 @@ if ($act==""){
 	output::doOutput("He then makes a face, spits on the glass and goes back to polishing it.");
 	output::doOutput("\"`%What d'ya want?`0\" he asks gruffly.");
 	addnav_notl(sanitize($barkeep));
-	addnav("Bribe","inn.php?op=bartender&act=bribe");
-	addnav("Drinks");
+	output::addnav("Bribe","inn.php?op=bartender&act=bribe");
+	output::addnav("Drinks");
 	modulehook("ale", array());
 }elseif ($act=="bribe"){
 	$g1 = $session['user']['level']*10;
@@ -19,12 +19,12 @@ if ($act==""){
 		output::doOutput("While you know that you won't always get what you want, sometimes the way to a man's information is through your purse.");
 		output::doOutput("It's also always been said that more is better.`n`n");
 		output::doOutput("How much would you like to offer him?");
-		addnav("1 gem","inn.php?op=bartender&act=bribe&type=gem&amt=1");
-		addnav("2 gems","inn.php?op=bartender&act=bribe&type=gem&amt=2");
-		addnav("3 gems","inn.php?op=bartender&act=bribe&type=gem&amt=3");
-		addnav(array("%s gold", $g1),"inn.php?op=bartender&act=bribe&type=gold&amt=$g1");
-		addnav(array("%s gold", $g2),"inn.php?op=bartender&act=bribe&type=gold&amt=$g2");
-		addnav(array("%s gold", $g3),"inn.php?op=bartender&act=bribe&type=gold&amt=$g3");
+		output::addnav("1 gem","inn.php?op=bartender&act=bribe&type=gem&amt=1");
+		output::addnav("2 gems","inn.php?op=bartender&act=bribe&type=gem&amt=2");
+		output::addnav("3 gems","inn.php?op=bartender&act=bribe&type=gem&amt=3");
+		output::addnav(array("%s gold", $g1),"inn.php?op=bartender&act=bribe&type=gold&amt=$g1");
+		output::addnav(array("%s gold", $g2),"inn.php?op=bartender&act=bribe&type=gold&amt=$g2");
+		output::addnav(array("%s gold", $g3),"inn.php?op=bartender&act=bribe&type=gold&amt=$g3");
 	}else{
 		$amt = http::httpget('amt');
 		if ($type=="gem"){
@@ -53,13 +53,13 @@ if ($act==""){
 		if ($try){
 			if (e_rand(0,100)<$chance){
 				output::doOutput("%s`0 leans over the counter toward you.  \"`%What can I do for you, kid?`0\" he asks.",$barkeep);
-				addnav("What do you want?");
+				output::addnav("What do you want?");
 				if (settings::getsetting("pvp",1)) {
-					addnav("Who's upstairs?","inn.php?op=bartender&act=listupstairs");
+					output::addnav("Who's upstairs?","inn.php?op=bartender&act=listupstairs");
 				}
-				addnav("Tell me about colors","inn.php?op=bartender&act=colors");
+				output::addnav("Tell me about colors","inn.php?op=bartender&act=colors");
 				if (settings::getsetting("allowspecialswitch", true))
-					addnav("Switch specialty","inn.php?op=bartender&act=specialty");
+					output::addnav("Switch specialty","inn.php?op=bartender&act=specialty");
 			}else{
 				output::doOutput("%s`0 begins to wipe down the counter top, an act that really needed doing a long time ago.",$barkeep);
 				if ($type == "gem") {
@@ -72,15 +72,15 @@ if ($act==""){
 					output::doOutput("When he's finished, your gold is gone.");
 				}
 				output::doOutput("You inquire about the loss, and he stares blankly back at you.");
-				addnav(array("B?Talk to %s`0 again",$barkeep),"inn.php?op=bartender");
+				output::addnav(array("B?Talk to %s`0 again",$barkeep),"inn.php?op=bartender");
 			}
 		}else{
 			output::doOutput("`n`n%s`0 stands there staring at you blankly.",$barkeep);
-			addnav(array("B?Talk to %s`0 the Barkeep",$barkeep),"inn.php?op=bartender");
+			output::addnav(array("B?Talk to %s`0 the Barkeep",$barkeep),"inn.php?op=bartender");
 		}
 	}
 }else if ($act=="listupstairs"){
-	addnav("Refresh the list","inn.php?op=bartender&act=listupstairs");
+	output::addnav("Refresh the list","inn.php?op=bartender&act=listupstairs");
 	output::doOutput("%s`0 lays out a set of keys on the counter top, and tells you which key opens whose room.  The choice is yours, you may sneak in and attack any one of them.",$barkeep);
 	pvplist($iname,"pvp.php", "?act=attack&inn=1");
 }else if($act=="colors"){
@@ -102,7 +102,7 @@ if ($act==""){
 	rawoutput("</form>");
 	rawoutput("<script language='javascript'>document.getElementById('input').focus();</script>");
 		output::doOutput("`0`n`nThese colors can be used in your name, and in any conversations you have.");
-	addnav("",$REQUEST_URI);
+	output::addnav("",$REQUEST_URI);
 }else if($act=="specialty"){
 	$specialty = http::httpget('specialty');
 	if ($specialty==""){
@@ -114,7 +114,7 @@ if ($act==""){
 		output::doOutput("`0\"`3What new specialty did you have in mind?`0\"");
 		$specialities = modulehook("specialtynames");
 		foreach($specialities as $key=>$name) {
-			addnav($name,cmd_sanitize($REQUEST_URI)."&specialty=$key");
+			output::addnav($name,cmd_sanitize($REQUEST_URI)."&specialty=$key");
 		}
 	}else{
 		output::doOutput("\"`3Ok then,`0\" %s`0 says, \"`3You're all set.`0\"`n`n\"`2That's it?`0\" you ask him.`n`n",$barkeep);

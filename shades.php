@@ -22,31 +22,31 @@ output::doOutput("`nA sepulchral voice intones, \"`QIt is now %s in the world ab
 modulehook("shades", array());
 commentdisplay("`n`QNearby, some lost souls lament:`n", "shade","Despair",25,"despairs");
 
-addnav("Log out","login.php?op=logout");
-addnav("Places");
-addnav("The Graveyard","graveyard.php");
+output::addnav("Log out","login.php?op=logout");
+output::addnav("Places");
+output::addnav("The Graveyard","graveyard.php");
 
-addnav("Return to the news","news.php");
+output::addnav("Return to the news","news.php");
 
 translator::tlschema("nav");
 
 // the mute module blocks players from speaking until they
 // read the FAQs, and if they first try to speak when dead
 // there is no way for them to unmute themselves without this link.
-addnav("Other");
-addnav("??F.A.Q. (Frequently Asked Questions)", "petition.php?op=faq",false,true);
+output::addnav("Other");
+output::addnav("??F.A.Q. (Frequently Asked Questions)", "petition.php?op=faq",false,true);
 
 if ($session['user']['superuser'] & SU_EDIT_COMMENTS){
-	addnav("Superuser");
-	addnav(",?Comment Moderation","moderate.php");
+	output::addnav("Superuser");
+	output::addnav(",?Comment Moderation","moderate.php");
 }
 if ($session['user']['superuser']&~SU_DOESNT_GIVE_GROTTO){
-	addnav("Superuser");
-  addnav("X?Superuser Grotto","superuser.php");
+	output::addnav("Superuser");
+  output::addnav("X?Superuser Grotto","superuser.php");
 }
 if ($session['user']['superuser'] & SU_INFINITE_DAYS){
-	addnav("Superuser");
-  addnav("/?New Day","newday.php");
+	output::addnav("Superuser");
+  output::addnav("/?New Day","newday.php");
 }
 
 translator::tlschema();

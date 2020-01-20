@@ -15,14 +15,14 @@ page_header("Bad word editor");
 
 require_once("lib/superusernav.php");
 superusernav();
-addnav("Bad Word Editor");
+output::addnav("Bad Word Editor");
 
-addnav("Refresh the list","badword.php");
+output::addnav("Refresh the list","badword.php");
 output::doOutput("`7Here you can edit the words that the game filters.  Using * at the start or end of a word will be a wildcard matching anything else attached to the word.  These words are only filtered if bad word filtering is turned on in the game settings page.`n`n`0");
 
 $test = translator::translate_inline("Test");
 rawoutput("<form action='badword.php?op=test' method='POST'>");
-addnav("","badword.php?op=test");
+output::addnav("","badword.php?op=test");
 output::doOutput("`7Test a word:`0");
 rawoutput("<input name='word'><input type='submit' class='button' value='$test'></form>");
 if ($op=="test"){
@@ -42,11 +42,11 @@ output::doOutput("`7 (bad word exceptions)`0`n");
 $add = translator::translate_inline("Add");
 $remove = translator::translate_inline("Remove");
 rawoutput("<form action='badword.php?op=addgood' method='POST'>");
-addnav("","badword.php?op=addgood");
+output::addnav("","badword.php?op=addgood");
 output::doOutput("`7Add a word:`0");
 rawoutput("<input name='word'><input type='submit' class='button' value='$add'></form>");
 rawoutput("<form action='badword.php?op=removegood' method='POST'>");
-addnav("","badword.php?op=removegood");
+output::addnav("","badword.php?op=removegood");
 output::doOutput("`7Remove a word:`0");
 rawoutput("<input name='word'><input type='submit' class='button' value='$remove'></form>");
 
@@ -103,11 +103,11 @@ rawoutput("</font>");
 output_notl("`n");
 
 rawoutput("<form action='badword.php?op=add' method='POST'>");
-addnav("","badword.php?op=add");
+output::addnav("","badword.php?op=add");
 output::doOutput("`7Add a word:`0");
 rawoutput("<input name='word'><input type='submit' class='button' value='$add'></form>");
 rawoutput("<form action='badword.php?op=remove' method='POST'>");
-addnav("","badword.php?op=remove");
+output::addnav("","badword.php?op=remove");
 output::doOutput("`7Remove a word:`0");
 rawoutput("<input name='word'><input type='submit' class='button' value='$remove'></form>");
 

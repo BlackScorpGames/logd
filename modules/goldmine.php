@@ -124,8 +124,8 @@ function goldmine_runevent($type)
 		output::doOutput("`^As you look around you realize that this is going to be a lot of work.");
 		output::doOutput("So much so in fact that you will lose a forest fight for the day if you attempt it.`n`n");
 		output::doOutput("`^Looking around a bit more, you do notice what looks like evidence of occasional cave-ins in the mine.`n`n");
-		addnav("Mine for gold and gems", $from . "op=mine");
-		addnav("Return to the forest", $from . "op=no");
+		output::addnav("Mine for gold and gems", $from . "op=mine");
+		output::addnav("Return to the forest", $from . "op=no");
 	} elseif ($op == "no") {
 		output::doOutput("`2You decide you don't have time for this slow way to gain gold and gems, and so leave the old mine behind and go on your way...`n");
 		$session['user']['specialinc']="";
@@ -252,7 +252,7 @@ function goldmine_runevent($type)
 					output::doOutput("`^%s gold `&and `%%s %s`& were lost when you were buried!", $goldlost, $gemlost, translator::translate_inline($gemlost == 1?"gem":"gems"));
 					$session['user']['gold'] -= $goldlost;
 					$session['user']['gems'] -= $gemlost;
-					addnav("Daily News","news.php");
+					output::addnav("Daily News","news.php");
 					addnews("%s was completely buried after becoming greedy digging in the mines.",$session['user']['name']);
 				} else {
 					if (isset($horsesave) && $horsesave) {

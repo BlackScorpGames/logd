@@ -50,7 +50,7 @@ function drinks_dohook_private($hookname,$args) {
 				$drinkcost = $row['costperlevel']*$session['user']['level'];
 				// No hotkeys on drinks.  Too easy for them to interfere
 				// with and modify stock navs randomly.
-				addnav(array(" ?%s  (`^%s`0 gold)", $row['name'], $drinkcost),
+				output::addnav(array(" ?%s  (`^%s`0 gold)", $row['name'], $drinkcost),
 						"runmodule.php?module=drinks&act=buy&id={$row['drinkid']}");
 			}
 		}
@@ -101,10 +101,10 @@ function drinks_dohook_private($hookname,$args) {
 		break;
 	case "superuser":
 		if (($session['user']['superuser'] & SU_EDIT_USERS) || get_module_pref("canedit")) {
-			addnav("Module Configurations");
+			output::addnav("Module Configurations");
 			// Stick the admin=true on so that when we call runmodule it'll
 			// work to let us edit drinks even when the module is deactivated.
-			addnav("Drinks Editor","runmodule.php?module=drinks&act=editor&admin=true");
+			output::addnav("Drinks Editor","runmodule.php?module=drinks&act=editor&admin=true");
 		}
 		break;
 	}//end select

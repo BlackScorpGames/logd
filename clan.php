@@ -13,10 +13,10 @@ require_once("lib/villagenav.php");
 translator::tlschema("clans");
 
 
-addnav("Village");
+output::addnav("Village");
 villagenav();
-addnav("Clan Options");
-addnav("C?List Clans","clan.php?op=list");
+output::addnav("Clan Options");
+output::addnav("C?List Clans","clan.php?op=list");
 addcommentary();
 $gold = settings::getsetting("goldtostartclan",10000);
 $gems = settings::getsetting("gemstostartclan",15);
@@ -47,7 +47,7 @@ page_footer();
 
 function clanform(){
 	rawoutput("<form action='clan.php?op=new&apply=1' method='POST'>");
-	addnav("","clan.php?op=new&apply=1");
+	output::addnav("","clan.php?op=new&apply=1");
 	output::doOutput("`b`cNew Clan Application Form`c`b");
 	output::doOutput("Clan Name: ");
 	rawoutput("<input name='clanname' maxlength='50' value=\"".htmlentities(stripslashes(httppost('clanname')), ENT_COMPAT, settings::getsetting("charset", "ISO-8859-1"))."\">");

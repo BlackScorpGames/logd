@@ -33,7 +33,7 @@ if ($session['user']['loggedin'] && $session['loggedin']){
 			output::doOutput("Your navs are corrupted, please return to %s.",
 					$session['user']['location']);
 		} else {
-			addnav("Return to Shades", "shades.php");
+			output::addnav("Return to Shades", "shades.php");
 			output::doOutput("Your navs are corrupted, please return to the Shades.");
 		}
 		page_footer();

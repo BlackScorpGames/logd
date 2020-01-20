@@ -3,7 +3,7 @@ $setspecialty=http::httpget('setspecialty');
 if ($setspecialty != "") {
 	$session['user']['specialty']=$setspecialty;
 	modulehook("set-specialty");
-	addnav("Continue","newday.php?continue=1$resline");
+	output::addnav("Continue","newday.php?continue=1$resline");
 } else {
 	page_header("A little history about yourself");
 	output::doOutput("What do you recall doing as a child?`n`n");
@@ -21,7 +21,7 @@ if (navcount() == 0) {
 		output::doOutput("You might want to ask your admin to install some specialties, as they are quite fun (and helpful).");
 	}
 	$session['user']['specialty'] = "MP";
-	addnav("Continue","newday.php?continue=1$resline");
+	output::addnav("Continue","newday.php?continue=1$resline");
 	page_footer();
 }else{
 	page_footer();

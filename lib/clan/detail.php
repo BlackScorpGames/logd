@@ -29,7 +29,7 @@
 	if ($session['user']['superuser'] & SU_EDIT_COMMENTS){
 		rawoutput("<div id='hidearea'>");
 		rawoutput("<form action='clan.php?detail=$detail' method='POST'>");
-		addnav("","clan.php?detail=$detail");
+		output::addnav("","clan.php?detail=$detail");
 		output::doOutput("Superuser / Moderator renaming:`n");
 		output::doOutput("Long Name: ");
 		rawoutput("<input name='clanname' value=\"".htmlentities($row1['clanname'], ENT_COMPAT, settings::getsetting("charset", "ISO-8859-1"))."\" maxlength=50 size=50>");
@@ -56,7 +56,7 @@
 	if ( nltoappon($row1['clandesc']) != "" ) output ("`n`n");
 	output::doOutput("`0This is the current clan membership of %s < %s >:`n",$row1['clanname'],$row1['clanshort']);
 	page_header("Clan Membership for %s &lt;%s&gt;", full_sanitize($row1['clanname']), full_sanitize($row1['clanshort']));
-	addnav("Clan Options");
+	output::addnav("Clan Options");
 	$rank = translator::translate_inline("Rank");
 	$name = translator::translate_inline("Name");
 	$dk = translator::translate_inline("Dragon Kills");
@@ -81,7 +81,7 @@
 		rawoutput("</td><td>");
 		$link = "bio.php?char=".$row['acctid']."&ret=".urlencode($_SERVER['REQUEST_URI']);
 		rawoutput("<a href='$link'>");
-		addnav("", $link);
+		output::addnav("", $link);
 		output_notl("`&%s`0", $row['name']);
 		rawoutput("</a>");
 		rawoutput("</td><td align='center'>");

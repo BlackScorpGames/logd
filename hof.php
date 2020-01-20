@@ -18,7 +18,7 @@ $standardwhere = "(locked=0 AND (superuser & $superusermask) = 0)";
 page_header("Hall of Fame");
 checkday();
 
-addnav("Other");
+output::addnav("Other");
 villagenav();
 $playersperpage = 50;
 
@@ -47,27 +47,27 @@ $from = $pageoffset+1;
 $to = min($pageoffset+$playersperpage, $totalplayers);
 $limit = "$pageoffset,$playersperpage";
 
-addnav("Warrior Rankings");
-addnav("Dragon Kills", "hof.php?op=kills&subop=$subop&page=1");
-addnav("Gold", "hof.php?op=money&subop=$subop&page=1");
-addnav("Gems", "hof.php?op=gems&subop=$subop&page=1");
-addnav("Charm", "hof.php?op=charm&subop=$subop&page=1");
-addnav("Toughness", "hof.php?op=tough&subop=$subop&page=1");
-addnav("Resurrections", "hof.php?op=resurrects&subop=$subop&page=1");
-addnav("Dragon Kill Speed", "hof.php?op=days&subop=$subop&page=1");
-addnav("Sorting");
-addnav("Best", "hof.php?op=$op&subop=most&page=$page");
-addnav("Worst", "hof.php?op=$op&subop=least&page=$page");
+output::addnav("Warrior Rankings");
+output::addnav("Dragon Kills", "hof.php?op=kills&subop=$subop&page=1");
+output::addnav("Gold", "hof.php?op=money&subop=$subop&page=1");
+output::addnav("Gems", "hof.php?op=gems&subop=$subop&page=1");
+output::addnav("Charm", "hof.php?op=charm&subop=$subop&page=1");
+output::addnav("Toughness", "hof.php?op=tough&subop=$subop&page=1");
+output::addnav("Resurrections", "hof.php?op=resurrects&subop=$subop&page=1");
+output::addnav("Dragon Kill Speed", "hof.php?op=days&subop=$subop&page=1");
+output::addnav("Sorting");
+output::addnav("Best", "hof.php?op=$op&subop=most&page=$page");
+output::addnav("Worst", "hof.php?op=$op&subop=least&page=$page");
 if ($totalplayers > $playersperpage) {
-	addnav("Pages");
+	output::addnav("Pages");
 	for($i = 0; $i < $totalplayers; $i+= $playersperpage) {
 		$pnum = ($i/$playersperpage+1);
 		$min = ($i+1);
 		$max = min($i+$playersperpage,$totalplayers);
 		if ($page == $pnum) {
-			addnav(array("`b`#Page %s`0 (%s-%s)`b", $pnum, $min, $max), "hof.php?op=$op&subop=$subop&page=$pnum");
+			output::addnav(array("`b`#Page %s`0 (%s-%s)`b", $pnum, $min, $max), "hof.php?op=$op&subop=$subop&page=$pnum");
 		} else {
-			addnav(array("Page %s (%s-%s)", $pnum, $min, $max), "hof.php?op=$op&subop=$subop&page=$pnum");
+			output::addnav(array("Page %s (%s-%s)", $pnum, $min, $max), "hof.php?op=$op&subop=$subop&page=$pnum");
 		}
 	}
 }

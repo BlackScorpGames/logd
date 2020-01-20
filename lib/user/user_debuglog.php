@@ -1,7 +1,7 @@
 <?php
 if ($petition !=""){
-	addnav("Navigation");
-	addnav("Return to the petition","viewpetition.php?op=view&id=$petition");
+	output::addnav("Navigation");
+	output::addnav("Return to the petition","viewpetition.php?op=view&id=$petition");
 }
 $debuglog = db_prefix('debuglog');
 $accounts = db_prefix('accounts');
@@ -43,15 +43,15 @@ $sql = "(
 
 $next = $start+500;
 $prev = $start-500;
-addnav("Operations");
-addnav("Edit user info","user.php?op=edit&userid=$userid$returnpetition");
-addnav("Refresh", "user.php?op=debuglog&userid=$userid&start=$start$returnpetition");
-addnav("Debug Log");
+output::addnav("Operations");
+output::addnav("Edit user info","user.php?op=edit&userid=$userid$returnpetition");
+output::addnav("Refresh", "user.php?op=debuglog&userid=$userid&start=$start$returnpetition");
+output::addnav("Debug Log");
 if ($next < $max) {
-	addnav("Next page","user.php?op=debuglog&userid=$userid&start=$next$returnpetition");
+	output::addnav("Next page","user.php?op=debuglog&userid=$userid&start=$next$returnpetition");
 }
 if ($start > 0) {
-	addnav("Previous page",
+	output::addnav("Previous page",
 			"user.php?op=debuglog&userid=$userid&start=$prev$returnpetition");
 }
 $result = db_query($sql);

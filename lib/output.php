@@ -76,6 +76,36 @@ function output_notl($indata){
 }
 
 class output{
+    public static function addnav($text,$link=false,$priv=false,$pop=false,$popsize="500x300"){
+        global $navsection,$navbysection,$translation_namespace,$navschema;
+        global $block_new_navs;
+
+        if ($block_new_navs) return;
+
+        if ($link===false) {
+            // Don't do anything if text is ""
+            if ($text != "") {
+                addnavheader($text);
+            }
+        }else{
+            $args = func_get_args();
+            if ($text==""){
+                //if there's no text to display, may as well just stick this on
+                //the nav stack now.
+                call_user_func_array("private_addnav",$args);
+            }else{
+                if (!isset($navbysection[$navsection]))
+                    $navbysection[$navsection] = array();
+                $t = $args[0];
+                if (is_array($t)) {
+                    $t = $t[0];
+                }
+                if (!array_key_exists($t,$navschema))
+                    $navschema[$t] = $translation_namespace;
+                array_push($navbysection[$navsection],array_merge($args,array("translate"=>false)));
+            }
+        }
+    }
 /**
  * Outputs a translated, color/style encoded string to the browser.
  *
@@ -485,36 +515,7 @@ function addnav_notl($text,$link=false,$priv=false,$pop=false,$popsize="500x300"
 		}
 	}
 }
-function addnav($text,$link=false,$priv=false,$pop=false,$popsize="500x300"){
-	global $navsection,$navbysection,$translation_namespace,$navschema;
-	global $block_new_navs;
 
-	if ($block_new_navs) return;
-
-	if ($link===false) {
-		// Don't do anything if text is ""
-		if ($text != "") {
-			addnavheader($text);
-		}
-	}else{
-		$args = func_get_args();
-		if ($text==""){
-			//if there's no text to display, may as well just stick this on
-			//the nav stack now.
-			call_user_func_array("private_addnav",$args);
-		}else{
-			if (!isset($navbysection[$navsection]))
-				$navbysection[$navsection] = array();
-			$t = $args[0];
-			if (is_array($t)) {
-				$t = $t[0];
-			}
-			if (!array_key_exists($t,$navschema))
-				$navschema[$t] = $translation_namespace;
-			array_push($navbysection[$navsection],array_merge($args,array("translate"=>false)));
-		}
-	}
-}
 /**
  * Determine if a nav/URL is blocked
  *

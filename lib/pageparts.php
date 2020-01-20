@@ -334,11 +334,11 @@ function page_footer($saveuser=true){
 		db_free_result($result);
 		if ($session['user']['superuser'] & SU_EDIT_USERS){
 			$p = "<a href='user.php'>$ued</a>|<a href='viewpetition.php'>$pet</a>";
-			addnav("", "user.php");
-			addnav("", "viewpetition.php");
+			output::addnav("", "user.php");
+			output::addnav("", "viewpetition.php");
 		} else {
 			$p = "<a href='viewpetition.php'>$pet</a>";
-			addnav("", "viewpetition.php");
+			output::addnav("", "viewpetition.php");
 		}
 		$p .= " `\${$petitions[5]}`0|`^{$petitions[4]}`0|`b{$petitions[0]}`b|{$petitions[1]}|`!{$petitions[3]}`0|`#{$petitions[7]}`0|`%{$petitions[6]}`0|`i{$petitions[2]}`i";
 		$pcount = templatereplace("petitioncount", array("petitioncount"=>appoencode($p, true)));

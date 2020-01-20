@@ -33,12 +33,12 @@ if ($target = db_fetch_assoc($result)) {
   page_header("Character Biography: %s", full_sanitize($target['name']));
 
   translator::tlschema("nav");
-  addnav("Return");
+  output::addnav("Return");
   translator::tlschema();
 
   if ($session['user']['superuser'] & SU_EDIT_USERS){
-	  addnav("Superuser");
-	  addnav("Edit User","user.php?op=edit&userid=$id");
+	  output::addnav("Superuser");
+	  output::addnav("Edit User","user.php?op=edit&userid=$id");
   }
 
   modulehook("biotop", $target);
@@ -142,17 +142,17 @@ if ($target = db_fetch_assoc($result)) {
   if ($ret==""){
 	  $return = substr($return,strrpos($return,"/")+1);
 	  translator::tlschema("nav");
-	  addnav("Return");
-	  addnav("Return to the warrior list",$return);
+	  output::addnav("Return");
+	  output::addnav("Return to the warrior list",$return);
 	  translator::tlschema();
   }else{
 	  $return = substr($return,strrpos($return,"/")+1);
 	  translator::tlschema("nav");
-	  addnav("Return");
+	  output::addnav("Return");
 	  if ($return=="list.php") {
-		  addnav("Return to the warrior list",$return);
+		  output::addnav("Return to the warrior list",$return);
 	  } else {
-		  addnav("Return whence you came",$return);
+		  output::addnav("Return whence you came",$return);
 	  }
 	  translator::tlschema();
   }
@@ -165,17 +165,17 @@ if ($target = db_fetch_assoc($result)) {
   if ($ret==""){
 	  $return = substr($return,strrpos($return,"/")+1);
 	  translator::tlschema("nav");
-	  addnav("Return");
-	  addnav("Return to the warrior list",$return);
+	  output::addnav("Return");
+	  output::addnav("Return to the warrior list",$return);
 	  translator::tlschema();
   }else{
 	  $return = substr($return,strrpos($return,"/")+1);
 	  translator::tlschema("nav");
-	  addnav("Return");
+	  output::addnav("Return");
 	  if ($return=="list.php") {
-		  addnav("Return to the warrior list",$return);
+		  output::addnav("Return to the warrior list",$return);
 	  } else {
-		  addnav("Return whence you came",$return);
+		  output::addnav("Return whence you came",$return);
 	  }
 	  translator::tlschema();
   }

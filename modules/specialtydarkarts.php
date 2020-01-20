@@ -81,11 +81,11 @@ function specialtydarkarts_dohook($hookname,$args){
 	case "choose-specialty":
 		if ($session['user']['specialty'] == "" ||
 				$session['user']['specialty'] == '0') {
-			addnav("$ccode$name`0","newday.php?setspecialty=$spec$resline");
+			output::addnav("$ccode$name`0","newday.php?setspecialty=$spec$resline");
 			$t1 = translator::translate_inline("Killing a lot of woodland creatures");
 			$t2 = appoencode(translator::translate_inline("$ccode$name`0"));
 			rawoutput("<a href='newday.php?setspecialty=$spec$resline'>$t1 ($t2)</a><br>");
-			addnav("","newday.php?setspecialty=$spec$resline");
+			output::addnav("","newday.php?setspecialty=$spec$resline");
 		}
 		break;
 	case "set-specialty":
@@ -145,20 +145,20 @@ function specialtydarkarts_dohook($hookname,$args){
 		$uses = get_module_pref("uses");
 		$script = $args['script'];
 		if ($uses > 0) {
-			addnav(array("$ccode$name (%s points)`0", $uses),"");
-			addnav(array("$ccode &#149; Skeleton Crew`7 (%s)`0", 1),
+			output::addnav(array("$ccode$name (%s points)`0", $uses),"");
+			output::addnav(array("$ccode &#149; Skeleton Crew`7 (%s)`0", 1),
 					$script."op=fight&skill=$spec&l=1", true);
 		}
 		if ($uses > 1) {
-			addnav(array("$ccode &#149; Voodoo`7 (%s)`0", 2),
+			output::addnav(array("$ccode &#149; Voodoo`7 (%s)`0", 2),
 					$script."op=fight&skill=$spec&l=2",true);
 		}
 		if ($uses > 2) {
-			addnav(array("$ccode &#149; Curse Spirit`7 (%s)`0", 3),
+			output::addnav(array("$ccode &#149; Curse Spirit`7 (%s)`0", 3),
 					$script."op=fight&skill=$spec&l=3",true);
 		}
 		if ($uses > 4) {
-			addnav(array("$ccode &#149; Wither Soul`7 (%s)`0", 5),
+			output::addnav(array("$ccode &#149; Wither Soul`7 (%s)`0", 5),
 					$script."op=fight&skill=$spec&l=5",true);
 		}
 		break;

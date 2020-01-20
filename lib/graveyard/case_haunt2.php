@@ -12,7 +12,7 @@ if (db_num_rows($result)<=0){
 	output::doOutput("`\$%s`) thinks you should narrow down the number of people you wish to haunt.",$deathoverlord);
 	$search = translator::translate_inline("Search");
 	rawoutput("<form action='graveyard.php?op=haunt2' method='POST'>");
-	addnav("","graveyard.php?op=haunt2");
+	output::addnav("","graveyard.php?op=haunt2");
 	output::doOutput("Who would you like to haunt? ");
 	rawoutput("<input name='name' id='name'>");
 	rawoutput("<input type='submit' class='button' value='$search'>");
@@ -31,15 +31,15 @@ if (db_num_rows($result)<=0){
 		rawoutput("</a></td><td>");
 		output_notl("%s", $row['level']);
 		rawoutput("</td></tr>",true);
-		addnav("","graveyard.php?op=haunt3&name=".HTMLEntities($row['login'], ENT_COMPAT, settings::getsetting("charset", "ISO-8859-1")));
+		output::addnav("","graveyard.php?op=haunt3&name=".HTMLEntities($row['login'], ENT_COMPAT, settings::getsetting("charset", "ISO-8859-1")));
 	}
 	rawoutput("</table>",true);
 }
-addnav(array("Question `\$%s`0 about the worth of your soul",$deathoverlord),"graveyard.php?op=question");
+output::addnav(array("Question `\$%s`0 about the worth of your soul",$deathoverlord),"graveyard.php?op=question");
 $max = $session['user']['level'] * 5 + 50;
 $favortoheal = round(10 * ($max-$session['user']['soulpoints'])/$max);
-addnav(array("Restore Your Soul (%s favor)",$favortoheal),"graveyard.php?op=restore");
-addnav("Places");
-addnav("S?Land of the Shades","shades.php");
-addnav("G?The Graveyard","graveyard.php");
-addnav("M?Return to the Mausoleum","graveyard.php?op=enter");
+output::addnav(array("Restore Your Soul (%s favor)",$favortoheal),"graveyard.php?op=restore");
+output::addnav("Places");
+output::addnav("S?Land of the Shades","shades.php");
+output::addnav("G?The Graveyard","graveyard.php");
+output::addnav("M?Return to the Mausoleum","graveyard.php?op=enter");

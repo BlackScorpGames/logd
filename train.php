@@ -57,10 +57,10 @@ if (db_num_rows($result) > 0 && $session['user']['level'] <= 14){
 		output::doOutput("The sound of conflict surrounds you.  The clang of weapons in grisly battle inspires your warrior heart. ");
 		output::doOutput("`n`n`^%s stands ready to evaluate you.`0",
 				$master['creaturename']);
-		addnav("Question Master","train.php?op=question&master=$mid");
-		addnav("M?Challenge Master","train.php?op=challenge&master=$mid");
+		output::addnav("Question Master","train.php?op=question&master=$mid");
+		output::addnav("M?Challenge Master","train.php?op=challenge&master=$mid");
 		if ($session['user']['superuser'] & SU_DEVELOPER) {
-			addnav("Superuser Gain level","train.php?op=challenge&victory=1&master=$mid");
+			output::addnav("Superuser Gain level","train.php?op=challenge&victory=1&master=$mid");
 		}
 		villagenav();
 	}else if($op=="challenge"){
@@ -132,14 +132,14 @@ if (db_num_rows($result) > 0 && $session['user']['level'] <= 14){
 		}else{
 			output::doOutput("`n`n`^%s`0 states that you will need `%%s`0 more experience before you are ready to challenge him in battle.",$master['creaturename'],($exprequired-$session['user']['experience']));
 		}
-		addnav("Question Master","train.php?op=question&master=$mid");
-		addnav("M?Challenge Master","train.php?op=challenge&master=$mid");
+		output::addnav("Question Master","train.php?op=question&master=$mid");
+		output::addnav("M?Challenge Master","train.php?op=challenge&master=$mid");
 		if ($session['user']['superuser'] & SU_DEVELOPER) {
-			addnav("Superuser Gain level","train.php?op=challenge&victory=1&master=$mid");
+			output::addnav("Superuser Gain level","train.php?op=challenge&victory=1&master=$mid");
 		}
 		villagenav();
 	}else if($op=="autochallenge"){
-		addnav("Fight Your Master","train.php?op=challenge&master=$mid");
+		output::addnav("Fight Your Master","train.php?op=challenge&master=$mid");
 		output::doOutput("`^%s`0 has heard of your prowess as a warrior, and heard of rumors that you think you are so much more powerful than he that you don't even need to fight him to prove anything. ",$master['creaturename']);
 		output::doOutput("His ego is understandably bruised, and so he has come to find you.");
 		output::doOutput("`^%s`0 demands an immediate battle from you, and your own pride prevents you from refusing the demand.",$master['creaturename']);
@@ -220,10 +220,10 @@ if (db_num_rows($result) > 0 && $session['user']['level'] <= 14){
 
 			invalidatedatacache("list.php-warsonline");
 
-			addnav("Question Master","train.php?op=question");
-			addnav("M?Challenge Master","train.php?op=challenge");
+			output::addnav("Question Master","train.php?op=question");
+			output::addnav("M?Challenge Master","train.php?op=challenge");
 			if ($session['user']['superuser'] & SU_DEVELOPER) {
-				addnav("Superuser Gain level","train.php?op=challenge&victory=1");
+				output::addnav("Superuser Gain level","train.php?op=challenge&victory=1");
 			}
 			villagenav();
 			if ($session['user']['age'] == 1) {
@@ -245,10 +245,10 @@ if (db_num_rows($result) > 0 && $session['user']['level'] <= 14){
 			output_notl("`^`b");
 			output::doOutput($badguy['creaturewin']);
 			output_notl("`b`0`n");
-			addnav("Question Master","train.php?op=question&master=$mid");
-			addnav("M?Challenge Master","train.php?op=challenge&master=$mid");
+			output::addnav("Question Master","train.php?op=question&master=$mid");
+			output::addnav("M?Challenge Master","train.php?op=challenge&master=$mid");
 			if ($session['user']['superuser'] & SU_DEVELOPER) {
-				addnav("Superuser Gain level","train.php?op=challenge&victory=1&master=$mid");
+				output::addnav("Superuser Gain level","train.php?op=challenge&victory=1&master=$mid");
 			}
 			villagenav();
 			modulehook("training-defeat", $badguy);

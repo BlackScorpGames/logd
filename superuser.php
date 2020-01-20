@@ -39,47 +39,47 @@ if ($session['user']['sex']){
 	output::doOutput("Inside you are greeted by the sight of numerous scantily clad buxom women who wave palm fronds at you and offer to feed you grapes as you lounge on Greco-Roman couches draped with silk.`n`n");
 }
 commentdisplay("", "superuser","Engage in idle conversation with other gods:",25);
-addnav("Actions");
-if ($session['user']['superuser'] & SU_EDIT_PETITIONS) addnav("Petition Viewer","viewpetition.php");
-if ($session['user']['superuser'] & SU_EDIT_COMMENTS) addnav("C?Recent Commentary","moderate.php");
-if ($session['user']['superuser'] & SU_EDIT_COMMENTS) addnav("B?Player Bios","bios.php");
-if ($session['user']['superuser'] & SU_EDIT_DONATIONS) addnav("Donator Page","donators.php");
+output::addnav("Actions");
+if ($session['user']['superuser'] & SU_EDIT_PETITIONS) output::addnav("Petition Viewer","viewpetition.php");
+if ($session['user']['superuser'] & SU_EDIT_COMMENTS) output::addnav("C?Recent Commentary","moderate.php");
+if ($session['user']['superuser'] & SU_EDIT_COMMENTS) output::addnav("B?Player Bios","bios.php");
+if ($session['user']['superuser'] & SU_EDIT_DONATIONS) output::addnav("Donator Page","donators.php");
 if (file_exists("paylog.php")  &&
 		($session['user']['superuser'] & SU_EDIT_PAYLOG)) {
-	addnav("Payment Log","paylog.php");
+	output::addnav("Payment Log","paylog.php");
 }
-if ($session['user']['superuser'] & SU_RAW_SQL) addnav("Q?Run Raw SQL", "rawsql.php");
-if ($session['user']['superuser'] & SU_IS_TRANSLATOR) addnav("U?Untranslated Texts", "untranslated.php");
+if ($session['user']['superuser'] & SU_RAW_SQL) output::addnav("Q?Run Raw SQL", "rawsql.php");
+if ($session['user']['superuser'] & SU_IS_TRANSLATOR) output::addnav("U?Untranslated Texts", "untranslated.php");
 
-addnav("Editors");
-if ($session['user']['superuser']) addnav("Untranslated Editor","untranslated_data.php");
-if ($session['user']['superuser']) addnav("Translated Editor","translated_data.php");
-if ($session['user']['superuser'] & SU_EDIT_USERS) addnav("User Editor","user.php");
-if ($session['user']['superuser'] & SU_EDIT_USERS) addnav("Title Editor","titleedit.php");
-if ($session['user']['superuser'] & SU_EDIT_CREATURES) addnav("E?Creature Editor","creatures.php");
-if ($session['user']['superuser'] & SU_EDIT_MOUNTS) addnav("Mount Editor","mounts.php");
-if ($session['user']['superuser'] & SU_EDIT_MOUNTS) addnav("Companion Editor","companions.php");
-if ($session['user']['superuser'] & SU_EDIT_CREATURES) addnav("Taunt Editor","taunt.php");
-if ($session['user']['superuser'] & SU_EDIT_CREATURES) addnav("Master Editor","masters.php");
+output::addnav("Editors");
+if ($session['user']['superuser']) output::addnav("Untranslated Editor","untranslated_data.php");
+if ($session['user']['superuser']) output::addnav("Translated Editor","translated_data.php");
+if ($session['user']['superuser'] & SU_EDIT_USERS) output::addnav("User Editor","user.php");
+if ($session['user']['superuser'] & SU_EDIT_USERS) output::addnav("Title Editor","titleedit.php");
+if ($session['user']['superuser'] & SU_EDIT_CREATURES) output::addnav("E?Creature Editor","creatures.php");
+if ($session['user']['superuser'] & SU_EDIT_MOUNTS) output::addnav("Mount Editor","mounts.php");
+if ($session['user']['superuser'] & SU_EDIT_MOUNTS) output::addnav("Companion Editor","companions.php");
+if ($session['user']['superuser'] & SU_EDIT_CREATURES) output::addnav("Taunt Editor","taunt.php");
+if ($session['user']['superuser'] & SU_EDIT_CREATURES) output::addnav("Master Editor","masters.php");
 if (file_exists("looteditor.php") &&
 		$session['user']['superuser'] & SU_EDIT_ITEMS) {
-	addnav("Loot Editor","looteditor.php");
+	output::addnav("Loot Editor","looteditor.php");
 }
-if ($session['user']['superuser'] & SU_EDIT_EQUIPMENT) addnav("Weapon Editor","weaponeditor.php");
-if ($session['user']['superuser'] & SU_EDIT_EQUIPMENT) addnav("Armor Editor","armoreditor.php");
-if ($session['user']['superuser'] & SU_EDIT_COMMENTS) addnav("Nasty Word Editor","badword.php");
-if ($session['user']['superuser'] & SU_MANAGE_MODULES) addnav("Manage Modules","modules.php");
+if ($session['user']['superuser'] & SU_EDIT_EQUIPMENT) output::addnav("Weapon Editor","weaponeditor.php");
+if ($session['user']['superuser'] & SU_EDIT_EQUIPMENT) output::addnav("Armor Editor","armoreditor.php");
+if ($session['user']['superuser'] & SU_EDIT_COMMENTS) output::addnav("Nasty Word Editor","badword.php");
+if ($session['user']['superuser'] & SU_MANAGE_MODULES) output::addnav("Manage Modules","modules.php");
 
-if ($session['user']['superuser'] & SU_EDIT_CONFIG) addnav("Mechanics");
-if ($session['user']['superuser'] & SU_EDIT_CONFIG) addnav("Game Settings","configuration.php");
-if ($session['user']['superuser'] & SU_EDIT_CONFIG) addnav("Referring URLs","referers.php");
-if ($session['user']['superuser'] & SU_EDIT_CONFIG) addnav("Stats","stats.php");
+if ($session['user']['superuser'] & SU_EDIT_CONFIG) output::addnav("Mechanics");
+if ($session['user']['superuser'] & SU_EDIT_CONFIG) output::addnav("Game Settings","configuration.php");
+if ($session['user']['superuser'] & SU_EDIT_CONFIG) output::addnav("Referring URLs","referers.php");
+if ($session['user']['superuser'] & SU_EDIT_CONFIG) output::addnav("Stats","stats.php");
 /*//*/if (file_exists("gamelog.php") &&
 /*//*/		$session['user']['superuser'] & SU_EDIT_CONFIG) {
-/*//*/	addnav("Gamelog Viewer","gamelog.php");
+/*//*/	output::addnav("Gamelog Viewer","gamelog.php");
 /*//*/}
 
-addnav("Module Configurations");
+output::addnav("Module Configurations");
 
 modulehook("superuser", array(), true);
 

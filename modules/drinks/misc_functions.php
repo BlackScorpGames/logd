@@ -33,13 +33,13 @@ function drinks_editor(){
 	page_header("Drink Editor");
 	require_once("lib/superusernav.php");
 	superusernav();
-	addnav("Drink Editor");
-	addnav("Add a drink","runmodule.php?module=drinks&act=editor&op=add&admin=true");
+	output::addnav("Drink Editor");
+	output::addnav("Add a drink","runmodule.php?module=drinks&act=editor&op=add&admin=true");
 	$op = http::httpget('op');
 	$drinkid = http::httpget('drinkid');
 	$header = "";
 	if ($op != "") {
-		addnav("Drink Editor Main","runmodule.php?module=drinks&act=editor&admin=true");
+		output::addnav("Drink Editor Main","runmodule.php?module=drinks&act=editor&admin=true");
 		if ($op == 'add') {
 			$header = translator::translate_inline("Adding a new drink");
 		} else if ($op == 'edit') {
@@ -163,17 +163,17 @@ function drinks_editor(){
 			$id = $row['drinkid'];
 			rawoutput("<tr class='".($i%2?"trlight":"trdark")."'>");
 			rawoutput("<td nowrap>[ <a href='runmodule.php?module=drinks&act=editor&op=edit&drinkid=$id&admin=true'>$edit</a>");
-			addnav("","runmodule.php?module=drinks&act=editor&op=edit&drinkid=$id&admin=true");
+			output::addnav("","runmodule.php?module=drinks&act=editor&op=edit&drinkid=$id&admin=true");
 			if ($row['active']) {
 				rawoutput(" | <a href='runmodule.php?module=drinks&act=editor&op=deactivate&drinkid=$id&admin=true'>$deac</a>");
-				addnav("","runmodule.php?module=drinks&act=editor&op=deactivate&drinkid=$id&admin=true");
+				output::addnav("","runmodule.php?module=drinks&act=editor&op=deactivate&drinkid=$id&admin=true");
 			} else {
 				rawoutput(" | <a href='runmodule.php?module=drinks&act=editor&op=activate&drinkid=$id&admin=true'>$act</a>");
-				addnav("","runmodule.php?module=drinks&act=editor&op=activate&drinkid=$id&admin=true");
+				output::addnav("","runmodule.php?module=drinks&act=editor&op=activate&drinkid=$id&admin=true");
 			}
 
 			rawoutput(" | <a href='runmodule.php?module=drinks&act=editor&op=del&drinkid=$id&admin=true' onClick='return confirm(\"$conf\");'>$del</a> ]</td>");
-			addnav("","runmodule.php?module=drinks&act=editor&op=del&drinkid=$id&admin=true");
+			output::addnav("","runmodule.php?module=drinks&act=editor&op=del&drinkid=$id&admin=true");
 			output_notl("<td>`^%s</td>`0", $id, true);
 			output_notl("<td>`&%s`0</td>", $row['name'], true);
 			output_notl("<td>`^%s`0</td>", $row['drunkeness'], true);
@@ -186,7 +186,7 @@ function drinks_editor(){
 	}
 	$subop= http::httpget("subop");
 	if($op=="edit"){
-		addnav("Drink properties", "runmodule.php?module=drinks&act=editor&op=edit&drinkid=$drinkid&admin=true");
+		output::addnav("Drink properties", "runmodule.php?module=drinks&act=editor&op=edit&drinkid=$drinkid&admin=true");
 		module_editor_navs("prefs-drinks", "runmodule.php?module=drinks&act=editor&drinkid=$drinkid&op=edit&subop=module&editmodule=");
 		if ($subop=="module") {
 			$module = http::httpget("editmodule");
@@ -195,7 +195,7 @@ function drinks_editor(){
 			module_objpref_edit('drinks', $module, $drinkid);
 			$mostrecentmodule = $oldmodule;
 			rawoutput("</form>");
-			addnav("", "runmodule.php?module=drinks&act=editor&op=save&subop=module&editmodule=$module&drinkid=$drinkid&admin=true");
+			output::addnav("", "runmodule.php?module=drinks&act=editor&op=save&subop=module&editmodule=$module&drinkid=$drinkid&admin=true");
 		} elseif ($subop=="") {
 				$sql = "SELECT * FROM " . db_prefix("drinks") . " WHERE drinkid='".http::httpget('drinkid')."'";
 				$result = db_query($sql);
@@ -209,7 +209,7 @@ function drinks_editor(){
 
 	if (($op == "edit" || $op == "add") && $subop=="") {
 		rawoutput("<form action='runmodule.php?module=drinks&act=editor&op=save&admin=true' method='POST'>");
-		addnav("","runmodule.php?module=drinks&act=editor&op=save&admin=true");
+		output::addnav("","runmodule.php?module=drinks&act=editor&op=save&admin=true");
 		showform($drinksarray,$row);
 		rawoutput("</form>");
 		output::doOutput("`\$NOTE:`7 Make sure that you know what you are doing when modifying or adding drinks.`n");

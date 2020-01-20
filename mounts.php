@@ -36,8 +36,8 @@ page_header("Mount Editor");
 require_once("lib/superusernav.php");
 superusernav();
 
-addnav("Mount Editor");
-addnav("Add a mount","mounts.php?op=add");
+output::addnav("Mount Editor");
+output::addnav("Add a mount","mounts.php?op=add");
 
 if ($op=="deactivate"){
 	$sql = "UPDATE " . db_prefix("mounts") . " SET mountactive=0 WHERE mountid='$id'";
@@ -191,22 +191,22 @@ if ($op==""){
 		}
 		rawoutput("<tr class='".($count%2?"trlight":"trdark")."'>");
 		rawoutput("<td nowrap>[ <a href='mounts.php?op=edit&id={$row['mountid']}'>$edit</a> |");
-		addnav("","mounts.php?op=edit&id={$row['mountid']}");
+		output::addnav("","mounts.php?op=edit&id={$row['mountid']}");
 		rawoutput("<a href='mounts.php?op=give&id={$row['mountid']}'>$give</a> |",true);
-		addnav("","mounts.php?op=give&id={$row['mountid']}");
+		output::addnav("","mounts.php?op=give&id={$row['mountid']}");
 		if ($row['mountactive']){
 			rawoutput("$del |");
 		}else{
 			$mconf = sprintf($conf, $mounts[$row['mountid']]);
 			rawoutput("<a href='mounts.php?op=del&id={$row['mountid']}' onClick=\"return confirm('$mconf');\">$del</a> |");
-			addnav("","mounts.php?op=del&id={$row['mountid']}");
+			output::addnav("","mounts.php?op=del&id={$row['mountid']}");
 		}
 		if ($row['mountactive']) {
 			rawoutput("<a href='mounts.php?op=deactivate&id={$row['mountid']}'>$deac</a> ]</td>");
-			addnav("","mounts.php?op=deactivate&id={$row['mountid']}");
+			output::addnav("","mounts.php?op=deactivate&id={$row['mountid']}");
 		}else{
 			rawoutput("<a href='mounts.php?op=activate&id={$row['mountid']}'>$act</a> ]</td>");
-			addnav("","mounts.php?op=activate&id={$row['mountid']}");
+			output::addnav("","mounts.php?op=activate&id={$row['mountid']}");
 		}
 		rawoutput("<td>");
 		output_notl("`&%s`0", $row['mountname']);
@@ -228,7 +228,7 @@ if ($op==""){
 		$file = "mounts.php?op=xml&id=".$row['mountid'];
 		rawoutput("<div id='mountusers$i'><a href='$file' target='_blank' onClick=\"getUserInfo('".$row{'mountid'}."', $i); return false\">");
  		output_notl("`#%s`0", $mounts[$row['mountid']]);
-		addnav("", $file);
+		output::addnav("", $file);
 		rawoutput("</a></div>");
 		rawoutput("</td></tr>");
 		$count++;
@@ -238,16 +238,16 @@ if ($op==""){
 	output::doOutput("If there are any owners of the mount when it is deleted, they will no longer have a mount, but they will get a FULL refund of the price of the mount at the time of deletion.");
 }elseif ($op=="add"){
 	output::doOutput("Add a mount:`n");
-	addnav("Mount Editor Home","mounts.php");
+	output::addnav("Mount Editor Home","mounts.php");
 	mountform(array());
 }elseif ($op=="edit"){
-	addnav("Mount Editor Home","mounts.php");
+	output::addnav("Mount Editor Home","mounts.php");
 	$sql = "SELECT * FROM " . db_prefix("mounts") . " WHERE mountid='$id'";
 	$result = db_query_cached($sql, "mountdata-$id", 3600);
 	if (db_num_rows($result)<=0){
 		output::doOutput("`iThis mount was not found.`i");
 	}else{
-		addnav("Mount properties", "mounts.php?op=edit&id=$id");
+		output::addnav("Mount properties", "mounts.php?op=edit&id=$id");
 		module_editor_navs("prefs-mounts", "mounts.php?op=edit&subop=module&id=$id&module=");
 		$subop=http::httpget("subop");
 		if ($subop=="module") {
@@ -255,7 +255,7 @@ if ($op==""){
 			rawoutput("<form action='mounts.php?op=save&subop=module&id=$id&module=$module' method='POST'>");
 			module_objpref_edit("mounts", $module, $id);
 			rawoutput("</form>");
-			addnav("", "mounts.php?op=save&subop=module&id=$id&module=$module");
+			output::addnav("", "mounts.php?op=save&subop=module&id=$id&module=$module");
 		} else {
 			output::doOutput("Mount Editor:`n");
 			$row = db_fetch_assoc($result);
@@ -328,7 +328,7 @@ function mountform($mount){
 
 	rawoutput("<form action='mounts.php?op=save&id={$mount['mountid']}' method='POST'>");
 	rawoutput("<input type='hidden' name='mount[mountactive]' value=\"".$mount['mountactive']."\">");
-	addnav("","mounts.php?op=save&id={$mount['mountid']}");
+	output::addnav("","mounts.php?op=save&id={$mount['mountid']}");
 	rawoutput("<table>");
 	rawoutput("<tr><td nowrap>");
 	output::doOutput("Mount Name:");

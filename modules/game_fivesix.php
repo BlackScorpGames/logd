@@ -57,7 +57,7 @@ function game_fivesix_dohook($hookname, $args){
 
 	case "darkhorsegame":
 		$ret = urlencode($args['return']);
-		addnav("Play Sixes Dice Game",
+		output::addnav("Play Sixes Dice Game",
 				"runmodule.php?module=game_fivesix&ret=$ret&what=play");
 	}
 	return $args;
@@ -93,8 +93,8 @@ function game_fivesix_run(){
 		if ($lastpot3>=1) {
 			output::doOutput("If you need a loan, you might talk to %s`@, who won `^%s`@ gold for getting just three sixes.`n`n", get_module_setting("lastwin3"), get_module_setting("lastpot3"));
 		}
-		addnav("Play the Games");
-		addnav("D?Roll the Dice","runmodule.php?module=game_fivesix&what=roll&ret=$ret");
+		output::addnav("Play the Games");
+		output::addnav("D?Roll the Dice","runmodule.php?module=game_fivesix&what=roll&ret=$ret");
 	} elseif ($what=="roll"){
 		$visits = get_module_pref("playstoday");
 		$max = get_module_setting("dailyuses");
@@ -104,7 +104,7 @@ function game_fivesix_run(){
 			if ($session['user']['gold'] < $cost){
 				output::doOutput("`3The old man watches as nothing but moths and dust emerge from your coin purse.`n");
 				output::doOutput("He shakes his head at you then turns back to his ale as though you weren't there.");
-				addnav("Return to the Main Room",appendlink(urldecode($ret), "op=tavern"));
+				output::addnav("Return to the Main Room",appendlink(urldecode($ret), "op=tavern"));
 			}else{
 				debuglog("spent $cost gold on five-sixes game");
 				$session['user']['gold']-=$cost;
@@ -182,11 +182,11 @@ function game_fivesix_run(){
 			output::doOutput("`@The old man looks up at you and shakes his head slowly.`n");
 			output::doOutput("`%\"I think you've had enough for today.  Why don't you come back tomorrow?\"");
 		}
-		addnav("Play the Games");
-		addnav("Play again?","runmodule.php?module=game_fivesix&ret=$ret&what=play");
+		output::addnav("Play the Games");
+		output::addnav("Play again?","runmodule.php?module=game_fivesix&ret=$ret&what=play");
 	}
-	addnav("Other Games",appendlink(urldecode($ret), "op=oldman"));
-	addnav("Return to the Main Room",appendlink(urldecode($ret), "op=tavern"));
+	output::addnav("Other Games",appendlink(urldecode($ret), "op=oldman"));
+	output::addnav("Return to the Main Room",appendlink(urldecode($ret), "op=tavern"));
 
 	page_footer();
 }

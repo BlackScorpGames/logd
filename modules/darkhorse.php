@@ -73,11 +73,11 @@ function darkhorse_dohook($hookname,$args){
 	case "forest":
 		if(darkhorse_tavernmount()) {
 			// add the nav
-			addnav("Other");
+			output::addnav("Other");
 			$iname = get_module_setting("tavernname");
 			global $mount_dev, $playermount;
 			list($name, $lcname) = $mount_dev->getName($playermount);
-			addnav(array("D?Take %s`0 to %s", $lcname, $iname),
+			output::addnav(array("D?Take %s`0 to %s", $lcname, $iname),
 					"runmodule.php?module=darkhorse&op=enter");
 		}
 		break;
@@ -101,8 +101,8 @@ function darkhorse_bartender($from){
 		$dname = translator::translate_inline($session['user']['sex']?"lasshie":"shon");
 		output::doOutput("\"`7Shay, what can I do for you %s?`0\" inquires the toothless fellow.", $dname);
 		output::doOutput("\"`7Don't shee the likesh of your short too offen 'round theshe partsh.`0\"");
-		addnav("Learn about my enemies",$from."op=bartender&what=enemies");
-		addnav("Learn about colors",$from."op=bartender&what=colors");
+		output::addnav("Learn about my enemies",$from."op=bartender&what=enemies");
+		output::addnav("Learn about colors",$from."op=bartender&what=colors");
 	}elseif($what=="colors"){
 		output::doOutput("The old man leans on the bar.");
 		output::doOutput("\"`%Sho you want to know about colorsh, do you?`0\" he asks.`n`n");
@@ -112,7 +112,7 @@ function darkhorse_bartender($from){
 		$testtext = httppost('testtext');
 		$try = translator::translate_inline("Try");
 		rawoutput("<input name='testtext' id='testtext'><input type='submit' class='button' value='$try'></form>");
-		addnav("",$from."op=bartender&what=colors");
+		output::addnav("",$from."op=bartender&what=colors");
 		rawoutput("<script language='JavaScript'>document.getElementById('testtext').focus();</script>");
 		if ($testtext) {
 			output::doOutput("`0You entered %s`n", prevent_colors(HTMLEntities($testtext, ENT_COMPAT, settings::getsetting("charset", "ISO-8859-1"))),true);
@@ -127,10 +127,10 @@ function darkhorse_bartender($from){
 			if ($subop!="search"){
 				$search = translator::translate_inline("Search");
 				rawoutput("<form action='".$from."op=bartender&what=enemies&subop=search' method='POST'><input name='name' id='name'><input type='submit' class='button' value='$search'></form>");
-				addnav("",$from."op=bartender&what=enemies&subop=search");
+				output::addnav("",$from."op=bartender&what=enemies&subop=search");
 				rawoutput("<script language='JavaScript'>document.getElementById('name').focus();</script>");
 			}else{
-				addnav("Search Again",$from."op=bartender&what=enemies");
+				output::addnav("Search Again",$from."op=bartender&what=enemies");
 				$search = "%";
 				$name = httppost('name');
 				for ($i=0;$i<strlen($name);$i++){
@@ -151,7 +151,7 @@ function darkhorse_bartender($from){
 					rawoutput("<tr><td><a href='".$from."op=bartender&what=enemies&who=".rawurlencode($row['login'])."'>");
 					output_notl("%s", $row['name']);
 					rawoutput("</a></td><td>{$row['level']}</td></tr>");
-					addnav("",$from."op=bartender&what=enemies&who=".rawurlencode($row['login']));
+					output::addnav("",$from."op=bartender&what=enemies&who=".rawurlencode($row['login']));
 				}
 				rawoutput("</table>");
 			}
@@ -206,7 +206,7 @@ function darkhorse_bartender($from){
 			}
 		}
 	}
-	addnav("Return to the Main Room",$from."op=tavern");
+	output::addnav("Return to the Main Room",$from."op=tavern");
 }
 
 function darkhorse_runevent($type, $link){
@@ -235,8 +235,8 @@ function darkhorse_runevent($type, $link){
 		}
 		output::doOutput("`n`nThe mist clears, and before you is a log building with smoke trailing from its chimney.");
 		output::doOutput("A sign over the door says `7\"%s.\"`0", $iname);
-		addnav("Enter the tavern",$from."op=tavern");
-		addnav("Leave this place",$from."op=leaveleave");
+		output::addnav("Enter the tavern",$from."op=tavern");
+		output::addnav("Leave this place",$from."op=leaveleave");
 		break;
 	case "tavern":
 		darkhorse_checkday();
@@ -244,30 +244,30 @@ function darkhorse_runevent($type, $link){
 		output::doOutput("Whereas most taverns are noisy and raucous, this one is quiet and nearly empty.");
 		output::doOutput("In the corner, an old man plays with some dice.");
 		output::doOutput("You notice that the tables have been etched on by previous adventurers who have found this place before, and behind the bar, a stick of an old man hobbles around, polishing glasses, as though there were anyone here to use them.");
-		addnav("Talk to the old man",$from."op=oldman");
-		addnav("Talk to the bartender",$from."op=bartender");
+		output::addnav("Talk to the old man",$from."op=oldman");
+		output::addnav("Talk to the bartender",$from."op=bartender");
 
 		// Special case here.  go and see if the comment area is blocked and
 		// if so, don't put the link in.
 		$args = modulehook("blockcommentarea", array("section"=>"darkhorse"));
 		if (!isset($args['block']) || $args['block'] != 'yes') {
-			addnav("Examine the tables",$from."op=tables");
+			output::addnav("Examine the tables",$from."op=tables");
 		}
-		addnav("Exit the tavern",$from."op=leave");
+		output::addnav("Exit the tavern",$from."op=leave");
 		break;
 	case "tables":
 		require_once("lib/commentary.php");
 		addcommentary();
 		commentdisplay("You examine the etchings in the table:`n`n",
 				"darkhorse","Add your own etching:");
-		addnav("Return to the Main Room",$from."op=tavern");
+		output::addnav("Return to the Main Room",$from."op=tavern");
 		break;
 	case "bartender":
 		darkhorse_bartender($from);
 		break;
 	case "oldman":
 		darkhorse_checkday();
-		addnav("Old Man");
+		output::addnav("Old Man");
 		modulehook("darkhorsegame", array("return"=>$gameret));
 		output::doOutput("The old man looks up at you, his eyes sunken and hollow.");
 		output::doOutput("His red eyes make it seem that he may have been crying recently so you ask him what is bothering him.");
@@ -283,7 +283,7 @@ function darkhorse_runevent($type, $link){
 			elseoutput::doOutput(" Shall we play a game?`0\"");
 		}
 		$session['user']['specialmisc']="";
-		addnav("Return to the Main Room",$from."op=tavern");
+		output::addnav("Return to the Main Room",$from."op=tavern");
 		break;
 	case "leave":
 		output::doOutput("You duck out of the tavern, and wander into the thick foliage around you.");

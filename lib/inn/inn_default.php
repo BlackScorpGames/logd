@@ -13,15 +13,15 @@ if ($com=="" && !$comment && $op!="fleedragon") {
 	}
 }
 
-addnav("Things to do");
+output::addnav("Things to do");
 $args = modulehook("blockcommentarea", array("section"=>"inn"));
 if (!isset($args['block']) || $args['block'] != 'yes') {
-	addnav("Converse with patrons","inn.php?op=converse");
+	output::addnav("Converse with patrons","inn.php?op=converse");
 }
-addnav(array("B?Talk to %s`0 the Barkeep",$barkeep),"inn.php?op=bartender");
+output::addnav(array("B?Talk to %s`0 the Barkeep",$barkeep),"inn.php?op=bartender");
 
-addnav("Other");
-addnav("Get a room (log out)","inn.php?op=room");
+output::addnav("Other");
+output::addnav("Get a room (log out)","inn.php?op=room");
 
 
 if (!$skipinndesc) {

@@ -12,9 +12,9 @@ check_su_access(SU_RAW_SQL);
 page_header("Raw SQL/PHP execution");
 require_once("lib/superusernav.php");
 superusernav();
-addnav("Execution");
-addnav("SQL","rawsql.php");
-addnav("PHP","rawsql.php?op=php");
+output::addnav("Execution");
+output::addnav("SQL","rawsql.php");
+output::addnav("PHP","rawsql.php?op=php");
 
 $op = http::httpget("op");
 if ($op=="" || $op=="sql"){
@@ -60,7 +60,7 @@ if ($op=="" || $op=="sql"){
 	rawoutput("<textarea name='sql' class='input' cols='60' rows='10'>".htmlentities($sql, ENT_COMPAT, settings::getsetting("charset", "ISO-8859-1"))."</textarea><br>");
 	rawoutput("<input type='submit' class='button' value='$execute'>");
 	rawoutput("</form>");
-	addnav("", "rawsql.php");
+	output::addnav("", "rawsql.php");
 }else{
 	$php = stripslashes(httppost("php"));
 	$source = translator::translate_inline("Source:");
@@ -84,6 +84,6 @@ if ($op=="" || $op=="sql"){
 	rawoutput("&lt;?php<br><textarea name='php' class='input' cols='60' rows='10'>".htmlentities($php, ENT_COMPAT, settings::getsetting("charset", "ISO-8859-1"))."</textarea><br>?&gt;<br>");
 	rawoutput("<input type='submit' class='button' value='$execute'>");
 	rawoutput("</form>");
-	addnav("", "rawsql.php?op=php");
+	output::addnav("", "rawsql.php?op=php");
 }
 page_footer();

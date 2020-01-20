@@ -15,10 +15,10 @@ superusernav();
 $op = http::httpget('op');
 $tauntid = http::httpget('tauntid');
 if ($op=="edit"){
-	addnav("Taunts");
-	addnav("Return to the taunt editor","taunt.php");
+	output::addnav("Taunts");
+	output::addnav("Return to the taunt editor","taunt.php");
 	rawoutput("<form action='taunt.php?op=save&tauntid=$tauntid' method='POST'>",true);
-	addnav("","taunt.php?op=save&tauntid=$tauntid");
+	output::addnav("","taunt.php?op=save&tauntid=$tauntid");
 	if ($tauntid!=""){
 		$sql = "SELECT * FROM " . db_prefix("taunts") . " WHERE tauntid=\"$tauntid\"";
 		$result = db_query($sql);
@@ -79,17 +79,17 @@ if ($op == "") {
 		$conf = translator::translate_inline("Are you sure you wish to delete this taunt?");
 		$id = $row['tauntid'];
 		rawoutput("[ <a href='taunt.php?op=edit&tauntid=$id'>$edit</a> | <a href='taunt.php?op=del&tauntid=$id' onClick='return confirm(\"$conf\");'>$del</a> ]");
-		addnav("","taunt.php?op=edit&tauntid=$id");
-		addnav("","taunt.php?op=del&tauntid=$id");
+		output::addnav("","taunt.php?op=edit&tauntid=$id");
+		output::addnav("","taunt.php?op=del&tauntid=$id");
 		rawoutput("</td><td>");
 		output_notl("%s", $row['taunt']);
 		rawoutput("</td><td>");
 		output_notl("%s", $row['editor']);
 		rawoutput("</td></tr>");
 	}
-	addnav("","taunt.php?c=".http::httpget('c'));
+	output::addnav("","taunt.php?c=".http::httpget('c'));
 	rawoutput("</table>");
-	addnav("Taunts");
-	addnav("Add a new taunt","taunt.php?op=edit");
+	output::addnav("Taunts");
+	output::addnav("Add a new taunt","taunt.php?op=edit");
 }
 page_footer();

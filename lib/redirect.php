@@ -9,7 +9,7 @@ function redirect($location,$reason=false){
 	if (strpos($location,"badnav.php")===false) {
 		//deliberately html in translations so admins can personalize this, also in once scheme
 		$session['allowednavs']=array();
-		addnav("",$location);
+		output::addnav("",$location);
 		$session['output']=
 			"<a href=\"".HTMLEntities($location, ENT_COMPAT, settings::getsetting("charset", "ISO-8859-1"))."\">".translator::translate_inline("Click here.","badnav")."</a>";
 		$session['output'].=translator::translate_inline("<br><br>If you cannot leave this page, notify the staff via <a href='petition.php'>petition</a> and tell them where this happened and what you did. Thanks.","badnav");

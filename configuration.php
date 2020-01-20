@@ -152,17 +152,17 @@ if ($op=="save"){
 					rawoutput("<a href='modules.php?op=deactivate&module={$module}&cat={$info['category']}'>");
 					output_notl($deactivate);
 					rawoutput("</a>");
-					addnav("","modules.php?op=deactivate&module={$module}&cat={$info['category']}");
+					output::addnav("","modules.php?op=deactivate&module={$module}&cat={$info['category']}");
 				}else{
 					output::doOutput("This module is currently deactivated: ");
 					$deactivate = translator::translate_inline("Activate");
 					rawoutput("<a href='modules.php?op=activate&module={$module}&cat={$info['category']}'>");
 					output_notl($deactivate);
 					rawoutput("</a>");
-					addnav("","modules.php?op=activate&module={$module}&cat={$info['category']}");
+					output::addnav("","modules.php?op=activate&module={$module}&cat={$info['category']}");
 				}
 				rawoutput("<form action='configuration.php?op=modulesettings&module=$module&save=1' method='POST'>",true);
-				addnav("","configuration.php?op=modulesettings&module=$module&save=1");
+				output::addnav("","configuration.php?op=modulesettings&module=$module&save=1");
 				translator::tlschema("module-$module");
 				showform($msettings,$module_settings[$mostrecentmodule]);
 				translator::tlschema();
@@ -179,15 +179,15 @@ if ($op=="save"){
 page_header("Game Settings");
 require_once("lib/superusernav.php");
 superusernav();
-addnav("Module Manager", "modules.php");
+output::addnav("Module Manager", "modules.php");
 if ($module) {
 	$cat = $info['category'];
-	addnav(array("Module Category - `^%s`0", translator::translate_inline($cat)), "modules.php?cat=$cat");
+	output::addnav(array("Module Category - `^%s`0", translator::translate_inline($cat)), "modules.php?cat=$cat");
 }
 
-addnav("Game Settings");
-addnav("Standard settings", "configuration.php");
-addnav("",$REQUEST_URI);
+output::addnav("Game Settings");
+output::addnav("Standard settings", "configuration.php");
+output::addnav("",$REQUEST_URI);
 
 module_editor_navs('settings', 'configuration.php?op=modulesettings&module=');
 
@@ -443,7 +443,7 @@ if ($op == "") {
 	$vals = $settings + $useful_vals;
 
 	rawoutput("<form action='configuration.php?op=save' method='POST'>");
-	addnav("","configuration.php?op=save");
+	output::addnav("","configuration.php?op=save");
 	showform($setup,$vals);
 	rawoutput("</form>");
 }

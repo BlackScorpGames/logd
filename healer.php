@@ -95,14 +95,14 @@ if ($op==""){
 $playerheal = false;
 if($session['user']['hitpoints'] < $session['user']['maxhitpoints']){
 	$playerheal = true;
-	addnav("Potions");
-	addnav("`^Complete Healing`0","healer.php?op=buy&pct=100$returnline");
+	output::addnav("Potions");
+	output::addnav("`^Complete Healing`0","healer.php?op=buy&pct=100$returnline");
 	for ($i=90;$i>0;$i-=10){
-		addnav(array("%s%% - %s gold", $i, round($cost*$i/100,0)),"healer.php?op=buy&pct=$i$returnline");
+		output::addnav(array("%s%% - %s gold", $i, round($cost*$i/100,0)),"healer.php?op=buy&pct=$i$returnline");
 	}
 	modulehook('potion');
 }
-addnav("`bHeal Companions`b");
+output::addnav("`bHeal Companions`b");
 $compheal = false;
 foreach($companions as $name => $companion){
 	if(isset($companion['cannotbehealed']) && $companion['cannotbehealed'] == true){
@@ -110,16 +110,16 @@ foreach($companions as $name => $companion){
 		$points = $companion['maxhitpoints'] - $companion['hitpoints'];
 		if($points > 0){
 			$compcost = round(log($session['user']['level']+1) * ($points + 10)*1.33);
-			addnav(array("%s`0 (`^%s Gold`0)", $companion['name'], $compcost), "healer.php?op=companion&name=".rawurlencode($name)."&compcost=$compcost$returnline");
+			output::addnav(array("%s`0 (`^%s Gold`0)", $companion['name'], $compcost), "healer.php?op=companion&name=".rawurlencode($name)."&compcost=$compcost$returnline");
 			$compheal = true;
 		}
 	}
 }
 translator::tlschema("nav");
-addnav("`bReturn`b");
+output::addnav("`bReturn`b");
 if ($return==""){
 	if($playerheal || $compheal){
-		addnav("F?Back to the Forest", "forest.php");
+		output::addnav("F?Back to the Forest", "forest.php");
 		villagenav();
 	}else{
 		forest(true);
@@ -127,7 +127,7 @@ if ($return==""){
 }elseif ($return=="village.php"){
 	villagenav();
 }else{
-	addnav("R?Return whence you came",$return);
+	output::addnav("R?Return whence you came",$return);
 }
 translator::tlschema();
 output_notl("`0");

@@ -2,8 +2,8 @@
 function lovers_chat_violet(){
 	global $session;
 	if (http::httpget('act')==""){
-		addnav("Gossip","runmodule.php?module=lovers&op=chat&act=gossip");
-		addnav(array("Ask if your %s makes you look fat", $session['user']['armor']),"runmodule.php?module=lovers&op=chat&act=fat");
+		output::addnav("Gossip","runmodule.php?module=lovers&op=chat&act=gossip");
+		output::addnav(array("Ask if your %s makes you look fat", $session['user']['armor']),"runmodule.php?module=lovers&op=chat&act=fat");
 		output::doOutput("You go over to %s`0 and help her with the drinks she is carrying.", settings::getsetting("barmaid", "`%Violet"));
 		output::doOutput("Once they are passed out, she takes a cloth and wipes the sweat off of her brow, thanking you much.");
 		output::doOutput("Of course you didn't mind, as she is one of your oldest and truest friends!");

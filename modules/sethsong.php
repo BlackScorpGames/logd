@@ -80,8 +80,8 @@ function sethsong_dohook($hookname,$args){
 	case "inn":
 		$op = http::httpget("op");
 		if ($op == "" || $op == "strolldown" || $op == "fleedragon") {
-			addnav("Things to do");
-			addnav(array("L?Listen to %s`0 the Bard", settings::getsetting("bard", "`^Seth")),"runmodule.php?module=sethsong");
+			output::addnav("Things to do");
+			output::addnav(array("L?Listen to %s`0 the Bard", settings::getsetting("bard", "`^Seth")),"runmodule.php?module=sethsong");
 		}
 		break;
 	case "newday":
@@ -113,8 +113,8 @@ function sethsong_run(){
 		sethsong_sing();
 	}
 
-	addnav("Where to?");
-	addnav("I?Return to the Inn","inn.php");
+	output::addnav("Where to?");
+	output::addnav("I?Return to the Inn","inn.php");
 	villagenav();
 	rawoutput("</span>");
 	page_footer();

@@ -7,7 +7,7 @@ if ($setrace!=""){
 	// Set the person to the main village/capital by default
 	$session['user']['location'] = $vname;
 	modulehook("setrace");
-	addnav("Continue","newday.php?continue=1$resline");
+	output::addnav("Continue","newday.php?continue=1$resline");
 }else{
 	output::doOutput("Where do you recall growing up?`n`n");
 	modulehook("chooserace");
@@ -23,7 +23,7 @@ if (navcount()==0){
 		output::doOutput("You might want to ask your admin to install some races, they're really quite fun.");
 	}
 	$session['user']['race']="Human";
-	addnav("Continue","newday.php?continue=1$resline");
+	output::addnav("Continue","newday.php?continue=1$resline");
 	page_footer();
 }else{
 	page_header("A little history about yourself");

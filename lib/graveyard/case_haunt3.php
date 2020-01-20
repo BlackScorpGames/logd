@@ -48,11 +48,11 @@ if (db_num_rows($result)>0){
 }else{
 	output::doOutput("`\$%s`) has lost their concentration on this person, you cannot haunt them now.",$deathoverlord);
 }
-addnav(array("Question `\$%s`0 about the worth of your soul",$deathoverlord),"graveyard.php?op=question");
+output::addnav(array("Question `\$%s`0 about the worth of your soul",$deathoverlord),"graveyard.php?op=question");
 $max = $session['user']['level'] * 5 + 50;
 $favortoheal = round(10 * ($max-$session['user']['soulpoints'])/$max);
-addnav(array("Restore Your Soul (%s favor)", $favortoheal),"graveyard.php?op=restore");
-addnav("Places");
-addnav("S?Land of the Shades","shades.php");
-addnav("G?The Graveyard","graveyard.php");
-addnav("M?Return to the Mausoleum","graveyard.php?op=enter");
+output::addnav(array("Restore Your Soul (%s favor)", $favortoheal),"graveyard.php?op=restore");
+output::addnav("Places");
+output::addnav("S?Land of the Shades","shades.php");
+output::addnav("G?The Graveyard","graveyard.php");
+output::addnav("M?Return to the Mausoleum","graveyard.php?op=enter");

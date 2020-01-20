@@ -15,18 +15,18 @@ if ($session['user']['loggedin']) {
 	if ($session['user']['alive']) {
 		villagenav();
 	} else {
-		addnav("Return to the Graveyard", "graveyard.php");
+		output::addnav("Return to the Graveyard", "graveyard.php");
 	}
-	addnav("Currently Online","list.php");
+	output::addnav("Currently Online","list.php");
 	if ($session['user']['clanid']>0){
-		addnav("Online Clan Members","list.php?op=clan");
+		output::addnav("Online Clan Members","list.php?op=clan");
 		if ($session['user']['alive']) {
-			addnav("Clan Hall","clan.php");
+			output::addnav("Clan Hall","clan.php");
 		}
 	}
 }else{
-	addnav("Login Screen","index.php");
-	addnav("Currently Online","list.php");
+	output::addnav("Login Screen","index.php");
+	output::addnav("Currently Online","list.php");
 }
 
 $playersperpage=50;
@@ -57,13 +57,13 @@ if ($op=="search"){
 
 	$limit=" LIMIT $pageoffset,$playersperpage ";
 }
-addnav("Pages");
+output::addnav("Pages");
 for ($i=0;$i<$totalplayers;$i+=$playersperpage){
 	$pnum = $i/$playersperpage+1;
 	if ($page == $pnum) {
-		addnav(array(" ?`b`#Page %s`0 (%s-%s)`b", $pnum, $i+1, min($i+$playersperpage,$totalplayers)), "list.php?page=$pnum");
+		output::addnav(array(" ?`b`#Page %s`0 (%s-%s)`b", $pnum, $i+1, min($i+$playersperpage,$totalplayers)), "list.php?page=$pnum");
 	} else {
-		addnav(array(" ?Page %s (%s-%s)", $pnum, $i+1, min($i+$playersperpage,$totalplayers)), "list.php?page=$pnum");
+		output::addnav(array(" ?Page %s (%s-%s)", $pnum, $i+1, min($i+$playersperpage,$totalplayers)), "list.php?page=$pnum");
 	}
 }
 
@@ -93,7 +93,7 @@ if ($session['user']['loggedin']){
 	$search2 = translator::translate_inline("Search");
 
 	rawoutput("<form action='list.php?op=search' method='POST'>$search<input name='name'><input type='submit' class='button' value='$search2'></form>");
-	addnav("","list.php?op=search");
+	output::addnav("","list.php?op=search");
 }
 
 $max = db_num_rows($result);
@@ -140,7 +140,7 @@ for($i=0;$i<$max;$i++){
 		rawoutput("<a href=\"mail.php?op=write&to=".rawurlencode($row['login'])."\" target=\"_blank\" onClick=\"".popup("mail.php?op=write&to=".rawurlencode($row['login'])."").";return false;\">");
 		rawoutput("<img src='images/newscroll.GIF' width='16' height='16' alt='$writemail' border='0'></a>");
 		rawoutput("<a href='bio.php?char=".$row['acctid']."'>");
-		addnav("","bio.php?char=".$row['acctid']."");
+		output::addnav("","bio.php?char=".$row['acctid']."");
 	}
 	output_notl("`&%s`0", $row['name']);
 	if ($session['user']['loggedin'])

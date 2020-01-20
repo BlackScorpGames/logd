@@ -4,8 +4,8 @@
 			output::doOutput("`%%s`7 accepts your application, files it in her out box, and folds her hands on the desk, staring at you.",$registrar);
 			output::doOutput("You stand there staring blankly back at her for a few minutes before she suggests that perhaps you'd like to take a seat in the waiting area.");
 
-			addnav("Return to the Lobby","clan.php");
-			addnav("Waiting Area","clan.php?op=waiting");
+			output::addnav("Return to the Lobby","clan.php");
+			output::addnav("Waiting Area","clan.php?op=waiting");
 			$session['user']['clanid']=$to;
 			$session['user']['clanrank']=CLAN_APPLICANT;
 			$session['user']['clanjoindate']=date("Y-m-d H:i:s");
@@ -58,14 +58,14 @@
 								$row['clanid'],
 								full_sanitize(htmlentities($row['clanname'], ENT_COMPAT, settings::getsetting("charset", "ISO-8859-1"))),
 								$memb, true);
-						addnav("","clan.php?op=apply&to={$row['clanid']}");
+						output::addnav("","clan.php?op=apply&to={$row['clanid']}");
 					}
 				}
-				addnav("Return to the Lobby","clan.php");
+				output::addnav("Return to the Lobby","clan.php");
 			}else{
 				output::doOutput("`7You ask %s`7 for a clan membership application form.",$registrar);
 				output::doOutput("She stares at you blankly for a few moments, then says, \"`5Sorry pal, no one has had enough gumption to start up a clan yet.  Maybe that should be you, eh?`7\"");
-				addnav("Apply for a New Clan","clan.php?op=new");
-				addnav("Return to the Lobby","clan.php");
+				output::addnav("Apply for a New Clan","clan.php?op=new");
+				output::addnav("Return to the Lobby","clan.php");
 			}
 		}

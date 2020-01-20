@@ -99,8 +99,8 @@ function racetroll_dohook($hookname,$args){
 		break;
 	case "chooserace":
 		output::doOutput("<a href='newday.php?setrace=$race$resline'>In the swamps of %s</a>`2 as a `@Troll`2, fending for yourself from the very moment you crept out of your leathery egg, slaying your yet unhatched siblings, and feasting on their bones.`n`n",$city, true);
-		addnav("`@Troll`0","newday.php?setrace=$race$resline");
-		addnav("","newday.php?setrace=$race$resline");
+		output::addnav("`@Troll`0","newday.php?setrace=$race$resline");
+		output::addnav("","newday.php?setrace=$race$resline");
 		break;
 	case "setrace":
 		if ($session['user']['race']==$race){
@@ -151,15 +151,15 @@ function racetroll_dohook($hookname,$args){
 		$ccity = urlencode($city);
 		translator::tlschema("module-cities");
 		if ($session['user']['location']==$capital){
-			addnav("Safer Travel");
-			addnav(array("%s?Go to %s", $hotkey, $city),"runmodule.php?module=cities&op=travel&city=$ccity");
+			output::addnav("Safer Travel");
+			output::addnav(array("%s?Go to %s", $hotkey, $city),"runmodule.php?module=cities&op=travel&city=$ccity");
 		}elseif ($session['user']['location']!=$city){
-			addnav("More Dangerous Travel");
-			addnav(array("%s?Go to %s", $hotkey, $city),"runmodule.php?module=cities&op=travel&city=$ccity&d=1");
+			output::addnav("More Dangerous Travel");
+			output::addnav(array("%s?Go to %s", $hotkey, $city),"runmodule.php?module=cities&op=travel&city=$ccity&d=1");
 		}
 		if ($session['user']['superuser'] & SU_EDIT_USERS){
-			addnav("Superuser");
-			addnav(array("%s?Go to %s", $hotkey, $city),"runmodule.php?module=cities&op=travel&city=$ccity&su=1");
+			output::addnav("Superuser");
+			output::addnav(array("%s?Go to %s", $hotkey, $city),"runmodule.php?module=cities&op=travel&city=$ccity&su=1");
 		}
 		translator::tlschema();
 		break;

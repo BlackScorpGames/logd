@@ -127,7 +127,7 @@ function forestvictory($enemies,$denyflawless=false){
 function forestdefeat($enemies,$where="in the forest"){
 	global $session;
 	$percent=settings::getsetting('forestexploss',10);
-	addnav("Daily news","news.php");
+	output::addnav("Daily news","news.php");
 	$names = array();
 	$killer = false;
 	foreach ($enemies as $index=>$badguy) {

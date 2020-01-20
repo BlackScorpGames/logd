@@ -95,12 +95,12 @@ if ($op==""){
 
 	// No need to show the pages if there is only one.
 	if ($totalpages != 1)  {
-		addnav("Page");
+		output::addnav("Page");
 		for ($x=1; $x <= $totalpages; $x++){
 			if ($page == $x){
-				addnav(array("`b`#Page %s`0`b", $x),"viewpetition.php?page=$x");
+				output::addnav(array("`b`#Page %s`0`b", $x),"viewpetition.php?page=$x");
 			}else{
-				addnav(array("Page %s", $x),"viewpetition.php?page=$x");
+				output::addnav(array("Page %s", $x),"viewpetition.php?page=$x");
 			}
 		}
 	}
@@ -133,8 +133,8 @@ if ($op==""){
 		date ASC
 	LIMIT $limit";
 	$result = db_query($sql);
-	addnav("Petitions");
-	addnav("Refresh","viewpetition.php");
+	output::addnav("Petitions");
+	output::addnav("Refresh","viewpetition.php");
 	$num = translator::translate_inline("Num");
 	$ops = translator::translate_inline("Ops");
 	$from = translator::translate_inline("From");
@@ -178,15 +178,15 @@ if ($op==""){
 		//output_notl("<a href='viewpetition.php?setstat=6&id={$row['petitionid']}'>`%B`0</a>/",true);
 		//output_notl("<a href='viewpetition.php?setstat=7&id={$row['petitionid']}'>`#A`0</a>",true);
 		rawoutput(" ]</td>");
-		addnav("","viewpetition.php?op=view&id={$row['petitionid']}");
-		addnav("","viewpetition.php?setstat=2&id={$row['petitionid']}");
-		addnav("","viewpetition.php?setstat=0&id={$row['petitionid']}");
-		addnav("","viewpetition.php?setstat=1&id={$row['petitionid']}");
-		//addnav("","viewpetition.php?setstat=3&id={$row['petitionid']}");
-		addnav("","viewpetition.php?setstat=4&id={$row['petitionid']}");
-		//addnav("","viewpetition.php?setstat=5&id={$row['petitionid']}");
-		//addnav("","viewpetition.php?setstat=6&id={$row['petitionid']}");
-		//addnav("","viewpetition.php?setstat=7&id={$row['petitionid']}");
+		output::addnav("","viewpetition.php?op=view&id={$row['petitionid']}");
+		output::addnav("","viewpetition.php?setstat=2&id={$row['petitionid']}");
+		output::addnav("","viewpetition.php?setstat=0&id={$row['petitionid']}");
+		output::addnav("","viewpetition.php?setstat=1&id={$row['petitionid']}");
+		//output::addnav("","viewpetition.php?setstat=3&id={$row['petitionid']}");
+		output::addnav("","viewpetition.php?setstat=4&id={$row['petitionid']}");
+		//output::addnav("","viewpetition.php?setstat=5&id={$row['petitionid']}");
+		//output::addnav("","viewpetition.php?setstat=6&id={$row['petitionid']}");
+		//output::addnav("","viewpetition.php?setstat=7&id={$row['petitionid']}");
 		rawoutput("<td>");
 		if ($row['name']==""){
 			$v = substr($row['body'],0,strpos($row['body'],"[email"));
@@ -238,37 +238,37 @@ if ($op==""){
 }elseif($op=="view"){
 	$viewpageinfo = (int)http::httpget("viewpageinfo");
 	if ($viewpageinfo==1){
-		addnav("Hide Details","viewpetition.php?op=view&id=$id}");
+		output::addnav("Hide Details","viewpetition.php?op=view&id=$id}");
 	}else{
-		addnav("D?Show Details","viewpetition.php?op=view&id=$id&viewpageinfo=1");
+		output::addnav("D?Show Details","viewpetition.php?op=view&id=$id&viewpageinfo=1");
 	}
-	addnav("V?Petition Viewer","viewpetition.php");
+	output::addnav("V?Petition Viewer","viewpetition.php");
 
-	addnav("User Ops");
+	output::addnav("User Ops");
 
-	addnav("Petition Ops");
+	output::addnav("Petition Ops");
 	reset($statuses);
 	while (list($key,$val)=each($statuses)){
 		$plain = full_sanitize($val);
-		addnav(array("%s?Mark %s", substr($plain,0,1), $val),
+		output::addnav(array("%s?Mark %s", substr($plain,0,1), $val),
 				"viewpetition.php?setstat=$key&id=$id");
 	}
 
 	$sql = "SELECT " . db_prefix("accounts") . ".name," .  db_prefix("accounts") . ".login," .  db_prefix("accounts") . ".acctid," .  "date,closedate,status,petitionid,ip,body,pageinfo," .  "accts.name AS closer FROM " .  db_prefix("petitions") . " LEFT JOIN " .  db_prefix("accounts ") . "ON " .  db_prefix("accounts") . ".acctid=author LEFT JOIN " .  db_prefix("accounts") . " AS accts ON accts.acctid=".  "closeuserid WHERE petitionid='$id' ORDER BY date ASC";
 	$result = db_query($sql);
 	$row = db_fetch_assoc($result);
-	addnav("User Ops");
+	output::addnav("User Ops");
 	if (isset($row['login'])) {
-		addnav("View User Biography","bio.php?char=" . $row['acctid']
+		output::addnav("View User Biography","bio.php?char=" . $row['acctid']
 						. "&ret=%2Fviewpetition.php%3Fop%3Dview%26id=" . $id);
 	}
 	if ($row['acctid']>0 && $session['user']['superuser'] & SU_EDIT_USERS){
-		addnav("User Ops");
-		addnav("R?Edit User Record","user.php?op=edit&userid={$row['acctid']}&returnpetition=$id");
+		output::addnav("User Ops");
+		output::addnav("R?Edit User Record","user.php?op=edit&userid={$row['acctid']}&returnpetition=$id");
 	}
 	if ($row['acctid']>0 && $session['user']['superuser'] & SU_EDIT_DONATIONS){
-		addnav("User Ops");
-		addnav("Edit User Donations","donators.php?op=add1&name=".rawurlencode($row['login'])."&ret=".urlencode($_SERVER['REQUEST_URI']));
+		output::addnav("User Ops");
+		output::addnav("Edit User Donations","donators.php?op=add1&name=".rawurlencode($row['login'])."&ret=".urlencode($_SERVER['REQUEST_URI']));
 	}
 	$write = translator::translate_inline("Write Mail");
 	// We assume that petitions are handled in default language
@@ -313,8 +313,8 @@ if ($id && $op != ""){
 		$previd=$prevrow['petitionid'];
 		$s=$prevrow['status'];
 		$status=$statuses[$s];
-		addnav("Navigation");
-		addnav(array("Previous %s",$status),"viewpetition.php?op=view&id=$previd");
+		output::addnav("Navigation");
+		output::addnav(array("Previous %s",$status),"viewpetition.php?op=view&id=$previd");
 	}
 	$nextsql="SELECT p1.petitionid, p1.status FROM ".db_prefix("petitions")." AS p1, ".db_prefix("petitions")." AS p2
 			WHERE p1.petitionid>'$id' AND p2.petitionid='$id' AND p1.status=p2.status ORDER BY p1.petitionid ASC LIMIT 1";
@@ -324,8 +324,8 @@ if ($id && $op != ""){
 		$nextid=$nextrow['petitionid'];
 		$s=$nextrow['status'];
 		$status=$statuses[$s];
-		addnav("Navigation");
-		addnav(array("Next %s",$status),"viewpetition.php?op=view&id=$nextid");
+		output::addnav("Navigation");
+		output::addnav(array("Next %s",$status),"viewpetition.php?op=view&id=$nextid");
 	}
 }
 page_footer();

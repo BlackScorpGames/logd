@@ -136,8 +136,8 @@ while (list($key,$val)=each($post)){
 $sql = "UPDATE " . db_prefix("accounts") . " SET " . $sql . " WHERE acctid=\"$userid\"";
 	$petition = http::httpget("returnpetition");
 if ($petition!="")
-	addnav("","viewpetition.php?op=view&id=$petition");
-addnav("","user.php");
+	output::addnav("","viewpetition.php?op=view&id=$petition");
+output::addnav("","user.php");
 	if ($updates>0){
 	db_query($sql);
 	debug("Updated $updates fields in the user record with:\n$sql");

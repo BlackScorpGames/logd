@@ -117,7 +117,7 @@ if (file_exists("dbconnect.php")){
 		output::doOutput("`n`nIf you're not sure why you're seeing this message, it's because this game is not properly configured right now. ");
 		output::doOutput("If you've previously been running the game here, chances are that you lost a file called '`%dbconnect.php`#' from your site.");
 		output::doOutput("If that's the case, no worries, we can get you back up and running in no time, and the installer can help!");
-		addnav("Game Installer","installer.php");
+		output::addnav("Game Installer","installer.php");
 		page_footer();
 	}
 }
@@ -254,7 +254,7 @@ if ($logd_version != settings::getsetting("installer_version","-1") && !defined(
 	output::doOutput("If you are an admin, please <a href='installer.php'>visit the Installer</a> and complete the upgrade process.`n`n",true);
 	output::doOutput("`@If you don't know what this all means, just sit tight, we're doing an upgrade and will be done soon, you will be automatically returned to the game when the upgrade is complete.");
 	rawoutput("<meta http-equiv='refresh' content='30; url={$session['user']['restorepage']}'>");
-	addnav("Installer (Admins only!)","installer.php");
+	output::addnav("Installer (Admins only!)","installer.php");
 	define("NO_SAVE_USER",true);
 	page_footer();
 }

@@ -38,20 +38,20 @@ if ($duration=="") {
 		output::doOutput("`bShowing bans that will expire within %s.`b`n`n",$duration);
 	}
 }
-addnav("Will Expire Within");
-addnav("1 week","user.php?op=removeban&duration=1+week");
-addnav("2 weeks","user.php?op=removeban&duration=2+weeks");
-addnav("3 weeks","user.php?op=removeban&duration=3+weeks");
-addnav("4 weeks","user.php?op=removeban&duration=4+weeks");
-addnav("2 months","user.php?op=removeban&duration=2+months");
-addnav("3 months","user.php?op=removeban&duration=3+months");
-addnav("4 months","user.php?op=removeban&duration=4+months");
-addnav("5 months","user.php?op=removeban&duration=5+months");
-addnav("6 months","user.php?op=removeban&duration=6+months");
-addnav("1 year","user.php?op=removeban&duration=1+year");
-addnav("2 years","user.php?op=removeban&duration=2+years");
-addnav("4 years","user.php?op=removeban&duration=4+years");
-addnav("Forever","user.php?op=removeban&duration=forever");
+output::addnav("Will Expire Within");
+output::addnav("1 week","user.php?op=removeban&duration=1+week");
+output::addnav("2 weeks","user.php?op=removeban&duration=2+weeks");
+output::addnav("3 weeks","user.php?op=removeban&duration=3+weeks");
+output::addnav("4 weeks","user.php?op=removeban&duration=4+weeks");
+output::addnav("2 months","user.php?op=removeban&duration=2+months");
+output::addnav("3 months","user.php?op=removeban&duration=3+months");
+output::addnav("4 months","user.php?op=removeban&duration=4+months");
+output::addnav("5 months","user.php?op=removeban&duration=5+months");
+output::addnav("6 months","user.php?op=removeban&duration=6+months");
+output::addnav("1 year","user.php?op=removeban&duration=1+year");
+output::addnav("2 years","user.php?op=removeban&duration=2+years");
+output::addnav("4 years","user.php?op=removeban&duration=4+years");
+output::addnav("Forever","user.php?op=removeban&duration=forever");
 $sql = "SELECT * FROM " . db_prefix("bans") . " $since ORDER BY banexpire";
 $result = db_query($sql);
 rawoutput("<script language='JavaScript'>
@@ -94,7 +94,7 @@ while ($row = db_fetch_assoc($result)) {
 	rawoutput("<td><a href='user.php?op=delban&ipfilter=".URLEncode($row['ipfilter'])."&uniqueid=".URLEncode($row['uniqueid'])."'>");
 	output_notl("%s", $liftban, true);
 	rawoutput("</a>");
-	addnav("","user.php?op=delban&ipfilter=".URLEncode($row['ipfilter'])."&uniqueid=".URLEncode($row['uniqueid']));
+	output::addnav("","user.php?op=delban&ipfilter=".URLEncode($row['ipfilter'])."&uniqueid=".URLEncode($row['uniqueid']));
 	rawoutput("</td><td>");
 	output_notl("`&%s`0", $row['banner']);
 	rawoutput("</td><td>");
@@ -121,7 +121,7 @@ while ($row = db_fetch_assoc($result)) {
 	rawoutput("<div id='user$i'><a href='$file' target='_blank' onClick=\"getUserInfo('{$row['ipfilter']}','{$row['uniqueid']}',$i); return false;\">");
 	output_notl("%s", $showuser, true);
 	rawoutput("</a></div>");
-	addnav("",$file);
+	output::addnav("",$file);
 	rawoutput("</td><td>");
 	output_notl("%s", relativedate($row['lasthit']));
 	rawoutput("</td></tr>");

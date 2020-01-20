@@ -67,7 +67,7 @@ translator::tlschema($schemas['title']);
 page_header($texts['title']);
 translator::tlschema();
 
-addnav("Other");
+output::addnav("Other");
 villagenav();
 modulehook("stables-nav");
 
@@ -119,8 +119,8 @@ if ($op==""){
 		output::doOutput("`7Creature: `&%s`0`n", $mount['mountname']);
 		output::doOutput("`7Description: `&%s`0`n", $mount['mountdesc']);
 		output::doOutput("`7Cost: `^%s`& gold, `%%s`& gems`n`n", $mount['mountcostgold'], $mount['mountcostgems']);
-		addnav(array("New %s", $mount['mountname']));
-		addnav("Buy this creature","stables.php?op=buymount&id={$mount['mountid']}");
+		output::addnav(array("New %s", $mount['mountname']));
+		output::addnav("Buy this creature","stables.php?op=buymount&id={$mount['mountid']}");
 	}
 }elseif($op=='buymount'){
 	if ($session['user']['hashorse']) {
@@ -128,9 +128,9 @@ if ($op==""){
 		output::doOutput($texts['confirmsale'],
 				($session['user']['sex']?$texts["lass"]:$texts["lad"]));
 		translator::tlschema();
-		addnav("Confirm trade");
-		addnav("Yes", "stables.php?op=confirmbuy&id=$id");
-		addnav("No","stables.php");
+		output::addnav("Confirm trade");
+		output::addnav("Yes", "stables.php?op=confirmbuy&id=$id");
+		output::addnav("No","stables.php");
 		$confirm = 1;
 	} else {
 		$op="confirmbuy";
@@ -235,9 +235,9 @@ if ($op == 'confirmbuy') {
 	output::doOutput($texts['confirmsale'],
 			($session['user']['sex']?$texts["lass"]:$texts["lad"]));
 	translator::tlschema();
-	addnav("Confirm sale");
-	addnav("Yes", "stables.php?op=confirmsell");
-	addnav("No","stables.php");
+	output::addnav("Confirm sale");
+	output::addnav("Yes", "stables.php?op=confirmsell");
+	output::addnav("No","stables.php");
 	$confirm = 1;
 }elseif($op=='confirmsell'){
 	$session['user']['gold']+=$repaygold;
@@ -273,13 +273,13 @@ if ($op == 'confirmbuy') {
 
 if ($confirm == 0) {
 	if ($session['user']['hashorse']>0){
-		addnav(array("%s", color_sanitize($name)));
+		output::addnav(array("%s", color_sanitize($name)));
 		translator::tlschema($schemas['offer']);
 		output::doOutput($texts['offer'], $repaygold, $repaygems, $lcname);
 		translator::tlschema();
-		addnav(array("Sell %s`0", $lcname),"stables.php?op=sellmount");
+		output::addnav(array("Sell %s`0", $lcname),"stables.php?op=sellmount");
 		if (settings::getsetting("allowfeed", 0) && $session['user']['fedmount']==0) {
-			addnav(array("Feed %s`0 (`^%s`0 gold)", $lcname, $grubprice),
+			output::addnav(array("Feed %s`0 (`^%s`0 gold)", $lcname, $grubprice),
 					"stables.php?op=feed");
 		}
 	}
@@ -291,11 +291,11 @@ if ($confirm == 0) {
 	for ($i=0;$i<$number;$i++){
 		$row = db_fetch_assoc($result);
 		if ($category!=$row['mountcategory']){
-			addnav(array("%s", $row['mountcategory']));
+			output::addnav(array("%s", $row['mountcategory']));
 			$category = $row['mountcategory'];
 		}
 		if ($row['mountdkcost'] <= $session['user']['dragonkills'])
-			addnav(array("Examine %s`0", $row['mountname']),"stables.php?op=examine&id={$row['mountid']}");
+			output::addnav(array("Examine %s`0", $row['mountname']),"stables.php?op=examine&id={$row['mountid']}");
 	}
 }
 

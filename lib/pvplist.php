@@ -78,7 +78,7 @@ function pvplist($location=false,$link=false,$extra=false,$sql=false){
 		if ($row['location'] != $location) continue;
 		$j++;
 		$biolink="bio.php?char=".$row['acctid']."&ret=".urlencode($_SERVER['REQUEST_URI']);
-		addnav("", $biolink);
+		output::addnav("", $biolink);
 		rawoutput("<tr class='".($j%2?"trlight":"trdark")."'>");
 		rawoutput("<td>");
 		if ($row['clanshort']>"" && $row['clanrank'] > CLAN_APPLICANT) {
@@ -101,7 +101,7 @@ function pvplist($location=false,$link=false,$extra=false,$sql=false){
 			output::doOutput("`i(Can't reach them from here)`i");
 		}else{
 			rawoutput("<a href='$link$extra&name=".$row['acctid']."'>$att</a>");
-			addnav("","$link$extra&name=".$row['acctid']);
+			output::addnav("","$link$extra&name=".$row['acctid']);
 		}
 		rawoutput(" ]</td>");
 		rawoutput("</tr>");

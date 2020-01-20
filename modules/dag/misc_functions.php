@@ -28,14 +28,14 @@ function dag_manage(){
 	$sql = "DELETE FROM " . db_prefix("bounty") . " WHERE status=1 AND windate <'".date("Y-m-d H:i:s",strtotime("-".(settings::getsetting("expirecontent",180)/10)." days"))."'";
 	db_query($sql);
 
-	addnav("Actions");
-	addnav("A?View All Bounties","runmodule.php?module=dag&manage=true&op=viewbounties&type=1&sort=1&dir=1&admin=true");
-	addnav("O?View Open Bounties","runmodule.php?module=dag&manage=true&op=viewbounties&type=2&sort=1&dir=1&admin=true");
-	addnav("C?View Closed Bounties","runmodule.php?module=dag&manage=true&op=viewbounties&type=3&sort=1&dir=1&admin=true");
-	addnav("R?Refresh List","runmodule.php?module=dag&manage=true&admin=true");
+	output::addnav("Actions");
+	output::addnav("A?View All Bounties","runmodule.php?module=dag&manage=true&op=viewbounties&type=1&sort=1&dir=1&admin=true");
+	output::addnav("O?View Open Bounties","runmodule.php?module=dag&manage=true&op=viewbounties&type=2&sort=1&dir=1&admin=true");
+	output::addnav("C?View Closed Bounties","runmodule.php?module=dag&manage=true&op=viewbounties&type=3&sort=1&dir=1&admin=true");
+	output::addnav("R?Refresh List","runmodule.php?module=dag&manage=true&admin=true");
 
 	rawoutput("<form action='runmodule.php?module=dag&manage=true&op=viewbounties&type=search&admin=true' method='POST'>");
-	addnav("","runmodule.php?module=dag&manage=true&op=viewbounties&type=search&admin=true");
+	output::addnav("","runmodule.php?module=dag&manage=true&op=viewbounties&type=search&admin=true");
 	output::doOutput("Setter: ");
 	rawoutput("<input name='setter' value=\"".htmlentities(stripslashes(httppost('setter')))."\">");
 	output::doOutput(" Winner: ");
@@ -147,7 +147,7 @@ function dag_manage(){
 		$final = translator::translate_inline("Finalize Contract");
 		rawoutput("<input type='submit' class='button' value='$final'>");
 		rawoutput("</form>");
-		addnav("","runmodule.php?module=dag&manage=true&op=addbounty&admin=true");
+		output::addnav("","runmodule.php?module=dag&manage=true&op=addbounty&admin=true");
 	}else if ($op == "addbounty") {
 		if (http::httpget('subfinal')==1){
 			$sql = "SELECT acctid,name,login,level,locked,age,dragonkills,pk,experience FROM " . db_prefix("accounts") . " WHERE name='".addslashes(rawurldecode(stripslashes(httppost('contractname'))))."' AND locked=0";
@@ -182,7 +182,7 @@ function dag_manage(){
 			$final = translator::translate_inline("Finalize Contract");
 			rawoutput("<input type='submit' class='button' value='$final'>");
 			rawoutput("</form>");
-			addnav("","runmodule.php?module=dag&manage=true&op=addbounty&subfinal=1");
+			output::addnav("","runmodule.php?module=dag&manage=true&op=addbounty&subfinal=1");
 		} else {
 			// Now, we have just the one, so check it.
 			$row  = db_fetch_assoc($result);
@@ -211,86 +211,86 @@ function dag_manage(){
 		}elseif ($type == 3) {
 			output::doOutput("`c`bViewing: `3Closed Bounties`b`c");
 		}
-		addnav("Sorting");
+		output::addnav("Sorting");
 
 		if (($sort == 1) && ($dir == 1)) {
-			addnav("1?By BountyID - Asc","runmodule.php?module=dag&manage=true&op=viewbounties&type=".$type."&sort=1&dir=2&admin=true");
+			output::addnav("1?By BountyID - Asc","runmodule.php?module=dag&manage=true&op=viewbounties&type=".$type."&sort=1&dir=2&admin=true");
 			output::doOutput("`c`bSorting By: `3BountyID - Desc`b`c`n`n");
 		}elseif (($sort == 1) && ($dir == 2)) {
-			addnav("1?By BountyID - Desc","runmodule.php?module=dag&manage=true&op=viewbounties&type=".$type."&sort=1&dir=1&admin=true");
+			output::addnav("1?By BountyID - Desc","runmodule.php?module=dag&manage=true&op=viewbounties&type=".$type."&sort=1&dir=1&admin=true");
 			output::doOutput("`c`bSorting By: `3BountyID - Asc`b`c`n`n");
 		}else {
-			addnav("1?By BountyID - Desc","runmodule.php?module=dag&manage=true&op=viewbounties&type=".$type."&sort=1&dir=1&admin=true");
+			output::addnav("1?By BountyID - Desc","runmodule.php?module=dag&manage=true&op=viewbounties&type=".$type."&sort=1&dir=1&admin=true");
 		}
 		if (($sort == 2) && ($dir == 1)) {
-			addnav("2?By Amount - Asc","runmodule.php?module=dag&manage=true&op=viewbounties&type=".$type."&sort=2&dir=2&admin=true");
+			output::addnav("2?By Amount - Asc","runmodule.php?module=dag&manage=true&op=viewbounties&type=".$type."&sort=2&dir=2&admin=true");
 			output::doOutput("`c`bSorting By: `3Amount - Desc`b`c`n`n");
 		}elseif (($sort == 2) && ($dir == 2)) {
-			addnav("2?By Amount - Desc","runmodule.php?module=dag&manage=true&op=viewbounties&type=".$type."&sort=2&dir=1&admin=true");
+			output::addnav("2?By Amount - Desc","runmodule.php?module=dag&manage=true&op=viewbounties&type=".$type."&sort=2&dir=1&admin=true");
 			output::doOutput("`c`bSorting By: `3Amount - Asc`b`c`n`n");
 		}else {
-			addnav("2?By Amount - Desc","runmodule.php?module=dag&manage=true&op=viewbounties&type=".$type."&sort=2&dir=1&admin=true");
+			output::addnav("2?By Amount - Desc","runmodule.php?module=dag&manage=true&op=viewbounties&type=".$type."&sort=2&dir=1&admin=true");
 		}
 		if (($sort == 3) && ($dir == 1)) {
-			addnav("3?By Target - Asc","runmodule.php?module=dag&manage=true&op=viewbounties&type=".$type."&sort=3&dir=2&admin=true");
+			output::addnav("3?By Target - Asc","runmodule.php?module=dag&manage=true&op=viewbounties&type=".$type."&sort=3&dir=2&admin=true");
 			output::doOutput("`c`bSorting By: `3Target - Desc`b`c`n`n");
 		}elseif (($sort == 3) && ($dir == 2)) {
-			addnav("3?By Target - Desc","runmodule.php?module=dag&manage=true&op=viewbounties&type=".$type."&sort=3&dir=1&admin=true");
+			output::addnav("3?By Target - Desc","runmodule.php?module=dag&manage=true&op=viewbounties&type=".$type."&sort=3&dir=1&admin=true");
 			output::doOutput("`c`bSorting By: `3Target - Asc`b`c`n`n");
 		}else {
-			addnav("3?By Target - Desc","runmodule.php?module=dag&manage=true&op=viewbounties&type=".$type."&sort=3&dir=1&admin=true");
+			output::addnav("3?By Target - Desc","runmodule.php?module=dag&manage=true&op=viewbounties&type=".$type."&sort=3&dir=1&admin=true");
 		}
 		if (($sort == 4) && ($dir == 1)) {
-			addnav("4?By Setter - Asc","runmodule.php?module=dag&manage=true&op=viewbounties&type=".$type."&sort=4&dir=2&admin=true");
+			output::addnav("4?By Setter - Asc","runmodule.php?module=dag&manage=true&op=viewbounties&type=".$type."&sort=4&dir=2&admin=true");
 			output::doOutput("`c`bSorting By: `3Setter - Desc`b`c`n`n");
 		}elseif (($sort == 4) && ($dir == 2)) {
-			addnav("4?By Setter - Desc","runmodule.php?module=dag&manage=true&op=viewbounties&type=".$type."&sort=4&dir=1&admin=true");
+			output::addnav("4?By Setter - Desc","runmodule.php?module=dag&manage=true&op=viewbounties&type=".$type."&sort=4&dir=1&admin=true");
 			output::doOutput("`c`bSorting By: `3Setter - Asc`b`c`n`n");
 		}else {
-			addnav("4?By Setter - Desc","runmodule.php?module=dag&manage=true&op=viewbounties&type=".$type."&sort=4&dir=1&admin=true");
+			output::addnav("4?By Setter - Desc","runmodule.php?module=dag&manage=true&op=viewbounties&type=".$type."&sort=4&dir=1&admin=true");
 		}
 		if (($sort == 5) && ($dir == 1)) {
-			addnav("5?By Set Date - Asc","runmodule.php?module=dag&manage=true&op=viewbounties&type=".$type."&sort=5&dir=2&admin=true");
+			output::addnav("5?By Set Date - Asc","runmodule.php?module=dag&manage=true&op=viewbounties&type=".$type."&sort=5&dir=2&admin=true");
 			output::doOutput("`c`bSorting By: `3Set Date - Desc`b`c`n`n");
 		}elseif (($sort == 5) && ($dir == 2)) {
-			addnav("5?By Set Date - Desc","runmodule.php?module=dag&manage=true&op=viewbounties&type=".$type."&sort=5&dir=1&admin=true");
+			output::addnav("5?By Set Date - Desc","runmodule.php?module=dag&manage=true&op=viewbounties&type=".$type."&sort=5&dir=1&admin=true");
 			output::doOutput("`c`bSorting By: `3Set Date - Asc`b`c`n`n");
 		}else {
-			addnav("5?By Set Date - Desc","runmodule.php?module=dag&manage=true&op=viewbounties&type=".$type."&sort=5&dir=1&admin=true");
+			output::addnav("5?By Set Date - Desc","runmodule.php?module=dag&manage=true&op=viewbounties&type=".$type."&sort=5&dir=1&admin=true");
 		}
 		if ($type == 1) {
 			if (($sort == 6) && ($dir == 1)) {
-				addnav("6?By Status - Asc","runmodule.php?module=dag&manage=true&op=viewbounties&type=".$type."&sort=6&dir=2&admin=true");
+				output::addnav("6?By Status - Asc","runmodule.php?module=dag&manage=true&op=viewbounties&type=".$type."&sort=6&dir=2&admin=true");
 				output::doOutput("`c`bSorting By: `3Status - Desc`b`c`n`n");
 			}elseif (($sort == 6) && ($dir == 2)) {
-				addnav("6?By Status - Desc","runmodule.php?module=dag&manage=true&op=viewbounties&type=".$type."&sort=6&dir=1&admin=true");
+				output::addnav("6?By Status - Desc","runmodule.php?module=dag&manage=true&op=viewbounties&type=".$type."&sort=6&dir=1&admin=true");
 				output::doOutput("`c`bSorting By: `3Status - Asc`b`c`n`n");
 			}else {
-				addnav("6?By Status - Desc","runmodule.php?module=dag&manage=true&op=viewbounties&type=".$type."&sort=6&dir=1&admin=true");
+				output::addnav("6?By Status - Desc","runmodule.php?module=dag&manage=true&op=viewbounties&type=".$type."&sort=6&dir=1&admin=true");
 			}
 		}
 		if (($type == 1) || ($type == 3)) {
 			if (($sort == 7) && ($dir == 1)) {
-				addnav("7?By Winner - Asc","runmodule.php?module=dag&manage=true&op=viewbounties&type=".$type."&sort=7&dir=2&admin=true");
+				output::addnav("7?By Winner - Asc","runmodule.php?module=dag&manage=true&op=viewbounties&type=".$type."&sort=7&dir=2&admin=true");
 				output::doOutput("`c`bSorting By: `3Winner - Desc`b`c`n`n");
 			}elseif (($sort == 7) && ($dir == 2)) {
-				addnav("7?By Winner - Desc","runmodule.php?module=dag&manage=true&op=viewbounties&type=".$type."&sort=7&dir=1&admin=true");
+				output::addnav("7?By Winner - Desc","runmodule.php?module=dag&manage=true&op=viewbounties&type=".$type."&sort=7&dir=1&admin=true");
 				output::doOutput("`c`bSorting By: `3Winner - Asc`b`c`n`n");
 			}else {
-				addnav("7?By Winner - Desc","runmodule.php?module=dag&manage=true&op=viewbounties&type=".$type."&sort=7&dir=1&admin=true");
+				output::addnav("7?By Winner - Desc","runmodule.php?module=dag&manage=true&op=viewbounties&type=".$type."&sort=7&dir=1&admin=true");
 			}
 
 			if (($sort == 8) && ($dir == 1)) {
-				addnav("8?By Win Date - Asc","runmodule.php?module=dag&manage=true&op=viewbounties&type=".$type."&sort=8&dir=2&admin=true");
+				output::addnav("8?By Win Date - Asc","runmodule.php?module=dag&manage=true&op=viewbounties&type=".$type."&sort=8&dir=2&admin=true");
 				output::doOutput("`c`bSorting By: `3Win Date - Desc`b`c`n`n");
 			}elseif (($sort == 8) && ($dir == 2)) {
-				addnav("8?By Win Date - Desc","runmodule.php?module=dag&manage=true&op=viewbounties&type=".$type."&sort=8&dir=1&admin=true");
+				output::addnav("8?By Win Date - Desc","runmodule.php?module=dag&manage=true&op=viewbounties&type=".$type."&sort=8&dir=1&admin=true");
 				output::doOutput("`c`bSorting By: `3Win Date - Asc`b`c`n`n");
 			}else {
-				addnav("8?By Win Date - Desc","runmodule.php?module=dag&manage=true&op=viewbounties&type=".$type."&sort=8&dir=1&admin=true");
+				output::addnav("8?By Win Date - Desc","runmodule.php?module=dag&manage=true&op=viewbounties&type=".$type."&sort=8&dir=1&admin=true");
 			}
 		}
-		addnav("Return to Bounty Home","runmodule.php?module=dag&manage=true&op=bounties&admin=true");
+		output::addnav("Return to Bounty Home","runmodule.php?module=dag&manage=true&op=bounties&admin=true");
 		switch ($type) {
 			case 1:
 				$t = "";
@@ -474,7 +474,7 @@ function dag_manage(){
 				$link = "runmodule.php?module=dag&manage=true&op=closebounty&id={$row['bountyid']}&admin=true";
 				$close = translator::translate_inline("Close");
 				rawoutput("<a href=\"$link\">$close</a>");
-				addnav("",$link);
+				output::addnav("",$link);
 			} else {
 				rawoutput("&nbsp;");
 			}

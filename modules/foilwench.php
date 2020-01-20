@@ -77,8 +77,8 @@ function foilwench_runevent($type)
 		output::doOutput("\"`&Yes.  First, you must give me a gem, and second you must stop repeating what I say in the form of a question!%s\"`n`n", $c);
 		output::doOutput("\"`#A gem!%s\" you state definitively.`n`n", $c);
 		output::doOutput("\"`&Well... I guess that wasn't a question.  So how about that gem?%s\"", $c);
-		addnav("Give her a gem", $from."op=give");
-		addnav("Don't give her a gem",$from."op=dont");
+		output::addnav("Give her a gem", $from."op=give");
+		output::addnav("Don't give her a gem",$from."op=dont");
 	}
 }
 

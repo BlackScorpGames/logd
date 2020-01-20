@@ -20,12 +20,12 @@ $ret = http::httpget('ret');
 $return = cmd_sanitize($ret);
 $return = substr($return, strrpos($return, "/") + 1);
 translator::tlschema("nav");
-addnav("Return whence you came", $return);
+output::addnav("Return whence you came", $return);
 translator::tlschema();
 
 $add = translator::translate_inline("Add Donation");
 rawoutput("<form action='donators.php?op=add1&ret=" . rawurlencode($ret) . "' method='POST'>");
-addnav("", "donators.php?op=add1&ret=" . rawurlencode($ret) . "");
+output::addnav("", "donators.php?op=add1&ret=" . rawurlencode($ret) . "");
 $name = httppost("name");
 if ($name == "")
     $name = http::httpget("name");
@@ -56,10 +56,10 @@ if ($txnid > "")
 rawoutput("<input type='submit' class='button' value='$add'>");
 rawoutput("</form>");
 
-addnav("Donations");
+output::addnav("Donations");
 if (($session['user']['superuser'] & SU_EDIT_PAYLOG) &&
         file_exists("paylog.php")) {
-    addnav("Payment Log", "paylog.php");
+    output::addnav("Payment Log", "paylog.php");
 }
 $op = http::httpget('op');
 if ($op == "add2") {
@@ -175,9 +175,9 @@ if ($op == "") {
         rawoutput("</a>");
         output_notl("`n");
         if ($ret != "") {
-            addnav("", "donators.php?op=add2&id={$row['acctid']}&amt=$amt&ret=" . rawurlencode($ret) . "&reason=" . rawurlencode($reason));
+            output::addnav("", "donators.php?op=add2&id={$row['acctid']}&amt=$amt&ret=" . rawurlencode($ret) . "&reason=" . rawurlencode($reason));
         } else {
-            addnav("", "donators.php?op=add2&id={$row['acctid']}&amt=$amt&reason=" . rawurlencode($reason) . "&txnid=$txnid");
+            output::addnav("", "donators.php?op=add2&id={$row['acctid']}&amt=$amt&reason=" . rawurlencode($reason) . "&txnid=$txnid");
         }
     }
 }

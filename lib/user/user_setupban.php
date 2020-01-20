@@ -27,7 +27,7 @@ $conf = translator::translate_inline("Are you sure you wish to issue a permanent
 rawoutput("<input type='submit' class='button' value='$pban' onClick='if (document.getElementById(\"duration\").value==0) {return confirm(\"$conf\");} else {return true;}'>");
 rawoutput("</form>");
 output::doOutput("For an IP ban, enter the beginning part of the IP you wish to ban if you wish to ban a range, or simply a full IP to ban a single IP`n`n");
-addnav("","user.php?op=saveban");
+output::addnav("","user.php?op=saveban");
 if ($row['name']!=""){
 	$id = $row['uniqueid'];
 	$ip = $row['lastip'];

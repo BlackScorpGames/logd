@@ -19,7 +19,7 @@ function check_su_access($level){
 			output::doOutput("Looks like you're probably an admin with appropriate permissions to perform this action, but a module is preventing you from doing so.");
 			output::doOutput("Sorry about that!");
 			translator::tlschema("nav");
-			addnav("M?Return to the Mundane","village.php");
+			output::addnav("M?Return to the Mundane","village.php");
 			translator::tlschema();
 			page_footer();
 		}
@@ -57,7 +57,7 @@ function check_su_access($level){
 		$session['user']['deathpower']=0;
 		$session['user']['gold']=0;
 		$session['user']['experience']*=0.75;
-		addnav("Daily News","news.php");
+		output::addnav("Daily News","news.php");
 		$sql = "SELECT acctid FROM " . db_prefix("accounts") . " WHERE (superuser&".SU_EDIT_USERS.")";
 		$result = db_query($sql);
 		require_once("lib/systemmail.php");

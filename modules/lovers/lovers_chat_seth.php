@@ -4,8 +4,8 @@ function lovers_chat_seth(){
 	if (http::httpget("act")==""){
 		output::doOutput("You make your way over to where %s`0 is sitting, ale in hand.", settings::getsetting("bard", "`^Seth"));
 		output::doOutput("Sitting down, and waiting for %s`0 to finish a song, you light your pipe.", settings::getsetting("bard", "`^Seth"));
-		addnav("Ask about your manliness","runmodule.php?module=lovers&op=chat&act=armor");
-		addnav("Discuss Sports","runmodule.php?module=lovers&op=chat&act=sports");
+		output::addnav("Ask about your manliness","runmodule.php?module=lovers&op=chat&act=armor");
+		output::addnav("Discuss Sports","runmodule.php?module=lovers&op=chat&act=sports");
 	}elseif(http::httpget("act")=="sports"){
 		output::doOutput("You and %s`0 spend some time talking about the recent dwarf tossing competition.", settings::getsetting("bard", "`^Seth"));
 		output::doOutput("Not wanting to linger around another man for too long, so no one \"wonders\", you decide you should find something else to do.");

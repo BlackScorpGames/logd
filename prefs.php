@@ -32,7 +32,7 @@ if ($op=="suicide" && settings::getsetting("selfdelete",0)!=0) {
 	db_query($sql);
 	output::doOutput("Your character has been deleted!");
 	addnews("`#%s quietly passed from this world.",$session['user']['name']);
-	addnav("Login Page", "index.php");
+	output::addnav("Login Page", "index.php");
 	$session=array();
 	$session['user'] = array();
 	$session['loggedin'] = false;
@@ -45,7 +45,7 @@ if ($op=="suicide" && settings::getsetting("selfdelete",0)!=0) {
 	if ($session['user']['alive']){
 		villagenav();
 	}else{
-		addnav("Return to the news","news.php");
+		output::addnav("Return to the news","news.php");
 	}
 
 
@@ -293,7 +293,7 @@ if ($op=="suicide" && settings::getsetting("selfdelete",0)!=0) {
 			$mdata[$row1['modulename']."___".$row1['setting']] = $row1['value'];
 		}
 	}
-	addnav('View Bio','bio.php?char='.$session['user']['acctid'].'&ret='.urlencode($_SERVER['REQUEST_URI']));
+	output::addnav('View Bio','bio.php?char='.$session['user']['acctid'].'&ret='.urlencode($_SERVER['REQUEST_URI']));
 	
 	$form = array_merge($form, $msettings);
 	$prefs = array_merge($prefs, $mdata);
@@ -303,7 +303,7 @@ if ($op=="suicide" && settings::getsetting("selfdelete",0)!=0) {
 			htmlentities(serialize($info), ENT_COMPAT, settings::getsetting("charset", "ISO-8859-1"))."\" name='oldvalues'>");
 
 	rawoutput("</form><br />");
-	addnav("","prefs.php?op=save");
+	output::addnav("","prefs.php?op=save");
 
 	// Stop clueless lusers from deleting their character just because a
 	// monster killed them.
@@ -315,7 +315,7 @@ if ($op=="suicide" && settings::getsetting("selfdelete",0)!=0) {
 		rawoutput("<input type='submit' class='button' value='$deltext' onClick='return confirm(\"$conf\");'>");
 		rawoutput("</td></tr></table>");
 		rawoutput("</form>");
-		addnav("","prefs.php?op=suicide&userid={$session['user']['acctid']}");
+		output::addnav("","prefs.php?op=suicide&userid={$session['user']['acctid']}");
 	}
 }
 page_footer();

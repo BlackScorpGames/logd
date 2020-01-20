@@ -70,9 +70,9 @@ function crazyaudrey_dohook($hookname,$args){
 			$cost = get_module_setting("cost");
 			// And since the capital can change the texts
 			translator::tlschema($args['schemas']['marketnav']);
-			addnav($args["marketnav"]);
+			output::addnav($args["marketnav"]);
 			translator::tlschema();
-			addnav(array(" ?Pet Crazy Audrey's %s`0 (`^%s gold`0)",$animals,$cost),"runmodule.php?module=crazyaudrey&op=pet");
+			output::addnav(array(" ?Pet Crazy Audrey's %s`0 (`^%s gold`0)",$animals,$cost),"runmodule.php?module=crazyaudrey&op=pet");
 		}
 		break;
 	case "newday":
@@ -148,8 +148,8 @@ function crazyaudrey_baskets($type)
 		output::doOutput("That then is my proposition,`n");
 		output::doOutput("Shall thou take it, or from me run?`5\"`n`n");
 		output::doOutput("Will you play her game?");
-		addnav("Play",$from."op=play");
-		addnav("Run away from Crazy Audrey",$from."op=run");
+		output::addnav("Play",$from."op=play");
+		output::addnav("Run away from Crazy Audrey",$from."op=run");
 	}else if($op=="run"){
 		output::doOutput("`5You run, very quickly, away from this mad woman.");
 	}else if($op=="play"){
@@ -251,7 +251,7 @@ function crazyaudrey_run(){
 			apply_buff('crazyaudrey',array("name"=>$buffname,"rounds"=>5,"activate"=>"defense","defmod"=>1.05, "schema"=>"module-crazyaudrey"));
 			output::doOutput("`5After a few minutes, you once again try to approach in order to look into her baskets.");
 			if (get_module_pref("played")==0) {
-				addnav("Look at Crazy Audrey's baskets","runmodule.php?module=crazyaudrey&op=baskets");
+				output::addnav("Look at Crazy Audrey's baskets","runmodule.php?module=crazyaudrey&op=baskets");
 			} else {
 				output::doOutput("`5As you approach closer, Crazy Audrey looks up and screams at you. \"`%Hey!!  I recognize you!  You've already played with my %s`% today!  Get away from here, you pervy %s`% fancier!`5\"", $lcplural, $lcanimal);
 				output::doOutput("You quickly step back and admire the %s`5 from a safe distance.", $lcplural);

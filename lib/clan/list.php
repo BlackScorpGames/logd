@@ -1,7 +1,7 @@
 <?php
 	page_header("Clan Listing");
 	$registrar=settings::getsetting('clanregistrar','`%Karissa');
-	addnav("Clan Options");
+	output::addnav("Clan Options");
 	$sql = "SELECT MAX(" . db_prefix("clans") . ".clanid) AS clanid, MAX(clanshort) AS clanshort, MAX(clanname) AS clanname,count(" . db_prefix("accounts") . ".acctid) AS c FROM " . db_prefix("clans") . " LEFT JOIN " . db_prefix("accounts") . " ON " . db_prefix("clans") . ".clanid=" . db_prefix("accounts") . ".clanid AND clanrank>".CLAN_APPLICANT." GROUP BY " . db_prefix("clans") . ".clanid ORDER BY c DESC";
 	$result = db_query($sql);
 	if (db_num_rows($result)>0){
@@ -27,16 +27,16 @@
 						full_sanitize(htmlentities($row['clanname']), ENT_COMPAT, settings::getsetting("charset", "ISO-8859-1")),
 						$memb, true);
 				rawoutput('</td></tr>');
-				addnav("","clan.php?detail={$row['clanid']}");
+				output::addnav("","clan.php?detail={$row['clanid']}");
 				$v++;
 			}
 		}
 		rawoutput("</table>", true);
-		addnav("Return to the Lobby","clan.php");
+		output::addnav("Return to the Lobby","clan.php");
 	}else{
 		output::doOutput("`7You ask %s`7 for the clan listings.  She stares at you blankly for a few moments, then says, \"`5Sorry pal, no one has had enough gumption to start up a clan yet.  Maybe that should be you, eh?`7\"",$registrar);
-		addnav("Apply for a New Clan","clan.php?op=new");
-		addnav("Return to the Lobby","clan.php");
+		output::addnav("Apply for a New Clan","clan.php?op=new");
+		output::addnav("Return to the Lobby","clan.php");
 	}
 
 	page_footer();

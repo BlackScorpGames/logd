@@ -1177,7 +1177,7 @@ function module_display_events($eventtype, $forcescript=false) {
 		$rl2 = str_replace("?", "&", $rl2);
 		$rlink = $rl1 . $rl2;
 		rawoutput("<td><a href='$rlink'>$name</a></td>");
-		addnav("", "$rlink");
+		output::addnav("", "$rlink");
 		rawoutput("<td>{$event['rawchance']}</td>");
 		rawoutput("<td>{$event['normchance']}</td>");
 		rawoutput("</tr>");
@@ -1193,7 +1193,7 @@ function module_editor_navs($like, $linkprefix)
 	while($row = db_fetch_assoc($result)) {
 		if ($curcat != $row['category']) {
 			$curcat = $row['category'];
-			addnav(array("%s Modules",$curcat));
+			output::addnav(array("%s Modules",$curcat));
 		}
 		//I really think we should give keyboard shortcuts even if they're
 		//susceptible to change (which only happens here when the admin changes

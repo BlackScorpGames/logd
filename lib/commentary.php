@@ -355,7 +355,7 @@ function viewcommentary($section,$message="Interject your own commentary?",$limi
 			$op[$i]="`0({$row['section']}) ".$op[$i];
 		if ($row['postdate']>=$session['user']['recentcomments'])
 			$op[$i]="<img src='images/new.gif' alt='&gt;' width='3' height='5' align='absmiddle'> ".$op[$i];
-		addnav("",$link);
+		output::addnav("",$link);
 		$auth[$i] = $row['author'];
 		if (isset($rawc[$i])) {
 			$rawc[$i] = full_sanitize($rawc[$i]);
@@ -381,7 +381,7 @@ function viewcommentary($section,$message="Interject your own commentary?",$limi
 		if ($moderating){
 			if ($session['user']['superuser'] & SU_EDIT_USERS){
 				$out.="`0[ <input type='checkbox' name='comment[{$commentids[$i]}]'> | <a href='user.php?op=setupban&userid=".$auth[$i]."&reason=".rawurlencode($rawc[$i])."'>Ban</a> ]&nbsp;";
-				addnav("","user.php?op=setupban&userid=$auth[$i]&reason=".rawurlencode($rawc[$i]));
+				output::addnav("","user.php?op=setupban&userid=$auth[$i]&reason=".rawurlencode($rawc[$i]));
 			}else{
 				$out.="`0[ <input type='checkbox' name='comment[{$commentids[$i]}]'> ]&nbsp;";
 			}
@@ -400,7 +400,7 @@ function viewcommentary($section,$message="Interject your own commentary?",$limi
 		}else{
 			if ($session['user']['superuser'] & SU_EDIT_COMMENTS) {
 				$out.="`2[<a href='".$return.$one."removecomment={$commentids[$i]}&section=$section&returnpath=".URLEncode($return)."'>$del</a>`2]`0&nbsp;";
-				addnav("",$return.$one."removecomment={$commentids[$i]}&section=$section&returnpath=".URLEncode($return)."");
+				output::addnav("",$return.$one."removecomment={$commentids[$i]}&section=$section&returnpath=".URLEncode($return)."");
 			}
 			$out.=$op[$i];
 			if (!array_key_exists($sect,$outputcomments) || !is_array($outputcomments[$sect]))
@@ -411,7 +411,7 @@ function viewcommentary($section,$message="Interject your own commentary?",$limi
 
 	if ($moderating){
 		$scriptname=substr($_SERVER['SCRIPT_NAME'],strrpos($_SERVER['SCRIPT_NAME'],"/")+1);
-		addnav("","$scriptname?op=commentdelete&return=".URLEncode($_SERVER['REQUEST_URI']));
+		output::addnav("","$scriptname?op=commentdelete&return=".URLEncode($_SERVER['REQUEST_URI']));
 		$mod_Del1 = htmlentities(translator::translate_inline("Delete Checked Comments"), ENT_COMPAT, settings::getsetting("charset", "ISO-8859-1"));
 		$mod_Del2 = htmlentities(translator::translate_inline("Delete Checked & Ban (3 days)"), ENT_COMPAT, settings::getsetting("charset", "ISO-8859-1"));
 		$mod_Del_confirm = addslashes(htmlentities(translator::translate_inline("Are you sure you wish to ban this user and have you specified the exact reason for the ban, i.e. cut/pasted their offensive comments?"), ENT_COMPAT, settings::getsetting("charset", "ISO-8859-1")));
@@ -436,7 +436,7 @@ function viewcommentary($section,$message="Interject your own commentary?",$limi
 			if($needclose) modulehook("}collapse");
 			output_notl("`n<hr><a href='moderate.php?area=%s'>`b`^%s`0`b</a>`n",
 				$sec, isset($sections[$sec]) ? $sections[$sec] : "($sec)", true);
-			addnav("", "moderate.php?area=$sec");
+			output::addnav("", "moderate.php?area=$sec");
 			modulehook("collapse{",array("name"=>"com-".$sec));
 			$needclose = 1;
 		} else {
@@ -511,7 +511,7 @@ function viewcommentary($section,$message="Interject your own commentary?",$limi
 				$first .= "#$section";
 			}
 			output_notl("<a href=\"$first\">$firstu</a>",true);
-			addnav("",$first);
+			output::addnav("",$first);
 		}else{
 			output_notl($firstu,true);
 		}
@@ -523,7 +523,7 @@ function viewcommentary($section,$message="Interject your own commentary?",$limi
 			$req .= "#$section";
 		}
 		output_notl("<a href=\"$req\">$prev</a>",true);
-		addnav("",$req);
+		output::addnav("",$req);
 	}else{
 		output_notl("$firstu $prev",true);
 	}
@@ -542,7 +542,7 @@ function viewcommentary($section,$message="Interject your own commentary?",$limi
 	//if (!strpos($last,"?")) $last = str_replace("&","?",$last);
 	//debug($last);
 	output_notl("&nbsp;<a href=\"$last\">$ref</a>&nbsp;",true);
-	addnav("",$last);
+	output::addnav("",$last);
 	if ($com>0 || ($cid > 0 && $newadded > $limit)){
 		$req = comscroll_sanitize($REQUEST_URI)."&comscroll=".($com-1);
 		$req = str_replace("?&","?",$req);
@@ -552,7 +552,7 @@ function viewcommentary($section,$message="Interject your own commentary?",$limi
 			$req .= "#$section";
 		}
 		output_notl(" <a href=\"$req\">$next</a>",true);
-		addnav("",$req);
+		output::addnav("",$req);
 		output_notl(" <a href=\"$last\">$lastu</a>",true);
 	}else{
 		output_notl("$next $lastu",true);
@@ -598,7 +598,7 @@ function talkform($section,$talkline,$limit=10,$schema=false){
 	if ($jump) {
 		$req .= "#$section";
 	}
-	addnav("",$req);
+	output::addnav("",$req);
 	output_notl("<form action=\"$req\" method='POST' autocomplete='false'>",true);
 	previewfield("insertcommentary", $session['user']['name'], $talkline, true, array("size"=>"40", "maxlength"=>200-$tll));
 	rawoutput("<input type='hidden' name='talkline' value='$talkline'>");

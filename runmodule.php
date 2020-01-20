@@ -45,7 +45,7 @@ if (injectmodule(http::httpget('module'), (http::httpget('admin')?true:false))){
 	if ($session['user']['loggedin']){
 		villagenav();
 	}else{
-		addnav("L?Return to the Login","index.php");
+		output::addnav("L?Return to the Login","index.php");
 	}
 	output::doOutput("You are attempting to use a module which is no longer active, or has been uninstalled.");
 	page_footer();

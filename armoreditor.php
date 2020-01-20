@@ -14,10 +14,10 @@ page_header("Armor Editor");
 $armorlevel = (int)http::httpget('level');
 require_once("lib/superusernav.php");
 superusernav();
-addnav("Armor Editor");
-addnav("Armor Editor Home","armoreditor.php?level=$armorlevel");
+output::addnav("Armor Editor");
+output::addnav("Armor Editor Home","armoreditor.php?level=$armorlevel");
 
-addnav("Add armor","armoreditor.php?op=add&level=$armorlevel");
+output::addnav("Add armor","armoreditor.php?op=add&level=$armorlevel");
 $values = array(1=>48,225,585,990,1575,2250,2790,3420,4230,5040,5850,6840,8010,9000,10350);
 output::doOutput("`&<h3>Armor for %s Dragon Kills</h3>`0",$armorlevel,true);
 
@@ -39,7 +39,7 @@ if($op=="edit" || $op=="add"){
 		$row = db_fetch_assoc($result);
 	}
 	rawoutput("<form action='armoreditor.php?op=save&level=$armorlevel' method='POST'>");
-	addnav("","armoreditor.php?op=save&level=$armorlevel");
+	output::addnav("","armoreditor.php?op=save&level=$armorlevel");
 	showform($armorarray,$row);
 	rawoutput("</form>");
 }else if($op=="del"){
@@ -68,9 +68,9 @@ if ($op==""){
 	$max = $row['level'];
 	for ($i=0;$i<=$max;$i++){
 		if ($i == 1)
-			addnav(array("Armor for %s DK",$i),"armoreditor.php?level=$i");
+			output::addnav(array("Armor for %s DK",$i),"armoreditor.php?level=$i");
 		else
-			addnav(array("Armor for %s DKs",$i),"armoreditor.php?level=$i");
+			output::addnav(array("Armor for %s DKs",$i),"armoreditor.php?level=$i");
 	}
 	$sql = "SELECT * FROM " . db_prefix("armor") . " WHERE level=$armorlevel ORDER BY defense";
 	$result= db_query($sql);
@@ -90,8 +90,8 @@ if ($op==""){
 		$row = db_fetch_assoc($result);
 		rawoutput("<tr class='".($i%2?"trdark":"trlight")."'>");
 		rawoutput("<td>[<a href='armoreditor.php?op=edit&id={$row['armorid']}&level=$armorlevel'>$edit</a>|<a href='armoreditor.php?op=del&id={$row['armorid']}&level=$armorlevel' onClick='return confirm(\"$delconfirm\");'>$del</a>]</td>");
-		addnav("","armoreditor.php?op=edit&id={$row['armorid']}&level=$armorlevel");
-		addnav("","armoreditor.php?op=del&id={$row['armorid']}&level=$armorlevel");
+		output::addnav("","armoreditor.php?op=edit&id={$row['armorid']}&level=$armorlevel");
+		output::addnav("","armoreditor.php?op=del&id={$row['armorid']}&level=$armorlevel");
 		rawoutput("<td>");
 		output_notl($row['armorname']);
 		rawoutput("</td><td>");
