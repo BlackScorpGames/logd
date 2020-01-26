@@ -27,7 +27,7 @@ function forest($noshowmessage=false) {
 		// a superuser link, but it shouldn't happen otherwise.. We just
 		// want to make sure however.
 		$isforest = 0;
-		$vloc = modulehook('validforestloc', array());
+		$vloc = modules::modulehook('validforestloc', array());
 		foreach($vloc as $i=>$l) {
 			if ($session['user']['location'] == $i) {
 				$isforest = 1;
@@ -46,9 +46,9 @@ function forest($noshowmessage=false) {
 		output::doOutput("The thick foliage of the forest restricts your view to only a few yards in most places.");
 		output::doOutput("The paths would be imperceptible except for your trained eye.");
 		output::doOutput("You move as silently as a soft breeze across the thick moss covering the ground, wary to avoid stepping on a twig or any of the numerous pieces of bleached bone that populate the forest floor, lest you betray your presence to one of the vile beasts that wander the forest.`n");
-		modulehook("forest-desc");
+		modules::modulehook("forest-desc");
 	}
-	modulehook("forest", array());
+	modules::modulehook("forest", array());
 	module_display_events("forest", "forest.php");
 	translator::tlschema();
 }

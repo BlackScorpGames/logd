@@ -9,7 +9,7 @@ if ($act==""){
 	addnav_notl(sanitize($barkeep));
 	output::addnav("Bribe","inn.php?op=bartender&act=bribe");
 	output::addnav("Drinks");
-	modulehook("ale", array());
+	modules::modulehook("ale", array());
 }elseif ($act=="bribe"){
 	$g1 = $session['user']['level']*10;
 	$g2 = $session['user']['level']*50;
@@ -112,7 +112,7 @@ if ($act==""){
 		output::doOutput("You look around for the secret door that you know must be opening nearby when %s`0 rotates the tap back, and lifts up a freshly filled foamy mug of what is apparently his fine swill, blue-green tint and all.`n`n",$barkeep);
 		output::doOutput("\"`3What?  Were you expecting a secret room?`0\" he asks.  \"`3Now then, you must be more careful about how loudly you say that you want to change your specialty, not everyone looks favorably on that sort of thing.`n`n");
 		output::doOutput("`0\"`3What new specialty did you have in mind?`0\"");
-		$specialities = modulehook("specialtynames");
+		$specialities = modules::modulehook("specialtynames");
 		foreach($specialities as $key=>$name) {
 			output::addnav($name,cmd_sanitize($REQUEST_URI)."&specialty=$key");
 		}

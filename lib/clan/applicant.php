@@ -15,7 +15,7 @@
 		output::doOutput("With a large metallic \"Chunk\" the lock on the door disengages, and the door swings silently open, admitting the warrior before slamming shut.`n`n");
 		output::doOutput("In the center of the lobby sits a highly polished desk, behind which sits `%%s`7, the clan registrar.",$registrar);
 		output::doOutput("She can take your filing for a new clan, or accept your application to an existing clan.`n`n");
-/*//*/	modulehook("clan-enter");
+/*//*/	modules::modulehook("clan-enter");
 		if ($op=="withdraw"){
 			$session['user']['clanid']=0;
 			$session['user']['clanrank']=CLAN_APPLICANT;

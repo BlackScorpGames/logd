@@ -77,7 +77,7 @@ while ($row = db_fetch_assoc($result)){
 }
 
 $specialties = array(""=>translator::translate_inline("Undecided"));
-$specialties = modulehook("specialtynames", $specialties);
+$specialties = modules::modulehook("specialtynames", $specialties);
 $enum = "";
 foreach ($specialties as $key=>$name) {
 	if ($enum) $enum .= ",";
@@ -86,7 +86,7 @@ foreach ($specialties as $key=>$name) {
 
 //Inserted for v1.1.0 Dragonprime Edition to extend clan possibilities
 $ranks = array(CLAN_APPLICANT=>"`!Applicant`0",CLAN_MEMBER=>"`#Member`0",CLAN_OFFICER=>"`^Officer`0",CLAN_LEADER=>"`&Leader`0", CLAN_FOUNDER=>"`\$Founder");
-$ranks = modulehook("clanranks", array("ranks"=>$ranks, "clanid"=>NULL, "userid"=>$userid));
+$ranks = modules::modulehook("clanranks", array("ranks"=>$ranks, "clanid"=>NULL, "userid"=>$userid));
 $ranks = $ranks['ranks'];
 $rankstring = "";
 foreach($ranks as $rankid => $rankname) {

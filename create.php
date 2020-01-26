@@ -151,7 +151,7 @@ if (settings::getsetting("allowcreation",1)==0){
 				$msg.=translator::translate_inline("You must enter a valid email address.`n");
 				$blockaccount=true;
 			}
-			$args = modulehook("check-create", httpallpost());
+			$args = modules::modulehook("check-create", httpallpost());
 			if(isset($args['blockaccount']) && $args['blockaccount']) {
 				$msg .= $args['msg'];
 				$blockaccount = true;
@@ -206,7 +206,7 @@ if (settings::getsetting("allowcreation",1)==0){
 						$sql_output = "INSERT INTO " . db_prefix("accounts_output") . " VALUES ({$row['acctid']},'');";
 						db_query($sql_output);
 						//end
-						modulehook("process-create", $args);
+						modules::modulehook("process-create", $args);
 						if ($emailverification!=""){
 							$subj = translator::translate_mail("LoGD Account Verification",0);
 							 $msg = translator::translate_mail(array("Login name: %s `n`nIn order to verify your account, you will need to click on the link below.`n`n http://%s?op=val&id=%s `n`nThanks for playing!",$shortname,
@@ -296,7 +296,7 @@ if (settings::getsetting("allowcreation",1)==0){
 		output::doOutput("`nAnd are you a %s Female or a %s Male?`n",
 				"<input type='radio' name='sex' value='1'>",
 				"<input type='radio' name='sex' value='0' checked>",true);
-		modulehook("create-form");
+		modules::modulehook("create-form");
 		$createbutton = translator::translate_inline("Create your character");
 		rawoutput("<input type='submit' class='button' value='$createbutton'>");
 		output_notl("`n`n");

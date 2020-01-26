@@ -53,7 +53,7 @@ function pvplist($location=false,$link=false,$extra=false,$sql=false){
 		$pvp[] = $row;
 	}
 
-	$pvp = modulehook("pvpmodifytargets", $pvp);
+	$pvp = modules::modulehook("pvpmodifytargets", $pvp);
 
 	translator::tlschema("pvp");
 	$n = translator::translate_inline("Name");
@@ -118,7 +118,7 @@ function pvplist($location=false,$link=false,$extra=false,$sql=false){
 		output::doOutput("`n`n`&As you listen to different people around you talking, you glean the following additional information:`n");
 		foreach ($loc_counts as $loc=>$count) {
 			if ($loc == $location) continue;
-			$args = modulehook("pvpcount", array('count'=>$count,'loc'=>$loc));
+			$args = modules::modulehook("pvpcount", array('count'=>$count,'loc'=>$loc));
 			if (isset($args['handled']) && $args['handled']) continue;
 			if ($count == 1) {
 			output::doOutput("`&There is `^%s`& person sleeping in %s whom you might find interesting.`0`n", $count, $loc);

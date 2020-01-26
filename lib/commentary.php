@@ -31,7 +31,7 @@ function commentarylocs() {
 	}
 	translator::tlschema();
 	// All of the ones after this will be translated in the modules.
-	$comsecs = modulehook("moderate", $comsecs);
+	$comsecs = modules::modulehook("moderate", $comsecs);
 	rawoutput(translator::tlbutton_clear());
 	return $comsecs;
 }
@@ -126,7 +126,7 @@ function injectcommentary($section, $talkline, $comment, $schema=false) {
 		}
 
 		$args = array('commentline'=>$commentary, 'commenttalk'=>$talkline);
-		$args = modulehook("commentary", $args);
+		$args = modules::modulehook("commentary", $args);
 		$commentary = $args['commentline'];
 		$talkline = $args['commenttalk'];
 		translator::tlschema($schema);
@@ -166,7 +166,7 @@ function injectcommentary($section, $talkline, $comment, $schema=false) {
 
 function commentdisplay($intro, $section, $message="Interject your own commentary?",$limit=10,$talkline="says",$schema=false) {
 	// Let's add a hook for modules to block commentary sections
-	$args = modulehook("blockcommentarea", array("section"=>$section));
+	$args = modules::modulehook("blockcommentarea", array("section"=>$section));
 	if (isset($args['block']) && ($args['block'] == "yes"))
 		return;
 
@@ -180,7 +180,7 @@ function viewcommentary($section,$message="Interject your own commentary?",$limi
 
 	rawoutput("<a name='$section'></a>");
 	// Let's add a hook for modules to block commentary sections
-	$args = modulehook("blockcommentarea", array("section"=>$section));
+	$args = modules::modulehook("blockcommentarea", array("section"=>$section));
 	if (isset($args['block']) && ($args['block'] == "yes"))
 		return;
 
@@ -433,27 +433,27 @@ function viewcommentary($section,$message="Interject your own commentary?",$limi
 
 	while (list($sec,$v)=each($outputcomments)){
 		if ($sec!="x") {
-			if($needclose) modulehook("}collapse");
+			if($needclose) modules::modulehook("}collapse");
 			output_notl("`n<hr><a href='moderate.php?area=%s'>`b`^%s`0`b</a>`n",
 				$sec, isset($sections[$sec]) ? $sections[$sec] : "($sec)", true);
 			output::addnav("", "moderate.php?area=$sec");
-			modulehook("collapse{",array("name"=>"com-".$sec));
+			modules::modulehook("collapse{",array("name"=>"com-".$sec));
 			$needclose = 1;
 		} else {
-			modulehook("collapse{",array("name"=>"com-".$section));
+			modules::modulehook("collapse{",array("name"=>"com-".$section));
 			$needclose = 1;
 		}
 		reset($v);
 		while (list($key,$val)=each($v)){
 			$args = array('commentline'=>$val);
-			$args = modulehook("viewcommentary", $args);
+			$args = modules::modulehook("viewcommentary", $args);
 			$val = $args['commentline'];
 			output_notl($val, true);
 		}
 	}
 
 	if ($moderating && $needclose) {
-		modulehook("}collapse");
+		modules::modulehook("}collapse");
 		$needclose = 0;
 	}
 
@@ -468,7 +468,7 @@ function viewcommentary($section,$message="Interject your own commentary?",$limi
 	}
 
 	if ($session['user']['loggedin']) {
-		$args = modulehook("insertcomment", array("section"=>$section));
+		$args = modules::modulehook("insertcomment", array("section"=>$section));
 		if (array_key_exists("mute",$args) && $args['mute'] &&
 				!($session['user']['superuser'] & SU_EDIT_COMMENTS)) {
 			output_notl("%s", $args['mutemsg']);
@@ -559,7 +559,7 @@ function viewcommentary($section,$message="Interject your own commentary?",$limi
 	}
 	if (!$cc) db_free_result($result);
 	translator::tlschema();
-	if ($needclose) modulehook("}collapse");
+	if ($needclose) modules::modulehook("}collapse");
 }
 
 function talkform($section,$talkline,$limit=10,$schema=false){

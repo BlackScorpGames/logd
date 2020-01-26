@@ -60,7 +60,7 @@ $schemas = array(
 	'offer'=>'stables',
 );
 $basetext['schemas']=$schemas;
-$texts = modulehook("stabletext", $basetext);
+$texts = modules::modulehook("stabletext", $basetext);
 $schemas = $texts['schemas'];
 
 translator::tlschema($schemas['title']);
@@ -69,7 +69,7 @@ translator::tlschema();
 
 output::addnav("Other");
 villagenav();
-modulehook("stables-nav");
+modules::modulehook("stables-nav");
 
 global $mount_dev, $playermount;
 list($name, $lcname) = $mount_dev->getName($playermount);
@@ -101,7 +101,7 @@ if ($op==""){
   		output::doOutput($texts['desc']);
   	}
 	translator::tlschema();
-	modulehook("stables-desc");
+	modules::modulehook("stables-desc");
 }elseif($op=="examine"){
 	$sql = "SELECT * FROM " . db_prefix("mounts") . " WHERE mountid='$id'";
 	$result = db_query_cached($sql, "mountdata-$id", 3600);
@@ -183,8 +183,8 @@ if ($op == 'confirmbuy') {
 			$repaygold = round($playermount->getCostGold()*2/3,0);
 			$repaygems = round($playermount->getCostGems()*2/3,0);
 			// Recalculate the special name as well.
-			modulehook("stable-mount", array());
-			modulehook("boughtmount");
+			modules::modulehook("stable-mount", array());
+			modules::modulehook("boughtmount");
 			global $mount_dev, $playermount;
 			list($name, $lcname) = $mount_dev->getName($playermount);
 			$grubprice = round($session['user']['level']*$playermount->getFeedCost(), 0);
@@ -246,7 +246,7 @@ if ($op == 'confirmbuy') {
 	debuglog("gained $repaygold gold and $repaygems gems selling their mount, a $debugmount");
 	strip_buff('mount');
 	$session['user']['hashorse']=0;
-	modulehook("soldmount");
+	modules::modulehook("soldmount");
 
 	$amtstr = "";
 	if ($repaygold > 0) {

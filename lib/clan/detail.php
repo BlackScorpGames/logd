@@ -69,7 +69,7 @@
 	$tot = 0;
 	//little hack with the hook...can't think of any other way
 	$ranks = array(CLAN_APPLICANT=>"`!Applicant`0",CLAN_MEMBER=>"`#Member`0",CLAN_OFFICER=>"`^Officer`0",CLAN_LEADER=>"`&Leader`0", CLAN_FOUNDER=>"`\$Founder");
-	$args = modulehook("clanranks", array("ranks"=>$ranks, "clanid"=>$detail));
+	$args = modules::modulehook("clanranks", array("ranks"=>$ranks, "clanid"=>$detail));
 	$ranks = translator::translate_inline($args['ranks']);
 	//end
 	while ($row=db_fetch_assoc($result)){

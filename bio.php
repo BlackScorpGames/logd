@@ -41,7 +41,7 @@ if ($target = db_fetch_assoc($result)) {
 	  output::addnav("Edit User","user.php?op=edit&userid=$id");
   }
 
-  modulehook("biotop", $target);
+  modules::modulehook("biotop", $target);
 
  output::doOutput("`^Biography for %s`^.",$target['name']);
   $write = translator::translate_inline("Write Mail");
@@ -51,7 +51,7 @@ if ($target = db_fetch_assoc($result)) {
 
   if ($target['clanname']>"" && settings::getsetting("allowclans",false)){
 	  $ranks = array(CLAN_APPLICANT=>"`!Applicant`0",CLAN_MEMBER=>"`#Member`0",CLAN_OFFICER=>"`^Officer`0",CLAN_LEADER=>"`&Leader`0", CLAN_FOUNDER=>"`\$Founder");
-	  $ranks = modulehook("clanranks", array("ranks"=>$ranks, "clanid"=>$target['clanid']));
+	  $ranks = modules::modulehook("clanranks", array("ranks"=>$ranks, "clanid"=>$target['clanid']));
 	  translator::tlschema("clans"); //just to be in the right schema
 	  array_push($ranks['ranks'],"`\$Founder");
 	  $ranks = translator::translate_inline($ranks['ranks']);
@@ -83,7 +83,7 @@ if ($target = db_fetch_assoc($result)) {
   $genders = translator::translate_inline($genders);
  output::doOutput("`^Gender: `@%s`n",$genders[$target['sex']]);
 
-  $specialties = modulehook("specialtynames",
+  $specialties = modules::modulehook("specialtynames",
 		  array(""=>translator::translate_inline("Unspecified")));
   if (isset($specialties[$target['specialty']])) {
 		output::doOutput("`^Specialty: `@%s`n",$specialties[$target['specialty']]);
@@ -93,13 +93,13 @@ if ($target = db_fetch_assoc($result)) {
   $mount = db_fetch_assoc($result);
 
   $mount['acctid']=$target['acctid'];
-  $mount = modulehook("bio-mount",$mount);
+  $mount = modules::modulehook("bio-mount",$mount);
   $none = translator::translate_inline("`iNone`i");
   if (!isset($mount['mountname']) || $mount['mountname']=="")
 		  $mount['mountname'] = $none;
  output::doOutput("`^Creature: `@%s`0`n",$mount['mountname']);
 
-  modulehook("biostat", $target);
+  modules::modulehook("biostat", $target);
 
   if ($target['dragonkills']>0)
 	 output::doOutput("`^Dragon Kills: `@%s`n",$target['dragonkills']);
@@ -107,7 +107,7 @@ if ($target = db_fetch_assoc($result)) {
   if ($target['bio']>"")
 	 output::doOutput("`^Bio: `@`n%s`n",soap($target['bio']));
 
-  modulehook("bioinfo", $target);
+  modules::modulehook("bioinfo", $target);
 
  output::doOutput("`n`^Recent accomplishments (and defeats) of %s`^",$target['name']);
   $result = db_query("SELECT * FROM " . db_prefix("news") . " WHERE accountid={$target['acctid']} ORDER BY newsdate DESC,newsid ASC LIMIT 100");
@@ -157,7 +157,7 @@ if ($target = db_fetch_assoc($result)) {
 	  translator::tlschema();
   }
 
-  modulehook("bioend", $target);
+  modules::modulehook("bioend", $target);
   page_footer();
 } else {
 	page_header("Character has been deleted");

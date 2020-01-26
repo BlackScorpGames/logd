@@ -9,7 +9,7 @@ function drinks_dohook_private($hookname,$args) {
 	case "ale":
 		require_once("modules/drinks/misc_functions.php");
 		$texts = drinks_gettexts();
-		$drinktext = modulehook("drinks-text",$texts);
+		$drinktext = modules::modulehook("drinks-text",$texts);
 
 		$drunk = get_module_pref("drunkeness");
 		$drunklist = array(
@@ -45,7 +45,7 @@ function drinks_dohook_private($hookname,$args) {
 		$result = db_query($sql);
 		while ($row = db_fetch_assoc($result)) {
 			$row['allowdrink'] = 1;
-			$row = modulehook("drinks-check", $row);
+			$row = modules::modulehook("drinks-check", $row);
 			if ($row['allowdrink']) {
 				$drinkcost = $row['costperlevel']*$session['user']['level'];
 				// No hotkeys on drinks.  Too easy for them to interfere

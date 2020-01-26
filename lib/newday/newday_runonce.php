@@ -3,7 +3,7 @@
 	//Let's do a new day operation that will only fire off for
 	//one user on the whole server.
 	//run the hook.
-	modulehook("newday-runonce",array());
+	modules::modulehook("newday-runonce",array());
 
 	//Do some high-load-cleanup
 

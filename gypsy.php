@@ -42,6 +42,6 @@ if ($op=="pay"){
 		output::addnav("Superuser Entry","gypsy.php?op=talk");
 	output::addnav("Other");
 	output::addnav("Forget it","village.php");
-	modulehook("gypsy");
+	modules::modulehook("gypsy");
 }
 page_footer();

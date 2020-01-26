@@ -35,7 +35,7 @@ function foilwench_runevent($type)
 	$session['user']['specialinc'] = "module:foilwench";
 
 	$colors = array(""=>"`7");
-	$colors = modulehook("specialtycolor", $colors);
+	$colors = modules::modulehook("specialtycolor", $colors);
 	$c = $colors[$session['user']['specialty']];
 	if (!$c) $c = "`7";
 	if ($session['user']['specialty'] == "") {
@@ -43,7 +43,7 @@ function foilwench_runevent($type)
 		$session['user']['specialinc']="";
 		return;
 	}
-	$skills = modulehook("specialtynames");
+	$skills = modules::modulehook("specialtynames");
 
 	$op = http::httpget('op');
 	if ($op=="give"){

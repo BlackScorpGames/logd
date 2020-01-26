@@ -1,7 +1,7 @@
 <?php
-		modulehook("collapse{", array("name"=>"clanentry"));
+		modules::modulehook("collapse{", array("name"=>"clanentry"));
 		output::doOutput("Having pressed the secret levers and turned the secret knobs on the lock of the door to your clan's hall, you gain entrance and chat with your clan mates.`n`n");
-		modulehook("}collapse");
+		modules::modulehook("}collapse");
 
 		$sql = "SELECT name FROM " . db_prefix("accounts")  . " WHERE acctid={$claninfo['motdauthor']}";
 		$result = db_query($sql);
@@ -23,18 +23,18 @@
 
 		commentdisplay("", "clan-{$claninfo['clanid']}","Speak",25,($claninfo['customsay']>''?$claninfo['customsay']:"says"));
 
-		modulehook("clanhall");
+		modules::modulehook("clanhall");
 
 		if ($claninfo['clandesc'] != '') {
-			modulehook("collapse{", array("name"=>"collapsedesc"));
+			modules::modulehook("collapse{", array("name"=>"collapsedesc"));
 			output::doOutput("`n`n`&`bCurrent Description:`b `#by %s`2`n",$descauthname);
 			output_notl(nltoappon($claninfo['clandesc']));
-			modulehook("}collapse");
+			modules::modulehook("}collapse");
 		}
 		$sql = "SELECT count(*) AS c, clanrank FROM " . db_prefix("accounts") . " WHERE clanid={$claninfo['clanid']} GROUP BY clanrank DESC";
 		$result = db_query($sql);
 		// begin collapse
-		modulehook("collapse{", array("name"=>"clanmemberdet"));
+		modules::modulehook("collapse{", array("name"=>"clanmemberdet"));
 		output::doOutput("`n`n`bMembership Details:`b`n");
 		$leaders = 0;
 		while ($row = db_fetch_assoc($result)){
@@ -64,7 +64,7 @@
 			}
 		}
 		// end collapse
-		modulehook("}collapse");
+		modules::modulehook("}collapse");
 
 		if ($session['user']['clanrank']>CLAN_MEMBER){
 			output::addnav("Update MoTD / Clan Desc","clan.php?op=motd");

@@ -75,7 +75,7 @@ function soap($input,$debug=false,$skiphook=false){
 			return $input;
 		}else{
 			if ($changed_content && !$skiphook)
-				modulehook("censor", array("input"=>$input));
+				modules::modulehook("censor", array("input"=>$input));
 			return $final_output;
 		}
 	}else{

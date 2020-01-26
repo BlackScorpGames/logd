@@ -51,7 +51,7 @@ array_push($args, array("mail.php?op=address",$write));
 // just call array_push($args, array("pagename", "functionname"));,
 // where "pagename" is the name of the page to forward the user to,
 // and "functionname" is the name of the mail function to add
-$mailfunctions = modulehook("mailfunctions", $args);
+$mailfunctions = modules::modulehook("mailfunctions", $args);
 
 rawoutput("<table width='50%' border='0' cellpadding='0' cellspacing='2'>");
 rawoutput("<tr>");

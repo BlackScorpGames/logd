@@ -631,7 +631,7 @@ function buildnavs(){
 				// Generate the collapsable section header
 				$args = array("name"=>"nh-{$key}",
 						"title"=>($key ? $key : "Unnamed Navs"));
-				$args = modulehook("collapse-nav{", $args);
+				$args = modules::modulehook("collapse-nav{", $args);
 				if (isset($args['content']))
 					$collapseheader = $args['content'];
 				if (isset($args['style']))
@@ -651,7 +651,7 @@ function buildnavs(){
 
 			// Generate the enclosing collapsable section footer
 			if ($tkey > "" && (!array_key_exists($tkey,$navnocollapse) || !$navnocollapse[$tkey])) {
-				$args = modulehook("}collapse-nav");
+				$args = modules::modulehook("}collapse-nav");
 				if (isset($args['content']))
 					$collapsefooter = $args['content'];
 			}

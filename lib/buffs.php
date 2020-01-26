@@ -146,7 +146,7 @@ function apply_buff($name,$buff){
 		//it's already set.
 		restore_buff_fields();
 	}
-	$buff = modulehook("modify-buff", array("name"=>$name, "buff"=>$buff));
+	$buff = modules::modulehook("modify-buff", array("name"=>$name, "buff"=>$buff));
 	$session['bufflist'][$name] = $buff['buff'];
 	calculate_buff_fields();
 }
@@ -157,7 +157,7 @@ function apply_companion($name,$companion,$ignorelimit=false){
 		$companions = @unserialize($session['user']['companions']);
 	}
 	$companionsallowed = settings::getsetting("companionsallowed", 1);
-	$args = modulehook("companionsallowed", array("maxallowed"=>$companionsallowed));
+	$args = modules::modulehook("companionsallowed", array("maxallowed"=>$companionsallowed));
 	$companionsallowed = $args['maxallowed'];
 	$current = 0;
 	foreach ($companions as $thisname=>$thiscompanion) {

@@ -147,7 +147,7 @@ if (db_num_rows($result) > 0 && $session['user']['level'] <= 14){
 			output::doOutput("`n`nBeing a fair person, your master gives you a healing potion before the fight begins.");
 			$session['user']['hitpoints']=$session['user']['maxhitpoints'];
 		}
-		modulehook("master-autochallenge");
+		modules::modulehook("master-autochallenge");
 		if (settings::getsetting('displaymasternews',1)) addnews("`3%s`3 was hunted down by their master, `^%s`3, for being truant.",$session['user']['name'],$master['creaturename']);
 	}
 	if ($op=="fight"){
@@ -233,7 +233,7 @@ if (db_num_rows($result) > 0 && $session['user']['level'] <= 14){
  	 	 	}
 			if ($session['user']['hitpoints'] < $session['user']['maxhitpoints'])
 				$session['user']['hitpoints'] = $session['user']['maxhitpoints'];
-			modulehook("training-victory", $badguy);
+			modules::modulehook("training-victory", $badguy);
 		}elseif($defeat){
 			$taunt = select_taunt_array();
 
@@ -251,7 +251,7 @@ if (db_num_rows($result) > 0 && $session['user']['level'] <= 14){
 				output::addnav("Superuser Gain level","train.php?op=challenge&victory=1&master=$mid");
 			}
 			villagenav();
-			modulehook("training-defeat", $badguy);
+			modules::modulehook("training-defeat", $badguy);
 		}else{
 		  fightnav(false,false, "train.php?master=$mid");
 		}

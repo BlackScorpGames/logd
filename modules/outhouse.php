@@ -178,7 +178,7 @@ function outhouse_run(){
 			'sobermsg'=>"`&Leaving the outhouse, you feel a little more sober.`n",
 			'schema'=>"module-outhouse",
 		);
-		modulehook("soberup", $args);
+		modules::modulehook("soberup", $args);
 		require_once("lib/forest.php");
 		forest(true);
 	}elseif (($op == "nowash")){

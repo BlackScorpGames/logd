@@ -81,6 +81,6 @@ if ($session['user']['superuser'] & SU_EDIT_CONFIG) output::addnav("Stats","stat
 
 output::addnav("Module Configurations");
 
-modulehook("superuser", array(), true);
+modules::modulehook("superuser", array(), true);
 
 page_footer();

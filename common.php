@@ -396,7 +396,7 @@ require_once("lib/errorhandler.php");
 // This however is the only context where blockmodule can be called safely!
 // You should do as LITTLE as possible here and consider if you can hook on
 // a page header instead.
-modulehook("everyhit");
+modules::modulehook("everyhit");
 if ($session['user']['loggedin']) {
-	modulehook("everyhit-loggedin");
+	modules::modulehook("everyhit-loggedin");
 }

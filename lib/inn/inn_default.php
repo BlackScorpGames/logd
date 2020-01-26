@@ -14,7 +14,7 @@ if ($com=="" && !$comment && $op!="fleedragon") {
 }
 
 output::addnav("Things to do");
-$args = modulehook("blockcommentarea", array("section"=>"inn"));
+$args = modules::modulehook("blockcommentarea", array("section"=>"inn"));
 if (!isset($args['block']) || $args['block'] != 'yes') {
 	output::addnav("Converse with patrons","inn.php?op=converse");
 }
@@ -53,11 +53,11 @@ if (!$skipinndesc) {
 		translator::translate_inline("fine drinks"),
 		$partner,
 	);
-	$chats = modulehook("innchatter", $chats);
+	$chats = modules::modulehook("innchatter", $chats);
 	$talk = $chats[e_rand(0, count($chats)-1)];
 	output::doOutput("You can't quite make out what he is saying, but it's something about %s`0.`n`n", $talk);
 	output::doOutput("The clock on the mantle reads `6%s`0.`n", getgametime());
-	modulehook("inn-desc", array());
+	modules::modulehook("inn-desc", array());
 }
-modulehook("inn", array());
+modules::modulehook("inn", array());
 module_display_events("inn", "inn.php");

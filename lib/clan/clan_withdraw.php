@@ -1,5 +1,5 @@
 <?php
-		modulehook("clan-withdraw", array('clanid'=>$session['user']['clanid'], 'clanrank'=>$session['user']['clanrank'], 'acctid'=>$session['user']['acctid']));
+		modules::modulehook("clan-withdraw", array('clanid'=>$session['user']['clanid'], 'clanrank'=>$session['user']['clanrank'], 'acctid'=>$session['user']['acctid']));
 		if ($session['user']['clanrank']>=CLAN_LEADER){
 			//first test to see if we were the leader.
 			$sql = "SELECT count(*) AS c FROM " . db_prefix("accounts") . " WHERE clanid={$session['user']['clanid']} AND clanrank>=".CLAN_LEADER." AND acctid<>{$session['user']['acctid']}";
@@ -19,7 +19,7 @@
 					output::doOutput("`^Promoting %s`^ to leader as they are the highest ranking member (or oldest member in the event of a tie).`n`n",$row['name']);
 				}else{
 					//There are no other members, we need to delete the clan.
-					modulehook("clan-delete", array("clanid"=>$session['user']['clanid']));
+					modules::modulehook("clan-delete", array("clanid"=>$session['user']['clanid']));
 					$sql = "DELETE FROM " . db_prefix("clans") . " WHERE clanid={$session['user']['clanid']}";
 					db_query($sql);
 					//just in case we goofed, we don't want to have to worry

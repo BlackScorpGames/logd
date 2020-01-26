@@ -21,7 +21,7 @@ if ($op=="" || $op=="sql"){
 	$sql = httppost('sql');
 	if ($sql != "") {
 		$sql = stripslashes($sql);
-		modulehook("rawsql-execsql",array("sql"=>$sql));
+		modules::modulehook("rawsql-execsql",array("sql"=>$sql));
 		debuglog('Ran Raw SQL: ' . $sql);
 		$r = db_query($sql, false);
 		if (!$r) {
@@ -54,7 +54,7 @@ if ($op=="" || $op=="sql"){
 
 	output::doOutput("Type your query");
 	$execute = translator::translate_inline("Execute");
-	$ret = modulehook("rawsql-modsql",array("sql"=>$sql));
+	$ret = modules::modulehook("rawsql-modsql",array("sql"=>$sql));
 	$sql = $ret['sql'];
 	rawoutput("<form action='rawsql.php' method='post'>");
 	rawoutput("<textarea name='sql' class='input' cols='60' rows='10'>".htmlentities($sql, ENT_COMPAT, settings::getsetting("charset", "ISO-8859-1"))."</textarea><br>");
@@ -70,7 +70,7 @@ if ($op=="" || $op=="sql"){
 		rawoutput(highlight_string("<?php\n$php\n?>",true));
 		rawoutput("</div>");
 		output::doOutput("`bResults:`b`n");
-		modulehook("rawsql-execphp",array("php"=>$php));
+		modules::modulehook("rawsql-execphp",array("php"=>$php));
 		ob_start();
 		eval($php);
 		output_notl(ob_get_contents(),true);
@@ -78,7 +78,7 @@ if ($op=="" || $op=="sql"){
 		debuglog('Ran Raw PHP: ' . $php);
 	}
 	output::doOutput("`n`nType your code:");
-	$ret = modulehook("rawsql-modphp",array("php"=>$php));
+	$ret = modules::modulehook("rawsql-modphp",array("php"=>$php));
 	$php = $ret['php'];
 	rawoutput("<form action='rawsql.php?op=php' method='post'>");
 	rawoutput("&lt;?php<br><textarea name='php' class='input' cols='60' rows='10'>".htmlentities($php, ENT_COMPAT, settings::getsetting("charset", "ISO-8859-1"))."</textarea><br>?&gt;<br>");

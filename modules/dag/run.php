@@ -232,7 +232,7 @@ function dag_run_private(){
 		output::addnav("Check the Wanted List","runmodule.php?module=dag&op=list");
 		output::addnav("Set a Bounty","runmodule.php?module=dag&op=addbounty");
 	}
-	modulehook('dagnav');
+	modules::modulehook('dagnav');
 	if ($op == "list") {
 		output::addnav("Sort List");
 		output::addnav("View by Bounty",

@@ -74,7 +74,7 @@ if ($op=="save"){
 			output::doOutput("Setting %s to %s`n", $key, stripslashes($val));
 			gamelog("`@Changed core setting `^$key`@ from `#{$old[$key]}`@ to `&$val`0","settings");
 			// Notify every module
-			modulehook("changesetting",
+			modules::modulehook("changesetting",
 					array("module"=>"core", "setting"=>$key,
 						"old"=>$old[$key], "new"=>$val), true);
 		}
@@ -90,7 +90,7 @@ if ($op=="save"){
 			load_module_settings($module);
 			$old = $module_settings[$module];
 			$post = httpallpost();
-			$post = modulehook("validatesettings", $post, true, $module);
+			$post = modules::modulehook("validatesettings", $post, true, $module);
 			if (isset($post['validation_error'])) {
 				$post['validation_error'] =
 					translator::translate_inline($post['validation_error']);
@@ -115,7 +115,7 @@ if ($op=="save"){
 						$oldval = "";
 						if (isset($old[$key])) $oldval = $old[$key];
 						gamelog("`@Changed module(`5$module`@) setting `^$key`@ from `#$oldval`@ to `&$val`0","settings");
-						modulehook("changesetting",
+						modules::modulehook("changesetting",
 								array("module"=>$module, "setting"=>$key,
 									"old"=>$oldval, "new"=>$val), true);
 					}
@@ -145,7 +145,7 @@ if ($op=="save"){
 						$module_settings[$mostrecentmodule][$key]=$x[1];
 					}
 				}
-				$msettings = modulehook("mod-dyn-settings", $msettings);
+				$msettings = modules::modulehook("mod-dyn-settings", $msettings);
 				if (is_module_active($module)){
 					output::doOutput("This module is currently active: ");
 					$deactivate = translator::translate_inline("Deactivate");

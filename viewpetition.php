@@ -25,7 +25,7 @@ $statuses=array(
 	2=>"`iClosed`i",
 	);
 
-//$statuses = modulehook("petition-status", $status);
+//$statuses = modules::modulehook("petition-status", $status);
 $statuses=translator::translate_inline($statuses);
 
 $op = http::httpget("op");
@@ -233,7 +233,7 @@ if ($op==""){
 	output::doOutput("`!I = Informational`0 petitions are just around for others to view, either nothing needed to be done with them, or their issue has been dealt with, but you feel other admins could benefit from reading it.");
 	rawoutput("</li><li>");
 	output::doOutput("`iClosed`i petitions are for you have dealt with an issue, these will auto delete when they have been closed for 7 days.");
-	modulehook("petitions-descriptions", array());
+	modules::modulehook("petitions-descriptions", array());
 	rawoutput("</li></ul>");
 }elseif($op=="view"){
 	$viewpageinfo = (int)http::httpget("viewpageinfo");

@@ -19,7 +19,7 @@ output::doOutput("Each bears telltale signs of the means by which they met their
 output::doOutput("Their souls whisper their torments, haunting your mind with their despair:`n");
 
 output::doOutput("`nA sepulchral voice intones, \"`QIt is now %s in the world above.`\$\"`n`n",getgametime());
-modulehook("shades", array());
+modules::modulehook("shades", array());
 commentdisplay("`n`QNearby, some lost souls lament:`n", "shade","Despair",25,"despairs");
 
 output::addnav("Log out","login.php?op=logout");

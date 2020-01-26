@@ -78,7 +78,7 @@ $useful_vals = array(
 output::doOutput("`@<h3>Settings for this game</h3>`n`n",true);
 
 $args = array('settings'=>array(),'values'=>array());
-$args = modulehook("showsettings", $args);
+$args = modules::modulehook("showsettings", $args);
 
 $form = array_merge($setup, $args['settings']);
 $form = array_merge($form, $useful);

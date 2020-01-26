@@ -7,7 +7,7 @@ function villagenav($extra=false)
 	global $session;
 	$loc = $session['user']['location'];
 	if ($extra === false) $extra="";
-	$args = modulehook("villagenav");
+	$args = modules::modulehook("villagenav");
 	if (array_key_exists('handled', $args) && $args['handled']) return;
 	translator::tlschema("nav");
 	if ($session['user']['alive']) {

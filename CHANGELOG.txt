@@ -59,7 +59,7 @@ Changes from 1.1.0 to 1.1.1
 [FIX] - meaninglesscode doesn't remove new colour codes
 [FIX] - installer can now create database without dying
 
-[FEATURE] - new hook  $drunkadd = modulehook("modify-drunkeness",$row); added to modules/drinks/run.php to modify each drink drunkeness. An elf gets faster drunk than a dwarf... just modify after the hook $args['drunkeness'] like you want it to. You will get all drink informations via this hook.
+[FEATURE] - new hook  $drunkadd = modules::modulehook("modify-drunkeness",$row); added to modules/drinks/run.php to modify each drink drunkeness. An elf gets faster drunk than a dwarf... just modify after the hook $args['drunkeness'] like you want it to. You will get all drink informations via this hook.
 [FEATURE] - now you have in your talkine view a little javascript tell you "You have xxx characters left" counting down when you type. Lets you know when to make a new line.
 [FEATURE] - now moderators can delete post by directly clicking on a "Del" Button beside the post.
 [FEATURE] - added a village-$city hook and a village-desc-$city hook where $city is $session['user']['location']. I.e. you can now save lots of unnecessary queries when you want only to execute at ONE certain village square. To incorporate in a module, either add a hook to i.e. village-Glorfindal ... (bad if you want to have working all-round modules) but make a location setting, also changesetting (like always before) and upon a changesetting or a change in your module you *HAVE* to reinstall it. Make sure to do so, else the hook won't be fired off.
@@ -73,7 +73,7 @@ Changes from 1.1.0 to 1.1.1
 [FEATURE] - addnav_notl($text,$link=false,$priv=false,$pop=false,$popsize="500x300") is now possible, the content in the text won't get translated
 [FEATURE] - added a hook to the gemchance... so you can modify the gem chance via module too. name: "alter-gemchance"
 [FEATURE] - added two hooks to the battle.php -> battle-pvp-victory and battle-pvp-defeat to make it easier to decide without having to boost the victory hook for *every* fight just for a pvp battle.
-[FEATURE] - user.php added a hook to put more informations about the user to the main view when you edit a user, hook: modulehook("modifyuserview", array("userinfo"=>$userinfo, "user"=>$row))..usage explained in user.php at the given location
+[FEATURE] - user.php added a hook to put more informations about the user to the main view when you edit a user, hook: modules::modulehook("modifyuserview", array("userinfo"=>$userinfo, "user"=>$row))..usage explained in user.php at the given location
 [FEATURE] - battle.php now knows also a $badguy['hidehitpoints'] which you can set to true in your module when creating it ("hidehitpoints"=>1) and then the enemy will have "?" hitpoints... good for some specials... more exitement. You can drop a line in your module "your enemy is now about half-dead" or so
 [FEATURE] - newday turns after resurrection can now be modified by a game setting (default -6 turns) that handles also a percentage (integer with a % afterwards)... turns can't turn negative and the base is (turns per day) + (dk points spent for turns)
 [FEATURE] - now the superuserflag SU_IS_GAMEMASTER exists, which can be set at the grotto. It invocates no hiding from HOF etc, and its function is simple: to post comments without name into a chat. Not more. /game is replaced (only when gamemaster) with no text at all. Also the preview will only hide it for gamemasters. modules/drinks/dohook.php has been changed, it does NOT differ if /game was from a SU_IS_GAMEMASTER or not.
@@ -97,7 +97,7 @@ Changes from 1.1.0 to 1.1.1
 [FEATURE] - New showform type: "textarearesizeable". Exactly like "textarea" but will show two buttons to increase/decrease size of the field. Needs javascript enabled.
 [FEATURE] - mysqli support has been implemented. To use mysqli instead of mysql go to lib/dbwrapper.php and change the dbtype. If you don't know what this means it's probably best you simply ignore this fact.
 [FEATURE] - increment_specialty() now also supports incrementing specialties which are not your's. just call increment_specialty('`$', "DA") e.g. to increment someone's level in Dark Arts, even they are a thief.
-[FEATURE] - Abigail's gifts are now extendable / changeable via a modulehook.
+[FEATURE] - Abigail's gifts are now extendable / changeable via a modules::modulehook.
 [FEATURE] - Especially important for european servers: There's now a setting to add an impressum to the about page.
 
 [FEATURE] - Modules now need _install, _uninstall and _getmoduleinfo functions before the can be installed
@@ -122,7 +122,7 @@ Changes from 1.1.0 to 1.1.1
 [UPDATE] - Edorians idea of moving the output field from the accounts table to a new table implemented. Now the large output field (needed only for badnavs) is not loaded each pagehit anymore (yet updated like always)
 [UPDATE] - donators.php removed the debugs and made clear outputs, saying the reason and also after the submit a real sentence.
 [UPDATE] - commentary posting limiter (limits posts for one user to 50% of the posting area, normally 10) can be deactivated in the game settings
-[UPDATE] - hooking into events now uses the following hook: #modulehook("runevent_$module", array("type"=>$type, "baselink"=>$baseLink, "get"=>httpallget(), "post"=>httpallpost()));# so you can now hook at "runevent_abigail" and get executed there (pls don't call a page_footer in your module there, only if you know what you do)
+[UPDATE] - hooking into events now uses the following hook: #modules::modulehook("runevent_$module", array("type"=>$type, "baselink"=>$baseLink, "get"=>httpallget(), "post"=>httpallpost()));# so you can now hook at "runevent_abigail" and get executed there (pls don't call a page_footer in your module there, only if you know what you do)
 [UPDATE] - added "ob_start('ob_gzhandler');" to the common.php to enable the gzip compression. This will produce a bit more CPU load, but the traffic will decrease by 30%-40% estimated and your users will have the pages displayed usually a bit quicker as less bytes need to be transferred. This setting proved to be worth adding on smaller and bigger servers, so it is now going to be core.
 [UPDATE/FIX] - in the user editor (and if you call the lib/lookup_user.php yourself in any module) you can now use % as tags like in a mysql query. in 1.1.0 it was introduced that you have to enter the *exact* (case-insensitive) name/login of the player. Which was ... not good. Now you can look for an exact match (enter the name normally) or use the % tags to search for any number of letters at this point. I.e. '%man' finds 'Talisman', but not 'Chadmann', 'Tali%' finds 'Talisman', but not 'ReTailMan'.. you can use them at any position (even '%man%' which would find any usernames containing 'man').
 [UPDATE/FIX] - get_module_pref now check first if the pref has been loaded previously and THEN calls load_module_prefs (and check again). As most guys have prefs for certain modules sooner or later, on if-isset afterwards is faster than many function calls who come back empty.

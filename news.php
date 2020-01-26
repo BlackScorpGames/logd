@@ -9,7 +9,7 @@ require_once("lib/villagenav.php");
 
 translator::tlschema("news");
 
-modulehook("news-intercept",array());
+modules::modulehook("news-intercept",array());
 
 if ((int)settings::getsetting("expirecontent",180)>0){
 	$sql = "DELETE FROM " . db_prefix("news") . " WHERE newsdate<'".date("Y-m-d H:i:s",strtotime("-".settings::getsetting("expirecontent",180)." days"))."'";

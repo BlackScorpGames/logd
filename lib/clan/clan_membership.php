@@ -11,7 +11,7 @@
 			$who = $row['login'];
 			$whoname = $row['name'];
 			if ($setrank>""){
-				$args = modulehook("clan-setrank", array("setrank"=>$setrank, "login"=>$who, "name"=>$whoname, "acctid"=>$whoacctid, "clanid"=>$session['user']['clanid'], "oldrank"=>$row['clanrank']));
+				$args = modules::modulehook("clan-setrank", array("setrank"=>$setrank, "login"=>$who, "name"=>$whoname, "acctid"=>$whoacctid, "clanid"=>$session['user']['clanid'], "oldrank"=>$row['clanrank']));
 				if (!(isset($args['handled']) && $args['handled'])) {
 					$sql = "UPDATE " . db_prefix("accounts") . " SET clanrank=GREATEST(0,least({$session['user']['clanrank']},$setrank)) WHERE login='$who'";
 					db_query($sql);
@@ -23,7 +23,7 @@
 		if ($remove>""){
 			$sql = "SELECT name,login,clanrank FROM " . db_prefix("accounts") . " WHERE acctid='$remove'";
 			$row = db_fetch_assoc(db_query($sql));
-			$args = modulehook("clan-setrank", array("setrank"=>0, "login"=>$row['login'], "name"=>$row['name'], "acctid"=>$remove, "clanid"=>$session['user']['clanid'], "oldrank"=>$row['clanrank']));
+			$args = modules::modulehook("clan-setrank", array("setrank"=>0, "login"=>$row['login'], "name"=>$row['name'], "acctid"=>$remove, "clanid"=>$session['user']['clanid'], "oldrank"=>$row['clanrank']));
 			$sql = "UPDATE " . db_prefix("accounts") . " SET clanrank=".CLAN_APPLICANT.",clanid=0,clanjoindate='0000-00-00 00:00:00' WHERE acctid='$remove' AND clanrank<={$session['user']['clanrank']}";
 			db_query($sql);
 			debuglog("Player {$session['user']['name']} removed player {$row['login']} from {$claninfo['clanname']}.", $remove);

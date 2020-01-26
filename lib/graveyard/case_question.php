@@ -20,4 +20,4 @@ output::addnav(array("Restore Your Soul (%s favor)",$favortoheal),"graveyard.php
 output::addnav("Places");
 output::addnav("S?Land of the Shades","shades.php");
 output::addnav("G?Return to the Graveyard","graveyard.php");
-modulehook("ramiusfavors");
+modules::modulehook("ramiusfavors");

@@ -49,7 +49,7 @@ function prepare_fight($options=false) {
 		$options = array();
 	}
 	$fightoptions = $options + $basicoptions;
-	$fightoptions = modulehook("fightoptions", $fightoptions);
+	$fightoptions = modules::modulehook("fightoptions", $fightoptions);
 
 	// We'll also reset the companions here...
 	prepare_companions();

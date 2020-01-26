@@ -2,7 +2,7 @@
 reset($labels);
 $pdktotal = 0;
 $pdkneg = false;
-modulehook("pdkpointrecalc");
+modules::modulehook("pdkpointrecalc");
 foreach($labels as $type=>$label) {
 	$pdktotal += (int)$pdks[$type];
 	if((int)$pdks[$type] < 0) $pdkneg = true;

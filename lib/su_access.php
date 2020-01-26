@@ -10,7 +10,7 @@ function check_su_access($level){
 	if ($session['user']['superuser'] & $level) {
 		//they have appropriate levels, let's see if there's a module that
 		// restricts access beyond this point.
-		$return = modulehook("check_su_access",
+		$return = modules::modulehook("check_su_access",
 				array("enabled"=>true,"level"=>$level));
 		if ($return['enabled']){
 			$session['user']['laston'] = date("Y-m-d H:i:s");

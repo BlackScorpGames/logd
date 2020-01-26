@@ -274,5 +274,5 @@ function apply_skill($skill,$l){
 			"schema"=>"skill"
 		));
 	}
-	modulehook("apply-specialties");
+	modules::modulehook("apply-specialties");
 }

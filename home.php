@@ -67,7 +67,7 @@ output::addnav("About LoGD","about.php");
 output::addnav("Game Setup Info", "about.php?op=setup");
 output::addnav("LoGD Net","logdnet.php?op=list");
 
-modulehook("index", array());
+modules::modulehook("index", array());
 
 if (abs(settings::getsetting("OnlineCountLast",0) - strtotime("now")) > 60){
 	$sql="SELECT count(acctid) as onlinecount FROM " . db_prefix("accounts") . " WHERE locked=0 AND loggedin=1 AND laston>'".date("Y-m-d H:i:s",strtotime("-".settings::getsetting("LOGINTIMEOUT",900)." seconds"))."'";

@@ -12,7 +12,7 @@ function showform($layout,$row,$nosave=false,$keypref=false){
  	$formSections = array();
 	$returnvalues = array();
 	$extensions = array();
-	$extensions = modulehook("showformextensions",$extensions);
+	$extensions = modules::modulehook("showformextensions",$extensions);
 	rawoutput("<table width='100%' cellpadding='0' cellspacing='0'><tr><td>");
 	rawoutput("<div id='showFormSection$showform_id'></div>");
 	rawoutput("</td></tr><tr><td>&nbsp;</td></tr><tr><td>");
@@ -109,7 +109,7 @@ function showform($layout,$row,$nosave=false,$keypref=false){
 			$vname = settings::getsetting("villagename", LOCATION_FIELDS);
 			$vloc[$vname]="village";
 			$vloc['all'] = 1;
-			$vloc = modulehook("validlocation", $vloc);
+			$vloc = modules::modulehook("validlocation", $vloc);
 			unset($vloc['all']);
 			reset($vloc);
 			rawoutput("<select name='$keyout'>");

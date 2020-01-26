@@ -100,7 +100,7 @@ if ($op=="suicide" && settings::getsetting("selfdelete",0)!=0) {
 				$x = explode("___", $key);
 				$module = $x[0];
 				$key = $x[1];
-				modulehook("notifyuserprefchange",
+				modules::modulehook("notifyuserprefchange",
 						array("name"=>$key,
 							"old"=>$oldvalues[$module."___".$key],
 							"new"=>$val));
@@ -257,10 +257,10 @@ if ($op=="suicide" && settings::getsetting("selfdelete",0)!=0) {
 			if ($isuser) {
 				$found = 1;
 			}
-			// If this is a check preference, we need to call the modulehook
+			// If this is a check preference, we need to call the modules::modulehook
 			// checkuserpref  (requested by cortalUX)
 			if ($ischeck) {
-				$args = modulehook("checkuserpref",
+				$args = modules::modulehook("checkuserpref",
 						array("name"=>$key, "pref"=>$x[0], "default"=>$x[1]),
 						false, $module);
 				if (isset($args['allow']) && !$args['allow']) continue;

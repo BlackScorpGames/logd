@@ -45,7 +45,7 @@ if ($name!=""){
 			// If the player isn't allowed on for some reason, anything on
 			// this hook should automatically call page_footer and exit
 			// itself.
-			modulehook("check-login");
+			modules::modulehook("check-login");
 
 			if ($session['user']['emailvalidation']!="" && substr($session['user']['emailvalidation'],0,1)!="x"){
 				$session['user']=array();
@@ -72,7 +72,7 @@ if ($name!=""){
 				// Let's throw a login module hook in here so that modules
 				// like the stafflist which need to invalidate the cache
 				// when someone logs in or off can do so.
-				modulehook("player-login");
+				modules::modulehook("player-login");
 
 				if ($session['user']['loggedin']){
 					$session['allowednavs']=unserialize($session['user']['allowednavs']);
@@ -175,7 +175,7 @@ if ($name!=""){
 		// Let's throw a logout module hook in here so that modules
 		// like the stafflist which need to invalidate the cache
 		// when someone logs in or off can do so.
-		modulehook("player-logout");
+		modules::modulehook("player-logout");
 		saveuser();
 	}
 	$session=array();

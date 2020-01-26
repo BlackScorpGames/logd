@@ -13,7 +13,7 @@ function holidayize($text,$type='unknown'){
 	}
 
 	$args = array('text'=>$text,'type'=>$type);
-	$args = modulehook("holiday", $args);
+	$args = modules::modulehook("holiday", $args);
 	$text = $args['text'];
 
 	return $text;

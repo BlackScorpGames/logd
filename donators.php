@@ -78,7 +78,7 @@ if ($op == "add2") {
         $session['user']['donation'] += $amt;
     }
     if ($txnid > "") {
-        $result = modulehook("donation_adjustments", array("points" => $amt, "amount" => $amt / 100, "acctid" => $id, "messages" => array()));
+        $result = modules::modulehook("donation_adjustments", array("points" => $amt, "amount" => $amt / 100, "acctid" => $id, "messages" => array()));
         $points = $result['points'];
         if (!is_array($result['messages'])) {
             $result['messages'] = array($result['messages']);
@@ -94,7 +94,7 @@ if ($op == "add2") {
     // table to update in real time.
     $sql = "UPDATE " . db_prefix("accounts") . " SET donation=donation+'$points' WHERE acctid='$id'";
     db_query($sql);
-    modulehook("donation", array("id" => $id, "amt" => $points, "manual" => ($txnid > "" ? false : true)));
+    modules::modulehook("donation", array("id" => $id, "amt" => $points, "manual" => ($txnid > "" ? false : true)));
 
     if ($txnid > "") {
         $sql = "UPDATE " . db_prefix("paylog") . " SET acctid='$id', processed=1 WHERE txnid='$txnid'";

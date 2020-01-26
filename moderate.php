@@ -277,7 +277,7 @@ if ($session['user']['superuser'] & SU_MODERATE_CLANS){
 }
 output::addnav("Modules");
 $mods = array();
-$mods = modulehook("moderate", $mods);
+$mods = modules::modulehook("moderate", $mods);
 reset($mods);
 
 // These are already translated in the module.

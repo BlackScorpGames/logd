@@ -42,7 +42,7 @@ function setup_target($name) {
 			$row['creatureexp'] = round($row['creatureexp'],0);
 			$row['playerstarthp'] = $session['user']['hitpoints'];
 			$row['fightstartdate'] = strtotime("now");
-			$row = modulehook("pvpadjust", $row);
+			$row = modules::modulehook("pvpadjust", $row);
 			pvpwarning(true);
 			return $row;
 		}else{
@@ -105,7 +105,7 @@ function pvpvictory($badguy, $killedloc, $options)
 	debuglog("was victim and has been defeated by {$session['user']['name']} in $killedloc (lost {$badguy['creaturegold']} gold and $lostexp exp, actor tooks $winamount gold and $wonexp exp)",false,$badguy['acctid']);
 
 	$args=array('pvpmessageadd'=>"", 'handled'=>false, 'badguy'=>$badguy, 'options'=>$options);
-	$args = modulehook("pvpwin", $args);
+	$args = modules::modulehook("pvpwin", $args);
 
 	// /\- Gunnar Kreitz
 	if ($session['user']['sex'] == SEX_MALE) {
@@ -159,7 +159,7 @@ function pvpdefeat($badguy, $killedloc, $taunt, $options)
 	$lostexp = round($session['user']['experience'] * settings::getsetting("pvpattlose",15) / 100,0);
 
 	$args=array('pvpmessageadd'=>"", 'taunt'=>$taunt, 'handled'=>false, 'badguy'=>$badguy, 'options'=>$options);
-	$args = modulehook("pvploss", $args);
+	$args = modules::modulehook("pvploss", $args);
 
 	$msg = "`^%s`2 attacked you while you were in %s`2, but you were victorious!`n`n";
 	if ($row['level'] < $badguy['creaturelevel']) {

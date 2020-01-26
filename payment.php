@@ -109,7 +109,7 @@ function writelog($response){
 			// notification for.
 			if ($txn_type =="reversal") $donation -= $payment_fee;
 
-			$hookresult = modulehook("donation_adjustments",array("points"=>$donation*100,"amount"=>$donation,"acctid"=>$acctid,"messages"=>array()));
+			$hookresult = modules::modulehook("donation_adjustments",array("points"=>$donation*100,"amount"=>$donation,"acctid"=>$acctid,"messages"=>array()));
 			$hookresult['points'] = round($hookresult['points']);
 
 			$sql = "UPDATE " . db_prefix("accounts") . " SET donation = donation + '{$hookresult['points']}' WHERE acctid=$acctid";
@@ -123,7 +123,7 @@ function writelog($response){
 				debuglog($message,false,$acctid,"donation",0,false);
 			}
 			if (db_affected_rows()>0) $processed = 1;
-			modulehook("donation", array("id"=>$acctid, "amt"=>$donation*100, "manual"=>false));
+			modules::modulehook("donation", array("id"=>$acctid, "amt"=>$donation*100, "manual"=>false));
 		}
 	}
 	$sql = "

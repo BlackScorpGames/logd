@@ -99,7 +99,7 @@ if ($op == ""){
 		$i++;
 	}
 	rawoutput("</table>");
-	//modulehook("titleedit", array());
+	//modules::modulehook("titleedit", array());
 	output::addnav("Functions");
 	output::addnav("Add a Title", "titleedit.php?op=add");
 	output::addnav("Refresh List", "titleedit.php");

@@ -96,4 +96,4 @@ output::addnav("About LoGD");
 output::addnav("Game Setup Info","about.php?op=setup");
 output::addnav("Module Info","about.php?op=listmodules");
 output::addnav("License Info", "about.php?op=license");
-modulehook("about");
+modules::modulehook("about");

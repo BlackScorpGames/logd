@@ -49,7 +49,7 @@ if (http::httpget("subop")==""){
 	$args['userinfo']['test'] = "The truth!!!,viewonly";
 	$args['user']['test'] = "Is out there???";
 	*/
-	$showformargs = modulehook("modifyuserview", array("userinfo"=>$userinfo, "user"=>$row));
+	$showformargs = modules::modulehook("modifyuserview", array("userinfo"=>$userinfo, "user"=>$row));
 	$info = showform($showformargs['userinfo'],$showformargs['user']);
 	rawoutput("<input type='hidden' value=\"".htmlentities(serialize($info), ENT_COMPAT, settings::getsetting("charset", "ISO-8859-1"))."\" name='oldvalues'>");
 	rawoutput("</form>");

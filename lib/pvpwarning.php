@@ -17,5 +17,5 @@ function pvpwarning($dokill=false) {
 			output::doOutput("`\$Warning!`^ Players are immune from Player vs Player (PvP) combat for their first %s days in the game or until they have earned %s experience, or until they attack another player.  If you choose to attack another player, you will lose this immunity!`n`n", $days, $exp);
 		}
 	}
-	modulehook("pvpwarning", array("dokill"=>$dokill));
+	modules::modulehook("pvpwarning", array("dokill"=>$dokill));
 }

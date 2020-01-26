@@ -93,7 +93,7 @@ $defeat = false;
 
 if ($enemycounter > 0) {
 	output ("`\$`c`b~ ~ ~ Fight ~ ~ ~`b`c`0");
-	modulehook("battle", $enemies);
+	modules::modulehook("battle", $enemies);
 	foreach ($enemies as $index=>$badguy) {
 		if ($badguy['creaturehealth']>0 && $session['user']['hitpoints']>0) {
 			output::doOutput("`@You have encountered `^%s`@ which lunges at you with `%%s`@!`0`n",$badguy['creaturename'],$badguy['creatureweapon']);
@@ -502,8 +502,8 @@ if ($victory || $defeat){
 			// $options array instead of the $args array for their code.
 			$badguy['type'] = $options['type'];
 
-			if ($victory) $badguy = modulehook("battle-victory",$badguy);
-			if ($defeat) $badguy = modulehook("battle-defeat",$badguy);
+			if ($victory) $badguy = modules::modulehook("battle-victory",$badguy);
+			if ($defeat) $badguy = modules::modulehook("battle-defeat",$badguy);
 			unset($badguy['fightoutput']);
 		}
 	}

@@ -43,13 +43,13 @@ function fightnav($allowspecial=true, $allowflee=true,$script=false){
 
 	if ($allowspecial) {
 		output::addnav("Special Abilities");
-		modulehook("fightnav-specialties", array("script"=>$script));
+		modules::modulehook("fightnav-specialties", array("script"=>$script));
 
 		if ($session['user']['superuser'] & SU_DEVELOPER) {
 			output::addnav("`&Super user`0","");
 			output::addnav("!?`&&#149; __GOD MODE",$script."op=fight&skill=godmode",true);
 		}
-		modulehook("fightnav", array("script"=>$script));
+		modules::modulehook("fightnav", array("script"=>$script));
 	}
 
 	if (count($newenemies) > 1) {

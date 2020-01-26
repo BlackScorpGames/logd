@@ -395,7 +395,9 @@ function mass_module_prepare($hooknames){
  * @return array The args modified by the event handlers
  */
 $currenthook = "";
-function modulehook($hookname, $args=false, $allowinactive=false, $only=false){
+
+class modules{
+public static function modulehook($hookname, $args=false, $allowinactive=false, $only=false){
 	global $navsection, $mostrecentmodule;
 	global $blocked_modules, $block_all_modules, $unblocked_modules;
 	global $output, $session, $modulehook_queries;
@@ -412,7 +414,7 @@ function modulehook($hookname, $args=false, $allowinactive=false, $only=false){
 			global $SCRIPT_NAME;
 			$where = $SCRIPT_NAME;
 		}
-		debug("Args parameter to modulehook $hookname from $where is not an array.");
+		debug("Args parameter to modules::modulehook $hookname from $where is not an array.");
 	}
 	if ($session['user']['superuser'] & SU_DEBUG_OUTPUT && !isset($hookcomment[$hookname])){
 		rawoutput("<!--Module Hook: $hookname; allow inactive: ".($allowinactive?"true":"false")."; only this module: ".($only!==false?$only:"any module"));
@@ -537,10 +539,10 @@ function modulehook($hookname, $args=false, $allowinactive=false, $only=false){
 						$hookname!="}collapse-nav" &&
 						!array_key_exists('nocollapse',$res)) {
 					//restore the original output's reference
-					modulehook("collapse{",
+					modules::modulehook("collapse{",
 						array("name"=>'a-'.$row['modulename']));
 					$output .= $outputafterhook;
-					modulehook("}collapse");
+					modules::modulehook("}collapse");
 				} else {
 					$output .= $outputafterhook;
 				}
@@ -563,7 +565,7 @@ function modulehook($hookname, $args=false, $allowinactive=false, $only=false){
 	// And hand them back so they can be used.
 	return $args;
 }
-
+}
 $module_settings = array();
 function get_all_module_settings($module=false){
 	//returns an associative array of all the settings for the given module
@@ -1063,7 +1065,7 @@ function module_collect_events($type, $allowinactive=false)
 				$events[$index]['normchance'] = $event['rawchance'];
 		}
 	}
-	return modulehook("collect-events", $events);
+	return modules::modulehook("collect-events", $events);
 }
 
 function module_events($eventtype, $basechance, $baseLink = false) {
@@ -1125,7 +1127,7 @@ function module_do_event($type, $module, $allowinactive=false, $baseLink=false)
 		$fname($type,$baseLink);
 		translator::tlschema();
 		//hook into the running event, but only in *this* running event, not in all
-		modulehook("runevent_$module", array("type"=>$type, "baselink"=>$baseLink, "get"=>httpallget(), "post"=>httpallpost()));
+		modules::modulehook("runevent_$module", array("type"=>$type, "baselink"=>$baseLink, "get"=>httpallget(), "post"=>httpallpost()));
 		//revert nav section after we're done here.
 		$navsection = $oldnavsection;
 	}
