@@ -5,7 +5,7 @@
 
 //put these outside the function since they're used by scripts outside of
 //this function.
-$pvptime = getsetting("pvptimeout",600);
+$pvptime = settings::getsetting("pvptimeout",600);
 $pvptimeout = date("Y-m-d H:i:s",strtotime("-$pvptime seconds"));
 
 function pvplist($location=false,$link=false,$extra=false,$sql=false){
@@ -20,15 +20,15 @@ function pvplist($location=false,$link=false,$extra=false,$sql=false){
 		$extra = "?act=attack";
 	}
 
-	$days = getsetting("pvpimmunity", 5);
-	$exp = getsetting("pvpminexp", 1500);
+	$days = settings::getsetting("pvpimmunity", 5);
+	$exp = settings::getsetting("pvpminexp", 1500);
 	$clanrankcolors=array("`!","`#","`^","`&", "`\$");
 
 	if ($sql === false) {
 		$lev1 = $session['user']['level']-1;
 		$lev2 = $session['user']['level']+2;
 		$last = date("Y-m-d H:i:s",
-				strtotime("-".getsetting("LOGINTIMEOUT", 900)." sec"));
+				strtotime("-".settings::getsetting("LOGINTIMEOUT", 900)." sec"));
 		$id = $session['user']['acctid'];
 		$loc = addslashes($location);
 
@@ -53,15 +53,15 @@ function pvplist($location=false,$link=false,$extra=false,$sql=false){
 		$pvp[] = $row;
 	}
 
-	$pvp = modulehook("pvpmodifytargets", $pvp);
+	$pvp = modules::modulehook("pvpmodifytargets", $pvp);
 
-	tlschema("pvp");
-	$n = translate_inline("Name");
-	$l = translate_inline("Level");
-	$loc = translate_inline("Location");
-	$ops = translate_inline("Ops");
-	$bio = translate_inline("Bio");
-	$att = translate_inline("Attack");
+	translator::tlschema("pvp");
+	$n = translator::translate_inline("Name");
+	$l = translator::translate_inline("Level");
+	$loc = translator::translate_inline("Location");
+	$ops = translator::translate_inline("Ops");
+	$bio = translator::translate_inline("Bio");
+	$att = translator::translate_inline("Attack");
 
 	rawoutput("<table border='0' cellpadding='3' cellspacing='0'>");
 	rawoutput("<tr class='trhead'><td>$n</td><td>$l</td><td>$loc</td><td>$ops</td></tr>");
@@ -78,7 +78,7 @@ function pvplist($location=false,$link=false,$extra=false,$sql=false){
 		if ($row['location'] != $location) continue;
 		$j++;
 		$biolink="bio.php?char=".$row['acctid']."&ret=".urlencode($_SERVER['REQUEST_URI']);
-		addnav("", $biolink);
+		output::addnav("", $biolink);
 		rawoutput("<tr class='".($j%2?"trlight":"trdark")."'>");
 		rawoutput("<td>");
 		if ($row['clanshort']>"" && $row['clanrank'] > CLAN_APPLICANT) {
@@ -96,37 +96,36 @@ function pvplist($location=false,$link=false,$extra=false,$sql=false){
 		rawoutput("</td>");
 		rawoutput("<td>[ <a href='$biolink'>$bio</a> | ");
 		if($row['pvpflag']>$pvptimeout){
-			output("`i(Attacked too recently)`i");
+			output::doOutput("`i(Attacked too recently)`i");
 		}elseif ($location!=$row['location']){
-			output("`i(Can't reach them from here)`i");
+			output::doOutput("`i(Can't reach them from here)`i");
 		}else{
 			rawoutput("<a href='$link$extra&name=".$row['acctid']."'>$att</a>");
-			addnav("","$link$extra&name=".$row['acctid']);
+			output::addnav("","$link$extra&name=".$row['acctid']);
 		}
 		rawoutput(" ]</td>");
 		rawoutput("</tr>");
 	}
 
 	if (!isset($loc_counts[$location]) || $loc_counts[$location]==0){
-		$noone = translate_inline("`iThere are no available targets.`i");
+		$noone = translator::translate_inline("`iThere are no available targets.`i");
 		output_notl("<tr><td align='center' colspan='4'>$noone</td></tr>", true);
 	}
 	rawoutput("</table>",true);
 
 	if ($num != 0 && (!isset($loc_counts[$location]) ||
 				$loc_counts[$location] != $num)) {
-		output("`n`n`&As you listen to different people around you talking, you glean the following additional information:`n");
+		output::doOutput("`n`n`&As you listen to different people around you talking, you glean the following additional information:`n");
 		foreach ($loc_counts as $loc=>$count) {
 			if ($loc == $location) continue;
-			$args = modulehook("pvpcount", array('count'=>$count,'loc'=>$loc));
+			$args = modules::modulehook("pvpcount", array('count'=>$count,'loc'=>$loc));
 			if (isset($args['handled']) && $args['handled']) continue;
 			if ($count == 1) {
-			output("`&There is `^%s`& person sleeping in %s whom you might find interesting.`0`n", $count, $loc);
+			output::doOutput("`&There is `^%s`& person sleeping in %s whom you might find interesting.`0`n", $count, $loc);
 			} else {
-			output("`&There are `^%s`& people sleeping in %s whom you might find interesting.`0`n", $count, $loc);
+			output::doOutput("`&There are `^%s`& people sleeping in %s whom you might find interesting.`0`n", $count, $loc);
 			}
 		}
 	}
-	tlschema();
+	translator::tlschema();
 }
-?>

@@ -82,27 +82,27 @@ function specialtymysticpower_dohook($hookname,$args){
 	case "choose-specialty":
 		if ($session['user']['specialty'] == "" ||
 				$session['user']['specialty'] == '0') {
-			addnav("$ccode$name`0","newday.php?setspecialty=".$spec."$resline");
-			$t1 = translate_inline("Dabbling in mystical forces");
-			$t2 = appoencode(translate_inline("$ccode$name`0"));
+			output::addnav("$ccode$name`0","newday.php?setspecialty=".$spec."$resline");
+			$t1 = translator::translate_inline("Dabbling in mystical forces");
+			$t2 = appoencode(translator::translate_inline("$ccode$name`0"));
 			rawoutput("<a href='newday.php?setspecialty=$spec$resline'>$t1 ($t2)</a><br>");
-			addnav("","newday.php?setspecialty=$spec$resline");
+			output::addnav("","newday.php?setspecialty=$spec$resline");
 		}
 		break;
 	case "set-specialty":
 		if($session['user']['specialty'] == $spec) {
 			page_header($name);
-			output("`3Growing up, you remember knowing there was more to the world than the physical, and what you could place your hands on.");
-			output("You realized that your mind itself, with training, could be turned into a weapon.");
-			output("Over time, you began to control the thoughts of small creatures, commanding them to do your bidding, and also to begin to tap into the mystical force known as mana, which could be shaped into the elemental forms of fire, water, ice, earth, and wind.");
-			output("To your delight, it could also be used as a weapon against your foes.");
+			output::doOutput("`3Growing up, you remember knowing there was more to the world than the physical, and what you could place your hands on.");
+			output::doOutput("You realized that your mind itself, with training, could be turned into a weapon.");
+			output::doOutput("Over time, you began to control the thoughts of small creatures, commanding them to do your bidding, and also to begin to tap into the mystical force known as mana, which could be shaped into the elemental forms of fire, water, ice, earth, and wind.");
+			output::doOutput("To your delight, it could also be used as a weapon against your foes.");
 		}
 		break;
 	case "specialtycolor":
 		$args[$spec] = $ccode;
 		break;
 	case "specialtynames":
-		$args[$spec] = translate_inline($name);
+		$args[$spec] = translator::translate_inline($name);
 		break;
 	case "specialtymodules":
 		$args[$spec] = "specialtymysticpower";
@@ -111,32 +111,32 @@ function specialtymysticpower_dohook($hookname,$args){
 		if($session['user']['specialty'] == $spec) {
 			$new = get_module_pref("skill") + 1;
 			set_module_pref("skill", $new);
-			$name = translate_inline($name);
+			$name = translator::translate_inline($name);
 			$c = $args['color'];
-			output("`n%sYou gain a level in `&%s%s to `#%s%s!",
+			output::doOutput("`n%sYou gain a level in `&%s%s to `#%s%s!",
 					$c, $name, $c, $new, $c);
 			$x = $new % 3;
 			if ($x == 0){
-				output("`n`^You gain an extra use point!`n");
+				output::doOutput("`n`^You gain an extra use point!`n");
 				set_module_pref("uses", get_module_pref("uses") + 1);
 			}else{
 				if (3-$x == 1) {
-					output("`n`^Only 1 more skill level until you gain an extra use point!`n");
+					output::doOutput("`n`^Only 1 more skill level until you gain an extra use point!`n");
 				} else {
-					output("`n`^Only %s more skill levels until you gain an extra use point!`n", (3-$x));
+					output::doOutput("`n`^Only %s more skill levels until you gain an extra use point!`n", (3-$x));
 				}
 			}
 			output_notl("`0");
 		}
 		break;
 	case "newday":
-		$bonus = getsetting("specialtybonus", 1);
+		$bonus = settings::getsetting("specialtybonus", 1);
 		if($session['user']['specialty'] == $spec) {
-			$name = translate_inline($name);
+			$name = translator::translate_inline($name);
 			if ($bonus == 1) {
-				output("`n`2For being interested in %s%s`2, you receive `^1`2 extra `&%s%s`2 use for today.`n",$ccode,$name,$ccode,$name);
+				output::doOutput("`n`2For being interested in %s%s`2, you receive `^1`2 extra `&%s%s`2 use for today.`n",$ccode,$name,$ccode,$name);
 			} else {
-				output("`n`2For being interested in %s%s`2, you receive `^%s`2 extra `&%s%s`2 uses for today.`n",$ccode,$name,$bonus,$ccode,$name);
+				output::doOutput("`n`2For being interested in %s%s`2, you receive `^%s`2 extra `&%s%s`2 uses for today.`n",$ccode,$name,$bonus,$ccode,$name);
 			}
 		}
 		$amt = (int)(get_module_pref("skill") / 3);
@@ -147,26 +147,26 @@ function specialtymysticpower_dohook($hookname,$args){
 		$uses = get_module_pref("uses");
 		$script = $args['script'];
 		if ($uses > 0) {
-			addnav(array("$ccode2$name (%s points)`0", $uses), "");
-			addnav(array("e?$ccode2 &#149; Regeneration`7 (%s)`0", 1),
+			output::addnav(array("$ccode2$name (%s points)`0", $uses), "");
+			output::addnav(array("e?$ccode2 &#149; Regeneration`7 (%s)`0", 1),
 					$script."op=fight&skill=$spec&l=1", true);
 		}
 		if ($uses > 1) {
-			addnav(array("$ccode2 &#149; Earth Fist`7 (%s)`0", 2),
+			output::addnav(array("$ccode2 &#149; Earth Fist`7 (%s)`0", 2),
 					$script."op=fight&skill=$spec&l=2",true);
 		}
 		if ($uses > 2) {
-			addnav(array("$ccode2 &#149; Siphon Life`7 (%s)`0", 3),
+			output::addnav(array("$ccode2 &#149; Siphon Life`7 (%s)`0", 3),
 					$script."op=fight&skill=$spec&l=3",true);
 		}
 		if ($uses > 4) {
-			addnav(array("g?$ccode2 &#149; Lightning Aura`7 (%s)`0", 5),
+			output::addnav(array("g?$ccode2 &#149; Lightning Aura`7 (%s)`0", 5),
 					$script."op=fight&skill=$spec&l=5",true);
 		}
 		break;
 	case "apply-specialties":
-		$skill = httpget('skill');
-		$l = httpget('l');
+		$skill = http::httpget('skill');
+		$l = http::httpget('l');
 		if ($skill==$spec){
 			if (get_module_pref("uses") >= $l){
 				switch($l){
@@ -241,4 +241,3 @@ function specialtymysticpower_dohook($hookname,$args){
 
 function specialtymysticpower_run(){
 }
-?>

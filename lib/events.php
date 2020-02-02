@@ -20,9 +20,9 @@ function handle_event($location, $baseLink=false, $needHeader=false)
 	global $session, $playermount, $badguy;
 	$skipdesc = false;
 
-	tlschema("events");
+	translator::tlschema("events");
 	$allowinactive = false;
-	$eventhandler = httpget('eventhandler');
+	$eventhandler = http::httpget('eventhandler');
 	if (($session['user']['superuser'] & SU_DEVELOPER) && $eventhandler!=""){
 		$allowinactive = true;
 		$array = preg_split("/[:-]/", $eventhandler);
@@ -42,7 +42,7 @@ function handle_event($location, $baseLink=false, $needHeader=false)
 			page_header($needHeader);
 		}
 
-		output("`^`c`bSomething Special!`c`b`0");
+		output::doOutput("`^`c`bSomething Special!`c`b`0");
 		if (strchr($specialinc, ":")) {
 			//$array = split(":", $specialinc);
 			$array = explode(":", $specialinc);
@@ -63,7 +63,6 @@ function handle_event($location, $baseLink=false, $needHeader=false)
 			httpset("op", "");
 		}
 	}
-	tlschema();
+	translator::tlschema();
 	return $skipdesc;
 }
-?>

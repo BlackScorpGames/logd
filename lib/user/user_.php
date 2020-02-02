@@ -4,31 +4,31 @@ if ($display == 1){
 	if ($query) {
 		$q = "&q=$query";
 	}
-	$ops=translate_inline("Ops");
-	$acid =translate_inline("AcctID");
-	$login =translate_inline("Login");
-	$nm =translate_inline("Name");
-	$lev =translate_inline("Level");
-	$lon =translate_inline("Last On");
-	$hits =translate_inline("Hits");
-	$lip =translate_inline("Last IP");
-	$lid =translate_inline("Last ID");
-	$email =translate_inline("Email");
-	$ed = translate_inline("Edit");
-	$del = translate_inline("Del");
-	$conf = translate_inline("Are you sure you wish to delete this user?");
-	$ban = translate_inline("Ban");
-	$log = translate_inline("Log");
+	$ops=translator::translate_inline("Ops");
+	$acid =translator::translate_inline("AcctID");
+	$login =translator::translate_inline("Login");
+	$nm =translator::translate_inline("Name");
+	$lev =translator::translate_inline("Level");
+	$lon =translator::translate_inline("Last On");
+	$hits =translator::translate_inline("Hits");
+	$lip =translator::translate_inline("Last IP");
+	$lid =translator::translate_inline("Last ID");
+	$email =translator::translate_inline("Email");
+	$ed = translator::translate_inline("Edit");
+	$del = translator::translate_inline("Del");
+	$conf = translator::translate_inline("Are you sure you wish to delete this user?");
+	$ban = translator::translate_inline("Ban");
+	$log = translator::translate_inline("Log");
 		rawoutput("<table>");
 	rawoutput("<tr class='trhead'><td>$ops</td><td><a href='user.php?sort=acctid$q'>$acid</a></td><td><a href='user.php?sort=login$q'>$login</a></td><td><a href='user.php?sort=name$q'>$nm</a></td><td><a href='user.php?sort=level$q'>$lev</a></td><td><a href='user.php?sort=laston$q'>$lon</a></td><td><a href='user.php?sort=gentimecount$q'>$hits</a></td><td><a href='user.php?sort=lastip$q'>$lip</a></td><td><a href='user.php?sort=uniqueid$q'>$lid</a></td><td><a href='user.php?sort=emailaddress$q'>$email</a></td></tr>");
-	addnav("","user.php?sort=acctid$q");
-	addnav("","user.php?sort=login$q");
-	addnav("","user.php?sort=name$q");
-	addnav("","user.php?sort=level$q");
-	addnav("","user.php?sort=laston$q");
-	addnav("","user.php?sort=gentimecount$q");
-	addnav("","user.php?sort=lastip$q");
-	addnav("","user.php?sort=uniqueid$q");
+	output::addnav("","user.php?sort=acctid$q");
+	output::addnav("","user.php?sort=login$q");
+	output::addnav("","user.php?sort=name$q");
+	output::addnav("","user.php?sort=level$q");
+	output::addnav("","user.php?sort=laston$q");
+	output::addnav("","user.php?sort=gentimecount$q");
+	output::addnav("","user.php?sort=lastip$q");
+	output::addnav("","user.php?sort=uniqueid$q");
 	$rn=0;
 	$oorder = "";
 	$number3=db_num_rows($searchresult);
@@ -37,19 +37,19 @@ if ($display == 1){
 		$laston = relativedate($row['laston']);
 		$loggedin =
 			(date("U") - strtotime($row['laston']) <
-			 getsetting("LOGINTIMEOUT",900) && $row['loggedin']);
+			 settings::getsetting("LOGINTIMEOUT",900) && $row['loggedin']);
 		if ($loggedin)
-			$laston=translate_inline("`#Online`0");
+			$laston=translator::translate_inline("`#Online`0");
 		$row['laston']=$laston;
 		if ($row[$order]!=$oorder) $rn++;
 		$oorder = $row[$order];
 		rawoutput("<tr class='".($rn%2?"trlight":"trdark")."'>");
 		rawoutput("<td nowrap>");
 		rawoutput("[ <a href='user.php?op=edit&userid={$row['acctid']}$m'>$ed</a> | <a href='user.php?op=del&userid={$row['acctid']}' onClick=\"return confirm('$conf');\">$del</a> | <a href='user.php?op=setupban&userid={$row['acctid']}'>$ban</a> | <a href='user.php?op=debuglog&userid={$row['acctid']}'>$log</a> ]");
-		addnav("","user.php?op=edit&userid={$row['acctid']}$m");
-		addnav("","user.php?op=del&userid={$row['acctid']}");
-		addnav("","user.php?op=setupban&userid={$row['acctid']}");
-		addnav("","user.php?op=debuglog&userid={$row['acctid']}");
+		output::addnav("","user.php?op=edit&userid={$row['acctid']}$m");
+		output::addnav("","user.php?op=del&userid={$row['acctid']}");
+		output::addnav("","user.php?op=setupban&userid={$row['acctid']}");
+		output::addnav("","user.php?op=debuglog&userid={$row['acctid']}");
 		rawoutput("</td><td>");
 		output_notl("%s", $row['acctid']);
 		rawoutput("</td><td>");
@@ -73,8 +73,7 @@ if ($display == 1){
 		$gentime+=$row['gentime'];
 	}
 	rawoutput("</table>");
-	output("Total hits: %s`n", $gentimecount);
-	output("Total CPU time: %s seconds`n", round($gentime,3));
-	output("Average page gen time is %s seconds`n", round($gentime/max($gentimecount,1),4));
+	output::doOutput("Total hits: %s`n", $gentimecount);
+	output::doOutput("Total CPU time: %s seconds`n", round($gentime,3));
+	output::doOutput("Average page gen time is %s seconds`n", round($gentime/max($gentimecount,1),4));
 }
-?>

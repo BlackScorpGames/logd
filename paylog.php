@@ -5,7 +5,7 @@
 require_once("common.php");
 require_once("lib/http.php");
 
-tlschema("paylog");
+translator::tlschema("paylog");
 
 check_su_access(SU_EDIT_PAYLOG);
 /*
@@ -28,7 +28,7 @@ page_header("Payment Log");
 require_once("lib/superusernav.php");
 superusernav();
 
-$op = httpget('op');
+$op = http::httpget('op');
 if ($op==""){
 	$sql = "SELECT info,txnid FROM ".db_prefix("paylog")." WHERE processdate='0000-00-00'";
 	$result = db_query($sql);
@@ -39,24 +39,24 @@ if ($op==""){
 	}
 	$sql = "SELECT substring(processdate,1,7) AS month, sum(amount)-sum(txfee) AS profit FROM ".db_prefix('paylog')." GROUP BY month DESC";
 	$result = db_query($sql);
-	addnav("Months");
+	output::addnav("Months");
 	while ($row = db_fetch_assoc($result)){
-		addnav(array("%s %s %s", date("M Y",strtotime($row['month']."-01")), getsetting("paypalcurrency", "USD"), $row['profit']),"paylog.php?month={$row['month']}");
+		output::addnav(array("%s %s %s", date("M Y",strtotime($row['month']."-01")), settings::getsetting("paypalcurrency", "USD"), $row['profit']),"paylog.php?month={$row['month']}");
 	}
-	$month = httpget('month');
+	$month = http::httpget('month');
 	if ($month=="") $month = date("Y-m");
 	$startdate = $month."-01 00:00:00";
 	$enddate = date("Y-m-d H:i:s",strtotime("+1 month",strtotime($startdate)));
 	$sql = "SELECT " . db_prefix("paylog") . ".*," . db_prefix("accounts") . ".name," . db_prefix("accounts") . ".donation," . db_prefix("accounts") . ".donationspent FROM " . db_prefix("paylog") . " LEFT JOIN " . db_prefix("accounts") . " ON " . db_prefix("paylog") . ".acctid = " . db_prefix("accounts") . ".acctid WHERE processdate>='$startdate' AND processdate < '$enddate' ORDER BY payid DESC";
 	$result = db_query($sql);
 	rawoutput("<table border='0' cellpadding='2' cellspacing='1' bgcolor='#999999'>");
-	$type = translate_inline("Type");
-	$gross = translate_inline("Gross");
-	$fee = translate_inline("Fee");
-	$net = translate_inline("Net");
-	$processed = translate_inline("Processed");
-	$id = translate_inline("Transaction ID");
-	$who = translate_inline("Who");
+	$type = translator::translate_inline("Type");
+	$gross = translator::translate_inline("Gross");
+	$fee = translator::translate_inline("Fee");
+	$net = translator::translate_inline("Net");
+	$processed = translator::translate_inline("Processed");
+	$id = translator::translate_inline("Transaction ID");
+	$who = translator::translate_inline("Who");
 	rawoutput("<tr class='trhead'><td>Date</td><td>$id</td><td>$type</td><td>$gross</td><td>$fee</td><td>$net</td><td>$processed</td><td>$who</td></tr>");
 	$number=db_num_rows($result);
 	for ($i=0;$i<$number;$i++){
@@ -75,14 +75,14 @@ if ($op==""){
 		rawoutput("</td><td>");
 		output_notl("%.2f", (float)$info['mc_gross'] - (float)$info['mc_fee']);
 		rawoutput("</td><td>");
-		output_notl("%s", translate_inline($row['processed']?"`@Yes`0":"`\$No`0"));
+		output_notl("%s", translator::translate_inline($row['processed']?"`@Yes`0":"`\$No`0"));
 		rawoutput("</td><td nowrap>");
 		if ($row['name']>"") {
 			rawoutput("<a href='user.php?op=edit&userid={$row['acctid']}'>");
 			output_notl("`&%s`0 (%d/%d)", $row['name'],  $row['donationspent'],
 					$row['donation']);
 			rawoutput("</a>");
-			addnav("","user.php?op=edit&userid={$row['acctid']}");
+			output::addnav("","user.php?op=edit&userid={$row['acctid']}");
 		}else{
 			$amt = round((float)$info['mc_gross'] * 100,0);
 			$memo = "";
@@ -90,13 +90,12 @@ if ($op==""){
 				$memo = $info['memo'];
 			}
 			$link = "donators.php?op=add1&name=".rawurlencode($memo)."&amt=$amt&txnid={$row['txnid']}";
-			rawoutput("-=( <a href='$link' title=\"".htmlentities($info['item_number'], ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."\" alt=\"".htmlentities($info['item_number'], ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."\">[".htmlentities($memo, ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."]</a> )=-");
-			addnav("",$link);
+			rawoutput("-=( <a href='$link' title=\"".htmlentities($info['item_number'], ENT_COMPAT, settings::getsetting("charset", "ISO-8859-1"))."\" alt=\"".htmlentities($info['item_number'], ENT_COMPAT, settings::getsetting("charset", "ISO-8859-1"))."\">[".htmlentities($memo, ENT_COMPAT, settings::getsetting("charset", "ISO-8859-1"))."]</a> )=-");
+			output::addnav("",$link);
 		}
 		rawoutput("</td></tr>");
 	}
 	rawoutput("</table>");
-	addnav("Refresh","paylog.php");
+	output::addnav("Refresh","paylog.php");
 }
 page_footer();
-?>

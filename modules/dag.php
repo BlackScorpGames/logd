@@ -36,7 +36,7 @@ function dag_install(){
 }
 
 function dag_uninstall(){
-	output("Dropping bounty table");
+	output::doOutput("Dropping bounty table");
 	$sql = "DROP TABLE IF EXISTS " . db_prefix("bounty");
 	db_query($sql);
 	return true;
@@ -53,4 +53,3 @@ function dag_run(){
 	$args = func_get_args();
 	return call_user_func_array("dag_run_private",$args);
 }
-?>

@@ -9,7 +9,7 @@ require_once("lib/systemmail.php");
 require_once("lib/output_array.php");
 require_once("lib/http.php");
 require_once("lib/stripslashes_deep.php");
-$op = httpget('op');
+$op = http::httpget('op');
 
 switch ($op) {
 	case "primer": case "faq": case "faq1": case "faq2": case "faq3":
@@ -20,4 +20,3 @@ switch ($op) {
 		break;
 }
 popup_footer();
-?>

@@ -12,7 +12,7 @@ require_once("common.php");
 require_once("lib/http.php");
 require_once("lib/sanitize.php");
 
-tlschema("logdnet");
+translator::tlschema("logdnet");
 
 function lotgdsort($a, $b)
 {
@@ -71,14 +71,14 @@ function lotgdsort($a, $b)
 	return (($costa < $costb) ? -1 : 1);
 }
 
-$op = httpget('op');
+$op = http::httpget('op');
 if ($op==""){
-	$addy = httpget('addy');
-	$desc = httpget('desc');
-	$vers = httpget('version');
-	$admin = httpget('admin');
-	$count = httpget('c')*1;
-	$lang = httpget('l');
+	$addy = http::httpget('addy');
+	$desc = http::httpget('desc');
+	$vers = http::httpget('version');
+	$admin = http::httpget('admin');
+	$count = http::httpget('c')*1;
+	$lang = http::httpget('l');
 
 	if ($vers == "") $vers = "Unknown";
 	if ($admin == "" || $admin=="postmaster@localhost.com")
@@ -144,9 +144,9 @@ if ($op==""){
 	db_query($sql);
 
 	//Now, if we're using version 2 of LoGDnet, we'll return the appropriate code.
-	$v = httpget("v");
+	$v = http::httpget("v");
 	if ((int)$v>=2){
-		$currency = getsetting("paypalcurrency", "USD");
+		$currency = settings::getsetting("paypalcurrency", "USD");
 		$info = array();
 		$info[''] = '<!--data from '.$_SERVER['HTTP_HOST'].'-->
 <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
@@ -189,28 +189,28 @@ if ($op==""){
 	}
 }else{
 	page_header("LoGD Net");
-	addnav("Login page","index.php");
-	output("`@Below are a list of other LoGD servers that have registered with the LoGD Net.`n");
-	output("`2It should be noted that this list is subject to editing and culling by the administrators of logdnet.logd.com. ");
-	output("Normally this list is a comprehensive list of all servers that have elected to register with LoGDnet, but I'm making changes to that. ");
-	output("Because this list is a free service provided by logdnet.logd.com, we reserve the right to remove those who we don't want in the list.`n");
-	output("Reasons we might remove a server:`n");
-	output("&#149; Altering our copyright statement outside of the provisions we have provided within the code,`n", true);
-	output("&#149; Removing our PayPal link,`n", true);
-	output("&#149; Providing deceptive, inappropriate, or false information in the server listing,`n", true);
-	output("&#149; Not linking back to LoGDnet`n", true);
-	output("Or really, any other reason that we want.`n");
-	output("If you've been banned already, chances are you know why, and chances are we've got no interest in removing the ban.");
-	output("We provide this free of charge, at the expense of considerable bandwidth and server load, so if you've had the gall to abuse our charity, don't expect it to be won back very easily.`n`n");
-	output("If you are well behaved, we don't have an interest in blocking you from this listing. `0`n");
+	output::addnav("Login page","index.php");
+	output::doOutput("`@Below are a list of other LoGD servers that have registered with the LoGD Net.`n");
+	output::doOutput("`2It should be noted that this list is subject to editing and culling by the administrators of logdnet.logd.com. ");
+	output::doOutput("Normally this list is a comprehensive list of all servers that have elected to register with LoGDnet, but I'm making changes to that. ");
+	output::doOutput("Because this list is a free service provided by logdnet.logd.com, we reserve the right to remove those who we don't want in the list.`n");
+	output::doOutput("Reasons we might remove a server:`n");
+	output::doOutput("&#149; Altering our copyright statement outside of the provisions we have provided within the code,`n", true);
+	output::doOutput("&#149; Removing our PayPal link,`n", true);
+	output::doOutput("&#149; Providing deceptive, inappropriate, or false information in the server listing,`n", true);
+	output::doOutput("&#149; Not linking back to LoGDnet`n", true);
+	output::doOutput("Or really, any other reason that we want.`n");
+	output::doOutput("If you've been banned already, chances are you know why, and chances are we've got no interest in removing the ban.");
+	output::doOutput("We provide this free of charge, at the expense of considerable bandwidth and server load, so if you've had the gall to abuse our charity, don't expect it to be won back very easily.`n`n");
+	output::doOutput("If you are well behaved, we don't have an interest in blocking you from this listing. `0`n");
 	rawoutput("<table border='0' cellpadding='1' cellspacing='0'>");
 	rawoutput("<tr class='trhead'><td>");
-	output("Server");
+	output::doOutput("Server");
 	rawoutput("</td><td>");
-	output("Version");
+	output::doOutput("Version");
 	rawoutput("</td>");
 	require_once("lib/pullurl.php");
-	$u = getsetting("logdnetserver", "http://logdnet.logd.com/");
+	$u = settings::getsetting("logdnetserver", "http://logdnet.logd.com/");
 	if (!preg_match("/\\/$/", $u)) {
 		$u = $u . "/";
 		savesetting("logdnetserver", $u);
@@ -242,15 +242,15 @@ if ($op==""){
 		if (strlen($row['description']) > 75)
 			$row['description'] = substr($row['description'], 0, 75);
 
-		$row['description'] = htmlentities(stripslashes($row['description']), ENT_COMPAT, getsetting("charset", "ISO-8859-1"));
+		$row['description'] = htmlentities(stripslashes($row['description']), ENT_COMPAT, settings::getsetting("charset", "ISO-8859-1"));
 		$row['description'] = str_replace("`&amp;", "`&", $row['description']);
 
 		// Correct for old logdnet servers
-		if ($row['version']=="") $row['version'] = translate_inline("Unknown");
+		if ($row['version']=="") $row['version'] = translator::translate_inline("Unknown");
 
 		// Output the information we have.
 		rawoutput("<tr class='" . ($i%2==0?"trlight":"trdark") . "'>");
-		rawoutput("<td><a href=\"".HTMLEntities($row['address'], ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."\" target='_blank'>");
+		rawoutput("<td><a href=\"".HTMLEntities($row['address'], ENT_COMPAT, settings::getsetting("charset", "ISO-8859-1"))."\" target='_blank'>");
 		output_notl("`&%s`0",$row['description'], true);
 		rawoutput("</a></td><td>");
 		output_notl("`^%s`0", $row['version']); // so we are able to translate "`^Unknown`0"
@@ -274,4 +274,3 @@ function apply_logdnet_bans($logdnet){
 	}
 	return $logdnet;
 }
-?>

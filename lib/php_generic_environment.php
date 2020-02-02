@@ -37,4 +37,3 @@ function php_generic_environment(){
 	register_global($_SERVER);
 	sanitize_uri();
 }
-?>

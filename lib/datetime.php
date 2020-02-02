@@ -14,7 +14,7 @@ function reltime($date,$short=true){
 	$s = (int)($x);
 	if ($short){
 		$array=array("d"=>"d","h"=>"h","m"=>"m","s"=>"s");
-		$array=translate_inline($array,"datetime");
+		$array=translator::translate_inline($array,"datetime");
 		if ($d > 0)
 			$o = $d.$array['d'].($h>0?$h.$array['h']:"");
 		elseif ($h > 0)
@@ -35,7 +35,7 @@ function reltime($date,$short=true){
 		$o = str_replace(" ", "&nbsp;", $o);*/
 	}else{
 		$array=array("day"=>"day","days"=>"days","hour"=>"hour","hours"=>"hours","minute"=>"minute","minutes"=>"minutes","second"=>"second","seconds"=>"second");
-		$array=translate_inline($array,"datetime"); //translate it... tl-ready now
+		$array=translator::translate_inline($array,"datetime"); //translate it... tl-ready now
 		if ($d > 0)
 			$o = "$d ".($d>1?$array['days']:$array['day']).($h>0?", $h ".($h>1?$array['hours']:$array['hour']):"");
 		elseif ($h > 0)
@@ -50,20 +50,20 @@ function reltime($date,$short=true){
 
 function relativedate($indate){
 	$laston = round((strtotime("now")-strtotime($indate)) / 86400,0) . " days";
-	tlschema("datetime");
+	translator::tlschema("datetime");
 	if (substr($laston,0,2)=="1 ")
-		$laston=translate_inline("1 day");
+		$laston=translator::translate_inline("1 day");
 	elseif (date("Y-m-d",strtotime($laston)) == date("Y-m-d"))
-		$laston=translate_inline("Today");
+		$laston=translator::translate_inline("Today");
 	elseif (date("Y-m-d",strtotime($laston)) == date("Y-m-d",strtotime("-1 day")))
-		$laston=translate_inline("Yesterday");
+		$laston=translator::translate_inline("Yesterday");
 	elseif (strpos($indate,"0000-00-00")!==false)
-		$laston = translate_inline("Never");
+		$laston = translator::translate_inline("Never");
 	else {
-		$laston= sprintf_translate("%s days", round((strtotime("now")-strtotime($indate)) / 86400,0));
-		rawoutput(tlbutton_clear());
+		$laston= translator::sprintf_translate("%s days", round((strtotime("now")-strtotime($indate)) / 86400,0));
+		rawoutput(translator::tlbutton_clear());
 	}
-	tlschema();
+	translator::tlschema();
 	return $laston;
 }
 
@@ -81,7 +81,7 @@ function checkday() {
 				$session=$revertsession;
 				$session['user']['restorepage']=$REQUEST_URI;
 				$session['allowednavs']=array();
-				addnav("","newday.php");
+				output::addnav("","newday.php");
 				redirect("newday.php");
 			}
 		}
@@ -117,14 +117,14 @@ function gametime(){
 function convertgametime($intime,$debug=false){
 
 	//adjust the requested time by the game offset
-	$intime -= getsetting("gameoffsetseconds",0);
+	$intime -= settings::getsetting("gameoffsetseconds",0);
 
 	// we know that strtotime gives us an identical timestamp for
 	// everywhere in the world at the same time, if it is provided with
 	// the GMT offset:
-	$epoch = strtotime(getsetting("game_epoch",gmdate("Y-m-d 00:00:00 O",strtotime("-30 days"))));
+	$epoch = strtotime(settings::getsetting("game_epoch",gmdate("Y-m-d 00:00:00 O",strtotime("-30 days"))));
 	$now = strtotime(gmdate("Y-m-d H:i:s O",$intime));
-	$logd_timestamp = ($now - $epoch) * getsetting("daysperday",4);
+	$logd_timestamp = ($now - $epoch) * settings::getsetting("daysperday",4);
 	if ($debug){
 		echo "Game Timestamp: ".$logd_timestamp.", which makes it ".gmdate("Y-m-d H:i:s",$logd_timestamp)."<br>";
 	}
@@ -135,7 +135,7 @@ function gametimedetails(){
 	$ret = array();
 	$ret['now'] = date("Y-m-d 00:00:00");
 	$ret['gametime'] = gametime();
-	$ret['daysperday'] = getsetting("daysperday", 4);
+	$ret['daysperday'] = settings::getsetting("daysperday", 4);
 	$ret['secsperday'] = 86400/$ret['daysperday'];
 	$ret['today'] = strtotime(gmdate("Y-m-d 00:00:00 O", $ret['gametime']));
 	$ret['tomorrow'] =
@@ -161,6 +161,3 @@ function getmicrotime(){
 	list($usec, $sec) = explode(" ",microtime());
 	return ((float)$usec + (float)$sec);
 }
-
-
-?>

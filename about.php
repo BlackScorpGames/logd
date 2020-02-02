@@ -7,13 +7,13 @@ require_once("common.php");
 require_once("lib/showform.php");
 require_once("lib/http.php");
 
-tlschema("about");
+translator::tlschema("about");
 
 page_header("About Legend of the Green Dragon");
 $details = gametimedetails();
 
 checkday();
-$op = httpget('op');
+$op = http::httpget('op');
 
 switch ($op) {
 	case "setup": case "listmodules": case "license":
@@ -24,9 +24,8 @@ switch ($op) {
 		break;
 }
 if ($session['user']['loggedin']) {
-	addnav("Return to the news","news.php");
+	output::addnav("Return to the news","news.php");
 }else{
-	addnav("Login Page","index.php");
+	output::addnav("Login Page","index.php");
 }
 page_footer();
-?>

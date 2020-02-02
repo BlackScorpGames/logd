@@ -25,36 +25,36 @@ function dag_manage(){
 	superusernav();
 
 	// Add some bounty expiration for closed bounties
-	$sql = "DELETE FROM " . db_prefix("bounty") . " WHERE status=1 AND windate <'".date("Y-m-d H:i:s",strtotime("-".(getsetting("expirecontent",180)/10)." days"))."'";
+	$sql = "DELETE FROM " . db_prefix("bounty") . " WHERE status=1 AND windate <'".date("Y-m-d H:i:s",strtotime("-".(settings::getsetting("expirecontent",180)/10)." days"))."'";
 	db_query($sql);
 
-	addnav("Actions");
-	addnav("A?View All Bounties","runmodule.php?module=dag&manage=true&op=viewbounties&type=1&sort=1&dir=1&admin=true");
-	addnav("O?View Open Bounties","runmodule.php?module=dag&manage=true&op=viewbounties&type=2&sort=1&dir=1&admin=true");
-	addnav("C?View Closed Bounties","runmodule.php?module=dag&manage=true&op=viewbounties&type=3&sort=1&dir=1&admin=true");
-	addnav("R?Refresh List","runmodule.php?module=dag&manage=true&admin=true");
+	output::addnav("Actions");
+	output::addnav("A?View All Bounties","runmodule.php?module=dag&manage=true&op=viewbounties&type=1&sort=1&dir=1&admin=true");
+	output::addnav("O?View Open Bounties","runmodule.php?module=dag&manage=true&op=viewbounties&type=2&sort=1&dir=1&admin=true");
+	output::addnav("C?View Closed Bounties","runmodule.php?module=dag&manage=true&op=viewbounties&type=3&sort=1&dir=1&admin=true");
+	output::addnav("R?Refresh List","runmodule.php?module=dag&manage=true&admin=true");
 
 	rawoutput("<form action='runmodule.php?module=dag&manage=true&op=viewbounties&type=search&admin=true' method='POST'>");
-	addnav("","runmodule.php?module=dag&manage=true&op=viewbounties&type=search&admin=true");
-	output("Setter: ");
+	output::addnav("","runmodule.php?module=dag&manage=true&op=viewbounties&type=search&admin=true");
+	output::doOutput("Setter: ");
 	rawoutput("<input name='setter' value=\"".htmlentities(stripslashes(httppost('setter')))."\">");
-	output(" Winner: ");
+	output::doOutput(" Winner: ");
 	rawoutput("<input name='getter' value=\"".htmlentities(stripslashes(httppost('getter')))."\">");
-	output(" Target: ");
+	output::doOutput(" Target: ");
 	rawoutput("<input name='target' value=\"".htmlentities(stripslashes(httppost('target')))."\">");
 	output_notl("`n");
-	output("Order by: ");
-	$id = translate_inline("ID");
-	$amt = translate_inline("Amount");
-	$targ = translate_inline("Target");
-	$set = translate_inline("Setter");
-	$sdate = translate_inline("Set Date");
-	$stat = translate_inline("Status");
-	$win = translate_inline("Winner");
-	$wdate = translate_inline("Win Date");
-	$desc = translate_inline("Descending");
-	$asc = translate_inline("Ascending");
-	$search = translate_inline("Search");
+	output::doOutput("Order by: ");
+	$id = translator::translate_inline("ID");
+	$amt = translator::translate_inline("Amount");
+	$targ = translator::translate_inline("Target");
+	$set = translator::translate_inline("Setter");
+	$sdate = translator::translate_inline("Set Date");
+	$stat = translator::translate_inline("Status");
+	$win = translator::translate_inline("Winner");
+	$wdate = translator::translate_inline("Win Date");
+	$desc = translator::translate_inline("Descending");
+	$asc = translator::translate_inline("Ascending");
+	$search = translator::translate_inline("Search");
 	rawoutput("<select name='s'>
 		<option value='1'".(httppost('s')=='1'?" selected":"").">$id</option>
 		<option value='2'".(httppost('s')=='2'?" selected":"").">$amt</option>
@@ -71,23 +71,23 @@ function dag_manage(){
 	rawoutput("<input type='submit' class='button' value='$search'>");
 	rawoutput("</form>");
 
-	$op = httpget('op');
+	$op = http::httpget('op');
 	if ($op == "") {
 		// ***ADDED***
 		// By Andrew Senger
 		// Adding for new Bounty Code
 		output_notl("`n`n");
-		output("`c`bThe Bounty List`b`c`n");
+		output::doOutput("`c`bThe Bounty List`b`c`n");
 		$sql = "SELECT bountyid,amount,target,setter,setdate FROM " . db_prefix("bounty") . " WHERE status=0 ORDER BY bountyid ASC";
 		$result = db_query($sql);
 		rawoutput("<table border=0 cellpadding=2 cellspacing=1 bgcolor='#999999'>");
-		$amt = translate_inline("Amount");
-		$lev = translate_inline("Level");
-		$name = translate_inline("Name");
-		$loc = translate_inline("Location");
-		$sex = translate_inline("Sex");
-		$alive = translate_inline("Alive");
-		$last = translate_inline("Last On");
+		$amt = translator::translate_inline("Amount");
+		$lev = translator::translate_inline("Level");
+		$name = translator::translate_inline("Name");
+		$loc = translator::translate_inline("Location");
+		$sex = translator::translate_inline("Sex");
+		$alive = translator::translate_inline("Alive");
+		$last = translator::translate_inline("Last On");
 		rawoutput("<tr class='trhead'><td><b>$amt</b></td><td><b>$lev</b></td><td><b>$name</b></td><td><b>$loc</b></td><td><b>$sex</b></td><td><b>$alive</b></td><td><b>$last</b></td>");
 		$listing = array();
 		$totlist = 0;
@@ -124,32 +124,32 @@ function dag_manage(){
 			rawoutput("</td><td>");
 			output_notl("`^%s`0", $listing[$i]['Name']);
 			rawoutput("</td><td>");
-			output($loggedin ? "`#Online`0" : $listing[$i]['Location']);
+			output::doOutput($loggedin ? "`#Online`0" : $listing[$i]['Location']);
 			rawoutput("</td><td>");
-			output($listing[$i]['Sex']?"`!Female`0":"`!Male`0");
+			output::doOutput($listing[$i]['Sex']?"`!Female`0":"`!Male`0");
 			rawoutput("</td><td>");
-			output($listing[$i]['Alive']?"`1Yes`0":"`4No`0");
+			output::doOutput($listing[$i]['Alive']?"`1Yes`0":"`4No`0");
 			rawoutput("</td><td>");
 			$laston= relativedate($listing[$i]['LastOn']);
-			if ($loggedin) $laston=translate_inline("Now");
+			if ($loggedin) $laston=translator::translate_inline("Now");
 			output_notl("%s", $laston);
 			rawoutput("</td></tr>");
 		}
 		rawoutput("</table>");
-		output("`n`n`c`bAdd Bounty`b`c`n");
+		output::doOutput("`n`n`c`bAdd Bounty`b`c`n");
 		rawoutput("<form action='runmodule.php?module=dag&manage=true&op=addbounty&admin=true' method='POST'>");
-		output("`2Target: ");
+		output::doOutput("`2Target: ");
 		rawoutput("<input name='contractname'>");
 		output_notl("`n");
-		output("`2Amount to Place: ");
+		output::doOutput("`2Amount to Place: ");
 		rawoutput("<input name='amount' id='amount' width='5'>");
 		output_notl("`n`n");
-		$final = translate_inline("Finalize Contract");
+		$final = translator::translate_inline("Finalize Contract");
 		rawoutput("<input type='submit' class='button' value='$final'>");
 		rawoutput("</form>");
-		addnav("","runmodule.php?module=dag&manage=true&op=addbounty&admin=true");
+		output::addnav("","runmodule.php?module=dag&manage=true&op=addbounty&admin=true");
 	}else if ($op == "addbounty") {
-		if (httpget('subfinal')==1){
+		if (http::httpget('subfinal')==1){
 			$sql = "SELECT acctid,name,login,level,locked,age,dragonkills,pk,experience FROM " . db_prefix("accounts") . " WHERE name='".addslashes(rawurldecode(stripslashes(httppost('contractname'))))."' AND locked=0";
 		}else{
 			$contractname = stripslashes(rawurldecode(httppost('contractname')));
@@ -161,13 +161,13 @@ function dag_manage(){
 		}
 		$result = db_query($sql);
 		if (db_num_rows($result) == 0) {
-			output("No one by that name!");
+			output::doOutput("No one by that name!");
 		} elseif(db_num_rows($result) > 100) {
-			output("Too many names!");
+			output::doOutput("Too many names!");
 		} elseif(db_num_rows($result) > 1) {
-			output("Select the correct name:`n");
+			output::doOutput("Select the correct name:`n");
 			rawoutput("<form action='runmodule.php?module=dag&manage=true&op=addbounty&subfinal=1&admin=true' method='POST'>");
-			output("`2Target: ");
+			output::doOutput("`2Target: ");
 			rawoutput("<select name='contractname'>");
 			for ($i=0;$i<db_num_rows($result);$i++){
 				$row = db_fetch_assoc($result);
@@ -176,121 +176,121 @@ function dag_manage(){
 			rawoutput("</select>");
 			output_notl("`n`n");
 			$amount = httppost('amount');
-			output("`2Amount to Place: ");
+			output::doOutput("`2Amount to Place: ");
 			rawoutput("<input name='amount' id='amount' width='5' value='$amount'>");
 			output_notl("`n`n");
-			$final = translate_inline("Finalize Contract");
+			$final = translator::translate_inline("Finalize Contract");
 			rawoutput("<input type='submit' class='button' value='$final'>");
 			rawoutput("</form>");
-			addnav("","runmodule.php?module=dag&manage=true&op=addbounty&subfinal=1");
+			output::addnav("","runmodule.php?module=dag&manage=true&op=addbounty&subfinal=1");
 		} else {
 			// Now, we have just the one, so check it.
 			$row  = db_fetch_assoc($result);
 			if ($row['locked']) {
-				output("Target is a locked user.");
+				output::doOutput("Target is a locked user.");
 			}
 			$amt = (int)httppost('amount');
 			if ($amt <= 0) {
-				output("That bounty value make no sense.");
+				output::doOutput("That bounty value make no sense.");
 			} else {
 				// All good!
 				$sql = "INSERT INTO " . db_prefix("bounty") . " (amount, target, setter, setdate) VALUES ($amt, ".$row['acctid'].", 0, '".date("Y-m-d H:i:s")."')";
 				db_query($sql);
-				output("Bounty added!");
+				output::doOutput("Bounty added!");
 			}
 		}
 	} else if ($op == "viewbounties") {
-		$type = httpget('type');
-		$sort = httpget('sort');
-		$dir = httpget('dir');
-		output("`c`bThe Bounty List`b`c`n");
+		$type = http::httpget('type');
+		$sort = http::httpget('sort');
+		$dir = http::httpget('dir');
+		output::doOutput("`c`bThe Bounty List`b`c`n");
 		if ($type == 1) {
-			output("`c`bViewing: `3All Bounties`b`c");
+			output::doOutput("`c`bViewing: `3All Bounties`b`c");
 		}elseif ($type == 2) {
-			output("`c`bViewing: `3Open Bounties`b`c");
+			output::doOutput("`c`bViewing: `3Open Bounties`b`c");
 		}elseif ($type == 3) {
-			output("`c`bViewing: `3Closed Bounties`b`c");
+			output::doOutput("`c`bViewing: `3Closed Bounties`b`c");
 		}
-		addnav("Sorting");
+		output::addnav("Sorting");
 
 		if (($sort == 1) && ($dir == 1)) {
-			addnav("1?By BountyID - Asc","runmodule.php?module=dag&manage=true&op=viewbounties&type=".$type."&sort=1&dir=2&admin=true");
-			output("`c`bSorting By: `3BountyID - Desc`b`c`n`n");
+			output::addnav("1?By BountyID - Asc","runmodule.php?module=dag&manage=true&op=viewbounties&type=".$type."&sort=1&dir=2&admin=true");
+			output::doOutput("`c`bSorting By: `3BountyID - Desc`b`c`n`n");
 		}elseif (($sort == 1) && ($dir == 2)) {
-			addnav("1?By BountyID - Desc","runmodule.php?module=dag&manage=true&op=viewbounties&type=".$type."&sort=1&dir=1&admin=true");
-			output("`c`bSorting By: `3BountyID - Asc`b`c`n`n");
+			output::addnav("1?By BountyID - Desc","runmodule.php?module=dag&manage=true&op=viewbounties&type=".$type."&sort=1&dir=1&admin=true");
+			output::doOutput("`c`bSorting By: `3BountyID - Asc`b`c`n`n");
 		}else {
-			addnav("1?By BountyID - Desc","runmodule.php?module=dag&manage=true&op=viewbounties&type=".$type."&sort=1&dir=1&admin=true");
+			output::addnav("1?By BountyID - Desc","runmodule.php?module=dag&manage=true&op=viewbounties&type=".$type."&sort=1&dir=1&admin=true");
 		}
 		if (($sort == 2) && ($dir == 1)) {
-			addnav("2?By Amount - Asc","runmodule.php?module=dag&manage=true&op=viewbounties&type=".$type."&sort=2&dir=2&admin=true");
-			output("`c`bSorting By: `3Amount - Desc`b`c`n`n");
+			output::addnav("2?By Amount - Asc","runmodule.php?module=dag&manage=true&op=viewbounties&type=".$type."&sort=2&dir=2&admin=true");
+			output::doOutput("`c`bSorting By: `3Amount - Desc`b`c`n`n");
 		}elseif (($sort == 2) && ($dir == 2)) {
-			addnav("2?By Amount - Desc","runmodule.php?module=dag&manage=true&op=viewbounties&type=".$type."&sort=2&dir=1&admin=true");
-			output("`c`bSorting By: `3Amount - Asc`b`c`n`n");
+			output::addnav("2?By Amount - Desc","runmodule.php?module=dag&manage=true&op=viewbounties&type=".$type."&sort=2&dir=1&admin=true");
+			output::doOutput("`c`bSorting By: `3Amount - Asc`b`c`n`n");
 		}else {
-			addnav("2?By Amount - Desc","runmodule.php?module=dag&manage=true&op=viewbounties&type=".$type."&sort=2&dir=1&admin=true");
+			output::addnav("2?By Amount - Desc","runmodule.php?module=dag&manage=true&op=viewbounties&type=".$type."&sort=2&dir=1&admin=true");
 		}
 		if (($sort == 3) && ($dir == 1)) {
-			addnav("3?By Target - Asc","runmodule.php?module=dag&manage=true&op=viewbounties&type=".$type."&sort=3&dir=2&admin=true");
-			output("`c`bSorting By: `3Target - Desc`b`c`n`n");
+			output::addnav("3?By Target - Asc","runmodule.php?module=dag&manage=true&op=viewbounties&type=".$type."&sort=3&dir=2&admin=true");
+			output::doOutput("`c`bSorting By: `3Target - Desc`b`c`n`n");
 		}elseif (($sort == 3) && ($dir == 2)) {
-			addnav("3?By Target - Desc","runmodule.php?module=dag&manage=true&op=viewbounties&type=".$type."&sort=3&dir=1&admin=true");
-			output("`c`bSorting By: `3Target - Asc`b`c`n`n");
+			output::addnav("3?By Target - Desc","runmodule.php?module=dag&manage=true&op=viewbounties&type=".$type."&sort=3&dir=1&admin=true");
+			output::doOutput("`c`bSorting By: `3Target - Asc`b`c`n`n");
 		}else {
-			addnav("3?By Target - Desc","runmodule.php?module=dag&manage=true&op=viewbounties&type=".$type."&sort=3&dir=1&admin=true");
+			output::addnav("3?By Target - Desc","runmodule.php?module=dag&manage=true&op=viewbounties&type=".$type."&sort=3&dir=1&admin=true");
 		}
 		if (($sort == 4) && ($dir == 1)) {
-			addnav("4?By Setter - Asc","runmodule.php?module=dag&manage=true&op=viewbounties&type=".$type."&sort=4&dir=2&admin=true");
-			output("`c`bSorting By: `3Setter - Desc`b`c`n`n");
+			output::addnav("4?By Setter - Asc","runmodule.php?module=dag&manage=true&op=viewbounties&type=".$type."&sort=4&dir=2&admin=true");
+			output::doOutput("`c`bSorting By: `3Setter - Desc`b`c`n`n");
 		}elseif (($sort == 4) && ($dir == 2)) {
-			addnav("4?By Setter - Desc","runmodule.php?module=dag&manage=true&op=viewbounties&type=".$type."&sort=4&dir=1&admin=true");
-			output("`c`bSorting By: `3Setter - Asc`b`c`n`n");
+			output::addnav("4?By Setter - Desc","runmodule.php?module=dag&manage=true&op=viewbounties&type=".$type."&sort=4&dir=1&admin=true");
+			output::doOutput("`c`bSorting By: `3Setter - Asc`b`c`n`n");
 		}else {
-			addnav("4?By Setter - Desc","runmodule.php?module=dag&manage=true&op=viewbounties&type=".$type."&sort=4&dir=1&admin=true");
+			output::addnav("4?By Setter - Desc","runmodule.php?module=dag&manage=true&op=viewbounties&type=".$type."&sort=4&dir=1&admin=true");
 		}
 		if (($sort == 5) && ($dir == 1)) {
-			addnav("5?By Set Date - Asc","runmodule.php?module=dag&manage=true&op=viewbounties&type=".$type."&sort=5&dir=2&admin=true");
-			output("`c`bSorting By: `3Set Date - Desc`b`c`n`n");
+			output::addnav("5?By Set Date - Asc","runmodule.php?module=dag&manage=true&op=viewbounties&type=".$type."&sort=5&dir=2&admin=true");
+			output::doOutput("`c`bSorting By: `3Set Date - Desc`b`c`n`n");
 		}elseif (($sort == 5) && ($dir == 2)) {
-			addnav("5?By Set Date - Desc","runmodule.php?module=dag&manage=true&op=viewbounties&type=".$type."&sort=5&dir=1&admin=true");
-			output("`c`bSorting By: `3Set Date - Asc`b`c`n`n");
+			output::addnav("5?By Set Date - Desc","runmodule.php?module=dag&manage=true&op=viewbounties&type=".$type."&sort=5&dir=1&admin=true");
+			output::doOutput("`c`bSorting By: `3Set Date - Asc`b`c`n`n");
 		}else {
-			addnav("5?By Set Date - Desc","runmodule.php?module=dag&manage=true&op=viewbounties&type=".$type."&sort=5&dir=1&admin=true");
+			output::addnav("5?By Set Date - Desc","runmodule.php?module=dag&manage=true&op=viewbounties&type=".$type."&sort=5&dir=1&admin=true");
 		}
 		if ($type == 1) {
 			if (($sort == 6) && ($dir == 1)) {
-				addnav("6?By Status - Asc","runmodule.php?module=dag&manage=true&op=viewbounties&type=".$type."&sort=6&dir=2&admin=true");
-				output("`c`bSorting By: `3Status - Desc`b`c`n`n");
+				output::addnav("6?By Status - Asc","runmodule.php?module=dag&manage=true&op=viewbounties&type=".$type."&sort=6&dir=2&admin=true");
+				output::doOutput("`c`bSorting By: `3Status - Desc`b`c`n`n");
 			}elseif (($sort == 6) && ($dir == 2)) {
-				addnav("6?By Status - Desc","runmodule.php?module=dag&manage=true&op=viewbounties&type=".$type."&sort=6&dir=1&admin=true");
-				output("`c`bSorting By: `3Status - Asc`b`c`n`n");
+				output::addnav("6?By Status - Desc","runmodule.php?module=dag&manage=true&op=viewbounties&type=".$type."&sort=6&dir=1&admin=true");
+				output::doOutput("`c`bSorting By: `3Status - Asc`b`c`n`n");
 			}else {
-				addnav("6?By Status - Desc","runmodule.php?module=dag&manage=true&op=viewbounties&type=".$type."&sort=6&dir=1&admin=true");
+				output::addnav("6?By Status - Desc","runmodule.php?module=dag&manage=true&op=viewbounties&type=".$type."&sort=6&dir=1&admin=true");
 			}
 		}
 		if (($type == 1) || ($type == 3)) {
 			if (($sort == 7) && ($dir == 1)) {
-				addnav("7?By Winner - Asc","runmodule.php?module=dag&manage=true&op=viewbounties&type=".$type."&sort=7&dir=2&admin=true");
-				output("`c`bSorting By: `3Winner - Desc`b`c`n`n");
+				output::addnav("7?By Winner - Asc","runmodule.php?module=dag&manage=true&op=viewbounties&type=".$type."&sort=7&dir=2&admin=true");
+				output::doOutput("`c`bSorting By: `3Winner - Desc`b`c`n`n");
 			}elseif (($sort == 7) && ($dir == 2)) {
-				addnav("7?By Winner - Desc","runmodule.php?module=dag&manage=true&op=viewbounties&type=".$type."&sort=7&dir=1&admin=true");
-				output("`c`bSorting By: `3Winner - Asc`b`c`n`n");
+				output::addnav("7?By Winner - Desc","runmodule.php?module=dag&manage=true&op=viewbounties&type=".$type."&sort=7&dir=1&admin=true");
+				output::doOutput("`c`bSorting By: `3Winner - Asc`b`c`n`n");
 			}else {
-				addnav("7?By Winner - Desc","runmodule.php?module=dag&manage=true&op=viewbounties&type=".$type."&sort=7&dir=1&admin=true");
+				output::addnav("7?By Winner - Desc","runmodule.php?module=dag&manage=true&op=viewbounties&type=".$type."&sort=7&dir=1&admin=true");
 			}
 
 			if (($sort == 8) && ($dir == 1)) {
-				addnav("8?By Win Date - Asc","runmodule.php?module=dag&manage=true&op=viewbounties&type=".$type."&sort=8&dir=2&admin=true");
-				output("`c`bSorting By: `3Win Date - Desc`b`c`n`n");
+				output::addnav("8?By Win Date - Asc","runmodule.php?module=dag&manage=true&op=viewbounties&type=".$type."&sort=8&dir=2&admin=true");
+				output::doOutput("`c`bSorting By: `3Win Date - Desc`b`c`n`n");
 			}elseif (($sort == 8) && ($dir == 2)) {
-				addnav("8?By Win Date - Desc","runmodule.php?module=dag&manage=true&op=viewbounties&type=".$type."&sort=8&dir=1&admin=true");
-				output("`c`bSorting By: `3Win Date - Asc`b`c`n`n");
+				output::addnav("8?By Win Date - Desc","runmodule.php?module=dag&manage=true&op=viewbounties&type=".$type."&sort=8&dir=1&admin=true");
+				output::doOutput("`c`bSorting By: `3Win Date - Asc`b`c`n`n");
 			}else {
-				addnav("8?By Win Date - Desc","runmodule.php?module=dag&manage=true&op=viewbounties&type=".$type."&sort=8&dir=1&admin=true");
+				output::addnav("8?By Win Date - Desc","runmodule.php?module=dag&manage=true&op=viewbounties&type=".$type."&sort=8&dir=1&admin=true");
 			}
 		}
-		addnav("Return to Bounty Home","runmodule.php?module=dag&manage=true&op=bounties&admin=true");
+		output::addnav("Return to Bounty Home","runmodule.php?module=dag&manage=true&op=bounties&admin=true");
 		switch ($type) {
 			case 1:
 				$t = "";
@@ -406,49 +406,49 @@ function dag_manage(){
 		$sql = "SELECT bountyid,amount,target,setter,setdate,status,winner,windate FROM " . db_prefix("bounty").$t.$s.$d;
 		$result = db_query($sql);
 		rawoutput("<table border=0 cellpadding=2 cellspacing=1 bgcolor='#999999'>");
-		$id = translate_inline("ID");
-		$amt = translate_inline("Amt");
-		$targ = translate_inline("Target");
-		$set = translate_inline("Setter");
-		$sdate = translate_inline("Set Date/Time");
-		$stat = translate_inline("Status");
-		$win = translate_inline("Winner");
-		$wdate = translate_inline("Win Date/Time");
-		$ops = translate_inline("Ops");
+		$id = translator::translate_inline("ID");
+		$amt = translator::translate_inline("Amt");
+		$targ = translator::translate_inline("Target");
+		$set = translator::translate_inline("Setter");
+		$sdate = translator::translate_inline("Set Date/Time");
+		$stat = translator::translate_inline("Status");
+		$win = translator::translate_inline("Winner");
+		$wdate = translator::translate_inline("Win Date/Time");
+		$ops = translator::translate_inline("Ops");
 
 		rawoutput("<tr class='trhead'><td><b>$id</b></td><td><b>$amt</b></td><td><b>$targ</b></td><td><b>$set</b></td><td><b>$sdate</b></td><td><b>$stat</b></td><td><b>$win</b></td><td><b>$wdate</b></td><td>$ops</td></tr>");
 		for($i=0;$i<db_num_rows($result);$i++){
 			$row = db_fetch_assoc($result);
 			if ($row['target']==0) {
-				$target['name'] = translate_inline("`2Green Dragon");
+				$target['name'] = translator::translate_inline("`2Green Dragon");
 			} else {
 				$sql = "SELECT name FROM " . db_prefix("accounts") . " WHERE acctid=".(int)$row['target'];
 				$result2 = db_query($sql);
 				if (db_num_rows($result2) == 0) {
-					$target['name'] = translate_inline("`4Deleted Character");
+					$target['name'] = translator::translate_inline("`4Deleted Character");
 				} else {
 					$target = db_fetch_assoc($result2);
 				}
 			}
 			if ($row['setter']==0) {
-				$setter['name'] = translate_inline("`2Green Dragon");
+				$setter['name'] = translator::translate_inline("`2Green Dragon");
 			}else {
 				$sql = "SELECT name FROM " . db_prefix("accounts") . " WHERE acctid=".(int)$row['setter'];
 				$result3 = db_query($sql);
 				if (db_num_rows($result3) == 0) {
-					$setter['name'] = translate_inline("`4Deleted Character");
+					$setter['name'] = translator::translate_inline("`4Deleted Character");
 				} else {
 					$setter = db_fetch_assoc($result3);
 				}
 			}
 			$winner['name'] = "";
 			if (($row['winner']==0) && $row['status'] == 1) {
-				$winner['name'] = translate_inline("`2Green Dragon");
+				$winner['name'] = translator::translate_inline("`2Green Dragon");
 			} elseif ($row['status'] == 1) {
 				$sql = "SELECT name FROM " . db_prefix("accounts") . " WHERE acctid=".(int)$row['winner'];
 					$result4 = db_query($sql);
 				if (db_num_rows($result4) == 0) {
-					$winner['name'] = translate_inline("`2Deleted Character");
+					$winner['name'] = translator::translate_inline("`2Deleted Character");
 				} else {
 					$winner = db_fetch_assoc($result4);
 				}
@@ -464,7 +464,7 @@ function dag_manage(){
 			rawoutput("</td><td>");
 			output_notl("`^%s`0", $row['setdate']);
 			rawoutput("</td><td>");
-			output($row['status']==0?"`^Open`0":"`^Closed`0");
+			output::doOutput($row['status']==0?"`^Open`0":"`^Closed`0");
 			rawoutput("</td><td>");
 			output_notl("`^%s`0", $winner['name']);
 			rawoutput("</td><td>");
@@ -472,9 +472,9 @@ function dag_manage(){
 			rawoutput("</td><td>");
 			if ($row['status'] == 0) {
 				$link = "runmodule.php?module=dag&manage=true&op=closebounty&id={$row['bountyid']}&admin=true";
-				$close = translate_inline("Close");
+				$close = translator::translate_inline("Close");
 				rawoutput("<a href=\"$link\">$close</a>");
-				addnav("",$link);
+				output::addnav("",$link);
 			} else {
 				rawoutput("&nbsp;");
 			}
@@ -483,10 +483,10 @@ function dag_manage(){
 		rawoutput("</table>");
 	} else if ($op == "closebounty") {
 		$windate = date("Y-m-d H:i:s");
-		$bountyid = (int)httpget('id');
+		$bountyid = (int)http::httpget('id');
 		$sql = "UPDATE " . db_prefix("bounty") . " SET status=1,winner=0,windate=\"$windate\" WHERE bountyid=$bountyid";
 		db_query($sql);
-		output("Bounty closed.");
+		output::doOutput("Bounty closed.");
 	// ***END ADD***
 	}
 	page_footer();
@@ -516,11 +516,11 @@ function dag_pvpwin($args){
 			}
 		}
 		if ($totgoodamt > 0) {
-			output("`@When you turn around, Dag Durnick is standing there.");
-			output("\"%s`# had a bounty of `^%s`# on th' head`@\", he says as he tosses you a leather purse which clinks with the sounds of your new fortune.`n`n", $badguy['creaturename'], $totgoodamt);
+			output::doOutput("`@When you turn around, Dag Durnick is standing there.");
+			output::doOutput("\"%s`# had a bounty of `^%s`# on th' head`@\", he says as he tosses you a leather purse which clinks with the sounds of your new fortune.`n`n", $badguy['creaturename'], $totgoodamt);
 		}
 		if ($totbadamt > 0) {
-			output("\"`#I'm keeping `^%s`# of the total bounty on this soul's head, as ye' be the one that set it.`@\"", $totbadamt);
+			output::doOutput("\"`#I'm keeping `^%s`# of the total bounty on this soul's head, as ye' be the one that set it.`@\"", $totbadamt);
 		}
 	}
 	// End Check for Bounty
@@ -538,9 +538,8 @@ function dag_pvpwin($args){
 	// End Bounty Check - Andrew
 	// ***END ADD***
 	if ($totgoodamt > 0) {
-		$args['pvpmessageadd'] .= sprintf_translate("`nThey also received `^%s`2 in bounty gold.`n", $totgoodamt);
-		rawoutput(tlbutton_clear());
+		$args['pvpmessageadd'] .= translator::sprintf_translate("`nThey also received `^%s`2 in bounty gold.`n", $totgoodamt);
+		rawoutput(translator::tlbutton_clear());
 	}
 	return $args;
 }
-?>

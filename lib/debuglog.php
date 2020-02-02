@@ -40,5 +40,3 @@ function debuglog($message,$target=false,$user=false,$field=false,$value=false,$
 	}
 	db_query($sql);
 }
-
-?>

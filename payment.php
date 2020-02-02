@@ -8,7 +8,7 @@ define("ALLOW_ANONYMOUS",true);
 require_once("common.php");
 require_once("lib/http.php");
 
-tlschema("payment");
+translator::tlschema("payment");
 
 // read the post from PayPal system and add 'cmd'
 $req = 'cmd=_notify-validate';
@@ -70,7 +70,7 @@ if (!$fp) {
 					payment_error(E_ERROR,$emsg,__FILE__,__LINE__);
 				}
 				if (($receiver_email != "logd@mightye.org") &&
-					($receiver_email != getsetting("paypalemail", ""))) {
+					($receiver_email != settings::getsetting("paypalemail", ""))) {
 					$emsg = "This payment isn't to me!  It's to $receiver_email.\n";
 					payment_error(E_WARNING,$emsg,__FILE__,__LINE__);
 				}
@@ -109,7 +109,7 @@ function writelog($response){
 			// notification for.
 			if ($txn_type =="reversal") $donation -= $payment_fee;
 
-			$hookresult = modulehook("donation_adjustments",array("points"=>$donation*100,"amount"=>$donation,"acctid"=>$acctid,"messages"=>array()));
+			$hookresult = modules::modulehook("donation_adjustments",array("points"=>$donation*100,"amount"=>$donation,"acctid"=>$acctid,"messages"=>array()));
 			$hookresult['points'] = round($hookresult['points']);
 
 			$sql = "UPDATE " . db_prefix("accounts") . " SET donation = donation + '{$hookresult['points']}' WHERE acctid=$acctid";
@@ -123,7 +123,7 @@ function writelog($response){
 				debuglog($message,false,$acctid,"donation",0,false);
 			}
 			if (db_affected_rows()>0) $processed = 1;
-			modulehook("donation", array("id"=>$acctid, "amt"=>$donation*100, "manual"=>false));
+			modules::modulehook("donation", array("id"=>$acctid, "amt"=>$donation*100, "manual"=>false));
 		}
 	}
 	$sql = "
@@ -164,9 +164,9 @@ function payment_error($errno, $errstr, $errfile, $errline){
 	}
 }
 
-$adminEmail = getsetting("gameadminemail", "postmaster@localhost.com");
+$adminEmail = settings::getsetting("gameadminemail", "postmaster@localhost.com");
 if ($payment_errors>"") {
-	$subj = translate_mail("Payment Error",0);
+	$subj = translator::translate_mail("Payment Error",0);
 	// $payment_errors not translated
 	ob_start();
 	echo "<b>GET:</b><pre>";
@@ -183,7 +183,7 @@ if ($payment_errors>"") {
 	ob_end_clean();
 	$payment_errors .= "<hr>".$contents;
 
-	mail($adminEmail,$subj,$payment_errors."<hr>","From: " . getsetting("gameadminemail", "postmaster@localhost.com"));
+	mail($adminEmail,$subj,$payment_errors."<hr>","From: " . settings::getsetting("gameadminemail", "postmaster@localhost.com"));
 }
 $output = ob_get_contents();
 if ($output > ""){
@@ -201,4 +201,3 @@ if ($output > ""){
 	mail($adminEmail,"Serious LoGD Payment Problems on {$_SERVER['HTTP_HOST']}",ob_get_contents(),"Content-Type: text/html");
 }
 ob_end_clean();
-?>

@@ -6,7 +6,7 @@ require_once("common.php");
 require_once("lib/http.php");
 require_once("lib/villagenav.php");
 
-tlschema("armor");
+translator::tlschema("armor");
 
 checkday();
 $tradeinvalue = round(($session['user']['armorvalue']*.75),0);
@@ -37,24 +37,24 @@ $schemas = array(
 );
 
 $basetext['schemas'] = $schemas;
-$texts = modulehook("armortext",$basetext);
+$texts = modules::modulehook("armortext",$basetext);
 $schemas = $texts['schemas'];
 
-tlschema($schemas['title']);
+translator::tlschema($schemas['title']);
 page_header($texts['title']);
-output("`c`b`%".$texts['title']."`0`b`c");
-tlschema();
-$op = httpget('op');
+output::doOutput("`c`b`%".$texts['title']."`0`b`c");
+translator::tlschema();
+$op = http::httpget('op');
 if ($op==""){
-  	tlschema($schemas['desc']);
+  	translator::tlschema($schemas['desc']);
   	if (is_array($texts['desc'])) {
   		foreach ($texts['desc'] as $description) {
-  			output_notl(sprintf_translate($description));
+  			output_notl(translator::sprintf_translate($description));
   		}
   	} else {
-  		output($texts['desc']);
+  		output::doOutput($texts['desc']);
   	}
-  	tlschema();
+  	translator::tlschema();
 
   	$sql = "SELECT max(level) AS level FROM " . db_prefix("armor") . " WHERE level<=".$session['user']['dragonkills'];
 	$result = db_query($sql);
@@ -63,19 +63,19 @@ if ($op==""){
 	$sql = "SELECT * FROM " . db_prefix("armor") . " WHERE level={$row['level']} ORDER BY value";
 	$result = db_query($sql);
 
- 	tlschema($schemas['tradein']);
+ 	translator::tlschema($schemas['tradein']);
   	if (is_array($texts['tradein'])) {
   		foreach ($texts['tradein'] as $description) {
-  			output_notl(sprintf_translate($description));
+  			output_notl(translator::sprintf_translate($description));
   		}
   	} else {
-  		output($texts['tradein']);
+  		output::doOutput($texts['tradein']);
   	}
-  	tlschema();
+  	translator::tlschema();
 
-	$aname = translate_inline("`bName`b");
-	$adef = translate_inline("`bDefense`b");
-	$acost = translate_inline("`bCost`b");
+	$aname = translator::translate_inline("`bName`b");
+	$adef = translator::translate_inline("`bDefense`b");
+	$acost = translator::translate_inline("`bCost`b");
 	rawoutput("<table border='0' cellpadding='0'>");
 	rawoutput("<tr class='trhead'><td>");
 	output_notl($aname);
@@ -87,7 +87,7 @@ if ($op==""){
 	$i = 0;
 	while($row = db_fetch_assoc($result)) {
 		$link = true;
-		$row = modulehook("modify-armor", $row);
+		$row = modules::modulehook("modify-armor", $row);
 		if (isset($row['skip']) && $row['skip'] === true) {
 			continue;
 		}
@@ -108,16 +108,16 @@ if ($op==""){
 			if ($link) {
 				rawoutput("</a>");
 			}
-			addnav("","armor.php?op=buy&id={$row['armorid']}");
+			output::addnav("","armor.php?op=buy&id={$row['armorid']}");
 		}else{
 			output_notl("%s%s`0", $color, $row['armorname']);
-			addnav("","armor.php?op=buy&id={$row['armorid']}");
+			output::addnav("","armor.php?op=buy&id={$row['armorid']}");
 		}
 		rawoutput("</td><td align='center'>");
 		output_notl("%s%s`0", $color, $row['defense']);
 		rawoutput("</td><td align='right'>");
 		if (isset($row['alternatetext']) && $row['alternatetext'] > "") {
-			output("%s%s`0", $color, $row['alternatetext']);
+			output::doOutput("%s%s`0", $color, $row['alternatetext']);
 		} else {
 			output_notl("%s%s`0",$color,$row['value']);
 		}
@@ -127,29 +127,29 @@ if ($op==""){
 	rawoutput("</table>",true);
 	villagenav();
 }elseif ($op=="buy"){
-	$id = httpget('id');
+	$id = http::httpget('id');
 	$sql = "SELECT * FROM " . db_prefix("armor") . " WHERE armorid='$id'";
 	$result = db_query($sql);
 	if (db_num_rows($result)==0){
-		tlschema($schemas['nosuchweapon']);
-		output($texts['nosuchweapon']);
-		tlschema();
-		tlschema($schemas['tryagain']);
-		addnav($texts['tryagain'],"armor.php");
-		tlschema();
+		translator::tlschema($schemas['nosuchweapon']);
+		output::doOutput($texts['nosuchweapon']);
+		translator::tlschema();
+		translator::tlschema($schemas['tryagain']);
+		output::addnav($texts['tryagain'],"armor.php");
+		translator::tlschema();
 		villagenav();
 	}else{
 		$row = db_fetch_assoc($result);
-		$row = modulehook("modify-armor", $row);
+		$row = modules::modulehook("modify-armor", $row);
 		if ($row['value']>($session['user']['gold']+$tradeinvalue)){
-			tlschema($schemas['notenoughgold']);
-			output($texts['notenoughgold'],$row['armorname']);
-			tlschema();
+			translator::tlschema($schemas['notenoughgold']);
+			output::doOutput($texts['notenoughgold'],$row['armorname']);
+			translator::tlschema();
 			villagenav();
 		}else{
-			tlschema($schemas['payarmor']);
-			output($texts['payarmor'],$session['user']['armor'],$row['armorname'],$row['armorname']);
-			tlschema();
+			translator::tlschema($schemas['payarmor']);
+			output::doOutput($texts['payarmor'],$session['user']['armor'],$row['armorname'],$row['armorname']);
+			translator::tlschema();
 			debuglog("spent " . ($row['value']-$tradeinvalue) . " gold on the " . $row['armorname'] . " armor");
 			$session['user']['gold']-=$row['value'];
 			$session['user']['armor'] = $row['armorname'];
@@ -163,4 +163,3 @@ if ($op==""){
 	}
 }
 page_footer();
-?>

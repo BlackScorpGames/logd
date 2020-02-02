@@ -54,11 +54,11 @@ function systemmail($to,$subject,$body,$from=0,$noemail=false){
 	if ($email && !$noemail){
 		if ($serialized&2){
 			$body = unserialize(stripslashes($body));
-			$body = translate_mail($body,$to);
+			$body = translator::translate_mail($body,$to);
 		}
 		if ($serialized&1){
 			$subject = unserialize(stripslashes($subject));
-			$subject = translate_mail($subject,$to);
+			$subject = translator::translate_mail($subject,$to);
 		}
 
 		$sql = "SELECT name FROM " . db_prefix("accounts") . " WHERE acctid='$from'";
@@ -68,7 +68,7 @@ function systemmail($to,$subject,$body,$from=0,$noemail=false){
 		if ($row1['name']!="")
 			$fromline=full_sanitize($row1['name']);
 		else
-			$fromline=translate_inline("The Green Dragon","mail");
+			$fromline=translator::translate_inline("The Green Dragon","mail");
 
 		$sql = "SELECT name FROM " . db_prefix("accounts") . " WHERE acctid='$to'";
 		$result = db_query($sql);
@@ -81,9 +81,9 @@ function systemmail($to,$subject,$body,$from=0,$noemail=false){
 		// unreadable
 		$body = preg_replace("'[`]n'", "\n", $body);
 		$body = full_sanitize($body);
-		$subject = htmlentities($subject, ENT_COMPAT, getsetting("charset", "ISO-8859-1"));
-		$mailsubj = translate_mail(array("New LoGD Mail (%s)", $subject),$to);
-		$mailbody = translate_mail(array("You have received new mail on LoGD at http://%s`n`n"
+		$subject = htmlentities($subject, ENT_COMPAT, settings::getsetting("charset", "ISO-8859-1"));
+		$mailsubj = translator::translate_mail(array("New LoGD Mail (%s)", $subject),$to);
+		$mailbody = translator::translate_mail(array("You have received new mail on LoGD at http://%s`n`n"
 			."-=-=-=-=-=-=-=-=-=-=-=-=-=-`n"
 			."From: %s`n"
 			."To: %s`n"
@@ -100,9 +100,7 @@ function systemmail($to,$subject,$body,$from=0,$noemail=false){
 			stripslashes($body),
 			$_SERVER['HTTP_HOST'].dirname($_SERVER['SCRIPT_NAME'])
 		),$to);
-		mail($row['emailaddress'],$mailsubj,str_replace("`n","\n",$mailbody),"From: ".getsetting("gameadminemail","postmaster@localhost"));
+		mail($row['emailaddress'],$mailsubj,str_replace("`n","\n",$mailbody),"From: ".settings::getsetting("gameadminemail","postmaster@localhost"));
 	}
 	invalidatedatacache("mail-$to");
 }
-
-?>

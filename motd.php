@@ -10,17 +10,17 @@ require_once("lib/nltoappon.php");
 require_once("lib/http.php");
 require_once("lib/motd.php");
 
-tlschema("motd");
+translator::tlschema("motd");
 
-$op = httpget('op');
-$id = httpget('id');
+$op = http::httpget('op');
+$id = http::httpget('id');
 
 addcommentary();
 popup_header("LoGD Message of the Day (MoTD)");
 
 if ($session['user']['superuser'] & SU_POST_MOTD) {
-	$addm = translate_inline("Add MoTD");
-	$addp = translate_inline("Add Poll");
+	$addm = translator::translate_inline("Add MoTD");
+	$addp = translator::translate_inline("Add Poll");
 	rawoutput(" [ <a href='motd.php?op=add'>$addm</a> | <a href='motd.php?op=addpoll'>$addp</a> ]<br/><br/>");
 }
 
@@ -46,19 +46,19 @@ if ($op == "add" || $op == "addpoll" || $op == "del")  {
 				round($session['user']['experience']*0.9,0);
 			addnews("%s was penalized for attempting to defile the gods.",
 					$session['user']['name']);
-			output("You've attempted to defile the gods.  You are struck with a wand of forgetfulness.  Some of what you knew, you no longer know.");
+			output::doOutput("You've attempted to defile the gods.  You are struck with a wand of forgetfulness.  Some of what you knew, you no longer know.");
 			saveuser();
 		}
 	}
 }
 if ($op=="") {
-	$count = getsetting("motditems", 5);
-	$newcount = httpget("newcount");
+	$count = settings::getsetting("motditems", 5);
+	$newcount = http::httpget("newcount");
 	if (!$newcount || !httppost('proceed')) $newcount=0;
 	/*
 	motditem("Beta!","Please see the beta message below.","","", "");
 	*/
-	$m = httpget("month");
+	$m = http::httpget("month");
 	if ($m > ""){
 		$sql = "SELECT " . db_prefix("motd") . ".*,name AS motdauthorname FROM " . db_prefix("motd") . " LEFT JOIN " . db_prefix("accounts") . " ON " . db_prefix("accounts") . ".acctid = " . db_prefix("motd") . ".motdauthor WHERE motddate >= '{$m}-01' AND motddate <= '{$m}-31' ORDER BY motddate DESC";
 		$result = db_query_cached($sql,"motd-$m");
@@ -91,18 +91,18 @@ if ($op=="") {
 	$result = db_query("SELECT mid(motddate,1,7) AS d, count(*) AS c FROM ".db_prefix("motd")." GROUP BY d ORDER BY d DESC");
 	$row = db_fetch_assoc($result);
 	rawoutput("<form action='motd.php' method='GET'>");
-	output("MoTD Archives:");
+	output::doOutput("MoTD Archives:");
 	rawoutput("<select name='month' onChange='this.form.submit();' >");
 	rawoutput("<option value=''>--Current--</option>");
 	while ($row = db_fetch_assoc($result)){
 		$time = strtotime("{$row['d']}-01");
-		$m = translate_inline(date("M",$time));
-		rawoutput ("<option value='{$row['d']}'".(httpget("month")==$row['d']?" selected":"").">$m".date(", Y",$time)." ({$row['c']})</option>");
+		$m = translator::translate_inline(date("M",$time));
+		rawoutput ("<option value='{$row['d']}'".(http::httpget("month")==$row['d']?" selected":"").">$m".date(", Y",$time)." ({$row['c']})</option>");
 	}
-	rawoutput("</select>".tlbutton_clear());
+	rawoutput("</select>".translator::tlbutton_clear());
 	rawoutput("<input type='hidden' name='newcount' value='".($count+$newcount)."'>");
 	rawoutput("<input type='submit' value='&gt;' name='proceed'  class='button'>");
-	rawoutput(" <input type='submit' value='".translate_inline("Submit")."' class='button'>");
+	rawoutput(" <input type='submit' value='".translator::translate_inline("Submit")."' class='button'>");
 	rawoutput("</form>");
 
 	commentdisplay("`n`@Commentary:`0`n", "motd");
@@ -116,4 +116,3 @@ $row = db_fetch_assoc($result);
 $session['user']['lastmotd']=$row['motddate'];
 
 popup_footer();
-?>

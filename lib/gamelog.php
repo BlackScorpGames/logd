@@ -10,4 +10,3 @@ function gamelog($message,$category="general",$filed=false){
 	)";
 	db_query($sql);
 }
-?>

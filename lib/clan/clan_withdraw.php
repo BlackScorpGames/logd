@@ -1,5 +1,5 @@
 <?php
-		modulehook("clan-withdraw", array('clanid'=>$session['user']['clanid'], 'clanrank'=>$session['user']['clanrank'], 'acctid'=>$session['user']['acctid']));
+		modules::modulehook("clan-withdraw", array('clanid'=>$session['user']['clanid'], 'clanrank'=>$session['user']['clanrank'], 'acctid'=>$session['user']['acctid']));
 		if ($session['user']['clanrank']>=CLAN_LEADER){
 			//first test to see if we were the leader.
 			$sql = "SELECT count(*) AS c FROM " . db_prefix("accounts") . " WHERE clanid={$session['user']['clanid']} AND clanrank>=".CLAN_LEADER." AND acctid<>{$session['user']['acctid']}";
@@ -16,17 +16,17 @@
 					//who applied for membership.
 					$sql = "UPDATE " . db_prefix("accounts") . " SET clanrank=".CLAN_LEADER." WHERE acctid={$row['acctid']}";
 					db_query($sql);
-					output("`^Promoting %s`^ to leader as they are the highest ranking member (or oldest member in the event of a tie).`n`n",$row['name']);
+					output::doOutput("`^Promoting %s`^ to leader as they are the highest ranking member (or oldest member in the event of a tie).`n`n",$row['name']);
 				}else{
 					//There are no other members, we need to delete the clan.
-					modulehook("clan-delete", array("clanid"=>$session['user']['clanid']));
+					modules::modulehook("clan-delete", array("clanid"=>$session['user']['clanid']));
 					$sql = "DELETE FROM " . db_prefix("clans") . " WHERE clanid={$session['user']['clanid']}";
 					db_query($sql);
 					//just in case we goofed, we don't want to have to worry
 					//about people being associated with a deleted clan.
 					$sql = "UPDATE " . db_prefix("accounts") . " SET clanid=0,clanrank=".CLAN_APPLICANT.",clanjoindate='0000-00-00 00:00:00' WHERE clanid={$session['user']['clanid']}";
 					db_query($sql);
-					output("`^As you were the last member of this clan, it has been deleted.");
+					output::doOutput("`^As you were the last member of this clan, it has been deleted.");
 				}
 			}else{
 				//we don't have to do anything special with this clan as
@@ -50,7 +50,6 @@
 		$session['user']['clanid']=0;
 		$session['user']['clanrank']=CLAN_APPLICANT;
 		$session['user']['clanjoindate']="0000-00-00 00:00:00";
-		output("`&You have withdrawn from your clan.");
-		addnav("Clan Options");
-		addnav("Return to the Lobby","clan.php");
-?>
+		output::doOutput("`&You have withdrawn from your clan.");
+		output::addnav("Clan Options");
+		output::addnav("Return to the Lobby","clan.php");

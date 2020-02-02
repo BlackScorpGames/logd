@@ -1,0 +1,23 @@
+{
+    "name": "blackscorp/logd",
+    "authors": [
+        {
+            "name": "BlackScorp"
+
+        }
+    ],
+    "require": {
+    },
+    "require-dev": {
+        "phpunit/phpunit": "*"
+    },
+    "autoload":{
+    "psr-4":{
+        "":"lib/",
+        "blackscorp\\logd\\": "src/"
+        }
+    },
+    "scripts": {
+        "test": "phpunit"
+    }
+}

@@ -5,7 +5,7 @@ function char_cleanup($id, $type)
 	// this function handles the grunt work of character cleanup.
 
 	// Run any modules hooks who want to deal with character deletion, or stop it
-	$return = modulehook("delete_character",
+	$return = modules::modulehook("delete_character",
 			array("acctid"=>$id, "deltype"=>$type, "dodel"=>true));
 			
 	if(!$return['dodel']) return false;
@@ -61,5 +61,3 @@ function char_cleanup($id, $type)
 	
 	return true;
 }
-
-?>

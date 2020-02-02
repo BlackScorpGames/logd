@@ -6,14 +6,14 @@ require_once("common.php");
 require_once("lib/dhms.php");
 require_once("lib/http.php");
 
-tlschema("referers");
+translator::tlschema("referers");
 
 check_su_access(SU_EDIT_CONFIG);
 
-$expire = getsetting("expirecontent",180);
+$expire = settings::getsetting("expirecontent",180);
 if($expire > 0) $sql = "DELETE FROM " . db_prefix("referers") . " WHERE last<'".date("Y-m-d H:i:s",strtotime("-".$expire." days"))."'";
 db_query($sql);
-$op = httpget('op');
+$op = http::httpget('op');
 
 if ($op=="rebuild"){
 	$sql = "SELECT * FROM " . db_prefix("referers");
@@ -29,26 +29,26 @@ if ($op=="rebuild"){
 }
 require_once("lib/superusernav.php");
 superusernav();
-addnav("Referer Options");
-addnav("",$_SERVER['REQUEST_URI']);
-$sort = httpget('sort');
-addnav("Refresh","referers.php?sort=".URLEncode($sort)."");
-addnav("C?Sort by Count","referers.php?sort=count".($sort=="count DESC"?"":"+DESC"));
-addnav("U?Sort by URL","referers.php?sort=uri".($sort=="uri"?"+DESC":""));
-addnav("T?Sort by Time","referers.php?sort=last".($sort=="last DESC"?"":"+DESC"));
+output::addnav("Referer Options");
+output::addnav("",$_SERVER['REQUEST_URI']);
+$sort = http::httpget('sort');
+output::addnav("Refresh","referers.php?sort=".URLEncode($sort)."");
+output::addnav("C?Sort by Count","referers.php?sort=count".($sort=="count DESC"?"":"+DESC"));
+output::addnav("U?Sort by URL","referers.php?sort=uri".($sort=="uri"?"+DESC":""));
+output::addnav("T?Sort by Time","referers.php?sort=last".($sort=="last DESC"?"":"+DESC"));
 
-addnav("Rebuild Sites","referers.php?op=rebuild");
+output::addnav("Rebuild Sites","referers.php?op=rebuild");
 
 page_header("Referers");
 $order = "count DESC";
 if ($sort!="") $order=$sort;
 $sql = "SELECT SUM(count) AS count, MAX(last) AS last,site FROM " . db_prefix("referers") . " GROUP BY site ORDER BY $order LIMIT 100";
-$count = translate_inline("Count");
-$last = translate_inline("Last");
-$dest = translate_inline("Destination");
-$none = translate_inline("`iNone`i");
-$notset = translate_inline("`iNot set`i");
-$skipped = translate_inline("`i%s records skipped (over a week old)`i");
+$count = translator::translate_inline("Count");
+$last = translator::translate_inline("Last");
+$dest = translator::translate_inline("Destination");
+$none = translator::translate_inline("`iNone`i");
+$notset = translator::translate_inline("`iNot set`i");
+$skipped = translator::translate_inline("`i%s records skipped (over a week old)`i");
 rawoutput("<table border=0 cellpadding=2 cellspacing=1><tr class='trhead'><td>$count</td><td>$last</td><td>URL</td><td>$dest</td><td>IP</td></tr>");
 $result = db_query($sql);
 $number=db_num_rows($result);
@@ -59,7 +59,7 @@ for ($i=0;$i<$number;$i++){
 	output_notl("`b".$row['count']."`b");
 	rawoutput("</td><td valign='top'>");
 	$diffsecs = strtotime("now")-strtotime($row['last']);
-	//output((int)($diffsecs/86400)."d ".(int)($diffsecs/3600%3600)."h ".(int)($diffsecs/60%60)."m ".(int)($diffsecs%60)."s");
+	//output::doOutput((int)($diffsecs/86400)."d ".(int)($diffsecs/3600%3600)."h ".(int)($diffsecs/60%60)."m ".(int)($diffsecs%60)."s");
 	output_notl("`b".dhms($diffsecs)."`b");
 	rawoutput("</td><td valign='top' colspan='3'>");
 	output_notl("`b".($row['site']==""?$none:$row['site'])."`b");
@@ -77,11 +77,11 @@ for ($i=0;$i<$number;$i++){
 			rawoutput("<tr class='trlight'><td>");
 			output_notl($row1['count']);
 			rawoutput("</td><td valign='top'>");
-			//output((int)($diffsecs/86400)."d".(int)($diffsecs/3600%3600)."h".(int)($diffsecs/60%60)."m".(int)($diffsecs%60)."s");
+			//output::doOutput((int)($diffsecs/86400)."d".(int)($diffsecs/3600%3600)."h".(int)($diffsecs/60%60)."m".(int)($diffsecs%60)."s");
 			output_notl(dhms($diffsecs));
 			rawoutput("</td><td valign='top'>");
 			if ($row1['uri']>"")
-				rawoutput("<a href='".HTMLEntities($row1['uri'], ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."' target='_blank'>".HTMLEntities(substr($row1['uri'],0,100))."</a>");
+				rawoutput("<a href='".HTMLEntities($row1['uri'], ENT_COMPAT, settings::getsetting("charset", "ISO-8859-1"))."' target='_blank'>".HTMLEntities(substr($row1['uri'],0,100))."</a>");
 			else
 				output_notl($none);
 			output_notl("`n");
@@ -100,8 +100,7 @@ for ($i=0;$i<$number;$i++){
 		output_notl(sprintf($skipped,$skippedcount));
 		rawoutput("</td></tr>");
 	}
-	//output("</td></tr>",true);
+	//output::doOutput("</td></tr>",true);
 }
 rawoutput("</table>");
 page_footer();
-?>

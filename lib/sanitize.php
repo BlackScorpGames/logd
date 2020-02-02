@@ -69,7 +69,7 @@ function translator_page($in){
 	$page = $in;
 	if (strpos($page,"?")!==false) $page=substr($page,0,strpos($page,"?"));
 	//if ($page=="runmodule.php" && 0){
-	//	//we should handle this in runmodule.php now that we have tlschema.
+	//	//we should handle this in runmodule.php now that we have translator::tlschema.
 	//	$matches = array();
 	//	preg_match("/[&?](module=[^&]*)/i",$in,$matches);
 	//	if (isset($matches[1])) $page.="?".$matches[1];
@@ -102,7 +102,7 @@ function sanitize_name($spaceallowed, $inname)
 // Handle spaces and color in character names
 function sanitize_colorname($spaceallowed, $inname, $admin = false)
 {
-	if ($admin && getsetting("allowoddadminrenames", 0)) return $inname;
+	if ($admin && settings::getsetting("allowoddadminrenames", 0)) return $inname;
 	if ($spaceallowed)
 		$expr = "([^[:alpha:]`!@#$%^&\\)12345670 _-])";
 	else
@@ -126,5 +126,3 @@ function sanitize_html($str)
 	$str = strip_tags($str);
 	return $str;
 }
-
-?>

@@ -8,22 +8,22 @@ require_once("lib/http.php");
 
 check_su_access(SU_EDIT_CONFIG);
 
-tlschema("configuration");
+translator::tlschema("configuration");
 
-$op = httpget('op');
-$module=httpget('module');
+$op = http::httpget('op');
+$module=http::httpget('module');
 if ($op=="save"){
 	include_once("lib/gamelog.php");
 	//loadsettings();
 	if ((int)httppost('blockdupemail') == 1 &&
 			(int)httppost('requirevalidemail') != 1) {
 		httppostset('requirevalidemail', "1");
-		output("`brequirevalidemail has been set since blockdupemail was set.`b`n");
+		output::doOutput("`brequirevalidemail has been set since blockdupemail was set.`b`n");
 	}
 	if ((int)httppost('requirevalidemail') == 1 &&
 			(int)httppost('requireemail') != 1) {
 		httppostset('requireemail', "1");
-		output("`brequireemail has been set since requirevalidemail was set.`b`n");
+		output::doOutput("`brequireemail has been set since requirevalidemail was set.`b`n");
 	}
 	$defsup = httppost("defaultsuperuser");
 	if ($defsup != "") {
@@ -71,30 +71,30 @@ if ($op=="save"){
 			if (!isset($old[$key]))
 				$old[$key] = "";
 			savesetting($key,stripslashes($val));
-			output("Setting %s to %s`n", $key, stripslashes($val));
+			output::doOutput("Setting %s to %s`n", $key, stripslashes($val));
 			gamelog("`@Changed core setting `^$key`@ from `#{$old[$key]}`@ to `&$val`0","settings");
 			// Notify every module
-			modulehook("changesetting",
+			modules::modulehook("changesetting",
 					array("module"=>"core", "setting"=>$key,
 						"old"=>$old[$key], "new"=>$val), true);
 		}
 	}
-	output("`^Settings saved.`0");
+	output::doOutput("`^Settings saved.`0");
 	$op = "";
 	httpset($op, "");
 }elseif($op=="modulesettings"){
 	include_once("lib/gamelog.php");
 	if (injectmodule($module,true)){
-		$save = httpget('save');
+		$save = http::httpget('save');
 		if ($save!=""){
 			load_module_settings($module);
 			$old = $module_settings[$module];
 			$post = httpallpost();
-			$post = modulehook("validatesettings", $post, true, $module);
+			$post = modules::modulehook("validatesettings", $post, true, $module);
 			if (isset($post['validation_error'])) {
 				$post['validation_error'] =
-					translate_inline($post['validation_error']);
-				output("Unable to change settings:`\$%s`0",
+					translator::translate_inline($post['validation_error']);
+				output::doOutput("Unable to change settings:`\$%s`0",
 						$post['validation_error']);
 			} else {
 				reset($post);
@@ -103,7 +103,7 @@ if ($op=="save"){
 					$val = stripslashes($val);
 					set_module_setting($key,$val);
 					if (!isset($old[$key]) || $old[$key] != $val) {
-						output("Setting %s to %s`n", $key, $val);
+						output::doOutput("Setting %s to %s`n", $key, $val);
 						// Notify modules
 						if($key == "villagename") {
 							debug("Moving companions");
@@ -115,12 +115,12 @@ if ($op=="save"){
 						$oldval = "";
 						if (isset($old[$key])) $oldval = $old[$key];
 						gamelog("`@Changed module(`5$module`@) setting `^$key`@ from `#$oldval`@ to `&$val`0","settings");
-						modulehook("changesetting",
+						modules::modulehook("changesetting",
 								array("module"=>$module, "setting"=>$key,
 									"old"=>$oldval, "new"=>$val), true);
 					}
 				}
-				output("`^Module %s settings saved.`0`n", $module);
+				output::doOutput("`^Module %s settings saved.`0`n", $module);
 			}
 			$save = "";
 			httpset('save', "");
@@ -145,49 +145,49 @@ if ($op=="save"){
 						$module_settings[$mostrecentmodule][$key]=$x[1];
 					}
 				}
-				$msettings = modulehook("mod-dyn-settings", $msettings);
+				$msettings = modules::modulehook("mod-dyn-settings", $msettings);
 				if (is_module_active($module)){
-					output("This module is currently active: ");
-					$deactivate = translate_inline("Deactivate");
+					output::doOutput("This module is currently active: ");
+					$deactivate = translator::translate_inline("Deactivate");
 					rawoutput("<a href='modules.php?op=deactivate&module={$module}&cat={$info['category']}'>");
 					output_notl($deactivate);
 					rawoutput("</a>");
-					addnav("","modules.php?op=deactivate&module={$module}&cat={$info['category']}");
+					output::addnav("","modules.php?op=deactivate&module={$module}&cat={$info['category']}");
 				}else{
-					output("This module is currently deactivated: ");
-					$deactivate = translate_inline("Activate");
+					output::doOutput("This module is currently deactivated: ");
+					$deactivate = translator::translate_inline("Activate");
 					rawoutput("<a href='modules.php?op=activate&module={$module}&cat={$info['category']}'>");
 					output_notl($deactivate);
 					rawoutput("</a>");
-					addnav("","modules.php?op=activate&module={$module}&cat={$info['category']}");
+					output::addnav("","modules.php?op=activate&module={$module}&cat={$info['category']}");
 				}
 				rawoutput("<form action='configuration.php?op=modulesettings&module=$module&save=1' method='POST'>",true);
-				addnav("","configuration.php?op=modulesettings&module=$module&save=1");
-				tlschema("module-$module");
+				output::addnav("","configuration.php?op=modulesettings&module=$module&save=1");
+				translator::tlschema("module-$module");
 				showform($msettings,$module_settings[$mostrecentmodule]);
-				tlschema();
+				translator::tlschema();
 				rawoutput("</form>",true);
 			}else{
-				output("The %s module does not appear to define any module settings.", $module);
+				output::doOutput("The %s module does not appear to define any module settings.", $module);
 			}
 		}
 	}else{
-		output("I was not able to inject the module %s. Sorry it didn't work out.", htmlentities($module, ENT_COMPAT, getsetting("charset", "ISO-8859-1")));
+		output::doOutput("I was not able to inject the module %s. Sorry it didn't work out.", htmlentities($module, ENT_COMPAT, settings::getsetting("charset", "ISO-8859-1")));
 	}
 }
 
 page_header("Game Settings");
 require_once("lib/superusernav.php");
 superusernav();
-addnav("Module Manager", "modules.php");
+output::addnav("Module Manager", "modules.php");
 if ($module) {
 	$cat = $info['category'];
-	addnav(array("Module Category - `^%s`0", translate_inline($cat)), "modules.php?cat=$cat");
+	output::addnav(array("Module Category - `^%s`0", translator::translate_inline($cat)), "modules.php?cat=$cat");
 }
 
-addnav("Game Settings");
-addnav("Standard settings", "configuration.php");
-addnav("",$REQUEST_URI);
+output::addnav("Game Settings");
+output::addnav("Standard settings", "configuration.php");
+output::addnav("",$REQUEST_URI);
 
 module_editor_navs('settings', 'configuration.php?op=modulesettings&module=');
 
@@ -195,16 +195,16 @@ if ($op == "") {
 	$enum="enumpretrans";
 	require_once("lib/datetime.php");
 	$details = gametimedetails();
-	$offset = getsetting("gameoffsetseconds",0);
-	for ($i=0;$i<=86400 / getsetting("daysperday",4);$i+=300){
+	$offset = settings::getsetting("gameoffsetseconds",0);
+	for ($i=0;$i<=86400 / settings::getsetting("daysperday",4);$i+=300){
 		$off = ($details['realsecstotomorrow'] - ($offset - $i));
 		if ($off < 0) $off += 86400;
 		$x = strtotime("+".$off." secs");
-        $str = sprintf_translate("In %s at %s (+%s)",
+        $str = translator::sprintf_translate("In %s at %s (+%s)",
                 reltime($x), date("h:i a", $x),date("H:i",$i));
 		$enum.=",$i,$str";
 	}
-	rawoutput(tlbutton_clear());
+	rawoutput(translator::tlbutton_clear());
 	$setup = array(
 		"Game Setup,title",
 		"loginbanner"=>"Login Banner (under login prompt: 255 chars)",
@@ -214,7 +214,7 @@ if ($op == "") {
 		"emailpetitions"=>"Should submitted petitions be emailed to Admin Email address?,bool",
 		"Enter languages here like this: `i(shortname 2 chars) comma (readable name of the language)`i and continue as long as you wish,note",
 		"serverlanguages"=>"Languages available on this server",
-		"defaultlanguage"=>"Default Language,enum,".getsetting("serverlanguages","en,English,fr,Français,dk,Danish,de,Deutsch,es,Español,it,Italian"),
+		"defaultlanguage"=>"Default Language,enum,".settings::getsetting("serverlanguages","en,English,fr,Franï¿½ais,dk,Danish,de,Deutsch,es,Espaï¿½ol,it,Italian"),
 		"edittitles"=>"Should DK titles be editable in user editor,bool",
 		"motditems"=>"How many items should be shown on the motdlist,int",
 
@@ -443,9 +443,8 @@ if ($op == "") {
 	$vals = $settings + $useful_vals;
 
 	rawoutput("<form action='configuration.php?op=save' method='POST'>");
-	addnav("","configuration.php?op=save");
+	output::addnav("","configuration.php?op=save");
 	showform($setup,$vals);
 	rawoutput("</form>");
 }
 page_footer();
-?>

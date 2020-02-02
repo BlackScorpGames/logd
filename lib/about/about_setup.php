@@ -13,10 +13,10 @@
  * @subpackage Library
  * @license http://creativecommons.org/licenses/by-nc-sa/2.0/legalcode
  */
-addnav("About LoGD");
-addnav("About LoGD","about.php");
-addnav("Module Info","about.php?op=listmodules");
-addnav("License Info", "about.php?op=license");
+output::addnav("About LoGD");
+output::addnav("About LoGD","about.php");
+output::addnav("Module Info","about.php?op=listmodules");
+output::addnav("License Info", "about.php?op=license");
 $setup = array(
 	"Game Setup,title",
 	"pvp"=>"Enable Slay Other Players,viewonly",
@@ -75,14 +75,13 @@ $useful_vals = array(
 	"nextnewday"=>date("h:i:s a",strtotime("+{$details['realsecstotomorrow']} seconds"))." (".date("H\\h i\\m s\\s",$secstonextday).")"
 );
 
-output("`@<h3>Settings for this game</h3>`n`n",true);
+output::doOutput("`@<h3>Settings for this game</h3>`n`n",true);
 
 $args = array('settings'=>array(),'values'=>array());
-$args = modulehook("showsettings", $args);
+$args = modules::modulehook("showsettings", $args);
 
 $form = array_merge($setup, $args['settings']);
 $form = array_merge($form, $useful);
 $vals = array_merge($settings, $args['values']);
 $vals = array_merge($vals, $useful_vals);
 showform($form,$vals,true);
-?>

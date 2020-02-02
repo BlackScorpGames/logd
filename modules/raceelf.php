@@ -39,7 +39,7 @@ function raceelf_install(){
 
 function raceelf_uninstall(){
 	global $session;
-	$vname = getsetting("villagename", LOCATION_FIELDS);
+	$vname = settings::getsetting("villagename", LOCATION_FIELDS);
 	$gname = get_module_setting("villagename");
 	$sql = "UPDATE " . db_prefix("accounts") . " SET location='$vname' WHERE location = '$gname'";
 	db_query($sql);
@@ -98,14 +98,14 @@ function raceelf_dohook($hookname,$args){
 		}
 		break;
 	case "chooserace":
-		output("<a href='newday.php?setrace=$race$resline'>High among the trees</a> of the %s forest, in frail looking elaborate `^Elvish`0 structures that look as though they might collapse under the slightest strain, yet have existed for centuries.`n`n", $city, true);
-		addnav("`^Elf`0","newday.php?setrace=$race$resline");
-		addnav("","newday.php?setrace=$race$resline");
+		output::doOutput("<a href='newday.php?setrace=$race$resline'>High among the trees</a> of the %s forest, in frail looking elaborate `^Elvish`0 structures that look as though they might collapse under the slightest strain, yet have existed for centuries.`n`n", $city, true);
+		output::addnav("`^Elf`0","newday.php?setrace=$race$resline");
+		output::addnav("","newday.php?setrace=$race$resline");
 		break;
 	case "setrace":
 		if ($session['user']['race']==$race){
-			output("`^As an elf, you are keenly aware of your surroundings at all times; very little ever catches you by surprise.`n");
-			output("You gain extra defense!");
+			output::doOutput("`^As an elf, you are keenly aware of your surroundings at all times; very little ever catches you by surprise.`n");
+			output::doOutput("You gain extra defense!");
 			if (is_module_active("cities")) {
 				if ($session['user']['dragonkills']==0 &&
 						$session['user']['age']==0){
@@ -140,28 +140,28 @@ function raceelf_dohook($hookname,$args){
 		break;
 	case "moderate":
 		if (is_module_active("cities")) {
-			tlschema("commentary");
-			$args["village-$race"]=sprintf_translate("City of %s", $city);
-			tlschema();
+			translator::tlschema("commentary");
+			$args["village-$race"]=translator::sprintf_translate("City of %s", $city);
+			translator::tlschema();
 		}
 		break;
 	case "travel":
-		$capital = getsetting("villagename", LOCATION_FIELDS);
+		$capital = settings::getsetting("villagename", LOCATION_FIELDS);
 		$hotkey = substr($city, 0, 1);
 		$ccity=urlencode($city);
-		tlschema("module-cities");
+		translator::tlschema("module-cities");
 		if ($session['user']['location']==$capital){
-			addnav("Safer Travel");
-			addnav(array("%s?Go to %s", $hotkey, $city),"runmodule.php?module=cities&op=travel&city=$ccity");
+			output::addnav("Safer Travel");
+			output::addnav(array("%s?Go to %s", $hotkey, $city),"runmodule.php?module=cities&op=travel&city=$ccity");
 		}elseif ($session['user']['location']!=$city){
-			addnav("More Dangerous Travel");
-			addnav(array("%s?Go to %s", $hotkey, $city),"runmodule.php?module=cities&op=travel&city=$ccity&d=1");
+			output::addnav("More Dangerous Travel");
+			output::addnav(array("%s?Go to %s", $hotkey, $city),"runmodule.php?module=cities&op=travel&city=$ccity&d=1");
 		}
 		if ($session['user']['superuser'] & SU_EDIT_USERS){
-			addnav("Superuser");
-			addnav(array("%s?Go to %s", $hotkey, $city),"runmodule.php?module=cities&op=travel&city=$ccity&su=1");
+			output::addnav("Superuser");
+			output::addnav(array("%s?Go to %s", $hotkey, $city),"runmodule.php?module=cities&op=travel&city=$ccity&su=1");
 		}
-		tlschema();
+		translator::tlschema();
 		break;
 	case "villagetext":
 		raceelf_checkcity();
@@ -268,4 +268,3 @@ function raceelf_checkcity(){
 function raceelf_run(){
 
 }
-?>

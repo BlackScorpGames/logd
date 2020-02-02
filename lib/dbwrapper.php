@@ -29,5 +29,3 @@ switch(DBTYPE) {
 		require('lib/dbwrapper_mysqli_proc.php');
 		break;
 }
-
-?>

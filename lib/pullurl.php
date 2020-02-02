@@ -17,7 +17,7 @@ function _curl($url)
 	$val = 5;
 	if (defined("DB_CONNECTED") && DB_CONNECTED==true) {
 		require_once("lib/settings.php");
-		$val = getsetting("curltimeout", 5);
+		$val = settings::getsetting("curltimeout", 5);
 	}
 	curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $val);
 	curl_setopt($ch, CURLOPT_TIMEOUT, $val);
@@ -83,4 +83,3 @@ function pullurl($url)
 	//if (function_exists("fsockopen")) return _sock($url);
 	return @file($url);
 }
-?>

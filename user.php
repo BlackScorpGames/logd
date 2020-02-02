@@ -8,11 +8,11 @@ require_once("lib/http.php");
 require_once("lib/sanitize.php");
 require_once("lib/names.php");
 
-tlschema("user");
+translator::tlschema("user");
 check_su_access(SU_EDIT_USERS);
 
-$op = httpget('op');
-$userid=httpget("userid");
+$op = http::httpget('op');
+$userid=http::httpget("userid");
 
 if ($op == "lasthit") {
 	// Try and keep user editor and captcha from breaking each other.
@@ -20,8 +20,8 @@ if ($op == "lasthit") {
 }
 page_header("User Editor");
 
-$sort = httpget('sort');
-$petition=httpget("returnpetition");
+$sort = http::httpget('sort');
+$petition=http::httpget("returnpetition");
 $returnpetition="";
 if ($petition != "") $returnpetition = "&returnpetition=$petition";
 
@@ -32,52 +32,52 @@ $order = "acctid";
 if ($sort!="") $order = "$sort";
 $display = 0;
 $query = httppost('q');
-if ($query === false) $query = httpget('q');
+if ($query === false) $query = http::httpget('q');
 
 if ($op=="search" || $op== ""){
 	require_once("lib/lookup_user.php");
 	list($searchresult, $err) = lookup_user($query, $order);
 	$op = "";
 	if ($err) {
-		output($err);
+		output::doOutput($err);
 	} else {
 		$display = 1;
 	}
 }
 
 
-$m = httpget("module");
+$m = http::httpget("module");
 if ($m) $m = "&module=$m&subop=module";
 rawoutput("<form action='user.php?op=search$m' method='POST'>");
-output("Search by any field below: ");
+output::doOutput("Search by any field below: ");
 rawoutput("<input name='q' id='q'>");
-$se = translate_inline("Search");
+$se = translator::translate_inline("Search");
 rawoutput("<input type='submit' class='button' value='$se'>");
 rawoutput("</form>");
 rawoutput("<script language='JavaScript'>document.getElementById('q').focus();</script>");
-addnav("","user.php?op=search$m");
+output::addnav("","user.php?op=search$m");
 require_once("lib/superusernav.php");
 superusernav();
-addnav("Bans");
-addnav("Add a ban","user.php?op=setupban");
-addnav("List/Remove bans","user.php?op=removeban");
+output::addnav("Bans");
+output::addnav("Add a ban","user.php?op=setupban");
+output::addnav("List/Remove bans","user.php?op=removeban");
 
 // This doesn't seem to be used, so I'm going to comment it out now
-//$msg = httpget('msg');
+//$msg =http::httpget('msg');
 //if ($msg>"") {
-//	output("Message: %s`n", $msg);
+//	output::doOutput("Message: %s`n", $msg);
 //}
 
 // Collect a list of the mounts
-$mounts="0," . translate_inline("None");
+$mounts="0," . translator::translate_inline("None");
 $sql = "SELECT mountid,mountname,mountcategory FROM " . db_prefix("mounts") .  " ORDER BY mountcategory";
 $result = db_query($sql);
 while ($row = db_fetch_assoc($result)){
 	$mounts.=",{$row['mountid']},{$row['mountcategory']}: ".color_sanitize($row['mountname']);
 }
 
-$specialties = array(""=>translate_inline("Undecided"));
-$specialties = modulehook("specialtynames", $specialties);
+$specialties = array(""=>translator::translate_inline("Undecided"));
+$specialties = modules::modulehook("specialtynames", $specialties);
 $enum = "";
 foreach ($specialties as $key=>$name) {
 	if ($enum) $enum .= ",";
@@ -86,7 +86,7 @@ foreach ($specialties as $key=>$name) {
 
 //Inserted for v1.1.0 Dragonprime Edition to extend clan possibilities
 $ranks = array(CLAN_APPLICANT=>"`!Applicant`0",CLAN_MEMBER=>"`#Member`0",CLAN_OFFICER=>"`^Officer`0",CLAN_LEADER=>"`&Leader`0", CLAN_FOUNDER=>"`\$Founder");
-$ranks = modulehook("clanranks", array("ranks"=>$ranks, "clanid"=>NULL, "userid"=>$userid));
+$ranks = modules::modulehook("clanranks", array("ranks"=>$ranks, "clanid"=>NULL, "userid"=>$userid));
 $ranks = $ranks['ranks'];
 $rankstring = "";
 foreach($ranks as $rankid => $rankname) {
@@ -107,7 +107,7 @@ $userinfo = array(
 
 	"Basic user info,title",
 	"name"=>"Character Name (Do NOT include ANY title information)",
-	"title"=>"Dragonkill Title (prepended to name if Custom Title unset)" . (getsetting("edittitles",1) ? "" : ",hidden"),
+	"title"=>"Dragonkill Title (prepended to name if Custom Title unset)" . (settings::getsetting("edittitles",1) ? "" : ",hidden"),
 	"ctitle"=>"Custom Title (prepended to name if set)",
 	"sex"=>"Sex,enum,0,Male,1,Female",
 	"age"=>"Days since level 1,int",
@@ -135,7 +135,7 @@ $userinfo = array(
 	"specialty"=>"Specialty,enumpretrans,". $enum,
 
 	"Grave Fights,title",
-	"deathpower"=>array("Favor with %s`0,int", getsetting("deathoverlord", '`$Ramius')),
+	"deathpower"=>array("Favor with %s`0,int", settings::getsetting("deathoverlord", '`$Ramius')),
 	"gravefights"=>"Grave fights left,int",
 	"soulpoints"=>"Soulpoints (HP while dead),int",
 
@@ -163,7 +163,7 @@ $userinfo = array(
 		(($session['user']['superuser'] & SU_MEGAUSER) ? "int" : "viewonly"),
 
 	"Clan Info,title",
-	"clanid"=>"Clan,enumpretrans,0,".translate_inline("None"),
+	"clanid"=>"Clan,enumpretrans,0,".translator::translate_inline("None"),
 	"clanrank"=>"Clan Rank,enum,$rankstring",
 	"clanjoindate"=>"Clan Join Date",
 
@@ -284,4 +284,3 @@ function show_bitfield($val){
 	}
 	return($out);
 }
-?>

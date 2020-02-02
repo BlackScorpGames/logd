@@ -16,7 +16,7 @@ if (file_exists("dbconnect.php")){
 }
 $noinstallnavs=false;
 
-tlschema("installer");
+translator::tlschema("installer");
 
 $stages=array(
 	"1. Introduction",
@@ -99,8 +99,8 @@ $recommended_modules = array(
 $DB_USEDATACACHE=0; //Necessary
 
 
-if ((int)httpget("stage")>0)
-	$stage = (int)httpget("stage");
+if ((int)http::httpget("stage")>0)
+	$stage = (int)http::httpget("stage");
 else
 	$stage = 0;
 if (!isset($session['stagecompleted'])) $session['stagecompleted']=-1;
@@ -111,8 +111,8 @@ if (file_exists("dbconnect.php") && (
 	$stage==4 ||
 	$stage==5
 	)){
-		output("`%This stage was completed during a previous installation.");
-		output("`2If you wish to perform stages 4 through 6 again, please delete the file named \"dbconnect.php\" from your site.`n`n");
+		output::doOutput("`%This stage was completed during a previous installation.");
+		output::doOutput("`2If you wish to perform stages 4 through 6 again, please delete the file named \"dbconnect.php\" from your site.`n`n");
 		$stage=6;
 	}
 if ($stage > $session['stagecompleted']) $session['stagecompleted'] = $stage;
@@ -129,14 +129,12 @@ switch($stage) {
 
 
 if (!$noinstallnavs){
-	if ($session['user']['loggedin']) addnav("Back to the game",$session['user']['restorepage']);
-	addnav("Install Stages");
+	if ($session['user']['loggedin']) output::addnav("Back to the game",$session['user']['restorepage']);
+	output::addnav("Install Stages");
 
 	for ($x=0; $x<=min(count($stages)-1,$session['stagecompleted']+1); $x++){
 		if ($x == $stage) $stages[$x]="`^{$stages[$x]} <----";
-		addnav($stages[$x],"installer.php?stage=$x");
+		output::addnav($stages[$x],"installer.php?stage=$x");
 	}
 }
 page_footer(false);
-
-?>

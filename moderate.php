@@ -7,7 +7,7 @@ require_once("lib/commentary.php");
 require_once("lib/sanitize.php");
 require_once("lib/http.php");
 
-tlschema("moderate");
+translator::tlschema("moderate");
 
 addcommentary();
 
@@ -16,20 +16,20 @@ check_su_access(SU_EDIT_COMMENTS);
 require_once("lib/superusernav.php");
 superusernav();
 
-addnav("Other");
-addnav("Commentary Overview","moderate.php");
-addnav("Reset Seen Comments","moderate.php?seen=".rawurlencode(date("Y-m-d H:i:s")));
-addnav("B?Player Bios","bios.php");
+output::addnav("Other");
+output::addnav("Commentary Overview","moderate.php");
+output::addnav("Reset Seen Comments","moderate.php?seen=".rawurlencode(date("Y-m-d H:i:s")));
+output::addnav("B?Player Bios","bios.php");
 if ($session['user']['superuser'] & SU_AUDIT_MODERATION){
-	addnav("Audit Moderation","moderate.php?op=audit");
+	output::addnav("Audit Moderation","moderate.php?op=audit");
 }
-addnav("Review by Moderator");
-addnav("Commentary");
-addnav("Sections");
-addnav("Modules");
-addnav("Clan Halls");
+output::addnav("Review by Moderator");
+output::addnav("Commentary");
+output::addnav("Sections");
+output::addnav("Modules");
+output::addnav("Clan Halls");
 
-$op = httpget("op");
+$op = http::httpget("op");
 if ($op=="commentdelete"){
 	$comment = httppost('comment');
 	if (httppost('delnban')>''){
@@ -80,7 +80,7 @@ if ($op=="commentdelete"){
 	}
 	$sql = "DELETE FROM " . db_prefix("commentary") . " WHERE commentid IN ('" . join("','",array_keys($comment)) . "')";
 	db_query($sql);
-	$return = httpget('return');
+	$return = http::httpget('return');
 	$return = cmd_sanitize($return);
 	$return = substr($return,strrpos($return,"/")+1);
 	if (strpos($return,"?")===false && strpos($return,"&")!==false){
@@ -95,7 +95,7 @@ if ($op=="commentdelete"){
 	redirect($return);
 }
 
-$seen = httpget("seen");
+$seen = http::httpget("seen");
 if ($seen>""){
 	$session['user']['recentcomments']=$seen;
 }
@@ -104,13 +104,13 @@ page_header("Comment Moderation");
 
 
 if ($op==""){
-	$area = httpget('area');
+	$area = http::httpget('area');
 	$link = "moderate.php" . ($area ? "?area=$area" : "");
-	$refresh = translate_inline("Refresh");
+	$refresh = translator::translate_inline("Refresh");
 	rawoutput("<form action='$link' method='POST'>");
 	rawoutput("<input type='submit' class='button' value='$refresh'>");
 	rawoutput("</form>");
-	addnav("", "$link");
+	output::addnav("", "$link");
 	if ($area==""){
 		talkform("X","says");
 		commentdisplay("", "' or '1'='1","X",100);
@@ -119,7 +119,7 @@ if ($op==""){
 		talkform($area,"says");
 	}
 }elseif ($op=="audit"){
-	$subop = httpget("subop");
+	$subop = http::httpget("subop");
 	if ($subop=="undelete") {
 		$unkeys = httppost("mod");
 		if ($unkeys && is_array($unkeys)) {
@@ -139,37 +139,37 @@ if ($op==""){
 			$sql = "DELETE FROM ".db_prefix("moderatedcomments")." WHERE modid IN ('".join("','",array_keys($unkeys))."')";
 			db_query($sql);
 		} else {
-			output("No items selected to undelete -- Please try again`n`n");
+			output::doOutput("No items selected to undelete -- Please try again`n`n");
 		}
 	}
 	$sql = "SELECT DISTINCT acctid, name FROM ".db_prefix("accounts").
 		" INNER JOIN ".db_prefix("moderatedcomments").
 		" ON acctid=moderator ORDER BY name";
 	$result = db_query($sql);
-	addnav("Commentary");
-	addnav("Sections");
-	addnav("Modules");
-	addnav("Clan Halls");
-	addnav("Review by Moderator");
-	tlschema("notranslate");
+	output::addnav("Commentary");
+	output::addnav("Sections");
+	output::addnav("Modules");
+	output::addnav("Clan Halls");
+	output::addnav("Review by Moderator");
+	translator::tlschema("notranslate");
 	while ($row = db_fetch_assoc($result)){
-		addnav(" ?".$row['name'],"moderate.php?op=audit&moderator={$row['acctid']}");
+		output::addnav(" ?".$row['name'],"moderate.php?op=audit&moderator={$row['acctid']}");
 	}
-	tlschema();
-	addnav("Commentary");
-	output("`c`bComment Auditing`b`c");
-	$ops = translate_inline("Ops");
-	$mod = translate_inline("Moderator");
-	$when = translate_inline("When");
-	$com = translate_inline("Comment");
-	$unmod = translate_inline("Unmoderate");
+	translator::tlschema();
+	output::addnav("Commentary");
+	output::doOutput("`c`bComment Auditing`b`c");
+	$ops = translator::translate_inline("Ops");
+	$mod = translator::translate_inline("Moderator");
+	$when = translator::translate_inline("When");
+	$com = translator::translate_inline("Comment");
+	$unmod = translator::translate_inline("Unmoderate");
 	rawoutput("<form action='moderate.php?op=audit&subop=undelete' method='POST'>");
-	addnav("","moderate.php?op=audit&subop=undelete");
+	output::addnav("","moderate.php?op=audit&subop=undelete");
 	rawoutput("<table border='0' cellpadding='2' cellspacing='0'>");
 	rawoutput("<tr class='trhead'><td>$ops</td><td>$mod</td><td>$when</td><td>$com</td></tr>");
 	$limit = "75";
 	$where = "1=1 ";
-	$moderator = httpget("moderator");
+	$moderator = http::httpget("moderator");
 	if ($moderator>"") $where.="AND moderator=$moderator ";
 	$sql = "SELECT name, ".db_prefix("moderatedcomments").
 		".* FROM ".db_prefix("moderatedcomments")." LEFT JOIN ".
@@ -208,48 +208,48 @@ if ($op==""){
 }
 
 
-addnav("Sections");
-tlschema("commentary");
-$vname = getsetting("villagename", LOCATION_FIELDS);
-addnav(array("%s Square", $vname), "moderate.php?area=village");
+output::addnav("Sections");
+translator::tlschema("commentary");
+$vname = settings::getsetting("villagename", LOCATION_FIELDS);
+output::addnav(array("%s Square", $vname), "moderate.php?area=village");
 
 if ($session['user']['superuser'] & ~SU_DOESNT_GIVE_GROTTO) {
-	addnav("Grotto","moderate.php?area=superuser");
+	output::addnav("Grotto","moderate.php?area=superuser");
 }
 
-addnav("Land of the Shades","moderate.php?area=shade");
-addnav("Grassy Field","moderate.php?area=grassyfield");
+output::addnav("Land of the Shades","moderate.php?area=shade");
+output::addnav("Grassy Field","moderate.php?area=grassyfield");
 
-$iname = getsetting("innname", LOCATION_INN);
+$iname = settings::getsetting("innname", LOCATION_INN);
 // the inn name is a proper name and shouldn't be translated.
-tlschema("notranslate");
-addnav($iname,"moderate.php?area=inn");
-tlschema();
+translator::tlschema("notranslate");
+output::addnav($iname,"moderate.php?area=inn");
+translator::tlschema();
 
-addnav("MotD","moderate.php?area=motd");
-addnav("Veterans Club","moderate.php?area=veterans");
-addnav("Hunter's Lodge","moderate.php?area=hunterlodge");
-addnav("Gardens","moderate.php?area=gardens");
-addnav("Clan Hall Waiting Area","moderate.php?area=waiting");
+output::addnav("MotD","moderate.php?area=motd");
+output::addnav("Veterans Club","moderate.php?area=veterans");
+output::addnav("Hunter's Lodge","moderate.php?area=hunterlodge");
+output::addnav("Gardens","moderate.php?area=gardens");
+output::addnav("Clan Hall Waiting Area","moderate.php?area=waiting");
 
-if (getsetting("betaperplayer", 1) == 1 && @file_exists("pavilion.php")) {
-	addnav("Beta Pavilion","moderate.php?area=beta");
+if (settings::getsetting("betaperplayer", 1) == 1 && @file_exists("pavilion.php")) {
+	output::addnav("Beta Pavilion","moderate.php?area=beta");
 }
-tlschema();
+translator::tlschema();
 
 if ($session['user']['superuser'] & SU_MODERATE_CLANS){
-	addnav("Clan Halls");
+	output::addnav("Clan Halls");
 	$sql = "SELECT clanid,clanname,clanshort FROM " . db_prefix("clans") . " ORDER BY clanid";
 	$result = db_query($sql);
 	// these are proper names and shouldn't be translated.
-	tlschema("notranslate");
+	translator::tlschema("notranslate");
 	while ($row=db_fetch_assoc($result)){
-		addnav(array("<%s> %s", $row['clanshort'], $row['clanname']),
+		output::addnav(array("<%s> %s", $row['clanshort'], $row['clanname']),
 				"moderate.php?area=clan-{$row['clanid']}");
 	}
-	tlschema();
+	translator::tlschema();
 } elseif ($session['user']['superuser'] & SU_EDIT_COMMENTS &&
-		getsetting("officermoderate", 0)) {
+		settings::getsetting("officermoderate", 0)) {
 	// the CLAN_OFFICER requirement was chosen so that moderators couldn't
 	// just get accepted as a member to any random clan and then proceed to
 	// wreak havoc.
@@ -261,31 +261,30 @@ if ($session['user']['superuser'] & SU_MODERATE_CLANS){
 	// clans.
 	if (($session['user']['clanid'] != 0) &&
 			($session['user']['clanrank'] >= CLAN_OFFICER)) {
-		addnav("Clan Halls");
+		output::addnav("Clan Halls");
 		$sql = "SELECT clanid,clanname,clanshort FROM " . db_prefix("clans") . " WHERE clanid='" . $session['user']['clanid'] . "'";
 		$result = db_query($sql);
 		// these are proper names and shouldn't be translated.
-		tlschema("notranslate");
+		translator::tlschema("notranslate");
 		if ($row=db_fetch_assoc($result)){
-			addnav(array("<%s> %s", $row['clanshort'], $row['clanname']),
+			output::addnav(array("<%s> %s", $row['clanshort'], $row['clanname']),
 					"moderate.php?area=clan-{$row['clanid']}");
 		} else {
 			debug ("There was an error while trying to access your clan.");
 		}
-		tlschema();
+		translator::tlschema();
 	}
 }
-addnav("Modules");
+output::addnav("Modules");
 $mods = array();
-$mods = modulehook("moderate", $mods);
+$mods = modules::modulehook("moderate", $mods);
 reset($mods);
 
 // These are already translated in the module.
-tlschema("notranslate");
+translator::tlschema("notranslate");
 foreach ($mods as $area=>$name) {
-	addnav($name, "moderate.php?area=$area");
+	output::addnav($name, "moderate.php?area=$area");
 }
-tlschema();
+translator::tlschema();
 
 page_footer();
-?>

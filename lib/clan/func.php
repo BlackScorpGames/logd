@@ -46,4 +46,3 @@ function clan_previousrank($ranks,$current) {
 	}
 	return 0;
 }
-?>

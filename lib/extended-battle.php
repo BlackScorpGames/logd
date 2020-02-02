@@ -22,15 +22,15 @@ function show_enemies($enemies) {
 			$health = $badguy['creaturehealth'];
 		}
 		if ($session['user']['alive']){
-			output("%s%s%s%s's Hitpoints%s (Level %s): `6%s`0`n",$ccode,(isset($badguy['istarget'])&&$badguy['istarget']&&$enemycounter>1)?"*":"", $badguy['creaturename'],$ccode,$ccode, $badguy['creaturelevel'],$badguy['creaturehealth']>0?$health:translate_inline("`7DEAD`0"));
+			output::doOutput("%s%s%s%s's Hitpoints%s (Level %s): `6%s`0`n",$ccode,(isset($badguy['istarget'])&&$badguy['istarget']&&$enemycounter>1)?"*":"", $badguy['creaturename'],$ccode,$ccode, $badguy['creaturelevel'],$badguy['creaturehealth']>0?$health:translator::translate_inline("`7DEAD`0"));
 		}else{
-			output("`2%s`2's Soulpoints: `6%s`0`n",$badguy['creaturename'],$badguy['creaturehealth']>0?$health:translate_inline("`7DEFEATED`0"));
+			output::doOutput("`2%s`2's Soulpoints: `6%s`0`n",$badguy['creaturename'],$badguy['creaturehealth']>0?$health:translator::translate_inline("`7DEFEATED`0"));
 		}
 	}
 	if ($session['user']['alive']){
-		output("`2YOUR Hitpoints: `6%s`0`n",$session['user']['hitpoints']);
+		output::doOutput("`2YOUR Hitpoints: `6%s`0`n",$session['user']['hitpoints']);
 	}else{
-		output("`2YOUR Soulpoints: `6%s`0`n",$session['user']['hitpoints']);
+		output::doOutput("`2YOUR Soulpoints: `6%s`0`n",$session['user']['hitpoints']);
 	}
 }
 
@@ -43,13 +43,13 @@ function show_enemies($enemies) {
 function prepare_fight($options=false) {
 	global $companions;
 	$basicoptions = array(
-		"maxattacks"=>getsetting("maxattacks", 4),
+		"maxattacks"=>settings::getsetting("maxattacks", 4),
 	);
 	if (!is_array($options)) {
 		$options = array();
 	}
 	$fightoptions = $options + $basicoptions;
-	$fightoptions = modulehook("fightoptions", $fightoptions);
+	$fightoptions = modules::modulehook("fightoptions", $fightoptions);
 
 	// We'll also reset the companions here...
 	prepare_companions();
@@ -107,9 +107,9 @@ function suspend_companions($susp, $nomsg=false) {
 			$nomsg = "`&Your companions stand back during this fight!`n";
 		}
 		if ($nomsg !== true){
-			if ($schema) tlschema($schema);
-			output($nomsg);
-			if ($schema) tlschema();
+			if ($schema) translator::tlschema($schema);
+			output::doOutput($nomsg);
+			if ($schema) translator::tlschema();
 		}
 	}
 	$companions = $newcompanions;
@@ -142,9 +142,9 @@ function unsuspend_companions($susp, $nomsg=false) {
 			$nomsg = "`&Your companions return to stand by your side!`n";
 		}
 		if ($nomsg !== true){
-			if ($schema) tlschema($schema);
-			output($nomsg);
-			if ($schema) tlschema();
+			if ($schema) translator::tlschema($schema);
+			output::doOutput($nomsg);
+			if ($schema) translator::tlschema();
 		}
 	}
 	$companions = $newcompanions;
@@ -200,23 +200,23 @@ function report_companion_move($companion, $activate="fight") {
 		$damage_done = $roll['creaturedmg'];
 		$damage_received = $roll['selfdmg'];
 		if ($damage_done==0){
-			output("`^%s`4 tries to hit %s but `\$MISSES!`n",$companion['name'],$badguy['creaturename']);
+			output::doOutput("`^%s`4 tries to hit %s but `\$MISSES!`n",$companion['name'],$badguy['creaturename']);
 		}else if ($damage_done<0){
-			output("`^%s`4 tries to hit %s but %s `\$RIPOSTES`4 for `^%s`4 points of damage!`n",$companion['name'],$badguy['creaturename'], $badguy['creaturename'], abs($damage_done));
+			output::doOutput("`^%s`4 tries to hit %s but %s `\$RIPOSTES`4 for `^%s`4 points of damage!`n",$companion['name'],$badguy['creaturename'], $badguy['creaturename'], abs($damage_done));
 			$companion['hitpoints']+=$damage_done;
 		}else{
-			output("`^%s`4 hits %s for `^%s`4 points of damage!`n",$companion['name'],$badguy['creaturename'],$damage_done);
+			output::doOutput("`^%s`4 hits %s for `^%s`4 points of damage!`n",$companion['name'],$badguy['creaturename'],$damage_done);
 			$badguy['creaturehealth']-=$damage_done;
 		}
 
 		if ($badguy['creaturehealth'] >= 0) {
 			if ($damage_received==0){
-				output("`^%s`4 tries to hit `\$%s`4 but `^MISSES!`n",$badguy['creaturename'], $companion['name']);
+				output::doOutput("`^%s`4 tries to hit `\$%s`4 but `^MISSES!`n",$badguy['creaturename'], $companion['name']);
 			}else if ($damage_received<0){
-				output("`^%s`4 tries to hit `\$%s`4 but %s `^RIPOSTES`4 for `^%s`4 points of damage!`n",$badguy['creaturename'], $companion['name'], $companion['name'], abs($damage_received));
+				output::doOutput("`^%s`4 tries to hit `\$%s`4 but %s `^RIPOSTES`4 for `^%s`4 points of damage!`n",$badguy['creaturename'], $companion['name'], $companion['name'], abs($damage_received));
 				$badguy['creaturehealth']+=$damage_received;
 			}else{
-				output("`^%s`4 hits `\$%s`4 for `\$%s`4 points of damage!`n",$badguy['creaturename'],$companion['name'],$damage_received);
+				output::doOutput("`^%s`4 hits `\$%s`4 for `\$%s`4 points of damage!`n",$badguy['creaturename'],$companion['name'],$damage_received);
 				$companion['hitpoints']-=$damage_received;
 			}
 		}
@@ -233,9 +233,9 @@ function report_companion_move($companion, $activate="fight") {
 			$msg = $companion['healmsg'];
 			if ($msg == "") $msg = "{companion} heals your wounds. You regenerate {damage} hitpoints.";
 			$msg = substitute_array("`)".$msg."`0`n", array("{companion}","{damage}"),array($companion['name'],$hptoheal));
-			tlschema(isset($companion['schema'])?$companion['schema']:"battle");
-			output($msg);
-			tlschema();
+			translator::tlschema(isset($companion['schema'])?$companion['schema']:"battle");
+			output::doOutput($msg);
+			translator::tlschema();
 		} else {
 			// Okay. We really have to do this :(
 			global $newcompanions;
@@ -252,9 +252,9 @@ function report_companion_move($companion, $activate="fight") {
 					$msg = $companion['healcompanionmsg'];
 					if ($msg == "") $msg = "{companion} heals {target}'s wounds. {target} regenerates {damage} hitpoints.";
 					$msg = substitute_array("`)".$msg."`0`n", array("{companion}","{damage}","{target}"),array($companion['name'],$hptoheal,$mycompanion['name']));
-					tlschema(isset($companion['schema'])?$companion['schema']:"battle");
-					output($msg);
-					tlschema();
+					translator::tlschema(isset($companion['schema'])?$companion['schema']:"battle");
+					output::doOutput($msg);
+					translator::tlschema();
 					$healed = true;
 					$newcompanions[$myname] = $mycompanion;
 				}
@@ -281,9 +281,9 @@ function report_companion_move($companion, $activate="fight") {
 								$msg = $companion['healcompanionmsg'];
 								if ($msg == "") $msg = "{companion} heals {target}'s wounds. {target} regenerates {damage} hitpoints.";
 								$msg = substitute_array("`)".$msg."`0`n", array("{companion}","{damage}","{target}"),array($companion['name'],$hptoheal,$mycompanion['name']));
-								tlschema(isset($companion['schema'])?$companion['schema']:"battle");
-								output($msg);
-								tlschema();
+								translator::tlschema(isset($companion['schema'])?$companion['schema']:"battle");
+								output::doOutput($msg);
+								translator::tlschema();
 								$healed = true;
 								$companions[$myname] = $mycompanion;
 							} // else	// These
@@ -299,12 +299,12 @@ function report_companion_move($companion, $activate="fight") {
 		$damage_received = $roll['selfdmg'];
 		if ($badguy['creaturehealth'] >= 0) {
 			if ($damage_received==0){
-				output("`^%s`4 tries to hit `\$%s`4 but `^MISSES!`n",$badguy['creaturename'], $companion['name']);
+				output::doOutput("`^%s`4 tries to hit `\$%s`4 but `^MISSES!`n",$badguy['creaturename'], $companion['name']);
 			}else if ($damage_received<0){
-				output("`^%s`4 tries to hit `\$%s`4 but %s `^RIPOSTES`4 for `^%s`4 points of damage!`n",$badguy['creaturename'], $companion['name'], $companion['name'], abs($damage_received));
+				output::doOutput("`^%s`4 tries to hit `\$%s`4 but %s `^RIPOSTES`4 for `^%s`4 points of damage!`n",$badguy['creaturename'], $companion['name'], $companion['name'], abs($damage_received));
 				$badguy['creaturehealth']+=$damage_received;
 			}else{
-				output("`^%s`4 hits `\$%s`4 for `\$%s`4 points of damage!`n",$badguy['creaturename'],$companion['name'],$damage_received);
+				output::doOutput("`^%s`4 hits `\$%s`4 for `\$%s`4 points of damage!`n",$badguy['creaturename'],$companion['name'],$damage_received);
 				$companion['hitpoints']-=$damage_received;
 			}
 		}
@@ -315,23 +315,23 @@ function report_companion_move($companion, $activate="fight") {
 		$damage_done = $roll['creaturedmg'];
 		$damage_received = $roll['selfdmg'];
 		if ($damage_done==0){
-			output("`^%s`4 tries to hit %s but `^MISSES!`n",$companion['name'],$badguy['creaturename']);
+			output::doOutput("`^%s`4 tries to hit %s but `^MISSES!`n",$companion['name'],$badguy['creaturename']);
 		}else if ($damage_done<0){
-			output("`^%s`4 tries to hit %s but %s `^RIPOSTES`4 for `^%s`4 points of damage!`n",$companion['name'],$badguy['creaturename'], $badguy['creaturename'], abs($damage_done));
+			output::doOutput("`^%s`4 tries to hit %s but %s `^RIPOSTES`4 for `^%s`4 points of damage!`n",$companion['name'],$badguy['creaturename'], $badguy['creaturename'], abs($damage_done));
 			$companion['hitpoints']+=$damage_done;
 		}else{
-			output("`^%s`4 hits %s for `\$%s`4 points of damage!`n",$companion['name'],$badguy['creaturename'],$damage_done);
+			output::doOutput("`^%s`4 hits %s for `\$%s`4 points of damage!`n",$companion['name'],$badguy['creaturename'],$damage_done);
 			$badguy['creaturehealth']-=$damage_done;
 		}
 
 		if ($badguy['creaturehealth'] >= 0) {
 			if ($damage_received==0){
-				output("`^%s`4 tries to hit `\$%s`4 but `^MISSES!`n",$badguy['creaturename'], $companion['name']);
+				output::doOutput("`^%s`4 tries to hit `\$%s`4 but `^MISSES!`n",$badguy['creaturename'], $companion['name']);
 			}else if ($damage_received<0){
-				output("`^%s`4 tries to hit `\$%s`4 but %s `^RIPOSTES`4 for `^%s`4 points of damage!`n",$badguy['creaturename'], $companion['name'], $companion['name'], abs($damage_received));
+				output::doOutput("`^%s`4 tries to hit `\$%s`4 but %s `^RIPOSTES`4 for `^%s`4 points of damage!`n",$badguy['creaturename'], $companion['name'], $companion['name'], abs($damage_received));
 				$badguy['creaturehealth']+=$damage_received;
 			}else{
-				output("`^%s`4 hits `\$%s`4 for `\$%s`4 points of damage!`n",$badguy['creaturename'],$companion['name'],$damage_received);
+				output::doOutput("`^%s`4 hits `\$%s`4 for `\$%s`4 points of damage!`n",$badguy['creaturename'],$companion['name'],$damage_received);
 				$companion['hitpoints']-=$damage_received;
 			}
 		}
@@ -343,9 +343,9 @@ function report_companion_move($companion, $activate="fight") {
 			$msg = $companion['magicfailmsg'];
 			if ($msg == "") $msg = "{companion} shoots a magical arrow at {badguy} but misses.";
 			$msg = substitute_array("`)".$msg."`0`n", array("{companion}"), array($companion['name']));
-			tlschema(isset($companion['schema'])?$companion['schema']:"battle");
-			output($msg);
-			tlschema();
+			translator::tlschema(isset($companion['schema'])?$companion['schema']:"battle");
+			output::doOutput($msg);
+			translator::tlschema();
 		}else{
 			if (isset($companion['magicmsg'])) {
 				$msg = $companion['magicmsg'];
@@ -353,9 +353,9 @@ function report_companion_move($companion, $activate="fight") {
 				$msg = "{companion} shoots a magical arrow at {badguy} and deals {damage} damage.";
 			}
 			$msg = substitute_array("`)".$msg."`0`n", array("{companion}","{damage}"), array($companion['name'],$damage_done));
-			tlschema(isset($companion['schema'])?$companion['schema']:"battle");
-			output($msg);
-			tlschema();
+			translator::tlschema(isset($companion['schema'])?$companion['schema']:"battle");
+			output::doOutput($msg);
+			translator::tlschema();
 			$badguy['creaturehealth']-=$damage_done;
 		}
 		$companion['hitpoints'] -= $companion['abilities']['magic'];
@@ -373,9 +373,9 @@ function report_companion_move($companion, $activate="fight") {
 		} else {
 			$msg = "`5Your companion catches his last breath before it dies.";
 		}
-		tlschema(isset($companion['schema'])?$companion['schema']:"battle");
-		output("`5".$msg."`0`n");
-		tlschema();
+		translator::tlschema(isset($companion['schema'])?$companion['schema']:"battle");
+		output::doOutput("`5".$msg."`0`n");
+		translator::tlschema();
 		if (isset($companion['cannotdie']) && $companion['cannotdie'] == true) {
 			$companion['hitpoints'] = 0;
 		}else{
@@ -489,7 +489,7 @@ function battle_spawn($creature) {
 		$result = db_query($sql);
 		if ($row = db_fetch_assoc($result)) {
 			$newenemies[$nextindex] = $row;
-			output("`^%s`2 summons `^%s`2 for help!`n", $badguy['creaturename'], $row['creaturename']);
+			output::doOutput("`^%s`2 summons `^%s`2 for help!`n", $badguy['creaturename'], $row['creaturename']);
 		}
 	} else if(is_array($creature)){
 		$newenemies[$nextindex] = $creature;
@@ -508,18 +508,18 @@ function battle_heal($amount, $target=false) {
 	if ($amount > 0) {
 		if ($target === false) {
 			$badguy['creaturehealth']+=$amount;
-			output("`^%s`2 heals itself for `^%s`2 hitpoints.", $badguy['creaturename'], $amount);
+			output::doOutput("`^%s`2 heals itself for `^%s`2 hitpoints.", $badguy['creaturename'], $amount);
 		} else {
 			if (isset($newenemies[$target])) {
 				// Target had its turn already...
 				if ($newenemies[$target]['dead'] == false) {
 					$newenemies[$target]['creaturehealth'] += $amount;
-					output("`^%s`2 heal `^%s`2 for `^%s`2 hitpoints.", $badguy['creaturename'], $newenemies[$target]['creaturename'], $amount);
+					output::doOutput("`^%s`2 heal `^%s`2 for `^%s`2 hitpoints.", $badguy['creaturename'], $newenemies[$target]['creaturename'], $amount);
 				}
 			}else{
 				if ($enemies[$target]['dead'] == false) {
 					$enemies[$target]['creaturehealth'] += $amount;
-					output("`^%s`2 heal `^%s`2 for `^%s`2 hitpoints.", $badguy['creaturename'], $enemies[$target]['creaturename'], $amount);
+					output::doOutput("`^%s`2 heal `^%s`2 for `^%s`2 hitpoints.", $badguy['creaturename'], $enemies[$target]['creaturename'], $amount);
 				}
 			}
 		}
@@ -557,5 +557,3 @@ function load_ai_script($scriptid) {
 		return $row['script'];
 	}
 }
-
-?>

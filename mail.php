@@ -6,12 +6,12 @@ define("OVERRIDE_FORCED_NAV",true);
 require_once("common.php");
 require_once("lib/http.php");
 
-tlschema("mail");
+translator::tlschema("mail");
 
-$superusermessage = getsetting("superuseryommessage","Asking an admin for gems, gold, weapons, armor, or anything else which you have not earned will not be honored.  If you are experiencing problems with the game, please use the 'Petition for Help' link instead of contacting an admin directly.");
+$superusermessage = settings::getsetting("superuseryommessage","Asking an admin for gems, gold, weapons, armor, or anything else which you have not earned will not be honored.  If you are experiencing problems with the game, please use the 'Petition for Help' link instead of contacting an admin directly.");
 
-$op = httpget('op');
-$id = (int)httpget('id');
+$op = http::httpget('op');
+$id = (int)http::httpget('id');
 if($op=="del"){
 	$sql = "DELETE FROM " . db_prefix("mail") . " WHERE msgto='".$session['user']['acctid']."' AND messageid='$id'";
 	db_query($sql);
@@ -40,8 +40,8 @@ if($op=="del"){
 }
 
 popup_header("Ye Olde Poste Office");
-$inbox = translate_inline("Inbox");
-$write = translate_inline("Write");
+$inbox = translator::translate_inline("Inbox");
+$write = translator::translate_inline("Write");
 
 // Build the initial args array
 $args = array();
@@ -51,7 +51,7 @@ array_push($args, array("mail.php?op=address",$write));
 // just call array_push($args, array("pagename", "functionname"));,
 // where "pagename" is the name of the page to forward the user to,
 // and "functionname" is the name of the mail function to add
-$mailfunctions = modulehook("mailfunctions", $args);
+$mailfunctions = modules::modulehook("mailfunctions", $args);
 
 rawoutput("<table width='50%' border='0' cellpadding='0' cellspacing='2'>");
 rawoutput("<tr>");
@@ -88,4 +88,3 @@ default:
 	break;
 }
 popup_footer();
-?>

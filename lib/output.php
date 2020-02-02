@@ -71,10 +71,41 @@ function output_notl($indata){
 	//`1`2 etc color & formatting
 	$out = appoencode($out,$priv);
 	//apply to the page.
-	$output.=tlbutton_pop().$out;
+	$output.=translator::tlbutton_pop().$out;
 	$output.="\n";
 }
 
+class output{
+    public static function addnav($text,$link=false,$priv=false,$pop=false,$popsize="500x300"){
+        global $navsection,$navbysection,$translation_namespace,$navschema;
+        global $block_new_navs;
+
+        if ($block_new_navs) return;
+
+        if ($link===false) {
+            // Don't do anything if text is ""
+            if ($text != "") {
+                addnavheader($text);
+            }
+        }else{
+            $args = func_get_args();
+            if ($text==""){
+                //if there's no text to display, may as well just stick this on
+                //the nav stack now.
+                call_user_func_array("private_addnav",$args);
+            }else{
+                if (!isset($navbysection[$navsection]))
+                    $navbysection[$navsection] = array();
+                $t = $args[0];
+                if (is_array($t)) {
+                    $t = $t[0];
+                }
+                if (!array_key_exists($t,$navschema))
+                    $navschema[$t] = $translation_namespace;
+                array_push($navbysection[$navsection],array_merge($args,array("translate"=>false)));
+            }
+        }
+    }
 /**
  * Outputs a translated, color/style encoded string to the browser.
  *
@@ -83,7 +114,7 @@ function output_notl($indata){
  * @see output_notl
  *
  */
-function output(){
+public static function doOutput(){
 	global $block_new_output;
 
 	if ($block_new_output) return;
@@ -91,13 +122,13 @@ function output(){
 	if (is_array($args[0])) $args = $args[0];
 	if (is_bool($args[0]) && array_shift($args)) {
 		$schema= array_shift($args);
-		$args[0] = translate($args[0],$schema);
+		$args[0] = translator::translate($args[0],$schema);
 	} else {
-		$args[0] = translate($args[0]);
+		$args[0] = translator::translate($args[0]);
 	}
 	call_user_func_array("output_notl",$args);
 }
-
+}
 /**
  * Generate debug output for players who have the SU_DEBUG_OUTPUT flag set in the superuser mask
  *
@@ -185,7 +216,7 @@ function appoencode($data,$priv=false){
 		do {
 			++$pos;
 			if ($priv === false){
-				$out .= HTMLEntities(substr($data, $start, $pos - $start - 1), ENT_COMPAT, getsetting("charset", "ISO-8859-1"));
+				$out .= HTMLEntities(substr($data, $start, $pos - $start - 1), ENT_COMPAT, settings::getsetting("charset", "ISO-8859-1"));
 			} else {
 				$out .= substr($data, $start, $pos - $start - 1);
 			}
@@ -283,7 +314,7 @@ function appoencode($data,$priv=false){
 		} while( ($pos = strpos($data, "`", $pos)) !== false);
 	}
 	if ($priv === false){
-		$out .= HTMLEntities(substr($data, $start), ENT_COMPAT, getsetting("charset", "ISO-8859-1"));
+		$out .= HTMLEntities(substr($data, $start), ENT_COMPAT, settings::getsetting("charset", "ISO-8859-1"));
 	} else {
 		$out .= substr($data, $start);
 	}
@@ -484,36 +515,7 @@ function addnav_notl($text,$link=false,$priv=false,$pop=false,$popsize="500x300"
 		}
 	}
 }
-function addnav($text,$link=false,$priv=false,$pop=false,$popsize="500x300"){
-	global $navsection,$navbysection,$translation_namespace,$navschema;
-	global $block_new_navs;
 
-	if ($block_new_navs) return;
-
-	if ($link===false) {
-		// Don't do anything if text is ""
-		if ($text != "") {
-			addnavheader($text);
-		}
-	}else{
-		$args = func_get_args();
-		if ($text==""){
-			//if there's no text to display, may as well just stick this on
-			//the nav stack now.
-			call_user_func_array("private_addnav",$args);
-		}else{
-			if (!isset($navbysection[$navsection]))
-				$navbysection[$navsection] = array();
-			$t = $args[0];
-			if (is_array($t)) {
-				$t = $t[0];
-			}
-			if (!array_key_exists($t,$navschema))
-				$navschema[$t] = $translation_namespace;
-			array_push($navbysection[$navsection],array_merge($args,array("translate"=>false)));
-		}
-	}
-}
 /**
  * Determine if a nav/URL is blocked
  *
@@ -613,12 +615,12 @@ function buildnavs(){
 		$navbanner="";
 		if (count_viable_navs($key)>0){
 			if ($key>"") {
-				if ($session['loggedin']) tlschema($navschema[$key]);
+				if ($session['loggedin']) translator::tlschema($navschema[$key]);
 				if (substr($key,0,7)=="!array!"){
 					$key = unserialize(substr($key,7));
 				}
 				$navbanner = private_addnav($key);
-				if ($session['loggedin']) tlschema();
+				if ($session['loggedin']) translator::tlschema();
 			}
 
 			$style = "default";
@@ -629,7 +631,7 @@ function buildnavs(){
 				// Generate the collapsable section header
 				$args = array("name"=>"nh-{$key}",
 						"title"=>($key ? $key : "Unnamed Navs"));
-				$args = modulehook("collapse-nav{", $args);
+				$args = modules::modulehook("collapse-nav{", $args);
 				if (isset($args['content']))
 					$collapseheader = $args['content'];
 				if (isset($args['style']))
@@ -649,7 +651,7 @@ function buildnavs(){
 
 			// Generate the enclosing collapsable section footer
 			if ($tkey > "" && (!array_key_exists($tkey,$navnocollapse) || !$navnocollapse[$tkey])) {
-				$args = modulehook("}collapse-nav");
+				$args = modules::modulehook("}collapse-nav");
 				if (isset($args['content']))
 					$collapsefooter = $args['content'];
 			}
@@ -704,32 +706,32 @@ function private_addnav($text,$link=false,$priv=false,$pop=false,$popsize="500x3
 			if ($link === false) $schema = "!array!" . serialize($text);
 			else $schema = $text[0];
 			if ($translate) {
-				tlschema($navschema[$schema]);
+				translator::tlschema($navschema[$schema]);
 				$unschema = 1;
 			}
 		}
 		if ($link != "!!!addraw!!!") {
-			if ($translate) $text[0] = translate($text[0]);
+			if ($translate) $text[0] = translator::translate($text[0]);
 			$text = call_user_func_array("sprintf",$text);
 		} else {
 			$text = call_user_func_array("sprintf",$text);
 		}
 	}else{
 		if ($text && $session['loggedin'] && $translate) {
-			tlschema($navschema[$text]);
+			translator::tlschema($navschema[$text]);
 			$unschema = 1;
 		}
-		if ($link != "!!!addraw!!!" && $text>"" && $translate) $text = translate($text); //leave the hack in here for now, use addnav_notl please
+		if ($link != "!!!addraw!!!" && $text>"" && $translate) $text = translator::translate($text); //leave the hack in here for now, use addnav_notl please
 	}
 
 	$extra="";
 	$ignoreuntil="";
 	if ($link===false){
 		$text = holidayize($text,'nav');
-		$thisnav.=tlbutton_pop().templatereplace("navhead",array("title"=>appoencode($text,$priv)));
+		$thisnav.=translator::tlbutton_pop().templatereplace("navhead",array("title"=>appoencode($text,$priv)));
 	}elseif ($link === "") {
 		$text = holidayize($text,'nav');
-		$thisnav.=tlbutton_pop().templatereplace("navhelp",array("text"=>appoencode($text,$priv)));
+		$thisnav.=translator::tlbutton_pop().templatereplace("navhelp",array("text"=>appoencode($text,$priv)));
 	} elseif ($link == "!!!addraw!!!") {
 		$thisnav .= $text;
 	}else{
@@ -838,11 +840,11 @@ function private_addnav($text,$link=false,$priv=false,$pop=false,$popsize="500x3
 			}
 			$n= templatereplace("navitem",array(
 				"text"=>appoencode($text,$priv),
-				"link"=>HTMLEntities($link.($pop!=true?$extra:""), ENT_COMPAT, getsetting("charset", "ISO-8859-1")),
+				"link"=>HTMLEntities($link.($pop!=true?$extra:""), ENT_COMPAT, settings::getsetting("charset", "ISO-8859-1")),
 				"accesskey"=>$keyrep,
 				"popup"=>($pop==true ? "target='_blank'".($popsize>""?" onClick=\"".popup($link,$popsize)."; return false;\"":"") : "")
 				));
-			$n = str_replace("<a ",tlbutton_pop()."<a ",$n);
+			$n = str_replace("<a ",translator::tlbutton_pop()."<a ",$n);
 			$thisnav.=$n;
 		}
 		$session['allowednavs'][$link.$extra]=true;
@@ -854,7 +856,7 @@ function private_addnav($text,$link=false,$priv=false,$pop=false,$popsize="500x3
 		}
 
 	}
-	if ($unschema) tlschema();
+	if ($unschema) translator::tlschema();
 	$nav .= $thisnav;
 	return $thisnav;
 }
@@ -898,5 +900,3 @@ function clearoutput(){
 	$header="";
 	$nav="";
 }
-
-?>

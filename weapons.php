@@ -6,7 +6,7 @@ require_once("common.php");
 require_once("lib/http.php");
 require_once("lib/villagenav.php");
 
-tlschema("weapon");
+translator::tlschema("weapon");
 
 checkday();
 $tradeinvalue = round(($session['user']['weaponvalue']*.75),0);
@@ -14,7 +14,7 @@ $basetext=array(
 	"title"			=>	"MightyE's Weapons",
 	"desc"			=>	array(
 		"`!MightyE `7stands behind a counter and appears to pay little attention to you as you enter, but you know from experience that he has his eye on every move you make.",
-		array("He may be a humble weapons merchant, but he still carries himself with the grace of a man who has used his weapons to kill mightier %s than you.`n`n",translate_inline($session['user']['sex']?"women":"men")),
+		array("He may be a humble weapons merchant, but he still carries himself with the grace of a man who has used his weapons to kill mightier %s than you.`n`n",translator::translate_inline($session['user']['sex']?"women":"men")),
 		"The massive hilt of a claymore protrudes above his shoulder; its gleam in the torch light not much brighter than the gleam off of `!MightyE's`7 bald forehead, kept shaved mostly as a strategic advantage, but in no small part because nature insisted that some level of baldness was necessary.`n`n",
 		"`!MightyE`7 finally nods to you, stroking his goatee and looking like he wished he could have an opportunity to use one of these weapons.",
 	),
@@ -41,26 +41,26 @@ $schemas = array(
 );
 
 $basetext['schemas'] = $schemas;
-$texts = modulehook("weaponstext",$basetext);
+$texts = modules::modulehook("weaponstext",$basetext);
 $schemas = $texts['schemas'];
 
-tlschema($schemas['title']);
+translator::tlschema($schemas['title']);
 page_header($texts['title']);
-output("`c`b`&".$texts['title']."`0`b`c");
-tlschema();
+output::doOutput("`c`b`&".$texts['title']."`0`b`c");
+translator::tlschema();
 
-$op = httpget("op");
+$op = http::httpget("op");
 
 if ($op==""){
-  	tlschema($schemas['desc']);
+  	translator::tlschema($schemas['desc']);
   	if (is_array($texts['desc'])) {
   		foreach ($texts['desc'] as $description) {
-  			output_notl(sprintf_translate($description));
+  			output_notl(translator::sprintf_translate($description));
   		}
   	} else {
-  		output($texts['desc']);
+  		output::doOutput($texts['desc']);
   	}
-  	tlschema();
+  	translator::tlschema();
 
 
 	$sql = "SELECT max(level) AS level FROM " .  db_prefix("weapons") . " WHERE level<=".(int)$session['user']['dragonkills'];
@@ -70,19 +70,19 @@ if ($op==""){
 	$sql = "SELECT * FROM " . db_prefix("weapons") . " WHERE level = ".(int)$row['level']." ORDER BY damage ASC";
 	$result = db_query($sql);
 
- 	tlschema($schemas['tradein']);
+ 	translator::tlschema($schemas['tradein']);
   	if (is_array($texts['tradein'])) {
   		foreach ($texts['tradein'] as $description) {
-  			output_notl(sprintf_translate($description));
+  			output_notl(translator::sprintf_translate($description));
   		}
   	} else {
-  		output($texts['tradein']);
+  		output::doOutput($texts['tradein']);
   	}
-  	tlschema();
+  	translator::tlschema();
 
-	$wname=translate_inline("`bName`b");
-	$wdam=translate_inline("`bDamage`b");
-	$wcost=translate_inline("`bCost`b");
+	$wname=translator::translate_inline("`bName`b");
+	$wdam=translator::translate_inline("`bDamage`b");
+	$wcost=translator::translate_inline("`bCost`b");
 	rawoutput("<table border='0' cellpadding='0'>");
 	rawoutput("<tr class='trhead'><td>");
 	output_notl($wname);
@@ -94,7 +94,7 @@ if ($op==""){
 	$i=0;
 	while($row = db_fetch_assoc($result)) {
 		$link = true;
-		$row = modulehook("modify-weapon", $row);
+		$row = modules::modulehook("modify-weapon", $row);
 		if (isset($row['skip']) && $row['skip'] === true) {
 			continue;
 		}
@@ -115,16 +115,16 @@ if ($op==""){
 			if ($link) {
 				rawoutput("</a>");
 			}
-			addnav("","weapons.php?op=buy&id={$row['weaponid']}");
+			output::addnav("","weapons.php?op=buy&id={$row['weaponid']}");
 		}else{
 			output_notl("%s%s`0",$color,$row['weaponname']);
-			addnav("","weapons.php?op=buy&id={$row['weaponid']}");
+			output::addnav("","weapons.php?op=buy&id={$row['weaponid']}");
 		}
 		rawoutput("</td><td align='center'>");
 		output_notl("%s%s`0",$color,$row['damage']);
 		rawoutput("</td><td align='right'>");
 		if (isset($row['alternatetext']) && $row['alternatetext'] > "") {
-			output("%s%s`0", $color, $row['alternatetext']);
+			output::doOutput("%s%s`0", $color, $row['alternatetext']);
 		} else {
 			output_notl("%s%s`0",$color,$row['value']);
 		}
@@ -134,29 +134,29 @@ if ($op==""){
 	rawoutput("</table>");
 	villagenav();
 }else if ($op=="buy"){
-	$id = httpget("id");
+	$id = http::httpget("id");
 	$sql = "SELECT * FROM " . db_prefix("weapons") . " WHERE weaponid='$id'";
 	$result = db_query($sql);
 	if (db_num_rows($result)==0){
-		tlschema($schemas['nosuchweapon']);
-		output($texts['nosuchweapon']);
-		tlschema();
-		tlschema($schemas['tryagain']);
-		addnav($texts['tryagain'],"weapons.php");
-		tlschema();
+		translator::tlschema($schemas['nosuchweapon']);
+		output::doOutput($texts['nosuchweapon']);
+		translator::tlschema();
+		translator::tlschema($schemas['tryagain']);
+		output::addnav($texts['tryagain'],"weapons.php");
+		translator::tlschema();
 		villagenav();
 	}else{
 		$row = db_fetch_assoc($result);
-		$row = modulehook("modify-weapon", $row);
+		$row = modules::modulehook("modify-weapon", $row);
 		if ($row['value']>($session['user']['gold']+$tradeinvalue)){
-			tlschema($schemas['notenoughgold']);
-			output($texts['notenoughgold'],$row['weaponname']);
-			tlschema();
+			translator::tlschema($schemas['notenoughgold']);
+			output::doOutput($texts['notenoughgold'],$row['weaponname']);
+			translator::tlschema();
 			villagenav();
 		}else{
-			tlschema($schemas['payweapon']);
-			output($texts['payweapon'],$session['user']['weapon'],$row['weaponname']);
-			tlschema();
+			translator::tlschema($schemas['payweapon']);
+			output::doOutput($texts['payweapon'],$session['user']['weapon'],$row['weaponname']);
+			translator::tlschema();
 			debuglog("spent " . ($row['value']-$tradeinvalue) . " gold on the " . $row['weaponname'] . " weapon");
 			$session['user']['gold']-=$row['value'];
 			$session['user']['weapon'] = $row['weaponname'];
@@ -171,4 +171,3 @@ if ($op==""){
 }
 
 page_footer();
-?>

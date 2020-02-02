@@ -11,4 +11,3 @@ function getmount($horse=0) {
 		return array();
 	}
 }
-?>

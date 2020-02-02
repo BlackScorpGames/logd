@@ -29,7 +29,7 @@ function addnews(){
 	//					  [, $sprintf_style_replacement2...]]
 	//					  [, $hidefrombio]);
 	// We can pass arrays for the sprintf style replacements, which
-	// represent separate translation sets in the same format as output().
+	// represent separate translation sets in the same format asoutput::doOutput().
 	// Eg:
 	//   addnews("%s defeated %s in %s `n%s","Joe","Hank","the Inn",
 	//		   array("\"Your mother smelt of elderberries,\" taunted %s.",
@@ -78,10 +78,8 @@ function addnews_for_user()
 	}
 	if ($hidefrombio === true) $user = 0;
 	$sql = "INSERT INTO " . db_prefix("news") .
-		" (newstext,newsdate,accountid,arguments,tlschema) VALUES ('" .
+		" (newstext,newsdate,accountid,arguments,translator::tlschema) VALUES ('" .
 		addslashes($news) . "','" . date("Y-m-d H:i:s") . "'," .
 		$user .",'".addslashes($arguments)."','".$translation_namespace."')";
 	return db_query($sql);
 }
-
-?>

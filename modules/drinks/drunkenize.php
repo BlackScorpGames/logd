@@ -41,4 +41,3 @@ function drinks_drunkenize($commentary,$level){
 		$commentary = str_replace("*hic**hic*","*hic*hic*",$commentary);
 	return $commentary;
 }
-?>

@@ -1,5 +1,5 @@
 <?php
-output("`@`c`bSuperuser Accounts`b`c");
+output::doOutput("`@`c`bSuperuser Accounts`b`c");
 debug($logd_version, true);
 $sql = "SELECT login, password FROM ".db_prefix("accounts")." WHERE superuser & ".SU_MEGAUSER;
 $result = db_query($sql);
@@ -7,10 +7,10 @@ if (db_num_rows($result)==0){
 	if (httppost("name")>""){
 		$showform=false;
 		if (httppost("pass1")!=httppost("pass2")){
-			output("`\$Oops, your passwords don't match.`2`n");
+			output::doOutput("`\$Oops, your passwords don't match.`2`n");
 			$showform=true;
 		}elseif (strlen(httppost("pass1"))<6){
-			output("`\$Whoa, that's a short password, you really should make it longer.`2`n");
+			output::doOutput("`\$Whoa, that's a short password, you really should make it longer.`2`n");
 			$showform=true;
 		}else{
 			// Give the superuser a decent set of privs so they can
@@ -29,7 +29,7 @@ if (db_num_rows($result)==0){
 			db_query($sql);
 			$sql = "INSERT INTO " .db_prefix("accounts") ." (login,password,superuser,name,ctitle,regdate) VALUES('$name','$pass',$su,'`%Admin `&$name`0','`%Admin', NOW())";
 			db_query($sql);
-			output("`^Your superuser account has been created as `%Admin `&$name`^!");
+			output::doOutput("`^Your superuser account has been created as `%Admin `&$name`^!");
 			savesetting("installer_version",$logd_version);
 		}
 	}else{
@@ -38,18 +38,17 @@ if (db_num_rows($result)==0){
 	}
 	if ($showform){
 		rawoutput("<form action='installer.php?stage=$stage' method='POST'>");
-		output("Enter a name for your superuser account:");
-		rawoutput("<input name='name' value=\"".htmlentities(httppost("name"), ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."\">");
-		output("`nEnter a password: ");
+		output::doOutput("Enter a name for your superuser account:");
+		rawoutput("<input name='name' value=\"".htmlentities(httppost("name"), ENT_COMPAT, settings::getsetting("charset", "ISO-8859-1"))."\">");
+		output::doOutput("`nEnter a password: ");
 		rawoutput("<input name='pass1' type='password'>");
-		output("`nConfirm your password: ");
+		output::doOutput("`nConfirm your password: ");
 		rawoutput("<input name='pass2' type='password'>");
-		$submit = translate_inline("Create");
+		$submit = translator::translate_inline("Create");
 		rawoutput("<br><input type='submit' value='$submit' class='button'>");
 		rawoutput("</form>");
 	}
 }else{
-	output("`#You already have a superuser account set up on this server.");
+	output::doOutput("`#You already have a superuser account set up on this server.");
 	savesetting("installer_version",$logd_version);
 }
-?>

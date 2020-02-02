@@ -51,4 +51,3 @@ function urltoarray($url){
 	return $array;
 }
 
-?>

@@ -7,7 +7,7 @@ require_once("lib/http.php");
 
 check_su_access(SU_EDIT_CREATURES);
 
-tlschema("creatures");
+translator::tlschema("creatures");
 
 $creaturestats = array();
 
@@ -21,13 +21,13 @@ page_header("Creature Editor");
 require_once("lib/superusernav.php");
 superusernav();
 
-$op = httpget("op");
-$subop = httpget("subop");
+$op = http::httpget("op");
+$subop = http::httpget("subop");
 if ($op == "save"){
 	$forest = (int)(httppost('forest'));
 	$grave = (int)(httppost('graveyard'));
 	$id = httppost('creatureid');
-	if (!$id) $id = httpget("creatureid");
+	if (!$id) $id = http::httpget("creatureid");
 	if ($subop == "") {
 		$post = httpallpost();
 		$lev = (int)httppost('creaturelevel');
@@ -46,7 +46,7 @@ if ($op == "save"){
 			$sql.=" forest='$forest', ";
 			$sql.=" graveyard='$grave' ";
 			$sql="UPDATE " . db_prefix("creatures") . " SET " . $sql . " WHERE creatureid='$id'";
-			db_query($sql) or output("`\$".db_error(LINK)."`0`n`#$sql`0`n");
+			db_query($sql) oroutput::doOutput("`\$".db_error(LINK)."`0`n`#$sql`0`n");
 		}else{
 			$cols = array();
 			$vals = array();
@@ -74,19 +74,19 @@ if ($op == "save"){
 			$id = db_insert_id();
 		}
 		if (db_affected_rows()) {
-			output("`^Creature saved!`0`n");
+			output::doOutput("`^Creature saved!`0`n");
 		} else {
-			output("`^Creature `\$not`^ saved!`0`n");
+			output::doOutput("`^Creature `\$not`^ saved!`0`n");
 		}
 	} elseif ($subop == "module") {
 		// Save module settings
-		$module = httpget("module");
+		$module = http::httpget("module");
 		$post = httpallpost();
 		reset($post);
 		while(list($key, $val) = each($post)) {
 			set_module_objpref("creatures", $id, $key, $val, $module);
 		}
-		output("`^Saved!`0`n");
+		output::doOutput("`^Saved!`0`n");
 	}
 	// Set the httpget id so that we can do the editor once we save
 	httpset("creatureid", $id, true);
@@ -94,21 +94,21 @@ if ($op == "save"){
 	httpset("op", "edit");
 }
 
-$op = httpget('op');
-$id = httpget('creatureid');
+$op = http::httpget('op');
+$id = http::httpget('creatureid');
 if ($op=="del"){
 	$sql = "DELETE FROM " . db_prefix("creatures") . " WHERE creatureid = '$id'";
 	db_query($sql);
 	if (db_affected_rows()>0){
-		output("Creature deleted`n`n");
+		output::doOutput("Creature deleted`n`n");
 	}else{
-		output("Creature not deleted: %s", db_error(LINK));
+		output::doOutput("Creature not deleted: %s", db_error(LINK));
 	}
 	$op="";
 	httpset('op', "");
 }
 if ($op=="" || $op=="search"){
-	$level = httpget("level");
+	$level = http::httpget("level");
 	if (!$level) $level = 1;
 	$q = httppost("q");
 	if ($q) {
@@ -119,44 +119,44 @@ if ($op=="" || $op=="search"){
 	$sql = "SELECT * FROM " . db_prefix("creatures") . " WHERE $where ORDER BY creaturelevel,creaturename";
 	$result = db_query($sql);
 	// Search form
-	$search = translate_inline("Search");
+	$search = translator::translate_inline("Search");
 	rawoutput("<form action='creatures.php?op=search' method='POST'>");
-	output("Search by field: ");
+	output::doOutput("Search by field: ");
 	rawoutput("<input name='q' id='q'>");
 	rawoutput("<input type='submit' class='button' value='$search'>");
 	rawoutput("</form>");
 	rawoutput("<script language='JavaScript'>document.getElementById('q').focus();</script>",true);
-	addnav("","creatures.php?op=search");
+	output::addnav("","creatures.php?op=search");
 
-	addnav("Levels");
+	output::addnav("Levels");
 	$sql1 = "SELECT count(creatureid) AS n,creaturelevel FROM " . db_prefix("creatures") . " group by creaturelevel order by creaturelevel";
 	$result1 = db_query($sql1);
 	while ($row = db_fetch_assoc($result1)) {
-		addnav(array("Level %s: (%s creatures)", $row['creaturelevel'], $row['n']),
+		output::addnav(array("Level %s: (%s creatures)", $row['creaturelevel'], $row['n']),
 				"creatures.php?level={$row['creaturelevel']}");
 	}
 	// There is no reason to allow players to add creatures to level 17 and 18.
 	// Players aren't supposed to stay at level 15 at all.
 	if ($level <= 16) {
-		addnav("Edit");
-		addnav("Add a creature","creatures.php?op=add&level=$level");
+		output::addnav("Edit");
+		output::addnav("Add a creature","creatures.php?op=add&level=$level");
 	}
-	$opshead = translate_inline("Ops");
-	$idhead = translate_inline("ID");
-	$name = translate_inline("Name");
-	$lev = translate_inline("Level");
-	$weapon = translate_inline("Weapon");
-	$winmsg = translate_inline("Win");
-	$diemsg = translate_inline("Die");
-	$author = translate_inline("Author");
-	$edit = translate_inline("Edit");
-	$confirm = translate_inline("Are you sure you wish to delete this creature?");
-	$del = translate_inline("Del");
+	$opshead = translator::translate_inline("Ops");
+	$idhead = translator::translate_inline("ID");
+	$name = translator::translate_inline("Name");
+	$lev = translator::translate_inline("Level");
+	$weapon = translator::translate_inline("Weapon");
+	$winmsg = translator::translate_inline("Win");
+	$diemsg = translator::translate_inline("Die");
+	$author = translator::translate_inline("Author");
+	$edit = translator::translate_inline("Edit");
+	$confirm = translator::translate_inline("Are you sure you wish to delete this creature?");
+	$del = translator::translate_inline("Del");
 
 	rawoutput("<table border=0 cellpadding=2 cellspacing=1 bgcolor='#999999'>");
 	rawoutput("<tr class='trhead'>");
 	rawoutput("<td>$opshead</td><td>$idhead</td><td>$name</td><td>$lev</td><td>$weapon</td><td>$winmsg</td><td>$diemsg</td><td>$author</td></tr>");
-	addnav("","creatures.php");
+	output::addnav("","creatures.php");
 	$number=db_num_rows($result);
 	for ($i=0;$i<$number;$i++){
 		$row = db_fetch_assoc($result);
@@ -166,8 +166,8 @@ if ($op=="" || $op=="search"){
 		rawoutput("</a> | <a href='creatures.php?op=del&creatureid={$row['creatureid']}&level={$row['creaturelevel']}' onClick='return confirm(\"$confirm\");'>");
 		output_notl("%s", $del);
 		rawoutput("</a> ]</td><td>");
-		addnav("","creatures.php?op=edit&creatureid={$row['creatureid']}");
-		addnav("","creatures.php?op=del&creatureid={$row['creatureid']}&level={$row['creaturelevel']}");
+		output::addnav("","creatures.php?op=edit&creatureid={$row['creatureid']}");
+		output::addnav("","creatures.php?op=del&creatureid={$row['creatureid']}&level={$row['creaturelevel']}");
 		output_notl("%s", $row['creatureid']);
 		rawoutput("</td><td>");
 		output_notl("%s", $row['creaturename']);
@@ -185,27 +185,27 @@ if ($op=="" || $op=="search"){
 	}
 	rawoutput("</table>");
 }else{
-	$level = httpget('level');
+	$level = http::httpget('level');
 	if (!$level) $level = 1;
 	if ($op=="edit" || $op=="add"){
 		require_once("lib/showform.php");
-		addnav("Edit");
-		addnav("Creature properties", "creatures.php?op=edit&creatureid=$id");
-		addnav("Add");
-		addnav("Add Another Creature", "creatures.php?op=add&level=$level");
+		output::addnav("Edit");
+		output::addnav("Creature properties", "creatures.php?op=edit&creatureid=$id");
+		output::addnav("Add");
+		output::addnav("Add Another Creature", "creatures.php?op=add&level=$level");
 		module_editor_navs("prefs-creatures", "creatures.php?op=edit&subop=module&creatureid=$id&module=");
 		if ($subop == "module") {
-			$module = httpget("module");
+			$module = http::httpget("module");
 			rawoutput("<form action='creatures.php?op=save&subop=module&creatureid=$id&module=$module' method='POST'>");
 			module_objpref_edit("creatures", $module, $id);
 			rawoutput("</form>");
-			addnav("", "creatures.php?op=save&subop=module&creatureid=$id&module=$module");
+			output::addnav("", "creatures.php?op=save&subop=module&creatureid=$id&module=$module");
 		} else {
 			if ($op=="edit" && $id!=""){
 				$sql = "SELECT * FROM " . db_prefix("creatures") . " WHERE creatureid=$id";
 				$result = db_query($sql);
 				if (db_num_rows($result)<>1){
-					output("`4Error`0, that creature was not found!");
+					output::doOutput("`4Error`0, that creature was not found!");
 				}else{
 					$row = db_fetch_assoc($result);
 				}
@@ -232,17 +232,16 @@ if ($op=="" || $op=="search"){
 			rawoutput("<form action='creatures.php?op=save' method='POST'>");
 			showform($form, $row);
 			rawoutput("</form>");
-			addnav("","creatures.php?op=save");
+			output::addnav("","creatures.php?op=save");
 		}
 	}else{
-		$module = httpget("module");
+		$module = http::httpget("module");
 		rawoutput("<form action='mounts.php?op=save&subop=module&creatureid=$id&module=$module' method='POST'>");
 		module_objpref_edit("creatures", $module, $id);
 		rawoutput("</form>");
-		addnav("", "creatures.php?op=save&subop=module&creatureid=$id&module=$module");
+		output::addnav("", "creatures.php?op=save&subop=module&creatureid=$id&module=$module");
 	}
-	addnav("Navigation");
-	addnav("Return to the creature editor","creatures.php?level=$level");
+	output::addnav("Navigation");
+	output::addnav("Return to the creature editor","creatures.php?level=$level");
 }
 page_footer();
-?>

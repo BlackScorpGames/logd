@@ -626,5 +626,3 @@ function bell_rand($min=false,$max=false){
 	}
 	echo "\n<br>Unable to locate random value, \$r was $r<br>\n";
 }
-
-?>

@@ -8,12 +8,12 @@ require_once("lib/systemmail.php");
 require_once("lib/checkban.php");
 require_once("lib/http.php");
 
-tlschema("login");
-translator_setup();
-$op = httpget('op');
+translator::tlschema("login");
+translator::translator_setup();
+$op = http::httpget('op');
 $name = httppost('name');
-$iname = getsetting("innname", LOCATION_INN);
-$vname = getsetting("villagename", LOCATION_FIELDS);
+$iname = settings::getsetting("innname", LOCATION_INN);
+$vname = settings::getsetting("villagename", LOCATION_FIELDS);
 
 if ($name!=""){
 	if ($session['loggedin']){
@@ -45,11 +45,11 @@ if ($name!=""){
 			// If the player isn't allowed on for some reason, anything on
 			// this hook should automatically call page_footer and exit
 			// itself.
-			modulehook("check-login");
+			modules::modulehook("check-login");
 
 			if ($session['user']['emailvalidation']!="" && substr($session['user']['emailvalidation'],0,1)!="x"){
 				$session['user']=array();
-				$session['message']=translate_inline("`4Error, you must validate your email address before you can log in.");
+				$session['message']=translator::translate_inline("`4Error, you must validate your email address before you can log in.");
 				echo appoencode($session['message']);
 				exit();
 			}else{
@@ -67,18 +67,18 @@ if ($name!=""){
 				$session['user']['laston'] = date("Y-m-d H:i:s");
 
 				// Handle the change in number of users online
-				translator_check_collect_texts();
+				translator::translator_check_collect_texts();
 
 				// Let's throw a login module hook in here so that modules
 				// like the stafflist which need to invalidate the cache
 				// when someone logs in or off can do so.
-				modulehook("player-login");
+				modules::modulehook("player-login");
 
 				if ($session['user']['loggedin']){
 					$session['allowednavs']=unserialize($session['user']['allowednavs']);
 					$link = "<a href='" . $session['user']['restorepage'] . "'>" . $session['user']['restorepage'] . "</a>";
 
-					$str = sprintf_translate("Sending you to %s, have a safe journey", $link);
+					$str = translator::sprintf_translate("Sending you to %s, have a safe journey", $link);
 					header("Location: {$session['user']['restorepage']}");
 					saveuser();
 					echo $str;
@@ -103,10 +103,10 @@ if ($name!=""){
 				}
 			}
 		}else{
-			$session['message']=translate_inline("`4Error, your login was incorrect`0");
+			$session['message']=translator::translate_inline("`4Error, your login was incorrect`0");
 			//now we'll log the failed attempt and begin to issue bans if
 			//there are too many, plus notify the admins.
-			$sql = "DELETE FROM " . db_prefix("faillog") . " WHERE date<'".date("Y-m-d H:i:s",strtotime("-".(getsetting("expirecontent",180)/4)." days"))."'";
+			$sql = "DELETE FROM " . db_prefix("faillog") . " WHERE date<'".date("Y-m-d H:i:s",strtotime("-".(settings::getsetting("expirecontent",180)/4)." days"))."'";
 			checkban();
 			db_query($sql);
 			$sql = "SELECT acctid FROM " . db_prefix("accounts") . " WHERE login='$name'";
@@ -130,7 +130,7 @@ if ($name!=""){
 					}
 					if ($c>=10){
 						// 5 failed attempts for superuser, 10 for regular user
-						$banmessage=translate_inline("Automatic System Ban: Too many failed login attempts.");
+						$banmessage=translator::translate_inline("Automatic System Ban: Too many failed login attempts.");
 						$sql = "INSERT INTO " . db_prefix("bans") . " VALUES ('{$_SERVER['REMOTE_ADDR']}','','".date("Y-m-d H:i:s",strtotime("+".($c*3)." hours"))."','$banmessage','System','0000-00-00 00:00:00')";
 						db_query($sql);
 						if ($su){
@@ -138,7 +138,7 @@ if ($name!=""){
 							// this failed attempt if it includes superusers.
 							$sql = "SELECT acctid FROM " . db_prefix("accounts") ." WHERE (superuser&".SU_EDIT_USERS.")";
 							$result2 = db_query($sql);
-							$subj = translate_mail(array("`#%s failed to log in too many times!",$_SERVER['REMOTE_ADDR']),0);
+							$subj = translator::translate_mail(array("`#%s failed to log in too many times!",$_SERVER['REMOTE_ADDR']),0);
 							$number=db_num_rows($result2);
 							for ($i=0;$i<$number;$i++){
 								$row2 = db_fetch_assoc($result2);
@@ -146,7 +146,7 @@ if ($name!=""){
 								$sql = "DELETE FROM " . db_prefix("mail") . " WHERE msgto={$row2['acctid']} AND msgfrom=0 AND subject = '".serialize($subj)."' AND seen=0";
 								db_query($sql);
 								if (db_affected_rows()>0) $noemail = true; else $noemail = false;
-								$msg = translate_mail(array("This message is generated as a result of one or more of the accounts having been a superuser account.  Log Follows:`n`n%s",$alert),0);
+								$msg = translator::translate_mail(array("This message is generated as a result of one or more of the accounts having been a superuser account.  Log Follows:`n`n%s",$alert),0);
 								systemmail($row2['acctid'],$subj,$msg,0,$noemail);
 							}//end for
 						}//end if($su)
@@ -170,12 +170,12 @@ if ($name!=""){
 		invalidatedatacache("list.php-warsonline");
 
 		// Handle the change in number of users online
-		translator_check_collect_texts();
+		translator::translator_check_collect_texts();
 
 		// Let's throw a logout module hook in here so that modules
 		// like the stafflist which need to invalidate the cache
 		// when someone logs in or off can do so.
-		modulehook("player-logout");
+		modules::modulehook("player-logout");
 		saveuser();
 	}
 	$session=array();
@@ -183,6 +183,5 @@ if ($name!=""){
 }
 // If you enter an empty username, don't just say oops.. do something useful.
 $session=array();
-$session['message']=translate_inline("`4Error, your login was incorrect`0");
+$session['message']=translator::translate_inline("`4Error, your login was incorrect`0");
 redirect("index.php");
-?>

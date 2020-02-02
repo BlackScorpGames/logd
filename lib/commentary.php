@@ -11,28 +11,28 @@ function commentarylocs() {
 	global $comsecs, $session;
 	if (is_array($comsecs) && count($comsecs)) return $comsecs;
 
-	$vname = getsetting("villagename", LOCATION_FIELDS);
-	$iname = getsetting("innname", LOCATION_INN);
-	tlschema("commentary");
-	$comsecs['village'] = sprintf_translate("%s Square", $vname);
+	$vname = settings::getsetting("villagename", LOCATION_FIELDS);
+	$iname = settings::getsetting("innname", LOCATION_INN);
+	translator::tlschema("commentary");
+	$comsecs['village'] = translator::sprintf_translate("%s Square", $vname);
 	if ($session['user']['superuser'] & ~SU_DOESNT_GIVE_GROTTO) {
-		$comsecs['superuser']=translate_inline("Grotto");
+		$comsecs['superuser']=translator::translate_inline("Grotto");
 	}
-	$comsecs['shade']=translate_inline("Land of the Shades");
-	$comsecs['grassyfield']=translate_inline("Grassy Field");
+	$comsecs['shade']=translator::translate_inline("Land of the Shades");
+	$comsecs['grassyfield']=translator::translate_inline("Grassy Field");
 	$comsecs['inn']="$iname";
-	$comsecs['motd']=translate_inline("MotD");
-	$comsecs['veterans']=translate_inline("Veterans Club");
-	$comsecs['hunterlodge']=translate_inline("Hunter's Lodge");
-	$comsecs['gardens']=translate_inline("Gardens");
-	$comsecs['waiting']=translate_inline("Clan Hall Waiting Area");
-	if (getsetting("betaperplayer", 1) == 1 && @file_exists("pavilion.php")) {
-		$comsecs['beta']=translate_inline("Pavilion");
+	$comsecs['motd']=translator::translate_inline("MotD");
+	$comsecs['veterans']=translator::translate_inline("Veterans Club");
+	$comsecs['hunterlodge']=translator::translate_inline("Hunter's Lodge");
+	$comsecs['gardens']=translator::translate_inline("Gardens");
+	$comsecs['waiting']=translator::translate_inline("Clan Hall Waiting Area");
+	if (settings::getsetting("betaperplayer", 1) == 1 && @file_exists("pavilion.php")) {
+		$comsecs['beta']=translator::translate_inline("Pavilion");
 	}
-	tlschema();
+	translator::tlschema();
 	// All of the ones after this will be translated in the modules.
-	$comsecs = modulehook("moderate", $comsecs);
-	rawoutput(tlbutton_clear());
+	$comsecs = modules::modulehook("moderate", $comsecs);
+	rawoutput(translator::tlbutton_clear());
 	return $comsecs;
 }
 
@@ -43,10 +43,10 @@ function addcommentary() {
 	$schema = httppost('schema');
 	$comment = trim(httppost('insertcommentary'));
 	$counter = httppost('counter');
-	$remove = URLDecode(httpget('removecomment'));
+	$remove = URLDecode(http::httpget('removecomment'));
 	if ($remove>0) {
-		$return = '/' . httpget('returnpath');
-		$section = httpget('section');
+		$return = '/' . http::httpget('returnpath');
+		$section = http::httpget('section');
         $sql = "SELECT " .
                 db_prefix("commentary").".*,".db_prefix("accounts").".name,".
                 db_prefix("accounts").".acctid, ".db_prefix("accounts").".clanrank,".
@@ -107,7 +107,7 @@ function injectcommentary($section, $talkline, $comment, $schema=false) {
 	if ($schema===false) $schema=$translation_namespace;
 	// Make the comment pristine so that we match on it correctly.
 	$comment = stripslashes($comment);
-	tlschema("commentary");
+	translator::tlschema("commentary");
 	$doublepost=0;
 	$emptypost = 0;
 	$colorcount = 0;
@@ -117,7 +117,7 @@ function injectcommentary($section, $talkline, $comment, $schema=false) {
 		for ($x=0;$x<$y;$x++){
 			if (substr($commentary,$x,1)=="`"){
 				$colorcount++;
-				if ($colorcount>=getsetting("maxcolors",10)){
+				if ($colorcount>=settings::getsetting("maxcolors",10)){
 					$commentary = substr($commentary,0,$x).color_sanitize(substr($commentary,$x));
 					$x=$y;
 				}
@@ -126,12 +126,12 @@ function injectcommentary($section, $talkline, $comment, $schema=false) {
 		}
 
 		$args = array('commentline'=>$commentary, 'commenttalk'=>$talkline);
-		$args = modulehook("commentary", $args);
+		$args = modules::modulehook("commentary", $args);
 		$commentary = $args['commentline'];
 		$talkline = $args['commenttalk'];
-		tlschema($schema);
-		$talkline = translate_inline($talkline);
-		tlschema();
+		translator::tlschema($schema);
+		$talkline = translator::translate_inline($talkline);
+		translator::tlschema();
 
 		$commentary = preg_replace("'([^[:space:]]{45,45})([^[:space:]])'","\\1 \\2",$commentary);
 		$commentary = addslashes($commentary);
@@ -160,17 +160,17 @@ function injectcommentary($section, $talkline, $comment, $schema=false) {
 				$doublepost = 1;
 			}
 		}
-		tlschema();
+		translator::tlschema();
 	}
 }
 
 function commentdisplay($intro, $section, $message="Interject your own commentary?",$limit=10,$talkline="says",$schema=false) {
 	// Let's add a hook for modules to block commentary sections
-	$args = modulehook("blockcommentarea", array("section"=>$section));
+	$args = modules::modulehook("blockcommentarea", array("section"=>$section));
 	if (isset($args['block']) && ($args['block'] == "yes"))
 		return;
 
-	if ($intro) output($intro);
+	if ($intro)output::doOutput($intro);
 	viewcommentary($section, $message, $limit, $talkline, $schema);
 }
 
@@ -180,13 +180,13 @@ function viewcommentary($section,$message="Interject your own commentary?",$limi
 
 	rawoutput("<a name='$section'></a>");
 	// Let's add a hook for modules to block commentary sections
-	$args = modulehook("blockcommentarea", array("section"=>$section));
+	$args = modules::modulehook("blockcommentarea", array("section"=>$section));
 	if (isset($args['block']) && ($args['block'] == "yes"))
 		return;
 
 	if ($schema === false)
 		$schema=$translation_namespace;
-	tlschema("commentary");
+	translator::tlschema("commentary");
 
 	$nobios = array("motd.php"=>true);
 	if (!array_key_exists(basename($_SERVER['SCRIPT_NAME']),$nobios)) $nobios[basename($_SERVER['SCRIPT_NAME'])] = false;
@@ -197,17 +197,17 @@ function viewcommentary($section,$message="Interject your own commentary?",$limi
 
 	if ($message=="X") $linkbios=true;
 
-	if ($doublepost) output("`\$`bDouble post?`b`0`n");
-	if ($emptypost) output("`\$`bWell, they say silence is a virtue.`b`0`n");
+	if ($doublepost)output::doOutput("`\$`bDouble post?`b`0`n");
+	if ($emptypost)output::doOutput("`\$`bWell, they say silence is a virtue.`b`0`n");
 
 	$clanrankcolors=array("`!","`#","`^","`&","`\$");
 
 	// Needs to be here because scrolling through the commentary pages, entering a bio, then scrolling again forward
 	// then re-entering another bio will lead to $com being smaller than 0 and this will lead to an SQL error later on.
-	$com=(int)httpget("comscroll");
+	$com=(int)http::httpget("comscroll");
 	if ($com < 0) $com = 0;
 	$cc = false;
-	if (httpget("comscroll") !==false && (int)$session['lastcom']==$com+1)
+	if (http::httpget("comscroll") !==false && (int)$session['lastcom']==$com+1)
 		$cid = (int)$session['lastcommentid'];
 	else
 		$cid = 0;
@@ -314,27 +314,27 @@ function viewcommentary($section,$message="Interject your own commentary?",$limi
 			$x = strpos($row['comment'],$ft);
 			if ($x!==false){
 				if ($linkbios)
-					$op[$i] = str_replace("&amp;","&",HTMLEntities(substr($row['comment'],0,$x), ENT_COMPAT, getsetting("charset", "ISO-8859-1")))."`0<a href='$link' style='text-decoration: none'>\n`&{$row['name']}`0</a>\n`& ".str_replace("&amp;","&",HTMLEntities(substr($row['comment'],$x+strlen($ft)), ENT_COMPAT, getsetting("charset", "ISO-8859-1")))."`0`n";
+					$op[$i] = str_replace("&amp;","&",HTMLEntities(substr($row['comment'],0,$x), ENT_COMPAT, settings::getsetting("charset", "ISO-8859-1")))."`0<a href='$link' style='text-decoration: none'>\n`&{$row['name']}`0</a>\n`& ".str_replace("&amp;","&",HTMLEntities(substr($row['comment'],$x+strlen($ft)), ENT_COMPAT, settings::getsetting("charset", "ISO-8859-1")))."`0`n";
 				else
-					$op[$i] = str_replace("&amp;","&",HTMLEntities(substr($row['comment'],0,$x), ENT_COMPAT, getsetting("charset", "ISO-8859-1")))."`0`&{$row['name']}`0`& ".str_replace("&amp;","&",HTMLEntities(substr($row['comment'],$x+strlen($ft)), ENT_COMPAT, getsetting("charset", "ISO-8859-1")))."`0`n";
-				$rawc[$i] = str_replace("&amp;","&",HTMLEntities(substr($row['comment'],0,$x), ENT_COMPAT, getsetting("charset", "ISO-8859-1")))."`0`&{$row['name']}`0`& ".str_replace("&amp;","&",HTMLEntities(substr($row['comment'],$x+strlen($ft)), ENT_COMPAT, getsetting("charset", "ISO-8859-1")))."`0`n";
+					$op[$i] = str_replace("&amp;","&",HTMLEntities(substr($row['comment'],0,$x), ENT_COMPAT, settings::getsetting("charset", "ISO-8859-1")))."`0`&{$row['name']}`0`& ".str_replace("&amp;","&",HTMLEntities(substr($row['comment'],$x+strlen($ft)), ENT_COMPAT, settings::getsetting("charset", "ISO-8859-1")))."`0`n";
+				$rawc[$i] = str_replace("&amp;","&",HTMLEntities(substr($row['comment'],0,$x), ENT_COMPAT, settings::getsetting("charset", "ISO-8859-1")))."`0`&{$row['name']}`0`& ".str_replace("&amp;","&",HTMLEntities(substr($row['comment'],$x+strlen($ft)), ENT_COMPAT, settings::getsetting("charset", "ISO-8859-1")))."`0`n";
 			}
 		}
 		if ($ft=="/game" && !$row['name']) {
 			$x = strpos($row['comment'],$ft);
 			if ($x!==false){
-			 $op[$i] = str_replace("&amp;","&",HTMLEntities(substr($row['comment'],0,$x), ENT_COMPAT, getsetting("charset", "ISO-8859-1")))."`0`&".str_replace("&amp;","&",HTMLEntities(substr($row['comment'],$x+strlen($ft)), ENT_COMPAT, getsetting("charset", "ISO-8859-1")))."`0`n";
+			 $op[$i] = str_replace("&amp;","&",HTMLEntities(substr($row['comment'],0,$x), ENT_COMPAT, settings::getsetting("charset", "ISO-8859-1")))."`0`&".str_replace("&amp;","&",HTMLEntities(substr($row['comment'],$x+strlen($ft)), ENT_COMPAT, settings::getsetting("charset", "ISO-8859-1")))."`0`n";
 			}
 		}
 		if (!isset($op) || !is_array($op)) $op = array();
 		if (!array_key_exists($i,$op) || $op[$i] == "")  {
 			if ($linkbios)
-				$op[$i] = "`0<a href='$link' style='text-decoration: none'>`&{$row['name']}`0</a>`3 says, \"`#".str_replace("&amp;","&",HTMLEntities($row['comment'], ENT_COMPAT, getsetting("charset", "ISO-8859-1")))."`3\"`0`n";
+				$op[$i] = "`0<a href='$link' style='text-decoration: none'>`&{$row['name']}`0</a>`3 says, \"`#".str_replace("&amp;","&",HTMLEntities($row['comment'], ENT_COMPAT, settings::getsetting("charset", "ISO-8859-1")))."`3\"`0`n";
 			elseif (substr($ft,0,5)=='/game' && !$row['name'])
-				$op[$i] = str_replace("&amp;","&",HTMLEntities($row['comment'], ENT_COMPAT, getsetting("charset", "ISO-8859-1")));
+				$op[$i] = str_replace("&amp;","&",HTMLEntities($row['comment'], ENT_COMPAT, settings::getsetting("charset", "ISO-8859-1")));
 			else
-				$op[$i] = "`&{$row['name']}`3 says, \"`#".str_replace("&amp;","&",HTMLEntities($row['comment'], ENT_COMPAT, getsetting("charset", "ISO-8859-1")))."`3\"`0`n";
-			$rawc[$i] = "`&{$row['name']}`3 says, \"`#".str_replace("&amp;","&",HTMLEntities($row['comment'], ENT_COMPAT, getsetting("charset", "ISO-8859-1")))."`3\"`0`n";
+				$op[$i] = "`&{$row['name']}`3 says, \"`#".str_replace("&amp;","&",HTMLEntities($row['comment'], ENT_COMPAT, settings::getsetting("charset", "ISO-8859-1")))."`3\"`0`n";
+			$rawc[$i] = "`&{$row['name']}`3 says, \"`#".str_replace("&amp;","&",HTMLEntities($row['comment'], ENT_COMPAT, settings::getsetting("charset", "ISO-8859-1")))."`3\"`0`n";
 		}
 		
 		if (!array_key_exists('timestamp', $session['user']['prefs']))
@@ -355,11 +355,11 @@ function viewcommentary($section,$message="Interject your own commentary?",$limi
 			$op[$i]="`0({$row['section']}) ".$op[$i];
 		if ($row['postdate']>=$session['user']['recentcomments'])
 			$op[$i]="<img src='images/new.gif' alt='&gt;' width='3' height='5' align='absmiddle'> ".$op[$i];
-		addnav("",$link);
+		output::addnav("",$link);
 		$auth[$i] = $row['author'];
 		if (isset($rawc[$i])) {
 			$rawc[$i] = full_sanitize($rawc[$i]);
-			$rawc[$i] = htmlentities($rawc[$i], ENT_QUOTES, getsetting("charset", "ISO-8859-1"));
+			$rawc[$i] = htmlentities($rawc[$i], ENT_QUOTES, settings::getsetting("charset", "ISO-8859-1"));
 		}
 	}
 	$i--;
@@ -370,7 +370,7 @@ function viewcommentary($section,$message="Interject your own commentary?",$limi
 	if (($session['user']['superuser'] & SU_EDIT_COMMENTS) && $message=="X")
 		$moderating=true;
 
-	$del=translate_inline("Del");
+	$del=translator::translate_inline("Del");
 	$scriptname=substr($_SERVER['SCRIPT_NAME'],strrpos($_SERVER['SCRIPT_NAME'],"/")+1);
 	$pos=strpos($_SERVER['REQUEST_URI'],"?");
 	$return=$scriptname.($pos==false?"":substr($_SERVER['REQUEST_URI'],$pos));
@@ -381,7 +381,7 @@ function viewcommentary($section,$message="Interject your own commentary?",$limi
 		if ($moderating){
 			if ($session['user']['superuser'] & SU_EDIT_USERS){
 				$out.="`0[ <input type='checkbox' name='comment[{$commentids[$i]}]'> | <a href='user.php?op=setupban&userid=".$auth[$i]."&reason=".rawurlencode($rawc[$i])."'>Ban</a> ]&nbsp;";
-				addnav("","user.php?op=setupban&userid=$auth[$i]&reason=".rawurlencode($rawc[$i]));
+				output::addnav("","user.php?op=setupban&userid=$auth[$i]&reason=".rawurlencode($rawc[$i]));
 			}else{
 				$out.="`0[ <input type='checkbox' name='comment[{$commentids[$i]}]'> ]&nbsp;";
 			}
@@ -400,7 +400,7 @@ function viewcommentary($section,$message="Interject your own commentary?",$limi
 		}else{
 			if ($session['user']['superuser'] & SU_EDIT_COMMENTS) {
 				$out.="`2[<a href='".$return.$one."removecomment={$commentids[$i]}&section=$section&returnpath=".URLEncode($return)."'>$del</a>`2]`0&nbsp;";
-				addnav("",$return.$one."removecomment={$commentids[$i]}&section=$section&returnpath=".URLEncode($return)."");
+				output::addnav("",$return.$one."removecomment={$commentids[$i]}&section=$section&returnpath=".URLEncode($return)."");
 			}
 			$out.=$op[$i];
 			if (!array_key_exists($sect,$outputcomments) || !is_array($outputcomments[$sect]))
@@ -411,12 +411,12 @@ function viewcommentary($section,$message="Interject your own commentary?",$limi
 
 	if ($moderating){
 		$scriptname=substr($_SERVER['SCRIPT_NAME'],strrpos($_SERVER['SCRIPT_NAME'],"/")+1);
-		addnav("","$scriptname?op=commentdelete&return=".URLEncode($_SERVER['REQUEST_URI']));
-		$mod_Del1 = htmlentities(translate_inline("Delete Checked Comments"), ENT_COMPAT, getsetting("charset", "ISO-8859-1"));
-		$mod_Del2 = htmlentities(translate_inline("Delete Checked & Ban (3 days)"), ENT_COMPAT, getsetting("charset", "ISO-8859-1"));
-		$mod_Del_confirm = addslashes(htmlentities(translate_inline("Are you sure you wish to ban this user and have you specified the exact reason for the ban, i.e. cut/pasted their offensive comments?"), ENT_COMPAT, getsetting("charset", "ISO-8859-1")));
-		$mod_reason = translate_inline("Reason:");
-		$mod_reason_desc = htmlentities(translate_inline("Banned for comments you posted."), ENT_COMPAT, getsetting("charset", "ISO-8859-1"));
+		output::addnav("","$scriptname?op=commentdelete&return=".URLEncode($_SERVER['REQUEST_URI']));
+		$mod_Del1 = htmlentities(translator::translate_inline("Delete Checked Comments"), ENT_COMPAT, settings::getsetting("charset", "ISO-8859-1"));
+		$mod_Del2 = htmlentities(translator::translate_inline("Delete Checked & Ban (3 days)"), ENT_COMPAT, settings::getsetting("charset", "ISO-8859-1"));
+		$mod_Del_confirm = addslashes(htmlentities(translator::translate_inline("Are you sure you wish to ban this user and have you specified the exact reason for the ban, i.e. cut/pasted their offensive comments?"), ENT_COMPAT, settings::getsetting("charset", "ISO-8859-1")));
+		$mod_reason = translator::translate_inline("Reason:");
+		$mod_reason_desc = htmlentities(translator::translate_inline("Banned for comments you posted."), ENT_COMPAT, settings::getsetting("charset", "ISO-8859-1"));
 
 		output_notl("<form action='$scriptname?op=commentdelete&return=".URLEncode($_SERVER['REQUEST_URI'])."' method='POST'>",true);
 		output_notl("<input type='submit' class='button' value=\"$mod_Del1\">",true);
@@ -433,27 +433,27 @@ function viewcommentary($section,$message="Interject your own commentary?",$limi
 
 	while (list($sec,$v)=each($outputcomments)){
 		if ($sec!="x") {
-			if($needclose) modulehook("}collapse");
+			if($needclose) modules::modulehook("}collapse");
 			output_notl("`n<hr><a href='moderate.php?area=%s'>`b`^%s`0`b</a>`n",
 				$sec, isset($sections[$sec]) ? $sections[$sec] : "($sec)", true);
-			addnav("", "moderate.php?area=$sec");
-			modulehook("collapse{",array("name"=>"com-".$sec));
+			output::addnav("", "moderate.php?area=$sec");
+			modules::modulehook("collapse{",array("name"=>"com-".$sec));
 			$needclose = 1;
 		} else {
-			modulehook("collapse{",array("name"=>"com-".$section));
+			modules::modulehook("collapse{",array("name"=>"com-".$section));
 			$needclose = 1;
 		}
 		reset($v);
 		while (list($key,$val)=each($v)){
 			$args = array('commentline'=>$val);
-			$args = modulehook("viewcommentary", $args);
+			$args = modules::modulehook("viewcommentary", $args);
 			$val = $args['commentline'];
 			output_notl($val, true);
 		}
 	}
 
 	if ($moderating && $needclose) {
-		modulehook("}collapse");
+		modules::modulehook("}collapse");
 		$needclose = 0;
 	}
 
@@ -468,22 +468,22 @@ function viewcommentary($section,$message="Interject your own commentary?",$limi
 	}
 
 	if ($session['user']['loggedin']) {
-		$args = modulehook("insertcomment", array("section"=>$section));
+		$args = modules::modulehook("insertcomment", array("section"=>$section));
 		if (array_key_exists("mute",$args) && $args['mute'] &&
 				!($session['user']['superuser'] & SU_EDIT_COMMENTS)) {
 			output_notl("%s", $args['mutemsg']);
 		} elseif ($counttoday<($limit/2) ||
 				($session['user']['superuser']&~SU_DOESNT_GIVE_GROTTO)
-				|| !getsetting('postinglimit',1)){
+				|| !settings::getsetting('postinglimit',1)){
 			if ($message!="X"){
 				$message="`n`@$message`n";
-				output($message);
+				output::doOutput($message);
 				talkform($section,$talkline,$limit,$schema);
 			}
 		}else{
 			$message="`n`@$message`n";
-			output($message);
-			output("Sorry, you've exhausted your posts in this section for now.`0`n");
+			output::doOutput($message);
+			output::doOutput("Sorry, you've exhausted your posts in this section for now.`0`n");
 		}
 	}
 
@@ -492,11 +492,11 @@ function viewcommentary($section,$message="Interject your own commentary?",$limi
 		$jump = true;
 	}
 
-	$firstu = translate_inline("&lt;&lt; First Unseen");
-	$prev = translate_inline("&lt; Previous");
-	$ref = translate_inline("Refresh");
-	$next = translate_inline("Next &gt;");
-	$lastu = translate_inline("Last Page &gt;&gt;");
+	$firstu = translator::translate_inline("&lt;&lt; First Unseen");
+	$prev = translator::translate_inline("&lt; Previous");
+	$ref = translator::translate_inline("Refresh");
+	$next = translator::translate_inline("Next &gt;");
+	$lastu = translator::translate_inline("Last Page &gt;&gt;");
 	if ($rowcount>=$limit || $cid>0){
 		$sql = "SELECT count(commentid) AS c FROM " . db_prefix("commentary") . " WHERE section='$section' AND postdate > '{$session['user']['recentcomments']}'";
 		$r = db_query($sql);
@@ -511,7 +511,7 @@ function viewcommentary($section,$message="Interject your own commentary?",$limi
 				$first .= "#$section";
 			}
 			output_notl("<a href=\"$first\">$firstu</a>",true);
-			addnav("",$first);
+			output::addnav("",$first);
 		}else{
 			output_notl($firstu,true);
 		}
@@ -523,7 +523,7 @@ function viewcommentary($section,$message="Interject your own commentary?",$limi
 			$req .= "#$section";
 		}
 		output_notl("<a href=\"$req\">$prev</a>",true);
-		addnav("",$req);
+		output::addnav("",$req);
 	}else{
 		output_notl("$firstu $prev",true);
 	}
@@ -542,7 +542,7 @@ function viewcommentary($section,$message="Interject your own commentary?",$limi
 	//if (!strpos($last,"?")) $last = str_replace("&","?",$last);
 	//debug($last);
 	output_notl("&nbsp;<a href=\"$last\">$ref</a>&nbsp;",true);
-	addnav("",$last);
+	output::addnav("",$last);
 	if ($com>0 || ($cid > 0 && $newadded > $limit)){
 		$req = comscroll_sanitize($REQUEST_URI)."&comscroll=".($com-1);
 		$req = str_replace("?&","?",$req);
@@ -552,21 +552,21 @@ function viewcommentary($section,$message="Interject your own commentary?",$limi
 			$req .= "#$section";
 		}
 		output_notl(" <a href=\"$req\">$next</a>",true);
-		addnav("",$req);
+		output::addnav("",$req);
 		output_notl(" <a href=\"$last\">$lastu</a>",true);
 	}else{
 		output_notl("$next $lastu",true);
 	}
 	if (!$cc) db_free_result($result);
-	tlschema();
-	if ($needclose) modulehook("}collapse");
+	translator::tlschema();
+	if ($needclose) modules::modulehook("}collapse");
 }
 
 function talkform($section,$talkline,$limit=10,$schema=false){
 	require_once("lib/forms.php");
 	global $REQUEST_URI,$session,$translation_namespace;
 	if ($schema===false) $schema=$translation_namespace;
-	tlschema("commentary");
+	translator::tlschema("commentary");
 
 	$jump = false;
 	if (isset($session['user']['prefs']['nojump']) && $session['user']['prefs']['nojump'] == true) {
@@ -580,17 +580,17 @@ function talkform($section,$talkline,$limit=10,$schema=false){
 		while ($row=db_fetch_assoc($result)){
 			if ($row['author']==$session['user']['acctid']) $counttoday++;
 		}
-		if (round($limit/2,0)-$counttoday <= 0 && getsetting('postinglimit',1)){
+		if (round($limit/2,0)-$counttoday <= 0 && settings::getsetting('postinglimit',1)){
 			if ($session['user']['superuser']&~SU_DOESNT_GIVE_GROTTO){
-				output("`n`)(You'd be out of posts if you weren't a superuser or moderator.)`n");
+				output::doOutput("`n`)(You'd be out of posts if you weren't a superuser or moderator.)`n");
 			}else{
-				output("`n`)(You are out of posts for the time being.  Once some of your existing posts have moved out of the comment area, you'll be allowed to post again.)`n");
+				output::doOutput("`n`)(You are out of posts for the time being.  Once some of your existing posts have moved out of the comment area, you'll be allowed to post again.)`n");
 				return false;
 			}
 		}
 	}
-	if (translate_inline($talkline,$schema)!="says")
-		$tll = strlen(translate_inline($talkline,$schema))+11;
+	if (translator::translate_inline($talkline,$schema)!="says")
+		$tll = strlen(translator::translate_inline($talkline,$schema))+11;
 		else $tll=0;
 	$req = comscroll_sanitize($REQUEST_URI)."&comment=1";
 	$req = str_replace("?&","?",$req);
@@ -598,7 +598,7 @@ function talkform($section,$talkline,$limit=10,$schema=false){
 	if ($jump) {
 		$req .= "#$section";
 	}
-	addnav("",$req);
+	output::addnav("",$req);
 	output_notl("<form action=\"$req\" method='POST' autocomplete='false'>",true);
 	previewfield("insertcommentary", $session['user']['name'], $talkline, true, array("size"=>"40", "maxlength"=>200-$tll));
 	rawoutput("<input type='hidden' name='talkline' value='$talkline'>");
@@ -606,8 +606,8 @@ function talkform($section,$talkline,$limit=10,$schema=false){
 	rawoutput("<input type='hidden' name='counter' value='{$session['counter']}'>");
 	$session['commentcounter'] = $session['counter'];
 	if ($section=="X"){
-		$vname = getsetting("villagename", LOCATION_FIELDS);
-		$iname = getsetting("innname", LOCATION_INN);
+		$vname = settings::getsetting("villagename", LOCATION_FIELDS);
+		$iname = settings::getsetting("innname", LOCATION_INN);
 		$sections = commentarylocs();
 		reset ($sections);
 		output_notl("<select name='section'>",true);
@@ -618,12 +618,11 @@ function talkform($section,$talkline,$limit=10,$schema=false){
 	}else{
 		output_notl("<input type='hidden' name='section' value='$section'>",true);
 	}
-	$add = htmlentities(translate_inline("Add"), ENT_QUOTES, getsetting("charset", "ISO-8859-1"));
+	$add = htmlentities(translator::translate_inline("Add"), ENT_QUOTES, settings::getsetting("charset", "ISO-8859-1"));
 	output_notl("<input type='submit' class='button' value='$add'>`n",true);
-	if (round($limit/2,0)-$counttoday < 3 && getsetting('postinglimit',1)){
-		output("`)(You have %s posts left today)`n`0",(round($limit/2,0)-$counttoday));
+	if (round($limit/2,0)-$counttoday < 3 && settings::getsetting('postinglimit',1)){
+		output::doOutput("`)(You have %s posts left today)`n`0",(round($limit/2,0)-$counttoday));
 	}
 	rawoutput("<div id='previewtext'></div></form>");
-	tlschema();
+	translator::tlschema();
 }
-?>

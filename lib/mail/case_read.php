@@ -7,39 +7,39 @@ if (db_num_rows($result)>0){
 	$row = db_fetch_assoc($result);
 	if ($row['msgfrom']==0  || !is_numeric($row['msgfrom'])){
 		if ($row['msgfrom'] == 0 && is_numeric($row['msgfrom'])) {
-			$row['name']=translate_inline("`i`^System`0`i");
+			$row['name']=translator::translate_inline("`i`^System`0`i");
 		} else {
 			$row['name']=$row['msgfrom'];
 		}
 		// No translation for subject if it's not an array
 		$row_subject = @unserialize($row['subject']);
 		if ($row_subject !== false) {
-			$row['subject'] = call_user_func_array("sprintf_translate", $row_subject);
+			$row['subject'] = call_user_func_array("translator::sprintf_translate", $row_subject);
 		}
 		// No translation for body if it's not an array
 		$row_body = @unserialize($row['body']);
 		if ($row_body !== false) {
-			$row['body'] = call_user_func_array("sprintf_translate", $row_body);
+			$row['body'] = call_user_func_array("translator::sprintf_translate", $row_body);
 		}
 	}
 	if (!$row['seen']) {
-		output("`b`#NEW`b`n");
+		output::doOutput("`b`#NEW`b`n");
 	}else{
-		output("`n");
+		output::doOutput("`n");
 	}
-	output("`b`2From:`b `^%s`n",$row['name']);
-	output("`b`2Subject:`b `^%s`n",$row['subject']);
-	output("`b`2Sent:`b `^%s`n",$row['sent']);
+	output::doOutput("`b`2From:`b `^%s`n",$row['name']);
+	output::doOutput("`b`2Subject:`b `^%s`n",$row['subject']);
+	output::doOutput("`b`2Sent:`b `^%s`n",$row['sent']);
 	output_notl("<img src='images/uscroll.GIF' width='182px' height='11px' alt='' align='center'>`n",true);
 	output_notl(str_replace("\n","`n",$row['body']));
 	output_notl("`n<img src='images/lscroll.GIF' width='182px' height='11px' alt='' align='center'>`n",true);
 	$sql = "UPDATE " . db_prefix("mail") . " SET seen=1 WHERE  msgto=\"".$session['user']['acctid']."\" AND messageid=\"".$id."\"";
 	db_query($sql);
 	invalidatedatacache("mail-{$session['user']['acctid']}");
-	$reply = translate_inline("Reply");
-	$del = translate_inline("Delete");
-	$unread = translate_inline("Mark Unread");
-	$report = translate_inline("Report to Admin");
+	$reply = translator::translate_inline("Reply");
+	$del = translator::translate_inline("Delete");
+	$unread = translator::translate_inline("Mark Unread");
+	$report = translator::translate_inline("Report to Admin");
 	$problem = "Abusive Email Report:\nFrom: {$row['name']}\nSubject: {$row['subject']}\nSent: {$row['sent']}\nID: {$row['messageid']}\nBody:\n{$row['body']}";
 	rawoutput("<table width='50%' border='0' cellpadding='0' cellspacing='5'><tr>");
 	if ($row['msgfrom'] > 0 && is_numeric($row['msgfrom'])) {
@@ -73,23 +73,22 @@ if (db_num_rows($result)>0){
 	}else{
 		$nid = 0;
 	}
-	$prev = translate_inline("< Previous");
-	$next = translate_inline("Next >");
+	$prev = translator::translate_inline("< Previous");
+	$next = translator::translate_inline("Next >");
 	rawoutput("<td nowrap='true'>");
 	if ($pid > 0) {
-		rawoutput("<a href='mail.php?op=read&id=$pid' class='motd'>".htmlentities($prev, ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."</a>");
+		rawoutput("<a href='mail.php?op=read&id=$pid' class='motd'>".htmlentities($prev, ENT_COMPAT, settings::getsetting("charset", "ISO-8859-1"))."</a>");
 	}else{
-		rawoutput(htmlentities($prev), ENT_COMPAT, getsetting("charset", "ISO-8859-1"));
+		rawoutput(htmlentities($prev), ENT_COMPAT, settings::getsetting("charset", "ISO-8859-1"));
 	}
 	rawoutput("</td><td nowrap='true'>");
 	if ($nid > 0){
-		rawoutput("<a href='mail.php?op=read&id=$nid' class='motd'>".htmlentities($next, ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."</a>");
+		rawoutput("<a href='mail.php?op=read&id=$nid' class='motd'>".htmlentities($next, ENT_COMPAT, settings::getsetting("charset", "ISO-8859-1"))."</a>");
 	}else{
-		rawoutput(htmlentities($next), ENT_COMPAT, getsetting("charset", "ISO-8859-1"));
+		rawoutput(htmlentities($next), ENT_COMPAT, settings::getsetting("charset", "ISO-8859-1"));
 	}
 	rawoutput("</td>");
 	rawoutput("</tr></table>");
 }else{
-	output("Eek, no such message was found!");
+	output::doOutput("Eek, no such message was found!");
 }
-?>

@@ -10,7 +10,7 @@ require_once("common.php");
 require_once("lib/http.php");
 require_once("lib/villagenav.php");
 
-tlschema("hof");
+translator::tlschema("hof");
 
 $superusermask = SU_HIDE_FROM_LEADERBOARD;
 $standardwhere = "(locked=0 AND (superuser & $superusermask) = 0)";
@@ -18,13 +18,13 @@ $standardwhere = "(locked=0 AND (superuser & $superusermask) = 0)";
 page_header("Hall of Fame");
 checkday();
 
-addnav("Other");
+output::addnav("Other");
 villagenav();
 $playersperpage = 50;
 
-$op = httpget('op');
+$op = http::httpget('op');
 if ($op == "") $op = "kills";
-$subop = httpget('subop');
+$subop = http::httpget('subop');
 if ($subop == "") $subop = "most";
 
 $sql = "SELECT count(acctid) AS c FROM " . db_prefix("accounts") . " WHERE $standardwhere";
@@ -38,7 +38,7 @@ $result = db_query($sql.$extra);
 $row = db_fetch_assoc($result);
 $totalplayers = $row['c'];
 
-$page = (int)httpget('page');
+$page = (int)http::httpget('page');
 if ($page == 0) $page = 1;
 $pageoffset = $page;
 if ($pageoffset > 0) $pageoffset--;
@@ -47,27 +47,27 @@ $from = $pageoffset+1;
 $to = min($pageoffset+$playersperpage, $totalplayers);
 $limit = "$pageoffset,$playersperpage";
 
-addnav("Warrior Rankings");
-addnav("Dragon Kills", "hof.php?op=kills&subop=$subop&page=1");
-addnav("Gold", "hof.php?op=money&subop=$subop&page=1");
-addnav("Gems", "hof.php?op=gems&subop=$subop&page=1");
-addnav("Charm", "hof.php?op=charm&subop=$subop&page=1");
-addnav("Toughness", "hof.php?op=tough&subop=$subop&page=1");
-addnav("Resurrections", "hof.php?op=resurrects&subop=$subop&page=1");
-addnav("Dragon Kill Speed", "hof.php?op=days&subop=$subop&page=1");
-addnav("Sorting");
-addnav("Best", "hof.php?op=$op&subop=most&page=$page");
-addnav("Worst", "hof.php?op=$op&subop=least&page=$page");
+output::addnav("Warrior Rankings");
+output::addnav("Dragon Kills", "hof.php?op=kills&subop=$subop&page=1");
+output::addnav("Gold", "hof.php?op=money&subop=$subop&page=1");
+output::addnav("Gems", "hof.php?op=gems&subop=$subop&page=1");
+output::addnav("Charm", "hof.php?op=charm&subop=$subop&page=1");
+output::addnav("Toughness", "hof.php?op=tough&subop=$subop&page=1");
+output::addnav("Resurrections", "hof.php?op=resurrects&subop=$subop&page=1");
+output::addnav("Dragon Kill Speed", "hof.php?op=days&subop=$subop&page=1");
+output::addnav("Sorting");
+output::addnav("Best", "hof.php?op=$op&subop=most&page=$page");
+output::addnav("Worst", "hof.php?op=$op&subop=least&page=$page");
 if ($totalplayers > $playersperpage) {
-	addnav("Pages");
+	output::addnav("Pages");
 	for($i = 0; $i < $totalplayers; $i+= $playersperpage) {
 		$pnum = ($i/$playersperpage+1);
 		$min = ($i+1);
 		$max = min($i+$playersperpage,$totalplayers);
 		if ($page == $pnum) {
-			addnav(array("`b`#Page %s`0 (%s-%s)`b", $pnum, $min, $max), "hof.php?op=$op&subop=$subop&page=$pnum");
+			output::addnav(array("`b`#Page %s`0 (%s-%s)`b", $pnum, $min, $max), "hof.php?op=$op&subop=$subop&page=$pnum");
 		} else {
-			addnav(array("Page %s (%s-%s)", $pnum, $min, $max), "hof.php?op=$op&subop=$subop&page=$pnum");
+			output::addnav(array("Page %s (%s-%s)", $pnum, $min, $max), "hof.php?op=$op&subop=$subop&page=$pnum");
 		}
 	}
 }
@@ -77,22 +77,22 @@ function display_table($title, $sql, $none=false, $foot=false,
 {
 	global $session, $from, $to, $page, $playersperpage, $totalplayers;
 
-	$title = translate_inline($title);
-	if ($foot !== false) $foot = translate_inline($foot);
-	if ($none !== false) $none = translate_inline($none);
-	else $none = translate_inline("No players found.");
+	$title = translator::translate_inline($title);
+	if ($foot !== false) $foot = translator::translate_inline($foot);
+	if ($none !== false) $none = translator::translate_inline($none);
+	else $none = translator::translate_inline("No players found.");
 	if ($data_header !== false) {
-		$data_header = translate_inline($data_header);
+		$data_header = translator::translate_inline($data_header);
 		reset ($data_header);
 	}
-	if ($tag !== false) $tag = translate_inline($tag);
-	$rank = translate_inline("Rank");
-	$name = translate_inline("Name");
+	if ($tag !== false) $tag = translator::translate_inline($tag);
+	$rank = translator::translate_inline("Rank");
+	$name = translator::translate_inline("Name");
 
 	if ($totalplayers > $playersperpage) {
-		output("`c`b`^%s`0`b `7(Page %s: %s-%s of %s)`0`c`n", $title, $page, $from, $to, $totalplayers);
+		output::doOutput("`c`b`^%s`0`b `7(Page %s: %s-%s of %s)`0`c`n", $title, $page, $from, $to, $totalplayers);
 	} else {
-		output("`c`b`^%s`0`b`c`n", $title);
+		output::doOutput("`c`b`^%s`0`b`c`n", $title);
 	}
 	rawoutput("<table cellspacing='0' cellpadding='2' align='center'>");
 	rawoutput("<tr class='trhead'>");
@@ -122,7 +122,7 @@ function display_table($title, $sql, $none=false, $foot=false,
 					$val = $row[$id];
 					if (isset($translate[$id]) &&
 							$translate[$id] == 1 && !is_numeric($val)) {
-						$val = translate_inline($val);
+						$val = translator::translate_inline($val);
 					}
 					if ($tag !== false) $val = $val . " " . $tag[$j];
 					output_notl("<td align='right'>%s</td>", $val, true);
@@ -201,7 +201,7 @@ if ($op=="money"){
 	$headers = array("Level");
 	$table = array($title, $sql, false, false, $headers, false);
 } elseif ($op=="days") {
-	$unk = translate_inline("Unknown");
+	$unk = translator::translate_inline("Unknown");
 	$sql = "SELECT name, IF(bestdragonage,bestdragonage,'$unk') AS data1 FROM " . db_prefix("accounts") . " WHERE $standardwhere $extra ORDER BY bestdragonage $order, level $order, experience $order, acctid $order LIMIT $limit";
 	$me = "SELECT count(acctid) AS count FROM ".db_prefix("accounts")." WHERE $standardwhere $extra AND bestdragonage $meop {$session['user']['bestdragonage']}";
 	$adverb = "fastest";
@@ -211,7 +211,7 @@ if ($op=="money"){
 	$none = "There are no heroes in the land.";
 	$table = array($title, $sql, $none, false, $headers, false);
 } else {
-	$unk = translate_inline("Unknown");
+	$unk = translator::translate_inline("Unknown");
 	$sql = "SELECT name,dragonkills AS data1,level AS data2,'&nbsp;' AS data3, IF(dragonage,dragonage,'$unk') AS data4, '&nbsp;' AS data5, IF(bestdragonage,bestdragonage,'$unk') AS data6 FROM " . db_prefix("accounts") . " WHERE $standardwhere $extra ORDER BY dragonkills $order,level $order,experience $order, acctid $order LIMIT $limit";
 	if ($session['user']['dragonkills']>0) $me = "SELECT count(acctid) AS count FROM ".db_prefix("accounts")." WHERE $standardwhere $extra AND dragonkills $meop {$session['user']['dragonkills']}";
 	$adverb = "most";
@@ -229,9 +229,8 @@ if (isset($table) && is_array($table)){
 		$row = db_fetch_assoc($meresult);
 		$pct = round(100*$row['count']/$totalplayers, 0);
 		if ($pct < 1) $pct = 1;
-		output("`c`7You rank within around the top `&%s`7%% in this listing.`0`c",$pct);
+		output::doOutput("`c`7You rank within around the top `&%s`7%% in this listing.`0`c",$pct);
 	}
 }
 
 page_footer();
-?>

@@ -11,14 +11,14 @@ require_once("lib/http.php");
 require_once("lib/taunt.php");
 require_once("lib/villagenav.php");
 
-tlschema("pvp");
+translator::tlschema("pvp");
 
-$iname = getsetting("innname", LOCATION_INN);
+$iname = settings::getsetting("innname", LOCATION_INN);
 $battle = false;
 
 page_header("PvP Combat!");
-$op = httpget('op');
-$act = httpget('act');
+$op = http::httpget('op');
+$act = http::httpget('act');
 
 if ($op=="" && $act!="attack"){
 	checkday();
@@ -27,15 +27,15 @@ if ($op=="" && $act!="attack"){
 		'atkmsg'=> '`4You head out to the fields, where you know some unwitting warriors are sleeping.`n`nYou have `^%s`4 PvP fights left for today.`n`n',
 		'schemas'=>array('atkmsg'=>'pvp')
 	);
-	$args = modulehook("pvpstart", $args);
-	tlschema($args['schemas']['atkmsg']);
-	output($args['atkmsg'], $session['user']['playerfights']);
-	tlschema();
-	addnav("L?Refresh List of Warriors","pvp.php");
+	$args = modules::modulehook("pvpstart", $args);
+	translator::tlschema($args['schemas']['atkmsg']);
+	output::doOutput($args['atkmsg'], $session['user']['playerfights']);
+	translator::tlschema();
+	output::addnav("L?Refresh List of Warriors","pvp.php");
 	pvplist();
 	villagenav();
 } else if ($act == "attack") {
-	$name = httpget('name');
+	$name = http::httpget('name');
 	$badguy = setup_target($name);
 	$options['type'] = "pvp";
 	$failedattack = false;
@@ -54,23 +54,23 @@ if ($op=="" && $act!="attack"){
 	}
 
 	if ($failedattack){
-		if (httpget('inn') > ""){
-			addnav("Return to Listing","inn.php?op=bartender&act=listupstairs");
+		if (http::httpget('inn') > ""){
+			output::addnav("Return to Listing","inn.php?op=bartender&act=listupstairs");
 		}else{
-			addnav("Return to Listing","pvp.php");
+			output::addnav("Return to Listing","pvp.php");
 		}
 	}
 }
 
 if ($op=="run"){
-  output("Your pride prevents you from running");
+ output::doOutput("Your pride prevents you from running");
   $op="fight";
   httpset('op', $op);
 }
 
-$skill = httpget('skill');
+$skill = http::httpget('skill');
 if ($skill!=""){
-  output("Your honor prevents you from using any special ability");
+ output::doOutput("Your honor prevents you from using any special ability");
   $skill="";
   httpset('skill', $skill);
 }
@@ -98,12 +98,12 @@ if ($battle){
 		$op = "";
 		httpset('op', $op);
 		if ($killedin==$iname){
-			addnav("Return to the inn","inn.php");
+			output::addnav("Return to the inn","inn.php");
 		} else {
 			villagenav();
 		}
 		if ($session['user']['hitpoints'] <= 0) {
-			output("`n`n`&Using a bit of cloth nearby, you manage to staunch your wounds so that you do not die as well.");
+			output::doOutput("`n`n`&Using a bit of cloth nearby, you manage to staunch your wounds so that you do not die as well.");
 			$session['user']['hitpoints'] = 1;
 		}
 	}elseif($defeat){
@@ -123,9 +123,8 @@ if ($battle){
 		}
 	}else{
 		$extra = "";
-		if (httpget('inn')) $extra = "?inn=1";
+		if (http::httpget('inn')) $extra = "?inn=1";
 		fightnav(false,false, "pvp.php$extra");
 	}
 }
 page_footer();
-?>

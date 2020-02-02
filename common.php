@@ -3,6 +3,8 @@
 // addnews ready
 // mail ready
 
+use blackscorp\logd\Mount\{Mount, MountRepository};
+
 // **** NOTICE ****
 // This series of scripts (collectively known as Legend of the Green Dragon
 // or LotGD) is copyright as per below.
@@ -42,6 +44,7 @@ $logd_version = "1.1.2 Dragonprime Edition";
 //ob_start('ob_gzhandler');
 
 // Include some commonly needed and useful routines
+require_once __DIR__.'/vendor/autoload.php';
 require_once("lib/local_config.php");
 require_once("lib/dbwrapper.php");
 require_once("lib/holiday_texts.php");
@@ -49,7 +52,7 @@ require_once("lib/sanitize.php");
 require_once("lib/constants.php");
 require_once("lib/datacache.php");
 require_once("lib/modules.php");
-require_once("lib/http.php");
+
 require_once("lib/e_rand.php");
 require_once("lib/buffs.php");
 require_once("lib/pageparts.php");
@@ -57,6 +60,12 @@ require_once("lib/output.php");
 require_once("lib/tempstat.php");
 require_once("lib/su_access.php");
 require_once("lib/datetime.php");
+$translation_namespace = "";
+$translation_namespace_stack = array();
+$translation_is_enabled = true;
+$translatorbuttons = array();
+$seentlbuttons = array();
+$translation_table = array();
 require_once("lib/translator.php");
 
 if(!function_exists("file_get_contents")) {
@@ -83,12 +92,12 @@ require_once("lib/saveuser.php");
 require_once("lib/arrayutil.php");
 require_once("lib/addnews.php");
 require_once("lib/sql.php");
-require_once("lib/mounts.php");
 require_once("lib/debuglog.php");
 require_once("lib/forcednavigation.php");
 require_once("lib/php_generic_environment.php");
 
 //session_register("session");
+
 session_start();
 $session = array();
 $session =& $_SESSION['session'];
@@ -103,12 +112,12 @@ if (file_exists("dbconnect.php")){
 	if (!defined("IS_INSTALLER")){
 	 	if (!defined("DB_NODB")) define("DB_NODB",true);
 	 	page_header("The game has not yet been installed");
-		output("`#Welcome to `@Legend of the Green Dragon`#, a game by Eric Stevens & JT Traub.`n`n");
-		output("You must run the game's installer, and follow its instructions in order to set up LoGD.  You can go to the installer <a href='installer.php'>here</a>.",true);
-		output("`n`nIf you're not sure why you're seeing this message, it's because this game is not properly configured right now. ");
-		output("If you've previously been running the game here, chances are that you lost a file called '`%dbconnect.php`#' from your site.");
-		output("If that's the case, no worries, we can get you back up and running in no time, and the installer can help!");
-		addnav("Game Installer","installer.php");
+		output::doOutput("`#Welcome to `@Legend of the Green Dragon`#, a game by Eric Stevens & JT Traub.`n`n");
+		output::doOutput("You must run the game's installer, and follow its instructions in order to set up LoGD.  You can go to the installer <a href='installer.php'>here</a>.",true);
+		output::doOutput("`n`nIf you're not sure why you're seeing this message, it's because this game is not properly configured right now. ");
+		output::doOutput("If you've previously been running the game here, chances are that you lost a file called '`%dbconnect.php`#' from your site.");
+		output::doOutput("If that's the case, no worries, we can get you back up and running in no time, and the installer can help!");
+		output::addnav("Game Installer","installer.php");
 		page_footer();
 	}
 }
@@ -122,6 +131,21 @@ if (file_exists("dbconnect.php")){
 //
 //$link = db_pconnect($DB_HOST, $DB_USER, $DB_PASS);
 $link = db_connect($DB_HOST, $DB_USER, $DB_PASS);
+
+/**
+ * Quick and Dirty PDO Connection
+ * @todo removed it!
+ */
+$dsn  = 'mysql:dbname='.$DB_NAME.';host='.$DB_HOST.';charset=utf8';
+
+$options = [
+    PDO::ATTR_ERRMODE => PDO::ERRMODE_WARNING,
+    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ,
+    PDO::ATTR_EMULATE_PREPARES => false
+];
+$pdo = new \PDO($dsn, $DB_USER, $DB_PASS, $options);
+
+$mount_dev = new MountRepository($pdo, $DB_PREFIX);
 
 $out = ob_get_contents();
 ob_end_clean();
@@ -141,7 +165,7 @@ if ($link===false){
 		// translation.
 	 	if (!defined("DB_NODB")) define("DB_NODB",true);
 		page_header("Database Connection Error");
-		output("Unable to connect to the database server.  Sorry it didn't work out.");
+		output::doOutput("Unable to connect to the database server.  Sorry it didn't work out.");
 		page_footer();
 	}
 	define("DB_CONNECTED",false);
@@ -160,7 +184,7 @@ if (!DB_CONNECTED || !db_select_db($DB_NAME)){
 		// translation.
 	 	if (!defined("DB_NODB")) define("DB_NODB",true);
 		page_header("Database Connection Error");
-		output("I was able to connect to the database server, but couldn't connect to the specified database.  Sorry it didn't work out.");
+		output::doOutput("I was able to connect to the database server, but couldn't connect to the specified database.  Sorry it didn't work out.");
 		page_footer();
 	}
 	define("DB_CHOSEN",false);
@@ -168,21 +192,21 @@ if (!DB_CONNECTED || !db_select_db($DB_NAME)){
 	define("LINK",$link);
 	define("DB_CHOSEN",true);
 }
-if ($logd_version == getsetting("installer_version","-1")) {
+if ($logd_version == settings::getsetting("installer_version","-1")) {
 	define("IS_INSTALLER", false);
 }
 
-header("Content-Type: text/html; charset=".getsetting('charset','ISO-8859-1'));
+header("Content-Type: text/html; charset=".settings::getsetting('charset','ISO-8859-1'));
 
-if (strtotime("-".getsetting("LOGINTIMEOUT",900)." seconds") > $session['lasthit'] && $session['lasthit']>0 && $session['loggedin']){
+if (strtotime("-".settings::getsetting("LOGINTIMEOUT",900)." seconds") > $session['lasthit'] && $session['lasthit']>0 && $session['loggedin']){
 	// force the abandoning of the session when the user should have been
 	// sent to the fields.
 	$session=array();
 	// technically we should be able to translate this, but for now,
 	// ignore it.
 	// 1.1.1 now should be a good time to get it on with it, added tl-inline
-	translator_setup();
-	$session['message'].=translate_inline("`nYour session has expired!`n","common");
+	translator::translator_setup();
+	$session['message'].=translator::translate_inline("`nYour session has expired!`n","common");
 }
 $session['lasthit']=strtotime("now");
 
@@ -223,14 +247,14 @@ if (!isset($nokeeprestore[$SCRIPT_NAME]) || !$nokeeprestore[$SCRIPT_NAME]) {
 }else{
 
 }
-if ($logd_version != getsetting("installer_version","-1") && !defined("IS_INSTALLER")){
+if ($logd_version != settings::getsetting("installer_version","-1") && !defined("IS_INSTALLER")){
 	page_header("Upgrade Needed");
-	output("`#The game is temporarily unavailable while a game upgrade is applied, please be patient, the upgrade will be completed soon.");
-	output("In order to perform the upgrade, an admin will have to run through the installer.");
-	output("If you are an admin, please <a href='installer.php'>visit the Installer</a> and complete the upgrade process.`n`n",true);
-	output("`@If you don't know what this all means, just sit tight, we're doing an upgrade and will be done soon, you will be automatically returned to the game when the upgrade is complete.");
+	output::doOutput("`#The game is temporarily unavailable while a game upgrade is applied, please be patient, the upgrade will be completed soon.");
+	output::doOutput("In order to perform the upgrade, an admin will have to run through the installer.");
+	output::doOutput("If you are an admin, please <a href='installer.php'>visit the Installer</a> and complete the upgrade process.`n`n",true);
+	output::doOutput("`@If you don't know what this all means, just sit tight, we're doing an upgrade and will be done soon, you will be automatically returned to the game when the upgrade is complete.");
 	rawoutput("<meta http-equiv='refresh' content='30; url={$session['user']['restorepage']}'>");
-	addnav("Installer (Admins only!)","installer.php");
+	output::addnav("Installer (Admins only!)","installer.php");
 	define("NO_SAVE_USER",true);
 	page_footer();
 }
@@ -331,7 +355,7 @@ if ($session['user']['superuser']==0){
 prepare_template();
 
 if (!isset($session['user']['hashorse'])) $session['user']['hashorse']=0;
-$playermount = getmount($session['user']['hashorse']);
+$playermount = $mount_dev->getMount($session['user']['hashorse']);
 $temp_comp = @unserialize($session['user']['companions']);
 $companions = array();
 if(is_array($temp_comp)) {
@@ -343,8 +367,8 @@ if(is_array($temp_comp)) {
 }
 unset($temp_comp);
 
-$beta = getsetting("beta", 0);
-if (!$beta && getsetting("betaperplayer", 1) == 1)
+$beta = settings::getsetting("beta", 0);
+if (!$beta && settings::getsetting("betaperplayer", 1) == 1)
 	$beta = $session['user']['beta'];
 
 $sql = "SELECT * FROM " . db_prefix("clans") . " WHERE clanid='{$session['user']['clanid']}'";
@@ -360,7 +384,7 @@ if ($session['user']['superuser'] & SU_MEGAUSER)
 	$session['user']['superuser'] =
 		$session['user']['superuser'] | SU_EDIT_USERS;
 
-translator_setup();
+translator::translator_setup();
 //set up the error handler after the intial setup (since it does require a
 //db call for notification)
 require_once("lib/errorhandler.php");
@@ -372,9 +396,7 @@ require_once("lib/errorhandler.php");
 // This however is the only context where blockmodule can be called safely!
 // You should do as LITTLE as possible here and consider if you can hook on
 // a page header instead.
-modulehook("everyhit");
+modules::modulehook("everyhit");
 if ($session['user']['loggedin']) {
-	modulehook("everyhit-loggedin");
+	modules::modulehook("everyhit-loggedin");
 }
-
-?>

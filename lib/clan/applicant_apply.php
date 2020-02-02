@@ -1,11 +1,11 @@
 <?php
-		$to = (int)httpget('to');
+		$to = (int)http::httpget('to');
 		if ($to>0){
-			output("`%%s`7 accepts your application, files it in her out box, and folds her hands on the desk, staring at you.",$registrar);
-			output("You stand there staring blankly back at her for a few minutes before she suggests that perhaps you'd like to take a seat in the waiting area.");
+			output::doOutput("`%%s`7 accepts your application, files it in her out box, and folds her hands on the desk, staring at you.",$registrar);
+			output::doOutput("You stand there staring blankly back at her for a few minutes before she suggests that perhaps you'd like to take a seat in the waiting area.");
 
-			addnav("Return to the Lobby","clan.php");
-			addnav("Waiting Area","clan.php?op=waiting");
+			output::addnav("Return to the Lobby","clan.php");
+			output::addnav("Waiting Area","clan.php?op=waiting");
 			$session['user']['clanid']=$to;
 			$session['user']['clanrank']=CLAN_APPLICANT;
 			$session['user']['clanjoindate']=date("Y-m-d H:i:s");
@@ -35,20 +35,20 @@
 			$sql = "SELECT MAX(" . db_prefix("clans") . ".clanid) AS clanid,MAX(clanname) AS clanname,count(" . db_prefix("accounts") . ".acctid) AS c FROM " . db_prefix("clans") . " INNER JOIN " . db_prefix("accounts") . " ON " . db_prefix("clans") . ".clanid=" . db_prefix("accounts") . ".clanid WHERE " . db_prefix("accounts") . ".clanrank > ".CLAN_APPLICANT." GROUP BY " . db_prefix("clans") . ".clanid ORDER BY c DESC";
 			$result = db_query($sql);
 			if (db_num_rows($result)>0){
-				output("`7You ask %s`7 for a clan membership application form.",$registrar);
-				output("She opens a drawer in her desk and pulls out a form.  It contains only two lines: Name and Clan Name.");
-				output("You furrow your brow, not sure if you really like having to deal with all this red tape, and get set to concentrate really hard in order to complete the form.");
-				output("Noticing your attempt to write on the form with your %s, %s`7 claims the form back from you, writes %s`7 on the first line, and asks you the name of the clan that you'd like to join:`n`n",$session['user']['weapon'],$registrar,$session['user']['name']);
+				output::doOutput("`7You ask %s`7 for a clan membership application form.",$registrar);
+				output::doOutput("She opens a drawer in her desk and pulls out a form.  It contains only two lines: Name and Clan Name.");
+				output::doOutput("You furrow your brow, not sure if you really like having to deal with all this red tape, and get set to concentrate really hard in order to complete the form.");
+				output::doOutput("Noticing your attempt to write on the form with your %s, %s`7 claims the form back from you, writes %s`7 on the first line, and asks you the name of the clan that you'd like to join:`n`n",$session['user']['weapon'],$registrar,$session['user']['name']);
 				for ($i=0;$i<db_num_rows($result);$i++){
 					$row = db_fetch_assoc($result);
 					if ($row['c']==0){
 						$sql = "DELETE FROM " . db_prefix("clans") . " WHERE clanid={$row['clanid']}";
 						db_query($sql);
 					}else{
-/*//*/					$row = modulehook("clan-applymember", $row);
+/*//*/					$row = modules::modulehook("clan-applymember", $row);
 /*//*/					if (isset($row['handled']) && $row['handled']) continue;
-						$memb_n = translate_inline("(%s members)");
-						$memb_1 = translate_inline("(%s member)");
+						$memb_n = translator::translate_inline("(%s members)");
+						$memb_1 = translator::translate_inline("(%s member)");
 						if ($row['c'] == 1) {
 							$memb = sprintf($memb_1, $row['c']);
 						} else {
@@ -56,17 +56,16 @@
 						}
 						output_notl("&#149; <a href='clan.php?op=apply&to=%s'>%s</a> %s`n",
 								$row['clanid'],
-								full_sanitize(htmlentities($row['clanname'], ENT_COMPAT, getsetting("charset", "ISO-8859-1"))),
+								full_sanitize(htmlentities($row['clanname'], ENT_COMPAT, settings::getsetting("charset", "ISO-8859-1"))),
 								$memb, true);
-						addnav("","clan.php?op=apply&to={$row['clanid']}");
+						output::addnav("","clan.php?op=apply&to={$row['clanid']}");
 					}
 				}
-				addnav("Return to the Lobby","clan.php");
+				output::addnav("Return to the Lobby","clan.php");
 			}else{
-				output("`7You ask %s`7 for a clan membership application form.",$registrar);
-				output("She stares at you blankly for a few moments, then says, \"`5Sorry pal, no one has had enough gumption to start up a clan yet.  Maybe that should be you, eh?`7\"");
-				addnav("Apply for a New Clan","clan.php?op=new");
-				addnav("Return to the Lobby","clan.php");
+				output::doOutput("`7You ask %s`7 for a clan membership application form.",$registrar);
+				output::doOutput("She stares at you blankly for a few moments, then says, \"`5Sorry pal, no one has had enough gumption to start up a clan yet.  Maybe that should be you, eh?`7\"");
+				output::addnav("Apply for a New Clan","clan.php?op=new");
+				output::addnav("Return to the Lobby","clan.php");
 			}
 		}
-?>

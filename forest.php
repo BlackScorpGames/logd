@@ -10,13 +10,13 @@ require_once("lib/taunt.php");
 require_once("lib/events.php");
 require_once("lib/battle-skills.php");
 
-tlschema("forest");
+translator::tlschema("forest");
 
 $fight = false;
 page_header("The Forest");
 $dontdisplayforestmessage=handle_event("forest");
 
-$op = httpget("op");
+$op = http::httpget("op");
 
 $battle = false;
 
@@ -32,40 +32,40 @@ if ($op=="run"){
 			}
 		}
 	}else{
-		output("`c`b`\$You failed to flee your opponent!`0`b`c");
+		output::doOutput("`c`b`\$You failed to flee your opponent!`0`b`c");
 	}
 }
 
 if ($op=="dragon"){
 	require_once("lib/partner.php");
-	addnav("Enter the cave","dragon.php");
-	addnav("Run away like a baby","inn.php?op=fleedragon");
-	output("`\$You approach the blackened entrance of a cave deep in the forest, though the trees are scorched to stumps for a hundred yards all around.");
-	output("A thin tendril of smoke escapes the roof of the cave's entrance, and is whisked away by a suddenly cold and brisk wind.");
-	output("The mouth of the cave lies up a dozen feet from the forest floor, set in the side of a cliff, with debris making a conical ramp to the opening.");
-	output("Stalactites and stalagmites near the entrance trigger your imagination to inspire thoughts that the opening is really the mouth of a great leech.`n`n");
-	output("You cautiously approach the entrance of the cave, and as you do, you hear, or perhaps feel a deep rumble that lasts thirty seconds or so, before silencing to a breeze of sulfur-air which wafts out of the cave.");
-	output("The sound starts again, and stops again in a regular rhythm.`n`n");
-	output("You clamber up the debris pile leading to the mouth of the cave, your feet crunching on the apparent remains of previous heroes, or perhaps hors d'oeuvres.`n`n");
-	output("Every instinct in your body wants to run, and run quickly, back to the warm inn, and the even warmer %s`\$.", get_partner());
-	output("What do you do?`0");
+	output::addnav("Enter the cave","dragon.php");
+	output::addnav("Run away like a baby","inn.php?op=fleedragon");
+	output::doOutput("`\$You approach the blackened entrance of a cave deep in the forest, though the trees are scorched to stumps for a hundred yards all around.");
+	output::doOutput("A thin tendril of smoke escapes the roof of the cave's entrance, and is whisked away by a suddenly cold and brisk wind.");
+	output::doOutput("The mouth of the cave lies up a dozen feet from the forest floor, set in the side of a cliff, with debris making a conical ramp to the opening.");
+	output::doOutput("Stalactites and stalagmites near the entrance trigger your imagination to inspire thoughts that the opening is really the mouth of a great leech.`n`n");
+	output::doOutput("You cautiously approach the entrance of the cave, and as you do, you hear, or perhaps feel a deep rumble that lasts thirty seconds or so, before silencing to a breeze of sulfur-air which wafts out of the cave.");
+	output::doOutput("The sound starts again, and stops again in a regular rhythm.`n`n");
+	output::doOutput("You clamber up the debris pile leading to the mouth of the cave, your feet crunching on the apparent remains of previous heroes, or perhaps hors d'oeuvres.`n`n");
+	output::doOutput("Every instinct in your body wants to run, and run quickly, back to the warm inn, and the even warmer %s`\$.", get_partner());
+	output::doOutput("What do you do?`0");
 	$session['user']['seendragon']=1;
 }
 
 if ($op=="search"){
 	checkday();
 	if ($session['user']['turns']<=0){
-		output("`\$`bYou are too tired to search the forest any longer today.  Perhaps tomorrow you will have more energy.`b`0");
+		output::doOutput("`\$`bYou are too tired to search the forest any longer today.  Perhaps tomorrow you will have more energy.`b`0");
 		$op="";
 		httpset('op', "");
 	}else{
-		modulehook("forestsearch", array());
+		modules::modulehook("forestsearch", array());
 		$args = array(
 			'soberval'=>0.9,
 			'sobermsg'=>"`&Faced with the prospect of death, you sober up a little.`n",
 			'schema'=>'forest');
-		modulehook("soberup", $args);
-		if (module_events("forest", getsetting("forestchance", 15)) != 0) {
+		modules::modulehook("soberup", $args);
+		if (module_events("forest", settings::getsetting("forestchance", 15)) != 0) {
 			if (!checknavs()) {
 				// If we're showing the forest, make sure to reset the special
 				// and the specialmisc
@@ -87,14 +87,14 @@ if ($op=="search"){
 				$plev=0;
 				$nlev=0;
 			}
-			$type = httpget('type');
+			$type = http::httpget('type');
 			if ($type=="slum"){
 				$nlev++;
-				output("`\$You head for the section of forest you know to contain foes that you're a bit more comfortable with.`0`n");
+				output::doOutput("`\$You head for the section of forest you know to contain foes that you're a bit more comfortable with.`0`n");
 			}
 			if ($type=="thrill"){
 				$plev++;
-				output("`\$You head for the section of forest which contains creatures of your nightmares, hoping to find one of them injured.`0`n");
+				output::doOutput("`\$You head for the section of forest which contains creatures of your nightmares, hoping to find one of them injured.`0`n");
 			}
 			$extrabuff = 0;
 			if ($type=="suicide"){
@@ -108,23 +108,23 @@ if ($op=="search"){
 					$plev++;
 					$extrabuff = .4;
 				}
-				output("`\$You head for the section of forest which contains creatures of your nightmares, looking for the biggest and baddest ones there.`0`n");
+				output::doOutput("`\$You head for the section of forest which contains creatures of your nightmares, looking for the biggest and baddest ones there.`0`n");
 			}
 			$multi = 1;
 			$targetlevel = ($session['user']['level'] + $plev - $nlev );
 			$mintargetlevel = $targetlevel;
-			if (getsetting("multifightdk", 10) <= $session['user']['dragonkills']) {
-				if (e_rand(1,100) <= getsetting("multichance", 25)) {
-					$multi = e_rand(getsetting("multibasemin", 2),getsetting("multibasemax", 3));
+			if (settings::getsetting("multifightdk", 10) <= $session['user']['dragonkills']) {
+				if (e_rand(1,100) <= settings::getsetting("multichance", 25)) {
+					$multi = e_rand(settings::getsetting("multibasemin", 2),settings::getsetting("multibasemax", 3));
 					if ($type=="slum") {
-						$multi -= e_rand(getsetting("multislummin", 0),getsetting("multislummax", 1));
+						$multi -= e_rand(settings::getsetting("multislummin", 0),settings::getsetting("multislummax", 1));
 						if (e_rand(0,1)) {
 							$mintargetlevel = $targetlevel - 1;
 						} else {
 							$mintargetlevel = $targetlevel - 2;
 						}
 					} else if ($type == "thrill") {
-						$multi += e_rand(getsetting("multithrillmin", 1),getsetting("multithrillmax", 2));
+						$multi += e_rand(settings::getsetting("multithrillmin", 1),settings::getsetting("multithrillmax", 2));
 						if (e_rand(0,1)) {
 							$targetlevel++;
 							$mintargetlevel = $targetlevel - 1;
@@ -132,7 +132,7 @@ if ($op=="search"){
 							$mintargetlevel = $targetlevel-1;
 						}
 					} else if ($type == "suicide") {
-						$multi += e_rand(getsetting("multisuimin", 2),getsetting("multisuimax", 4));
+						$multi += e_rand(settings::getsetting("multisuimin", 2),settings::getsetting("multisuimax", 4));
 						if (e_rand(0,1)) {
 							$mintargetlevel = $targetlevel - 1;
 						} else {
@@ -155,7 +155,7 @@ if ($op=="search"){
 			}
 			debug("Creatures: $multi Targetlevel: $targetlevel Mintargetlevel: $mintargetlevel");
 			if ($multi > 1) {
-				$packofmonsters = (bool)(e_rand(0,5) == 0 && getsetting("allowpackofmonsters", true)); // true or false
+				$packofmonsters = (bool)(e_rand(0,5) == 0 && settings::getsetting("allowpackofmonsters", true)); // true or false
 				switch($packofmonsters) {
 					case false:
 						$sql = "SELECT * FROM " . db_prefix("creatures") . " WHERE creaturelevel <= $targetlevel AND creaturelevel >= $mintargetlevel AND forest=1 ORDER BY rand(".e_rand().") LIMIT $multi";
@@ -214,7 +214,7 @@ if ($op=="search"){
 							$badguy['creaturedefense'] = round($badguy['creaturedefense']*$mul, 0);
 							$badguy['creaturehealth'] = round($badguy['creaturehealth']*$mul, 0);
 							// And mark it as an 'elite' troop.
-							$prefixs = translate_inline($prefixs);
+							$prefixs = translator::translate_inline($prefixs);
 							$key = array_rand($prefixs);
 							$prefix = $prefixs[$key];
 							$badguy['creaturename'] = $prefix . " " . $badguy['creaturename'];
@@ -222,7 +222,7 @@ if ($op=="search"){
 						$stack[$i] = $badguy;
 					}
 					if ($multi > 1) {
-						output("`2You encounter a group of `^%i`2 %s`2.`n`n", $multi, $badguy['creaturename']);
+						output::doOutput("`2You encounter a group of `^%i`2 %s`2.`n`n", $multi, $badguy['creaturename']);
 					}
 				} else {
 					while ($badguy = db_fetch_assoc($result)) {
@@ -251,7 +251,7 @@ if ($op=="search"){
 							$badguy['creaturehealth'] = round($badguy['creaturehealth']*$mul, 0);
 							// And mark it as an 'elite' troop.
 							$prefixs = array("Elite","Dangerous","Lethal","Savage","Deadly","Malevolent","Malignant");
-							$prefixs = translate_inline($prefixs);
+							$prefixs = translator::translate_inline($prefixs);
 							$key = array_rand($prefixs);
 							$prefix = $prefixs[$key];
 							$badguy['creaturename'] = $prefix . " " . $badguy['creaturename'];
@@ -271,7 +271,7 @@ if ($op=="search"){
 			// If someone for any reason wanted to add a nav where the user cannot choose the number of rounds anymore
 			// because they are already set in the nav itself, we need this here.
 			// It will not break anything else. I hope.
-			if(httpget('auto') != "") {
+			if(http::httpget('auto') != "") {
 				httpset('op', 'fight');
 				$op = 'fight';
 			}
@@ -307,4 +307,3 @@ if ($op==""){
 	forest($dontdisplayforestmessage);
 }
 page_footer();
-?>

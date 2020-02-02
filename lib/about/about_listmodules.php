@@ -14,21 +14,21 @@
  * @subpackage Library
  * @license http://creativecommons.org/licenses/by-nc-sa/2.0/legalcode
  */
-addnav("About LoGD");
-addnav("About LoGD","about.php");
-addnav("Game Setup Info","about.php?op=setup");
-addnav("License Info", "about.php?op=license");
+output::addnav("About LoGD");
+output::addnav("About LoGD","about.php");
+output::addnav("Game Setup Info","about.php?op=setup");
+output::addnav("License Info", "about.php?op=license");
 $sql = "SELECT * from " . db_prefix("modules") . " WHERE active=1 ORDER BY category,formalname";
 $result = db_query($sql);
-$mname = translate_inline("Module Name");
-$mver = translate_inline("Version");
-$mauth = translate_inline("Module Author");
-$mdown = translate_inline("Download Location");
+$mname = translator::translate_inline("Module Name");
+$mver = translator::translate_inline("Version");
+$mauth = translator::translate_inline("Module Author");
+$mdown = translator::translate_inline("Download Location");
 rawoutput("<table border='0' cellpadding='2' cellspacing='1' bgcolor='#999999'>",true);
 rawoutput("<tr class='trhead'><td>$mname</td><td>$mver</td><td>$mauth</td><td>$mdown</td></tr>",true);
 if (db_num_rows($result) == 0) {
 	rawoutput("<tr class='trlight'><td colspan='4' align='center'>");
-	output("`i-- No modules installed --`i");
+	output::doOutput("`i-- No modules installed --`i");
 	rawoutput("</td></tr>");
 }
 $cat = "";
@@ -37,7 +37,7 @@ while ($row = db_fetch_assoc($result)) {
 	$i++;
 	if ($cat != $row['category']) {
 		rawoutput("<tr class='trhead'><td colspan='4' align='left'>");
-		output($row['category']);
+		output::doOutput($row['category']);
 		rawoutput(":</td></tr>");
 		$cat = $row['category'];
 	}
@@ -52,7 +52,7 @@ while ($row = db_fetch_assoc($result)) {
 	rawoutput("</td><td nowrap valign='top'>");
 	if ($row['download'] == "core_module") {
 		rawoutput("<a href='http://dragonprime.net/index.php?module=Downloads;catd=4' target='_blank'>");
-		output("Core Distribution");
+		output::doOutput("Core Distribution");
 		rawoutput("</a>");
 	} elseif ($row['download']) {
 		// We should check all legeal protocols
@@ -61,17 +61,16 @@ while ($row = db_fetch_assoc($result)) {
 		$protocol = $protocol[0];
 		// This will take care of download strings such as: not publically released or contact admin
 		if (!in_array($protocol,$protocols)){
-			output("`\$Contact Admin for Release");
+			output::doOutput("`\$Contact Admin for Release");
 		}else{
 			rawoutput("<a href='{$row['download']}' target='_blank'>");
-			output("Download");
+			output::doOutput("Download");
 			rawoutput("</a>");
 		}
 	} else {
-		output("`\$Not publically released.`0");
+		output::doOutput("`\$Not publically released.`0");
 	}
 	rawoutput("</td>");
 	rawoutput("</tr>");
 }
 rawoutput("</table>");
-?>

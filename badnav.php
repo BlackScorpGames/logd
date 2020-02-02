@@ -6,7 +6,7 @@ define("OVERRIDE_FORCED_NAV",true);
 require_once("common.php");
 require_once("lib/villagenav.php");
 
-tlschema("badnav");
+translator::tlschema("badnav");
 
 if ($session['user']['loggedin'] && $session['loggedin']){
 	if (strpos($session['output'],"<!--CheckNewDay()-->")){
@@ -30,11 +30,11 @@ if ($session['user']['loggedin'] && $session['loggedin']){
 		page_header("Your Navs Are Corrupted");
 		if ($session['user']['alive']) {
 			villagenav();
-			output("Your navs are corrupted, please return to %s.",
+			output::doOutput("Your navs are corrupted, please return to %s.",
 					$session['user']['location']);
 		} else {
-			addnav("Return to Shades", "shades.php");
-			output("Your navs are corrupted, please return to the Shades.");
+			output::addnav("Return to Shades", "shades.php");
+			output::doOutput("Your navs are corrupted, please return to the Shades.");
 		}
 		page_footer();
 	}
@@ -44,8 +44,6 @@ if ($session['user']['loggedin'] && $session['loggedin']){
 	saveuser();
 }else{
 	$session=array();
-	translator_setup();
+	translator::translator_setup();
 	redirect("index.php");
 }
-
-?>

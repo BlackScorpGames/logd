@@ -5,13 +5,13 @@
 
 require_once("lib/constants.php");
 
-$lastexpire = strtotime(getsetting("last_char_expire","0000-00-00 00:00:00"));
+$lastexpire = strtotime(settings::getsetting("last_char_expire","0000-00-00 00:00:00"));
 $needtoexpire = strtotime("-23 hours");
 if ($lastexpire < $needtoexpire){
 	savesetting("last_char_expire",date("Y-m-d H:i:s"));
-	$old = getsetting("expireoldacct",45);
-	$new = getsetting("expirenewacct",10);
-	$trash = getsetting("expiretrashacct",1);
+	$old = settings::getsetting("expireoldacct",45);
+	$new = settings::getsetting("expirenewacct",10);
+	$trash = settings::getsetting("expiretrashacct",1);
 
 	# First, get the account ids to delete the user prefs.
 	$sql1 = "SELECT login,acctid,dragonkills,level FROM " . db_prefix("accounts") . " WHERE (superuser&".NO_ACCOUNT_EXPIRATION.")=0 AND (1=0\n".($old>0?"OR (laston < \"".date("Y-m-d H:i:s",strtotime("-$old days"))."\")\n":"").($new>0?"OR (laston < \"".date("Y-m-d H:i:s",strtotime("-$new days"))."\" AND level=1 AND dragonkills=0)\n":"").($trash>0?"OR (regdate < date_add(NOW(),interval -".$trash." day) AND laston < regdate)\n":"").")";
@@ -58,15 +58,14 @@ if ($lastexpire < $needtoexpire){
 	$old-=5;
 	$sql = "SELECT acctid,emailaddress FROM " . db_prefix("accounts") . " WHERE 1=0 ".($old>0?"OR (laston < \"".date("Y-m-d H:i:s",strtotime("-$old days"))."\")\n":"")." AND emailaddress!='' AND sentnotice=0 AND (superuser&".NO_ACCOUNT_EXPIRATION.")=0";
 	$result = db_query($sql);
-	$subject = translate_inline("LoGD Character Expiration");
-	$body = sprintf_translate("One or more of your characters in Legend of the Green Dragon at %s is about to expire.  If you wish to keep this character, you should log on to him or her soon!",getsetting("serverurl","http://".$_SERVER['SERVER_NAME'].($_SERVER['SERVER_PORT'] == 80?"":":".$_SERVER['SERVER_PORT']).dirname($_SERVER['REQUEST_URI'])));
+	$subject = translator::translate_inline("LoGD Character Expiration");
+	$body = translator::sprintf_translate("One or more of your characters in Legend of the Green Dragon at %s is about to expire.  If you wish to keep this character, you should log on to him or her soon!",settings::getsetting("serverurl","http://".$_SERVER['SERVER_NAME'].($_SERVER['SERVER_PORT'] == 80?"":":".$_SERVER['SERVER_PORT']).dirname($_SERVER['REQUEST_URI'])));
 	while ($row = db_fetch_assoc($result)) {
 		mail($row['emailaddress'],$subject,
 		$body,
-		"From: ".getsetting("gameadminemail","postmaster@localhost.com")
+		"From: ".settings::getsetting("gameadminemail","postmaster@localhost.com")
 		);
 		$sql = "UPDATE " . db_prefix("accounts") . " SET sentnotice=1 WHERE acctid='{$row['acctid']}'";
 		db_query($sql);
 	}
 }
-?>

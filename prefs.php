@@ -14,7 +14,7 @@ if ($skin > "") {
 require_once("lib/villagenav.php");
 require_once("common.php");
 
-tlschema("prefs");
+translator::tlschema("prefs");
 
 require_once("lib/is_email.php");
 require_once("lib/showform.php");
@@ -22,17 +22,17 @@ require_once("lib/sanitize.php");
 
 page_header("Preferences");
 
-$op = httpget('op');
+$op = http::httpget('op');
 
-if ($op=="suicide" && getsetting("selfdelete",0)!=0) {
-	$userid = httpget('userid');
+if ($op=="suicide" && settings::getsetting("selfdelete",0)!=0) {
+	$userid = http::httpget('userid');
 	require_once("lib/charcleanup.php");
 	char_cleanup($userid, CHAR_DELETE_SUICIDE);
 	$sql = "DELETE FROM " . db_prefix("accounts") . " WHERE acctid='$userid'";
 	db_query($sql);
-	output("Your character has been deleted!");
+	output::doOutput("Your character has been deleted!");
 	addnews("`#%s quietly passed from this world.",$session['user']['name']);
-	addnav("Login Page", "index.php");
+	output::addnav("Login Page", "index.php");
 	$session=array();
 	$session['user'] = array();
 	$session['loggedin'] = false;
@@ -45,7 +45,7 @@ if ($op=="suicide" && getsetting("selfdelete",0)!=0) {
 	if ($session['user']['alive']){
 		villagenav();
 	}else{
-		addnav("Return to the news","news.php");
+		output::addnav("Return to the news","news.php");
 	}
 
 
@@ -60,7 +60,7 @@ if ($op=="suicide" && getsetting("selfdelete",0)!=0) {
 		$pass1 = httppost('pass1');
 		$pass2 = httppost('pass2');
 		if ($pass1!=$pass2){
-			output("`#Your passwords do not match.`n");
+			output::doOutput("`#Your passwords do not match.`n");
 		}else{
 			if ($pass1!=""){
 				if (strlen($pass1)>3){
@@ -70,10 +70,10 @@ if ($op=="suicide" && getsetting("selfdelete",0)!=0) {
 						$pass1 = md5(substr($pass1,5));
 					}
 					$session['user']['password']=$pass1;
-					output("`#Your password has been changed.`n");
+					output::doOutput("`#Your password has been changed.`n");
 				}else{
-					output("`#Your password is too short.");
-					output("It must be at least 4 characters.`n");
+					output::doOutput("`#Your password is too short.");
+					output::doOutput("It must be at least 4 characters.`n");
 				}
 			}
 		}
@@ -100,7 +100,7 @@ if ($op=="suicide" && getsetting("selfdelete",0)!=0) {
 				$x = explode("___", $key);
 				$module = $x[0];
 				$key = $x[1];
-				modulehook("notifyuserprefchange",
+				modules::modulehook("notifyuserprefchange",
 						array("name"=>$key,
 							"old"=>$oldvalues[$module."___".$key],
 							"new"=>$val));
@@ -113,8 +113,8 @@ if ($op=="suicide" && getsetting("selfdelete",0)!=0) {
 		$bio = comment_sanitize($bio);
 		if ($bio!=comment_sanitize($session['user']['bio'])){
 			if ($session['user']['biotime']>"9000-01-01") {
-				output("`\$You cannot modify your bio.");
-				output("It has been blocked by the administrators!`0`n");
+				output::doOutput("`\$You cannot modify your bio.");
+				output::doOutput("It has been blocked by the administrators!`0`n");
 			}else{
 				$session['user']['bio']=$bio;
 				$session['user']['biotime']=date("Y-m-d H:i:s");
@@ -123,24 +123,24 @@ if ($op=="suicide" && getsetting("selfdelete",0)!=0) {
 		$email = httppost('email');
 		if ($email!=$session['user']['emailaddress']){
 			if (is_email($email)){
-				if (getsetting("requirevalidemail",0)==1){
-					output("`#Your email cannot be changed, system settings prohibit it.");
-					output("(Emails may only be changed if the server allows more than one account per email.)");
-					output("Use the Petition link to ask the  server administrator to change your email address if this one is no longer valid.`n");
+				if (settings::getsetting("requirevalidemail",0)==1){
+					output::doOutput("`#Your email cannot be changed, system settings prohibit it.");
+					output::doOutput("(Emails may only be changed if the server allows more than one account per email.)");
+					output::doOutput("Use the Petition link to ask the  server administrator to change your email address if this one is no longer valid.`n");
 				}else{
-					output("`#Your email address has been changed.`n");
+					output::doOutput("`#Your email address has been changed.`n");
 					$session['user']['emailaddress']=$email;
 				}
 			}else{
-				if (getsetting("requireemail",0)==1){
-					output("`#That is not a valid email address.`n");
+				if (settings::getsetting("requireemail",0)==1){
+					output::doOutput("`#That is not a valid email address.`n");
 				}else{
-					output("`#Your email address has been changed.`n");
+					output::doOutput("`#Your email address has been changed.`n");
 					$session['user']['emailaddress']=$email;
 				}
 			}
 		}
-		output("Settings Saved");
+		output::doOutput("Settings Saved");
 	}
 
 	if (!isset($session['user']['prefs']['timeformat'])) $session['user']['prefs']['timeformat'] = "[m/d h:ia]";
@@ -152,7 +152,7 @@ if ($op=="suicide" && getsetting("selfdelete",0)!=0) {
 		"email"=>"Email Address",
 		"Display Preferences,title",
 		"template"=>"Skin,theme",
-		"language"=>"Language,enum,".getsetting("serverlanguages","en,English,de,Deutsch,fr,Français,dk,Danish,es,Español,it,Italian"),
+		"language"=>"Language,enum,".settings::getsetting("serverlanguages","en,English,de,Deutsch,fr,Franï¿½ais,dk,Danish,es,Espaï¿½ol,it,Italian"),
 		"tabconfig"=>"Show config sections in tabs,bool",
 		"Game Behavior Preferences,title",
 		"emailonmail"=>"Send email when you get new Ye Olde Mail?,bool",
@@ -171,7 +171,7 @@ if ($op=="suicide" && getsetting("selfdelete",0)!=0) {
 		"nojump"=>"Don't jump to comment areas after refreshing or posting a comment?,bool",
 	);
 	rawoutput("<script language='JavaScript' src='lib/md5.js'></script>");
-	$warn = translate_inline("Your password is too short.  It must be at least 4 characters long.");
+	$warn = translator::translate_inline("Your password is too short.  It must be at least 4 characters long.");
 	rawoutput("<script language='JavaScript'>
 	<!--
 	function md5pass(){
@@ -198,7 +198,7 @@ if ($op=="suicide" && getsetting("selfdelete",0)!=0) {
 	$prefs['bio'] = $session['user']['bio'];
 	$prefs['template'] = $_COOKIE['template'];
 	if ($prefs['template'] == "")
-		$prefs['template'] = getsetting("defaultskin", "jade.htm");
+		$prefs['template'] = settings::getsetting("defaultskin", "jade.htm");
 	$prefs['email'] = $session['user']['emailaddress'];
 	// Default tabbed config to true
 	if (!isset($prefs['tabconfig'])) $prefs['tabconfig'] = 1;
@@ -257,10 +257,10 @@ if ($op=="suicide" && getsetting("selfdelete",0)!=0) {
 			if ($isuser) {
 				$found = 1;
 			}
-			// If this is a check preference, we need to call the modulehook
+			// If this is a check preference, we need to call the modules::modulehook
 			// checkuserpref  (requested by cortalUX)
 			if ($ischeck) {
-				$args = modulehook("checkuserpref",
+				$args = modules::modulehook("checkuserpref",
 						array("name"=>$key, "pref"=>$x[0], "default"=>$x[1]),
 						false, $module);
 				if (isset($args['allow']) && !$args['allow']) continue;
@@ -293,30 +293,29 @@ if ($op=="suicide" && getsetting("selfdelete",0)!=0) {
 			$mdata[$row1['modulename']."___".$row1['setting']] = $row1['value'];
 		}
 	}
-	addnav('View Bio','bio.php?char='.$session['user']['acctid'].'&ret='.urlencode($_SERVER['REQUEST_URI']));
+	output::addnav('View Bio','bio.php?char='.$session['user']['acctid'].'&ret='.urlencode($_SERVER['REQUEST_URI']));
 	
 	$form = array_merge($form, $msettings);
 	$prefs = array_merge($prefs, $mdata);
 	rawoutput("<form action='prefs.php?op=save' method='POST' onSubmit='return(md5pass)'>");
 	$info = showform($form,$prefs);
 	rawoutput("<input type='hidden' value=\"" .
-			htmlentities(serialize($info), ENT_COMPAT, getsetting("charset", "ISO-8859-1"))."\" name='oldvalues'>");
+			htmlentities(serialize($info), ENT_COMPAT, settings::getsetting("charset", "ISO-8859-1"))."\" name='oldvalues'>");
 
 	rawoutput("</form><br />");
-	addnav("","prefs.php?op=save");
+	output::addnav("","prefs.php?op=save");
 
 	// Stop clueless lusers from deleting their character just because a
 	// monster killed them.
-	if ($session['user']['alive'] && getsetting("selfdelete",0)!=0) {
+	if ($session['user']['alive'] && settings::getsetting("selfdelete",0)!=0) {
 		rawoutput("<form action='prefs.php?op=suicide&userid={$session['user']['acctid']}' method='POST'>");
-		$deltext = translate_inline("Delete Character");
-		$conf = translate_inline("Are you sure you wish to delete your character?");
+		$deltext = translator::translate_inline("Delete Character");
+		$conf = translator::translate_inline("Are you sure you wish to delete your character?");
 		rawoutput("<table class='noborder' width='100%'><tr><td width='100%'></td><td style='background-color:#FF00FF' align='right'>");
 		rawoutput("<input type='submit' class='button' value='$deltext' onClick='return confirm(\"$conf\");'>");
 		rawoutput("</td></tr></table>");
 		rawoutput("</form>");
-		addnav("","prefs.php?op=suicide&userid={$session['user']['acctid']}");
+		output::addnav("","prefs.php?op=suicide&userid={$session['user']['acctid']}");
 	}
 }
 page_footer();
-?>
