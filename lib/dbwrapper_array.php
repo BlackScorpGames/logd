@@ -53,27 +53,8 @@ function db_query($sql, $die=true){
 //the overhead of duplicating the array, then destroying the old
 //one by returning a reference instead.
 function &db_query_cached($sql,$name,$duration=900){
-	//this function takes advantage of the data caching library to make
-	//all of the other db_functions act just like MySQL queries but rely
-	//instead on disk cached data.
-	//if (settings::getsetting("usedatacache", 0) == 1) debug("DataCache: $name");
-	//standard is 15 minutes, als hooks don't need to be cached *that* often, normally you invalidate the cache properly
-	global $dbinfo;
-	$data = datacache($name,$duration);
-	if (is_array($data)){
-		reset($data);
-		$dbinfo['affected_rows']=-1;
-		return $data;
-	}else{
-		$result = db_query($sql);
-		$data = array();
-		while ($row = db_fetch_assoc($result)) {
-			$data[] = $row;
-		}
-		updatedatacache($name,$data);
-		reset($data);
-		return $data;
-	}
+	global $rows;
+	return $rows;
 }
 
 if (file_exists("lib/dbremote.php")) {
@@ -88,18 +69,17 @@ function db_error(){
 }
 
 function db_fetch_assoc(&$result){
-	if (is_array($result)){
-		//cached data
-		if (list($key,$val)=each($result))
-			return $val;
-		else
-			return false;
-	}else{
-		//$fname = DBTYPE."_fetch_assoc";
-		//$r = $fname($result);
-		$r = $result->Fetch_Assoc();
-		return $r;
-	}
+    global $fetchAssocRows;
+    if(!$fetchAssocRows){
+        return null;
+    }
+    static $currentIndex = 0;
+    if(!isset($fetchAssocRows[$currentIndex])){
+        return null;
+    }
+    $resultRow = $fetchAssocRows[$currentIndex];
+    $currentIndex++;
+    return $resultRow;
 }
 
 function db_insert_id(){
